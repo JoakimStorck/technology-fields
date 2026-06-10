@@ -1,0 +1,29 @@
+{
+  "frozen_utc": "2026-06-10T18:54:29+00:00",
+  "source_repository": "https://github.com/JoakimStorck/geometry-of-work",
+  "source_commit": "9238102bdfb46ab473c0e7c2a065052c5cc5b70f",
+  "encoder_run_tag": "embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1",
+  "files": {
+    "occupation_embeddings_polar_scaled.csv": {
+      "source_path": "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/occupation_embeddings_polar_scaled.csv",
+      "sha256_source": "04632d8e2e7c024a1705d7f9d1ba76b4c00ce744b79cbcc869af868f45546401",
+      "derived": false
+    },
+    "task_embeddings_polar_scaled.csv": {
+      "source_path": "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/task_embeddings_polar_scaled.csv",
+      "sha256_source": "bd95aae2287fff84b90c1281e632680b15f10c45326529e85a1e7b85ab7588c9",
+      "derived": false
+    },
+    "national_M2023_dl.xlsx": {
+      "source_path": "data/wages/national_M2023_dl.xlsx",
+      "sha256_source": "9200eb0423feece690c2f7e9a20c3817b0e494cd7071cb455b3ebae579536d5a",
+      "derived": false
+    },
+    "occupation_rle.csv": {
+      "source_path": "data/onet/db_30_1/Education, Training, and Experience.txt",
+      "sha256_source": "595807bd081653b31c37a518a0360b68fe28075811bdfd60f082a60b8a4f4ee1",
+      "derived": true,
+      "recipe": "Filter Element Name == 'Required Level of Education'; rle_mean = weighted mean of Category with Data Value weights, per O*NET-SOC Code (replicates onet.education.rle_by_occupation)"
+    }
+  }
+}

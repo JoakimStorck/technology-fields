@@ -11,6 +11,9 @@ BLS OEWS May 2023 median hourly wages. Sample construction replicates
 the Mincer regression of Paper 1 (Table 3): detailed SOC, positive
 H_MEDIAN, non-missing rle_mean, N = 785.
 
+Reads exclusively from data/ in this repository (frozen by
+scripts/00_freeze_inputs.py; provenance in data/MANIFEST.json).
+
 Specifications:
   S0  replication:      ln w ~ cos xi + sin xi + chi          (Paper 1, Table 3 col 1)
   S1  field (m0-m5):    ln w ~ cos xi + sin xi + chi
@@ -25,58 +28,35 @@ atan2(m5, m4) with amplitude hypot(m4, m5); the angular interval where
 beta_chi(xi) = m3 + m4 cos xi + m5 sin xi > 0.
 
 Usage:
-    python scripts/01_wage_field.py [--geometry-root PATH]
+    python scripts/01_wage_field.py
 
-geometry-of-work is expected as a sibling checkout by default.
 Outputs: results/wage_field_coefficients.csv, results/wage_field_summary.txt
 """
 
 from __future__ import annotations
 
-import argparse
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-RUN_REL = (
-    "out/runs/embeddings__openai__text-embedding-3-large__d3072"
-    "__year-2025__v30_1/exports/occupation_embeddings_polar_scaled.csv"
-)
-WAGE_REL = "data/wages/national_M2023_dl.xlsx"
-ETE_REL = "data/onet/db_30_1/Education, Training, and Experience.txt"
-
-
-def load_rle(geometry_root: Path) -> pd.DataFrame:
-    """Frequency-weighted mean Required Level of Education per occupation,
-    replicating onet.education.rle_by_occupation (used by Paper 1 to pin
-    the Mincer sample)."""
-    ed = pd.read_csv(geometry_root / ETE_REL, sep="\t", na_values=["n/a"])
-    ed.columns = ed.columns.str.strip()
-    ed = ed[ed["Element Name"].astype(str).str.strip()
-            == "Required Level of Education"].copy()
-    ed["Category"] = pd.to_numeric(ed["Category"], errors="coerce")
-    ed["Data Value"] = pd.to_numeric(ed["Data Value"], errors="coerce")
-    ed = ed.dropna(subset=["O*NET-SOC Code", "Category", "Data Value"])
-    g = ed.groupby("O*NET-SOC Code")
-    rle = (g.apply(lambda d: np.average(d["Category"], weights=d["Data Value"]),
-                   include_groups=False)
-           .rename("rle_mean").reset_index()
-           .rename(columns={"O*NET-SOC Code": "onet_code"}))
-    return rle
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
+DATA = REPO_ROOT / "data"
 RESULTS = REPO_ROOT / "results"
 
+OCC_FILE = DATA / "occupation_embeddings_polar_scaled.csv"
+WAGE_FILE = DATA / "national_M2023_dl.xlsx"
+RLE_FILE = DATA / "occupation_rle.csv"
 
-def load_sample(geometry_root: Path) -> pd.DataFrame:
+
+def load_sample() -> pd.DataFrame:
     """Replicate the Paper 1 Mincer sample: occupation coordinates merged
     with BLS H_MEDIAN, restricted to positive wages and non-missing
     rle_mean (education), which pins N = 785."""
-    occ = pd.read_csv(geometry_root / RUN_REL)
+    occ = pd.read_csv(OCC_FILE)
 
-    wages = pd.read_excel(geometry_root / WAGE_REL, usecols=[8, 9, 11, 22])
+    wages = pd.read_excel(WAGE_FILE, usecols=[8, 9, 11, 22])
     wages.columns = ["OCC_CODE", "OCC_TITLE", "TOT_EMP", "H_MEDIAN"]
     wages["OCC_CODE"] = (
         wages["OCC_CODE"].astype(str).str.replace(r"\..*", "", regex=True).str.strip()
@@ -91,7 +71,7 @@ def load_sample(geometry_root: Path) -> pd.DataFrame:
     df = occ.merge(
         wages[["OCC_CODE", "TOT_EMP", "H_MEDIAN"]], on="OCC_CODE", how="left"
     )
-    df = df.merge(load_rle(geometry_root), on="onet_code", how="left")
+    df = df.merge(pd.read_csv(RLE_FILE), on="onet_code", how="left")
     df = df.dropna(subset=["H_MEDIAN", "xi", "chi", "rle_mean"])
     df = df.loc[df["H_MEDIAN"] > 0].copy()
 
@@ -128,16 +108,7 @@ def beta_chi_interval(m3: float, m4: float, m5: float) -> tuple[float, float] | 
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "--geometry-root",
-        type=Path,
-        default=REPO_ROOT.parent / "geometry-of-work",
-        help="Path to a local checkout of JoakimStorck/geometry-of-work",
-    )
-    args = ap.parse_args()
-
-    df = load_sample(args.geometry_root)
+    df = load_sample()
     lines: list[str] = [f"Sample: N = {len(df)} occupations\n"]
 
     s0 = fit(df, ["cos_xi", "sin_xi", "chi"])
