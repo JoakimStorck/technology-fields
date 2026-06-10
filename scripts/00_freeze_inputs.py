@@ -19,6 +19,12 @@ Frozen inputs (data/):
                                            O*NET 30.1 "Education, Training,
                                            and Experience" table (pins the
                                            Paper 1 Mincer sample, N = 785)
+  occupation_cluster_intensity.csv         DERIVED: mean descriptor level per
+                                           occupation within each capability
+                                           cluster S1, S2, A1, A2 (replicates
+                                           Paper 1, notebook 5 cell 18, from
+                                           the cluster membership and overlay
+                                           exports of the reference run)
 
 Provenance is recorded in data/MANIFEST.json: source repository and commit,
 encoder run tag, per-file source path and SHA-256, and the derivation recipe
@@ -58,6 +64,9 @@ COPY_FILES = {
 }
 
 ETE_REL = Path("data/onet/db_30_1/Education, Training, and Experience.txt")
+MEMBERSHIP_REL = RUN_EXPORTS / "gradient_compass_clusters_membership.csv"
+SKILLS_LONG_REL = RUN_EXPORTS / "skills_overlay_long.csv"
+ABILITIES_LONG_REL = RUN_EXPORTS / "abilities_overlay_long.csv"
 
 
 def sha256(path: Path) -> str:
@@ -93,6 +102,27 @@ def derive_rle(ete_path: Path) -> pd.DataFrame:
                     include_groups=False)
             .rename("rle_mean").reset_index()
             .rename(columns={"O*NET-SOC Code": "onet_code"}))
+
+
+def derive_cluster_intensity(root: Path) -> pd.DataFrame:
+    """Mean descriptor level per occupation within each capability cluster
+    (S1, S2, A1, A2), replicating Paper 1 notebook 5, cell 18: cluster_rank
+    1 = social/cognitive pole, 2 = technical/physical pole; prefix S for
+    skills, A for abilities; intensity = mean of raw 'value' over the
+    cluster's descriptors."""
+    membership = pd.read_csv(root / MEMBERSHIP_REL)
+    membership["cluster"] = membership.apply(
+        lambda r: ("S" if r["label"] == "skill" else "A")
+                  + str(r["cluster_rank"]), axis=1)
+    out = []
+    for label, rel, col in [("skill", SKILLS_LONG_REL, "skill"),
+                            ("ability", ABILITIES_LONG_REL, "ability")]:
+        long_df = pd.read_csv(root / rel)
+        m = membership.loc[membership["label"] == label, ["name", "cluster"]]
+        merged = long_df.merge(m, left_on=col, right_on="name", how="inner")
+        out.append(merged.groupby(["onet_code", "cluster"])["value"]
+                   .mean().unstack("cluster"))
+    return out[0].join(out[1], how="inner").reset_index()
 
 
 def main() -> None:
@@ -132,6 +162,23 @@ def main() -> None:
                    "onet.education.rle_by_occupation)"),
     }
     print(f"derived occupation_rle.csv ({len(rle)} occupations)")
+
+    ci = derive_cluster_intensity(root)
+    ci.to_csv(DATA / "occupation_cluster_intensity.csv", index=False)
+    entries["occupation_cluster_intensity.csv"] = {
+        "source_path": [str(MEMBERSHIP_REL), str(SKILLS_LONG_REL),
+                        str(ABILITIES_LONG_REL)],
+        "sha256_source": [sha256(root / MEMBERSHIP_REL),
+                          sha256(root / SKILLS_LONG_REL),
+                          sha256(root / ABILITIES_LONG_REL)],
+        "derived": True,
+        "recipe": ("Per occupation, mean raw descriptor 'value' within each "
+                   "capability cluster S1/S2/A1/A2; clusters from "
+                   "gradient_compass_clusters_membership (cluster_rank 1/2, "
+                   "prefix S=skills, A=abilities). Replicates Paper 1 "
+                   "notebook 5, cell 18."),
+    }
+    print(f"derived occupation_cluster_intensity.csv ({len(ci)} occupations)")
 
     manifest = {
         "frozen_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
