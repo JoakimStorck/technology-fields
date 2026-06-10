@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Regenerable heavy intermediates (grid evaluations, simulation caches).
+# NOTE deliberate policy: data/ (frozen inputs + MANIFEST.json) and
+# results/ (small deterministic estimation outputs) ARE tracked.
+scratch/

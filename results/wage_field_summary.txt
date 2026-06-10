@@ -1,0 +1,40 @@
+Sample: N = 785 occupations
+
+== S0_replication:  N = 785   R2 = 0.4921  adjR2 = 0.4901
+   m0  (const    )   +3.4211  (se 0.0381, p 0.0000)
+   m1  (cos_xi   )   +0.2119  (se 0.0174, p 0.0000)
+   m2  (sin_xi   )   +0.3886  (se 0.0182, p 0.0000)
+   m3  (chi      )   -0.0455  (se 0.0898, p 0.6128)
+
+== S1_field:  N = 785   R2 = 0.5228  adjR2 = 0.5198
+   m0  (const    )   +3.4195  (se 0.0355, p 0.0000)
+   m1  (cos_xi   )   +0.1921  (se 0.0484, p 0.0001)
+   m2  (sin_xi   )   +0.0889  (se 0.0512, p 0.0829)
+   m3  (chi      )   -0.0647  (se 0.0897, p 0.4707)
+   m4  (chi_cos  )   +0.0082  (se 0.1123, p 0.9421)
+   m5  (chi_sin  )   +0.8913  (se 0.1338, p 0.0000)
+
+== S2_second_harmonic:  N = 785   R2 = 0.5419  adjR2 = 0.5378
+   m0  (const    )   +3.4649  (se 0.0361, p 0.0000)
+   m1  (cos_xi   )   +0.1542  (se 0.0488, p 0.0016)
+   m2  (sin_xi   )   +0.0339  (se 0.0523, p 0.5162)
+   m3  (chi      )   -0.2552  (se 0.0928, p 0.0060)
+   m4  (chi_cos  )   +0.1188  (se 0.1175, p 0.3119)
+   m5  (chi_sin  )   +1.0940  (se 0.1367, p 0.0000)
+   m6  (chi_cos2 )   +0.2196  (se 0.0391, p 0.0000)
+   m7  (chi_sin2 )   +0.0969  (se 0.0443, p 0.0287)
+
+== S3_weighted:  N = 785   R2 = 0.7035  adjR2 = 0.7016
+   m0  (const    )   +3.4446  (se 0.0688, p 0.0000)
+   m1  (cos_xi   )   +0.2069  (se 0.1331, p 0.1201)
+   m2  (sin_xi   )   +0.2048  (se 0.0717, p 0.0043)
+   m3  (chi      )   -0.1342  (se 0.1714, p 0.4336)
+   m4  (chi_cos  )   +0.0720  (se 0.3024, p 0.8119)
+   m5  (chi_sin  )   +0.8482  (se 0.1834, p 0.0000)
+
+Second-harmonic Wald test (m6 = m7 = 0): stat = 35.425, p = 0.0000
+
+Level gradient (m1, m2):  direction 24.8 deg, amplitude 0.212
+Depth return  (m4, m5):   direction 89.5 deg, amplitude 0.891
+Mean depth return m3:     -0.065
+beta_chi(xi) > 0 for xi in (3.6, 175.3) deg
