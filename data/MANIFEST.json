@@ -1,5 +1,5 @@
 {
-  "frozen_utc": "2026-06-10T18:54:29+00:00",
+  "frozen_utc": "2026-06-10T20:48:42+00:00",
   "source_repository": "https://github.com/JoakimStorck/geometry-of-work",
   "source_commit": "9238102bdfb46ab473c0e7c2a065052c5cc5b70f",
   "encoder_run_tag": "embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1",
@@ -24,6 +24,20 @@
       "sha256_source": "595807bd081653b31c37a518a0360b68fe28075811bdfd60f082a60b8a4f4ee1",
       "derived": true,
       "recipe": "Filter Element Name == 'Required Level of Education'; rle_mean = weighted mean of Category with Data Value weights, per O*NET-SOC Code (replicates onet.education.rle_by_occupation)"
+    },
+    "occupation_cluster_intensity.csv": {
+      "source_path": [
+        "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/gradient_compass_clusters_membership.csv",
+        "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/skills_overlay_long.csv",
+        "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/abilities_overlay_long.csv"
+      ],
+      "sha256_source": [
+        "bf0afbb973d98487d370b49cd6c16b17630b7424a86a5bec851a762d2449a545",
+        "954da8849cde9fd0b5eac8379dc734bd6985f28eb9e75fa5a2a6136f5e7ddb79",
+        "f2ffe934b45c3232b0fa7927efe7a205bf781dc0d21ae11b710612e97956e144"
+      ],
+      "derived": true,
+      "recipe": "Per occupation, mean raw descriptor 'value' within each capability cluster S1/S2/A1/A2; clusters from gradient_compass_clusters_membership (cluster_rank 1/2, prefix S=skills, A=abilities). Replicates Paper 1 notebook 5, cell 18."
     }
   }
 }

@@ -1,0 +1,22 @@
+Sample: N = 785
+
+(A) Sectoral beta_chi: re-estimated (HC3 95% CI) vs Paper 1 Fig. 10A
+  E  (n=125): -0.15 [-0.75, +0.45]  | published -0.15
+  NE (n=101): +0.81 [+0.33, +1.29]  | published +0.81
+  N  (n= 92): +0.93 [+0.49, +1.37]  | published +0.93
+  NW (n= 44): +0.28 [-0.31, +0.86]  | published +0.28
+  W  (n=200): -0.28 [-0.50, -0.06]  | published -0.28
+  SW (n= 67): -0.80 [-1.55, -0.05]  | published -0.80
+  S  (n= 78): -1.04 [-1.39, -0.70]  | published -1.04
+  SE (n= 78): -1.18 [-1.91, -0.45]  | published -1.18
+  max |re-estimated - published| = 0.005
+
+(B) Mean residual ln w_obs - ln Pi(centroid) per sector (first-harmonic field):
+  E : +0.116
+  NE: -0.040
+  N : -0.063
+  NW: +0.017
+  W : +0.016
+  SW: +0.059
+  S : -0.091
+  SE: -0.069

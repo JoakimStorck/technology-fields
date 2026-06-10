@@ -14,7 +14,7 @@ Sample: N = 785 occupations
    m4  (chi_cos  )   +0.0082  (se 0.1123, p 0.9421)
    m5  (chi_sin  )   +0.8913  (se 0.1338, p 0.0000)
 
-== S2_second_harmonic:  N = 785   R2 = 0.5419  adjR2 = 0.5378
+== S2_interaction_unbalanced:  N = 785   R2 = 0.5419  adjR2 = 0.5378
    m0  (const    )   +3.4649  (se 0.0361, p 0.0000)
    m1  (cos_xi   )   +0.1542  (se 0.0488, p 0.0016)
    m2  (sin_xi   )   +0.0339  (se 0.0523, p 0.5162)
@@ -24,6 +24,28 @@ Sample: N = 785 occupations
    m6  (chi_cos2 )   +0.2196  (se 0.0391, p 0.0000)
    m7  (chi_sin2 )   +0.0969  (se 0.0443, p 0.0287)
 
+== L2_level_only:  N = 785   R2 = 0.5431  adjR2 = 0.5390
+   m0  (const    )   +3.4518  (se 0.0358, p 0.0000)
+   m1  (cos_xi   )   +0.1560  (se 0.0480, p 0.0011)
+   m2  (sin_xi   )   +0.0442  (se 0.0522, p 0.3965)
+   m3  (chi      )   -0.1994  (se 0.0917, p 0.0297)
+   m4  (chi_cos  )   +0.0986  (se 0.1138, p 0.3862)
+   m5  (chi_sin  )   +1.0462  (se 0.1358, p 0.0000)
+   cos2 (cos2     )   +0.0889  (se 0.0155, p 0.0000)
+   sin2 (sin2     )   +0.0300  (se 0.0190, p 0.1133)
+
+== S2b_balanced:  N = 785   R2 = 0.5445  adjR2 = 0.5392
+   m0  (const    )   +3.4585  (se 0.0361, p 0.0000)
+   m1  (cos_xi   )   +0.1491  (se 0.0483, p 0.0020)
+   m2  (sin_xi   )   +0.0443  (se 0.0524, p 0.3986)
+   m3  (chi      )   -0.2270  (se 0.0923, p 0.0139)
+   m4  (chi_cos  )   +0.1130  (se 0.1185, p 0.3402)
+   m5  (chi_sin  )   +1.0585  (se 0.1360, p 0.0000)
+   cos2 (cos2     )   +0.0808  (se 0.0410, p 0.0486)
+   sin2 (sin2     )   -0.0332  (se 0.0592, p 0.5748)
+   m6  (chi_cos2 )   +0.0235  (se 0.1027, p 0.8187)
+   m7  (chi_sin2 )   +0.1792  (se 0.1439, p 0.2128)
+
 == S3_weighted:  N = 785   R2 = 0.7035  adjR2 = 0.7016
    m0  (const    )   +3.4446  (se 0.0688, p 0.0000)
    m1  (cos_xi   )   +0.2069  (se 0.1331, p 0.1201)
@@ -32,7 +54,14 @@ Sample: N = 785 occupations
    m4  (chi_cos  )   +0.0720  (se 0.3024, p 0.8119)
    m5  (chi_sin  )   +0.8482  (se 0.1834, p 0.0000)
 
-Second-harmonic Wald test (m6 = m7 = 0): stat = 35.425, p = 0.0000
+Harmonic-order tests for the depth return beta_chi(xi):
+  naive (S2, no level harmonics):   m6 = m7 = 0  p = 0.0000   [SPURIOUS: corr(chi*cos2xi, cos2xi) = 0.927]
+  balanced (S2b, level included):   m6 = m7 = 0  p = 0.4369
+  omnibus (all four 2nd-harmonic terms = 0): p = 0.000000
+  Conclusion: the depth return is first-harmonic (eq. 1 stands);
+  the residual second-harmonic structure sits in the LEVEL
+  (L2: cos2 = +0.089, p = 0.0000), i.e. an E-W level effect of ~9% at fixed chi,
+  consistent with the east-sector mediation pattern of Paper 1.
 
 Level gradient (m1, m2):  direction 24.8 deg, amplitude 0.212
 Depth return  (m4, m5):   direction 89.5 deg, amplitude 0.891
