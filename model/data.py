@@ -12,6 +12,10 @@ Two objects are provided:
                         non-missing rle_mean. Pins N = 785 and replicates
                         Paper 1, Table 3 exactly.
 
+  load_family_map()     onet_code -> O*NET Job Family, for the measurement
+                        layer (the theory layer is family-free; families
+                        enter only through diagnostics and the wage wedge).
+
   load_bundles()        Task bundles b_o: every task with polar position
                         (xi, chi) and importance weight b normalized to sum
                         to one within each occupation (weights = O*NET task
@@ -71,6 +75,12 @@ def load_mincer_sample() -> pd.DataFrame:
     df["chi_cos2"] = df["chi"] * np.cos(2 * df["xi"])
     df["chi_sin2"] = df["chi"] * np.sin(2 * df["xi"])
     return df.reset_index(drop=True)
+
+
+def load_family_map() -> pd.Series:
+    """onet_code -> Job Family (O*NET classification)."""
+    occ = pd.read_csv(OCC_FILE, usecols=["onet_code", "Job Family"])
+    return occ.set_index("onet_code")["Job Family"]
 
 
 def load_bundles() -> pd.DataFrame:

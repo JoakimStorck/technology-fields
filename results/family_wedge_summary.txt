@@ -1,0 +1,23 @@
+Sample: N = 785
+
+Family wage wedge eta_g (log points vs bundle-priced wage):
+  range -0.261 (Personal Care and Service) to +0.372 (Management)
+  share of occupation-level wedge variance absorbed by family means: 0.302
+  corr(eta_g, eta_g_empw) = 0.948
+
+Regime sensitivity (illustrative technology of script 02):
+  mean displaced share: baseline 0.2911, wedged 0.2924
+  Spearman rho(D_o baseline, wedged) = 0.9910
+  mean |Delta D_o| = 0.0302, max |Delta D_o| = 0.2297
+  largest family-mean shifts in D_o:
+    Community and Social Service                   -0.0629
+    Life, Physical, and Social Science             -0.0523
+    Healthcare Support                             -0.0463
+    Legal                                          +0.0502
+    Healthcare Practitioners and Technical         +0.0862
+    Management                                     +0.0944
+
+  Interpretation: identical orderings (rho ~ 1) mean the
+  parsimonious wedge-free baseline is cheap; large shifts
+  mean institutional wage setting steers automation
+  incidence and the wedge variant must be reported.

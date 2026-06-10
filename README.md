@@ -36,6 +36,9 @@ numbered, runnable analyses that orchestrate it and write to `results/`.
 | `scripts/00_freeze_inputs.py` | Vendors required Paper 1 inputs into `data/` and writes `data/MANIFEST.json`. Needs a local geometry-of-work checkout (`--geometry-root`, default: sibling directory). |
 | `scripts/01_wage_field.py` | Litmus test for the price-of-skill field (Paper 3, eq. 1): estimates ln Π(ξ, χ) = m₀ + m₁cos ξ + m₂sin ξ + χ(m₃ + m₄cos ξ + m₅sin ξ) on the Paper 1 Mincer sample (N = 785), with replication of Table 3, second-harmonic sufficiency test, and employment-weighted robustness. |
 | `scripts/02_price_field.py` | Builds Pi(r) from the estimated coefficients; validates the bundle wage equation against BLS wages (Jensen-gap analysis); demonstrates the operated regime with an illustrative technology (price-ordered takeover, displacement ranking). Produces the price-field and operated-share maps. |
+| `scripts/03_field_vs_paper1.py` | Compares the field with Paper 1's published results: continuous beta_chi(xi) with confidence band against the re-estimated sectoral slopes (periodic closure shown), wage map on a shared scale, residual map. |
+| `scripts/04_residual_structure.py` | Tests whether field residuals are spatially structured or compositional: Moran's I with permutation null, spatial correlogram, capability and Job Family decompositions. |
+| `scripts/05_family_wedge.py` | Measurement layer for the non-spatial wage component: estimates the family wage wedge eta_g vs the bundle-priced wage, exports it for sensitivity runs, and quantifies its effect on the operated regime (baseline vs wedged displacement). |
 
 Outputs are written to `results/`.
 

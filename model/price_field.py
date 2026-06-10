@@ -98,10 +98,20 @@ class PriceField:
 
     # ── bundle pricing ────────────────────────────────────────────
 
-    def bundle_wage(self, bundles: pd.DataFrame) -> pd.Series:
-        """w_o = sum_t b_t Pi(r_t) per occupation. `bundles` as produced
-        by model.data.load_bundles (columns onet_code, xi, chi, b)."""
+    def bundle_wage(self, bundles: pd.DataFrame,
+                    wedge: pd.Series | None = None) -> pd.Series:
+        """w_o = exp(eta_o) sum_t b_t Pi(r_t) per occupation.
+
+        `bundles` as produced by model.data.load_bundles (columns
+        onet_code, xi, chi, b). `wedge` is an optional log wage wedge
+        eta_o indexed by onet_code (the measured non-spatial component;
+        see scripts/05_family_wedge.py). Occupations without a wedge
+        entry get eta = 0. The theory layer is wedge-free; pass wedge
+        only in measurement/sensitivity runs."""
         pi_t = self.pi(bundles["xi"].to_numpy(), bundles["chi"].to_numpy())
         contrib = bundles["b"].to_numpy() * pi_t
-        return (pd.Series(contrib, index=bundles["onet_code"].to_numpy())
-                .groupby(level=0).sum().rename("w_bundle"))
+        w = (pd.Series(contrib, index=bundles["onet_code"].to_numpy())
+             .groupby(level=0).sum().rename("w_bundle"))
+        if wedge is not None:
+            w = w * np.exp(wedge.reindex(w.index).fillna(0.0))
+        return w

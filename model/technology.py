@@ -64,22 +64,40 @@ class Technology:
     # ── operated regime ───────────────────────────────────────────
 
     def operated_share(self, xi, chi, field: PriceField,
-                       R: float, tau: float):
-        """a(r): share of the location's micro-tasks borne by capital."""
-        margin = self.s_K * self.phi(xi, chi) - R / field.pi(xi, chi)
+                       R: float, tau: float, log_wedge=0.0):
+        """a(r): share of the location's micro-tasks borne by capital.
+
+        `log_wedge` (scalar or array broadcastable over xi/chi) shifts
+        the effective price of the labor performing the work,
+        Pi_eff = exp(log_wedge) * Pi(r): a positive wedge makes the same
+        location dearer and lowers the takeover threshold. The baseline
+        model is wedge-free (log_wedge = 0)."""
+        pi_eff = np.exp(log_wedge) * field.pi(xi, chi)
+        margin = self.s_K * self.phi(xi, chi) - R / pi_eff
         return 1.0 / (1.0 + np.exp(-margin / tau))
 
     def displacement(self, bundles: pd.DataFrame, field: PriceField,
-                     R: float, tau: float) -> pd.DataFrame:
+                     R: float, tau: float,
+                     wedge: pd.Series | None = None) -> pd.DataFrame:
         """Per-occupation displaced mass D_o = sum_t b_t a(r_t) and the
-        retained priced contribution sum_t b_t Pi(r_t)(1 - a(r_t)).
+        retained priced contribution sum_t b_t Pi_eff(r_t)(1 - a(r_t)).
 
-        `bundles` as produced by model.data.load_bundles."""
+        `bundles` as produced by model.data.load_bundles. `wedge` is an
+        optional log wage wedge eta_o indexed by onet_code: it raises
+        the effective price of the occupation's labor at every task it
+        performs, which both shifts the takeover margin (dear work is
+        taken first) and scales the priced contribution. Baseline runs
+        pass wedge=None."""
         xi = bundles["xi"].to_numpy()
         chi = bundles["chi"].to_numpy()
         b = bundles["b"].to_numpy()
-        a = self.operated_share(xi, chi, field, R, tau)
-        pi_t = field.pi(xi, chi)
+        if wedge is None:
+            lw = 0.0
+        else:
+            lw = (wedge.reindex(bundles["onet_code"]).fillna(0.0)
+                  .to_numpy())
+        a = self.operated_share(xi, chi, field, R, tau, log_wedge=lw)
+        pi_t = np.exp(lw) * field.pi(xi, chi)
         idx = bundles["onet_code"].to_numpy()
         out = pd.DataFrame({
             "D_o": pd.Series(b * a, index=idx).groupby(level=0).sum(),
