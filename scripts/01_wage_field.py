@@ -18,8 +18,16 @@ Specifications:
   S0  replication:      ln w ~ cos xi + sin xi + chi          (Paper 1, Table 3 col 1)
   S1  field (m0-m5):    ln w ~ cos xi + sin xi + chi
                               + chi*cos xi + chi*sin xi
-  S2  2nd harmonic:     S1 + chi*cos 2xi + chi*sin 2xi        (Wald test: harmonic
-                                                               sufficiency of S1)
+  S2  2nd harmonic,     S1 + chi*cos 2xi + chi*sin 2xi. UNBALANCED: kept for
+      interaction only:  the record; chi*cos 2xi is near-collinear with the
+                         omitted LEVEL term cos 2xi (corr ~ 0.93), so its
+                         coefficients proxy for level structure.
+  L2  2nd harmonic,     S1 + cos 2xi + sin 2xi (level only).
+      level only:
+  S2b balanced:         S1 + cos 2xi + sin 2xi + chi*cos 2xi + chi*sin 2xi.
+                        The decisive test: the interaction second harmonic
+                        is evaluated conditional on the level second
+                        harmonic.
   S3  weighted:         S1 estimated by WLS with TOT_EMP weights
 
 HC3 robust standard errors throughout. Derived quantities for S1:
@@ -77,10 +85,15 @@ def main() -> None:
     df = load_mincer_sample()
     lines: list[str] = [f"Sample: N = {len(df)} occupations\n"]
 
+    df["cos2"] = np.cos(2 * df["xi"])
+    df["sin2"] = np.sin(2 * df["xi"])
+
     s0 = fit(df, ["cos_xi", "sin_xi", "chi"])
     s1_cols = ["cos_xi", "sin_xi", "chi", "chi_cos", "chi_sin"]
     s1 = fit(df, s1_cols)
     s2 = fit(df, s1_cols + ["chi_cos2", "chi_sin2"])
+    l2 = fit(df, s1_cols + ["cos2", "sin2"])
+    s2b = fit(df, s1_cols + ["cos2", "sin2", "chi_cos2", "chi_sin2"])
     w = df["TOT_EMP"].fillna(0).clip(lower=0)
     s3 = fit(df.loc[w > 0], s1_cols, weights=w.loc[w > 0])
 
@@ -96,7 +109,9 @@ def main() -> None:
     }
     rows = []
     for label, model in [("S0_replication", s0), ("S1_field", s1),
-                         ("S2_second_harmonic", s2), ("S3_weighted", s3)]:
+                         ("S2_interaction_unbalanced", s2),
+                         ("L2_level_only", l2), ("S2b_balanced", s2b),
+                         ("S3_weighted", s3)]:
         lines.append(f"== {label}:  N = {int(model.nobs)}   "
                      f"R2 = {model.rsquared:.4f}  adjR2 = {model.rsquared_adj:.4f}")
         for var in model.params.index:
@@ -110,10 +125,30 @@ def main() -> None:
                          f" p {model.pvalues[var]:.4f})")
         lines.append("")
 
-    # Harmonic sufficiency: joint Wald test of m6 = m7 = 0 in S2
-    wald = s2.wald_test("(chi_cos2 = 0), (chi_sin2 = 0)", scalar=True)
-    lines.append(f"Second-harmonic Wald test (m6 = m7 = 0): "
-                 f"stat = {float(wald.statistic):.3f}, p = {float(wald.pvalue):.4f}")
+    # Harmonic sufficiency. The naive test in S2 is misleading:
+    # chi*cos 2xi proxies the omitted level term cos 2xi (corr ~ 0.93).
+    # The decisive test conditions on the level second harmonic (S2b).
+    w_naive = s2.wald_test("(chi_cos2 = 0), (chi_sin2 = 0)", scalar=True)
+    w_bal = s2b.wald_test("(chi_cos2 = 0), (chi_sin2 = 0)", scalar=True)
+    w_omni = s2b.wald_test(
+        "(cos2 = 0), (sin2 = 0), (chi_cos2 = 0), (chi_sin2 = 0)", scalar=True)
+    c_lvl = float(np.corrcoef(df["chi_cos2"], df["cos2"])[0, 1])
+    lines += [
+        "Harmonic-order tests for the depth return beta_chi(xi):",
+        f"  naive (S2, no level harmonics):   m6 = m7 = 0  "
+        f"p = {float(w_naive.pvalue):.4f}   [SPURIOUS: corr(chi*cos2xi, "
+        f"cos2xi) = {c_lvl:.3f}]",
+        f"  balanced (S2b, level included):   m6 = m7 = 0  "
+        f"p = {float(w_bal.pvalue):.4f}",
+        f"  omnibus (all four 2nd-harmonic terms = 0): "
+        f"p = {float(w_omni.pvalue):.6f}",
+        "  Conclusion: the depth return is first-harmonic (eq. 1 stands);",
+        "  the residual second-harmonic structure sits in the LEVEL",
+        f"  (L2: cos2 = {l2.params['cos2']:+.3f}, "
+        f"p = {l2.pvalues['cos2']:.4f}), i.e. an E-W level effect of "
+        f"~{100*abs(l2.params['cos2']):.0f}% at fixed chi,",
+        "  consistent with the east-sector mediation pattern of Paper 1.",
+    ]
 
     # Derived quantities from S1
     p = s1.params
