@@ -19,10 +19,23 @@ diff then makes the data update explicit in version control.
 
 ## Scripts
 
+## Code layout
+
+Reusable model code lives in `model/` (the task-layer objects of the paper:
+price field, bundles, technology fields, operated regime); `scripts/` are
+numbered, runnable analyses that orchestrate it and write to `results/`.
+
+| Module | Contents |
+|---|---|
+| `model/data.py` | Frozen-data access: the Mincer sample (N = 785) and task bundles b_o. |
+| `model/price_field.py` | The price of skill Pi(r) (eq. 1): construction from estimated coefficients, evaluation, gradient, bundle pricing. |
+| `model/technology.py` | Technology fields phi_K (position, reach, amplitude, character), the operated share a(r), displacement D_o. |
+
 | Script | Purpose |
 |---|---|
 | `scripts/00_freeze_inputs.py` | Vendors required Paper 1 inputs into `data/` and writes `data/MANIFEST.json`. Needs a local geometry-of-work checkout (`--geometry-root`, default: sibling directory). |
 | `scripts/01_wage_field.py` | Litmus test for the price-of-skill field (Paper 3, eq. 1): estimates ln Π(ξ, χ) = m₀ + m₁cos ξ + m₂sin ξ + χ(m₃ + m₄cos ξ + m₅sin ξ) on the Paper 1 Mincer sample (N = 785), with replication of Table 3, second-harmonic sufficiency test, and employment-weighted robustness. |
+| `scripts/02_price_field.py` | Builds Pi(r) from the estimated coefficients; validates the bundle wage equation against BLS wages (Jensen-gap analysis); demonstrates the operated regime with an illustrative technology (price-ordered takeover, displacement ranking). Produces the price-field and operated-share maps. |
 
 Outputs are written to `results/`.
 
@@ -30,5 +43,6 @@ Outputs are written to `results/`.
 
 ```
 pip install -r requirements.txt
-python scripts/01_wage_field.py    # runs against frozen data/, no other checkout needed
+python scripts/01_wage_field.py    # estimates the wage field (results/wage_field_*.csv)
+python scripts/02_price_field.py   # builds Pi(r), validates bundle wages, regime demo
 ```
