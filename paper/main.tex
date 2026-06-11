@@ -1,0 +1,862 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[style=authoryear, backend=biber]{biblatex}
+\addbibresource{references.bib}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{threeparttable}
+
+\onehalfspacing
+
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+\title{Technology fields, automation and task reinstatement\\
+\large Working paper --- not for circulation}
+\author{Joakim Storck and Jonatan Andersson}
+\date{Draft: \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+We use the geometric task-space framework of \textcite{storck2026geometry}
+to study how the reach of a technology determines whether task creation
+benefits or harms workers in different parts of the labour market.
+The framework places occupations as task bundles in a two-dimensional
+task space calibrated from occupational embeddings. The market price of
+skill is a field over this space, directional rather than uniform, so
+that depth is rewarded in the socio-cognitive directions and not in the
+service and manual directions. Automation removes the high-priced tasks
+from a bundle; reinstatement returns a fraction $\gamma$ of the displaced
+mass as new tasks, which attach to an occupation only where the priced
+capability they require is already held. Occupations are therefore
+redefined rather than abolished, and their wages move with the priced
+content of their bundles. New tasks that no occupation can attach remain
+unbound, and their concentration marks where new occupations may emerge.
+
+We calibrate the technology parameters against task-level AI exposure
+scores from \textcite{gmyrek2025} and test the model's central spatial
+prediction against Bureau of Labor Statistics occupational employment
+data for 741 occupations over 2019--2024. A difference-in-differences
+specification exploiting the ChatGPT launch of November 2022 shows
+that occupations at the gradient boundary of the augmentation field
+experienced significantly higher employment growth in the post-2022
+period, while occupations in the field's core experienced lower growth.
+The boundary zone effect is robust across six specifications and holds
+in an event study with clean pre-trends.
+
+The model also reveals a structural threshold at $z_K \approx
+0.38$--$0.40$. Below this threshold, reinstatement concentrates new
+tasks in the cognitive and investigative sectors and harms manual
+workers through general equilibrium redistribution. Above it, the
+technology's gradient boundary reaches the manual arc and reinstatement
+benefits manual workers in employment, though the directional price of
+skill mutes the wage benefit in those directions. This spatial
+condition, the reach of the technology relative to the distance between
+the technology centre and the manual arc, cannot be derived from a
+one-dimensional task-space model.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+%% ============================================================
+\section{Introduction}
+\label{sec:intro}
+%% ============================================================
+
+The division of labor segments the labor market into specialized
+domains. Workers accumulate human capital specific to their occupation
+or sector, and technologies are adopted unevenly across the task
+distribution. When a technology displaces workers from one set of
+tasks, the consequences for wages and employment depend on whether
+new tasks are created to absorb the displaced labor: the reinstatement
+mechanism of \textcite{acemoglu2019automation}. In the canonical
+one-dimensional framework, reinstatement unambiguously raises the
+labor share because new tasks are by construction assigned to labor
+at the boundary of the technology's operating domain
+\parencite{acemoglu2018race}. The question
+of which workers benefit is not well posed in a model where labor
+enters as two or three aggregate skill groups distinguished only by
+their position on a single task index.
+
+This paper develops a spatial generalization of the task-based
+framework and tests its central prediction against occupational
+employment data. The framework places occupations as task bundles in
+a two-dimensional task space calibrated from semantic embeddings of
+O*NET task statements \parencite{storck2026geometry}. The two
+dimensions capture domain orientation and specialization depth,
+placing occupations in a continuous space that reflects the actual
+content of work rather than predefined skill categories. The market
+price of skill is a field over this space, directional rather than
+uniform. Technologies are represented as augmentation fields: Gaussian
+productivity enhancements centered at a point in task space with a
+radius that determines their reach across occupational domains.
+
+The spatial structure generates a precise prediction about where new
+tasks appear. The gradient of the augmentation field is maximized at
+distance $z_K$ from the technology center: at the boundary between
+the core, where the technology dominates and the marginal value of
+complementary human activity is low, and the periphery, where the
+technology is irrelevant. New tasks that validate, coordinate, and
+integrate automated outputs emerge precisely in this boundary zone.
+Whether reinstatement benefits workers therefore depends not on the
+reinstatement elasticity alone, but on where the gradient boundary
+falls relative to the spatial ownership structure of task space, and
+on the price the market attaches to work in that direction. A
+broad, inexpensive technology centered in the cognitive arc can
+generate task creation that harms manual workers through general
+equilibrium redistribution rather than offsetting their displacement.
+
+We test this prediction using Bureau of Labor Statistics Occupational
+Employment and Wage Statistics (OEWS) data for 741 occupations over
+2019--2024, combined with task-level AI exposure scores from
+\textcite{gmyrek2025} mapped onto the occupational geometry. The
+treatment variable is not binary but continuous: for each occupation
+we compute both its exposure to the augmentation field and its position
+relative to the field's gradient. A difference-in-differences
+specification exploits the ChatGPT launch of November 2022 as an
+exogenous shift in the technology's reach. Occupations at the gradient
+boundary show significantly higher employment growth in the post-2022
+period relative to pre-trends, while occupations in the field's core
+show lower growth. The boundary zone effect is robust across six
+specifications and holds in an event study with clean pre-trends.
+
+The paper proceeds as follows. Section~\ref{sec:geometry} introduces
+the spatial occupational geometry. Section~\ref{sec:model} presents
+the task-based production framework and its spatial extension,
+including the price of skill, the augmentation field, displacement,
+and displacement-anchored reinstatement through a bundle operator.
+Section~\ref{sec:calibration} describes the calibration of technology
+parameters against empirical AI exposure data. Section~\ref{sec:cases}
+illustrates the model with two scenarios drawn from the
+Acemoglu--Restrepo taxonomy. Section~\ref{sec:empirics} presents the
+empirical analysis. Section~\ref{sec:discuss} discusses implications
+and limitations.
+
+%% ============================================================
+\section{The Spatial Occupational Geometry}
+\label{sec:geometry}
+%% ============================================================
+
+\todo{Kort presentation av geometrin från Paper 1: taskspace,
+vinkeldimension (domän), radiedimension (specialisering),
+occupational centroids och kompetensradier. En figur (taskspace-kartan).
+Ca 1--1.5 sidor.}
+
+The value of this representation can be shown through its ability to illustrate successive waves of labor-replacing technology. 
+The routine-task automation studied by \textcite{autor2003} targeted occupations near the Technical-Physical pole, contributing to the secular decline of middle-wage manufacturing employment \parencite{acemoglu2020, graetz2018, devries2020}. 
+Generative AI capabilities \parencite{hampole2025, eloundou2024} extend into parts of the Social-Cognitive region previously considered safe, raising concerns about the exposure of college-educated work. 
+Each technology can be characterized by the region of the task space it affects, and each occupation by its position relative to that region. 
+This is a question the geometry is built to address but that a partitioned or one-dimensional model cannot express.
+
+%% ============================================================
+\section{Model}
+\label{sec:model}
+%% ============================================================
+
+We embed the geometry into a production framework that builds on the
+canonical task-based model of \textcite{acemoglu2019automation},
+extending it by replacing abstract factor categories with a
+continuous task space and by letting technology redraw the task
+bundles that define occupations.
+
+\subsection{Overview}
+\label{sec:overview}
+
+The model has two layers. A \emph{task layer} is a set of fields over
+the task disk. It carries production, the technology, displacement,
+reinstatement, and the creation of unbound tasks. A \emph{worker
+layer} carries employment, mobility, and labor supply. The two layers
+are linked by the bundles that define occupations, and it is these
+bundles that automation and reinstatement rewrite.
+
+The task layer is family-free. Job families are an external
+classification by industrial context, and the geometry of
+\textcite{storck2026geometry} is built without such categories. We work
+at the level of tasks, the level at which the geometry is constructed
+and at which technology exposure is measured. Occupations enter as
+bundles of tasks, not as primitives.
+
+Wages are pinned by the price of skill and the task bundles alone, and
+the model carries no occupation-specific wage parameter. The price of
+skill is a field over the disk, identified by
+\textcite{storck2026geometry} and carried here as the price of labor at
+each task location.
+
+\subsection{The Price of Skill}
+\label{sec:price}
+
+\textcite{storck2026geometry} shows that the labor market does not
+value position in task space isotropically. The return to radial depth
+is positive toward the analytical directions and absent toward the
+service and manual directions, and what the market prices is the
+socio-cognitive cluster of capabilities concentrated in the northern
+half. We summarize this as a price field $\Pi(\mathbf{r})$ over the
+disk, the price the market pays for a unit of work performed at task
+location $\mathbf{r} = (\xi, \chi)$. It is the wage field of
+\textcite{storck2026geometry}, a first-harmonic field on the circle
+whose radial term is modulated by direction,
+\begin{equation}
+  \ln \Pi(\mathbf{r})
+  \;=\;
+  m_0 + m_1 \cos\xi + m_2 \sin\xi
+  \;+\; \chi\,\bigl(m_3 + m_4 \cos\xi + m_5 \sin\xi\bigr).
+  \label{eq:price-field}
+\end{equation}
+The direction-modulated radial term is what makes depth rewarded in
+the north and unrewarded in the south. $\Pi$ is estimated once, on the
+cross-section of occupations, and treated as fixed structure here. It
+is the price of labor at a task location.
+
+Productivity is isotropic. \textcite{storck2026geometry} does not
+find that workers are more productive in the north. It finds that the
+market pays more for the capabilities concentrated there. Productivity
+belongs to the worker and is symmetric; the price of that work is
+directional. The directional structure therefore lives in $\Pi$, not
+in a productivity kernel.
+
+\subsection{Tasks, Occupations, and Wages}
+\label{sec:tasks-occ}
+
+A task is a unit of work activity that yields a unit of output. Because
+one task is one unit of output, no productivity magnitude varies across
+tasks. What varies over the disk is how much labor is present and what
+that labor is paid.
+
+An occupation $o$ is a bundle: a weight measure $b_o(\mathbf{r})$ over
+task space, normalized to one, with the importance weights of
+\textcite{storck2026geometry}. Its centroid
+$\mu_o = \int \mathbf{r}\, b_o(\mathbf{r})\, d\mathbf{r}$ is a summary
+of the bundle, not the object itself. The occupation's wage is the
+price of its bundle,
+\begin{equation}
+  w_o \;=\; \int \Pi(\mathbf{r})\, b_o(\mathbf{r})\, d\mathbf{r},
+  \label{eq:wage-bundle}
+\end{equation}
+the average price of skill over the tasks the occupation performs. The
+wage is therefore not a property of the occupation but an aggregate of
+the price field over its current bundle, and it moves when the bundle
+is rewritten. Labor density on the disk is
+\begin{equation}
+  n(\mathbf{r}) \;=\; \sum_o L_o\, b_o(\mathbf{r}),
+  \label{eq:labor-density}
+\end{equation}
+where $L_o$ is employment in occupation $o$, the employment-weighted
+task coverage of the disk.
+
+\subsection{Technology and the Operated Regime}
+\label{sec:regime}
+
+A technology $K$ is a field $\phi_K(\mathbf{r})$, a
+Gaussian centered at $p_K$ with reach $z_K$,
+\begin{equation}
+  \phi_K(\mathbf{r})
+  \;=\;
+  A_K \exp\!\left(-\frac{1}{2}
+  \left(\frac{\|\mathbf{r} - p_K\|}{z_K}\right)^2\right),
+  \label{eq:phi-K}
+\end{equation}
+the effectiveness with which capital can do the work at $\mathbf{r}$.
+Capital does not perform a task autonomously. At a location the worker
+remains and the output is unchanged; what the technology changes is the
+share of the location's micro-tasks that capital bears. The position
+$p_K$ fixes where in task space the technology bites, and the reach
+$z_K$ fixes how far it extends: a narrow $z_K$ is a specialized
+technology, a broad $z_K$ a general-purpose one. Producing the crossed
+micro-tasks more cheaply with capital is the productivity effect of
+automation in the sense of \textcite{acemoglu2018race}, here made
+spatial.
+
+A technology also has a character. The same effectiveness can replace
+the worker or assist her, and these have different consequences. We
+carry the character as a scalar $s_K \in [0,1]$, a fourth attribute of
+the technology beside $p_K$, $z_K$, and $A_K$. At $s_K = 1$ the
+technology is purely replacing, at $s_K = 0$ purely augmenting. The
+effectiveness splits into a replacing part $s_K\,\phi_K$ and an
+augmenting part $(1 - s_K)\,\phi_K$, which act on the same location
+through different channels. The augmenting part assists rather than
+replaces; we treat it in Section~\ref{sec:character}.
+
+Whether capital bears a micro-task is a question of price, and only the
+replacing part competes with the worker on it. Producing the task with
+labor costs $\Pi(\mathbf{r})$, the price of the work. Producing it with
+the replacing part of capital costs the rental $R$ against that part's
+effectiveness, an effective cost $R/(s_K\,\phi_K(\mathbf{r}))$. Capital
+is the cheaper producer when
+\begin{equation}
+  s_K\,\phi_K(\mathbf{r}) \;>\; \frac{R}{\Pi(\mathbf{r})}.
+  \label{eq:regime-shift}
+\end{equation}
+The comparison is between the rental of capital and the price of labor
+at the location, weighted by the technology's effectiveness there. The
+threshold $R/\Pi(\mathbf{r})$ is lowest where $\Pi(\mathbf{r})$ is
+highest, so capital is profitable first at the most highly priced
+locations, and a broad, inexpensive technology can sustain it well
+beyond its core. Capital moves first against the dear work. This is the
+spatial counterpart of the threshold in \textcite{acemoglu2018race}:
+where they automate the lowest task on a single scale, the field takes
+the highest-priced positions wherever they lie on the disk.
+
+A location $\mathbf{r}$ is not a single task. It is a neighborhood
+holding a continuum of micro-tasks, and the effectiveness $\phi_K$
+varies across them, so \eqref{eq:regime-shift} is not true or false for
+the whole cell at once. It holds for a fraction of the micro-tasks and
+fails for the rest. We write that fraction as $a(\mathbf{r})$, the
+degree to which capital bears the work at $\mathbf{r}$,
+\begin{equation}
+  a(\mathbf{r})
+  \;=\;
+  \frac{1}{1 + \exp\!\bigl(-(s_K\,\phi_K(\mathbf{r}) - R/\Pi(\mathbf{r}))/\tau\bigr)},
+  \label{eq:soft-switch}
+\end{equation}
+where $\tau$ sets the width of the margin, the dispersion of
+\eqref{eq:regime-shift} across the micro-tasks of the cell. As
+$\tau \to 0$ the cell collapses to a single task and $a(\mathbf{r})$
+becomes a step, zero below the threshold and one above it; in that
+limit the operated region is a sharp partition of task space and the
+margin is a boundary in space. For $\tau > 0$ the margin lies inside
+each cell, and $a(\mathbf{r})$ is the share of its micro-tasks on the
+operated side of \eqref{eq:regime-shift}.
+
+The replacing part sets the takeover; the augmenting part does not enter
+it. At $s_K = 1$ the threshold \eqref{eq:regime-shift} and the operated
+share \eqref{eq:soft-switch} are those of pure replacement, and the
+displacement, wage, and density results that follow hold unchanged. The
+replacement model is the case $s_K = 1$.
+
+Displacement is then a loss of priced contribution, not a loss of the
+task. The worker remains at $\mathbf{r}$ and the output is unchanged;
+what shrinks is the share of that output the worker is paid for. The
+priced contribution of the cell is $\Pi(\mathbf{r})$ scaled by the
+retained share $1 - a(\mathbf{r})$. The mass displaced from occupation
+$o$ is the operated share integrated over its own bundle,
+\begin{equation}
+  D_o \;=\; \int b_o(\mathbf{r})\, a(\mathbf{r})\, d\mathbf{r},
+  \label{eq:displaced}
+\end{equation}
+and its retained wage is
+$\int \Pi(\mathbf{r})\, b_o(\mathbf{r})\, (1 - a(\mathbf{r}))\,
+d\mathbf{r}$. The aggregate displaced labor mass is
+$\Delta\Gamma^D = \sum_o L_o D_o$. An occupation can carry substantial
+$D_o$ without any region having become operated as a whole, because the
+displacement is spread across its bundle rather than concentrated in a
+zone it owns. This is the difference between an occupation disappearing
+and an occupation that remains but is paid for less of what it does.
+
+Because $a(\mathbf{r})$ varies within the bundle, the margin cuts
+inside the occupation rather than between regions. Some of an
+occupation's own tasks are borne by capital while others remain with
+the worker. This is the restructuring of work within an occupation, the
+unbundling and rebundling of \textcite{brynjolfsson2018mlworkforce},
+expressed as a field. The reach of the technology, $p_K$ and $z_K$,
+together with the price field $\Pi$, determines which tasks within each
+bundle cross the margin.
+
+\subsection{Reinstatement: The Bundle Operator}
+\label{sec:reinstatement}
+
+Reinstatement returns a fraction $\gamma$ of the displaced mass as new
+tasks, and the new tasks must attach to occupations. Free tasks have
+no role in the model. We therefore need a rule for where new tasks
+appear and which occupations can take them.
+
+\paragraph{Where they appear.}
+The gradient of the augmentation field,
+\begin{equation}
+  \|\nabla \phi_K(\mathbf{r})\|
+  \;=\;
+  \frac{1}{z_K^2}\,\|\mathbf{r} - p_K\| \cdot \phi_K(\mathbf{r}),
+  \label{eq:gradient-phi}
+\end{equation}
+peaks at distance $z_K$ from $p_K$. New tasks are seeded on this
+boundary ring. With $\hat{g}(\mathbf{r}) = \|\nabla\phi_K(\mathbf{r})\|
+/ \int \|\nabla\phi_K\|$ the normalized ring density and $M = \gamma\,
+\Delta\Gamma^D$ the seeded mass, the seeded density is
+$s(\mathbf{r}) = M\,\hat{g}(\mathbf{r})$.
+
+\paragraph{Which occupations can take them.}
+A new task at $\mathbf{r}$ requires a profile of capabilities, read from
+the projected skill and ability profiles of
+\textcite{storck2026geometry} evaluated at $\mathbf{r}$. An occupation
+can attach the task readily when it already holds those capabilities,
+and only with difficulty when the task requires a capability the
+occupation lacks. The relevant quantity is the deficit, the positive
+shortfall, not a symmetric distance:
+\begin{equation}
+  \delta_o(\mathbf{r})
+  \;=\;
+  \sum_k v_k \,\max\!\bigl(q_k(\mathbf{r}) - q_{o,k},\, 0\bigr),
+  \label{eq:deficit}
+\end{equation}
+where $q_k(\mathbf{r})$ is the level of capability cluster $k$ required
+at $\mathbf{r}$, $q_{o,k}$ is the occupation's level on cluster $k$, and
+$v_k$ is the weight of cluster $k$. Attaching tasks that use less of the
+occupation's capabilities is free. Attaching tasks that demand more, or
+a different kind, is costly.
+
+The weights $v_k$ are the cluster wage returns from the mediation
+analysis of \textcite{storck2026geometry}: large for the
+socio-cognitive skill cluster S1, small for the technical cluster S2,
+near zero for the ability clusters A1 and A2. A single set of weights
+does two jobs. It measures how expensive a capability is to acquire,
+and how much the market pays for it. New tasks attach freely only where
+the deficit is small, that is, where the priced capability content does
+not exceed what the occupation already holds. Reinstatement can
+therefore broaden a bundle but cannot lift its priced content. The wage
+cannot jump. A large jump would require a capability the occupation does
+not have, and that is not reinstatement within an occupation but the
+seed of a new one.
+
+In the one-dimensional framework, comparative advantage is a monotone
+schedule: labor is strongest in the highest-indexed tasks, and new
+tasks are added there by construction (Assumption~1 of
+\textcite{acemoglu2018race}). The deficit gate is the geometric
+counterpart. It does not posit a single direction in which labor is
+strong. It lets a new task attach where the occupation already holds
+the priced capability the task requires, wherever that lies on the
+disk.
+
+\paragraph{Attachment and allocation.}
+The occupation's readiness to attach a task at $\mathbf{r}$ is
+\begin{equation}
+  e_o(\mathbf{r}) \;=\; \exp\!\bigl(-\delta_o(\mathbf{r})/\ell\bigr),
+  \label{eq:readiness}
+\end{equation}
+between zero and one, where $\ell$ is a single global scale. The total
+attachment capacity at $\mathbf{r}$ is $C(\mathbf{r}) = \sum_o L_o\,
+e_o(\mathbf{r})$, the labor present weighted by its readiness. A
+saturating function $\Phi(C) = C/(1 + C)$ gives the bound fraction of
+the seeded mass. Occupation $o$ receives the reinstated density
+\begin{equation}
+  \iota_o(\mathbf{r})
+  \;=\;
+  s(\mathbf{r})\,\Phi(C(\mathbf{r}))\,
+  \frac{L_o\, e_o(\mathbf{r})}{C(\mathbf{r})},
+  \label{eq:reinstated}
+\end{equation}
+its share of the bound mass in proportion to its readiness.
+
+\paragraph{The bundle operator.}
+The post-technology bundle removes displaced weight and adds reinstated
+weight,
+\begin{equation}
+  b_o^{\text{post}}(\mathbf{r})
+  \;=\;
+  b_o(\mathbf{r})\,\bigl(1 - a(\mathbf{r})\bigr)
+  \;+\;
+  \frac{\iota_o(\mathbf{r})}{L_o}.
+  \label{eq:bundle-operator}
+\end{equation}
+The same field $\phi_K$ drives both terms. It deactivates through
+$a(\mathbf{r})$, high near the core, and seeds through
+$\hat{g}(\mathbf{r})$, high on the ring. The bundle is rewritten
+continuously as the technology intensifies. This is the geometric form
+of occupational redefinition \parencite{brynjolfsson2018mlworkforce}:
+the occupation does not vanish, its bundle is redrawn.
+
+\paragraph{Wages and the Turing trap.}
+The wage change is the price-weighted change in the bundle,
+\begin{equation}
+  \Delta w_o
+  \;=\;
+  \int \Pi(\mathbf{r})\,
+  \bigl[b_o^{\text{post}}(\mathbf{r}) - b_o(\mathbf{r})\bigr]\,
+  d\mathbf{r}
+  \;=\;
+  \int \Pi(\mathbf{r})\,
+  \Bigl[-b_o(\mathbf{r})\,a(\mathbf{r})
+  + \tfrac{\iota_o(\mathbf{r})}{L_o}\Bigr]\, d\mathbf{r}.
+  \label{eq:wage-change}
+\end{equation}
+The first term is negative and falls on high-$\Pi$ tasks; the second
+adds tasks that, by the deficit gate, are mostly low-$\Pi$. Default
+reinstatement therefore carries a downward wage bias: it strips priced
+work and refills with unpriced work. The sign of $\Delta w_o$ is the
+contest between where $a(\mathbf{r})$ removes weight and where
+$\iota_o$ adds it, read against the price gradient $\nabla\Pi$. In the
+directions where depth is priced, the strip falls on high-$\Pi$ tasks
+and the refill cannot replace them.
+
+\paragraph{Density.}
+Summing the bundle change over occupations gives the evolved task
+density,
+\begin{equation}
+  \rho_1(\mathbf{r}) - \rho_0(\mathbf{r})
+  \;=\;
+  -\sum_o L_o\, b_o(\mathbf{r})\, a(\mathbf{r})
+  \;+\;
+  \sum_o \iota_o(\mathbf{r})
+  \;+\;
+  u(\mathbf{r}),
+  \label{eq:rho-evolution}
+\end{equation}
+with $u(\mathbf{r})$ defined in Section~\ref{sec:unbound}. The added
+density integrates to $\gamma\,\Delta\Gamma^D$, so $\gamma$ keeps its
+interpretation as the fraction of displaced mass returned. Setting
+$\gamma = 0$ recovers pure automation; $\gamma = 1$ implies full
+reinstatement.
+
+\subsection{Unbound Tasks and Candidate Occupations}
+\label{sec:unbound}
+
+Not all seeded mass attaches. Where every occupation has a large
+deficit, $C(\mathbf{r})$ is small, $\Phi(C(\mathbf{r}))$ is near zero,
+and the seeded mass stays unbound:
+\begin{equation}
+  u(\mathbf{r})
+  \;=\;
+  s(\mathbf{r})\,\bigl[1 - \Phi(C(\mathbf{r}))\bigr].
+  \label{eq:unbound}
+\end{equation}
+$u$ is the density of new tasks that no existing occupation can perform.
+It is an output of the model, not an agent. The bound mass
+$\sum_o \iota_o$ and the unbound mass $u$ together integrate to the
+seeded $\gamma\,\Delta\Gamma^D$, so the closed-occupation accounting
+holds.
+
+The map of $u$ answers two distinct questions. Where unbound tasks are
+created is $u$ itself, the ring regions that are active but that no
+bundle can absorb. Where new occupations may emerge is where $u$
+concentrates, a connected region carrying enough mass to support an
+occupation, not merely a high value at a point. A diffuse $u$ along the
+ring is friction. A clump is a candidate.
+
+The price field tells the two apart. Unbound mass in a high-$\Pi$ region
+is latent skilled work awaiting a bearer, the kind of region from which
+qualified new occupations have historically grown. Unbound mass in a
+low-$\Pi$ region is work no occupation wants and no worker is paid well
+for, closer to precarious friction than to a new occupation. We color
+candidate regions by $\Pi$ and read opportunity against spillage. We do
+not instantiate new occupations: the model shows where one may appear,
+not that one does.
+
+The same deficit that gates attachment draws the boundary between two
+literatures. New tasks are absorbed by existing occupations where the
+priced deficit is small, which is redefinition in the sense of
+\textcite{brynjolfsson2018mlworkforce}. They remain unbound where the
+deficit is large for every occupation, which is the new work of
+\textcite{acemoglu2019automation} that no existing occupation owns. One
+operator decides which, through the deficit.
+
+\subsection{Employment and Mobility}
+\label{sec:equilibrium}
+
+The worker layer sets employment $L_o$ and closes the model. We solve it
+as a static spatial-sorting equilibrium and read the effect of a
+technology as the comparative static between two such equilibria, one
+with the original bundles and one with the bundles rewritten by
+\eqref{eq:bundle-operator}. A law of motion in time can be added on top
+of this rest point; we do not need it for a statement about the new
+equilibrium.
+
+\paragraph{Two factors share each place.}
+A location is produced by human and capital input as perfect
+substitutes, in the manner of \textcite{acemoglu2018race}. With density
+$n(\mathbf{r}) = \sum_o L_o\, b_o(\mathbf{r})$ from
+\eqref{eq:labor-density}, the human effective work at $\mathbf{r}$ is
+$n(\mathbf{r})(1 - a(\mathbf{r}))$ and the capital effective work is
+$n(\mathbf{r})\,a(\mathbf{r})$, so the total task-work is
+$n(\mathbf{r})$ regardless of the split. Output value is
+\begin{equation}
+  V(\mathbf{r})
+  \;=\;
+  \Pi(\mathbf{r})\, n(\mathbf{r})^{\beta},
+  \qquad \beta \in (0,1),
+  \label{eq:place-output}
+\end{equation}
+concave in task-work through the congestion exponent $\beta$, and
+unchanged by who performs the work. We hold the output value of a place
+fixed under the human-capital split. This keeps the framework partial:
+it carries no channel for goods prices or growth, which would require
+modeling the wider economy, and we leave that to future work.
+Congestion acts on $n$, the work present; the operated share $a$ enters
+separately, as the part of the work the human no longer performs. Because
+the bundle $b_o$ is normalized, a broad task radius spreads it thin and
+contributes little to $n(\mathbf{r})$, so a concentrated occupation
+presses harder on the places it occupies than a diffuse one does.
+
+\paragraph{Returns to the two factors.}
+Human and capital are paid the marginal product of task-work,
+$\beta\,\Pi(\mathbf{r})\, n(\mathbf{r})^{\beta-1}$. The return to a
+worker is that marginal product on the share she still performs,
+\begin{equation}
+  \rho(\mathbf{r})
+  \;=\;
+  \beta\,\Pi(\mathbf{r})\,\bigl(1 - a(\mathbf{r})\bigr)\,
+  n(\mathbf{r})^{\beta-1},
+  \label{eq:worker-return}
+\end{equation}
+falling with the takeover through $1-a$, falling with congestion
+through $n^{\beta-1}$, rising with the price. Capital earns
+$\beta\,\Pi(\mathbf{r})\,a(\mathbf{r})\,n(\mathbf{r})^{\beta-1}$ per
+location. Human and capital payments sum to $\beta V(\mathbf{r})$; the
+residual $(1-\beta)V(\mathbf{r})$ is the congestion rent to the fixed
+local factor.
+
+\paragraph{Occupation value and equilibrium.}
+A worker carries the whole bundle and earns the bundle-integrated
+return,
+\begin{equation}
+  W_o \;=\; \int b_o(\mathbf{r})\, \rho(\mathbf{r})\, d\mathbf{r},
+  \label{eq:occ-value}
+\end{equation}
+the marginal, congestion- and takeover-adjusted counterpart of the gross
+bundle price $w_o$ of \eqref{eq:wage-bundle}. Occupation values are
+coupled, because a location's density sums over every occupation that
+covers it, so occupations that overlap in task space press on one
+another's returns. Labor re-sorts from the pre-technology distribution
+$L_o^{0}$, drawn toward value and damped by bundle distance $d(o,o')$ in
+the sense of \textcite{storck2026mobility}. The allocation is a logit
+over value net of the mobility cost from origin,
+\begin{equation}
+  L_o
+  \;=\;
+  L^{\text{tot}}\,
+  \frac{L_o^{0}\,\exp\!\bigl((W_o - c\, d(o,o^{0}))/\kappa\bigr)}
+       {\sum_{o'} L_{o'}^{0}\,\exp\!\bigl((W_{o'} - c\, d(o',o^{0}))/\kappa\bigr)},
+  \label{eq:equilibrium}
+\end{equation}
+a fixed point because $W_o$ depends on $n(\mathbf{r})$, which depends on
+$\{L_o\}$. The distance term bites in a static solution because the
+re-sorting is measured from an origin, not from nowhere. Total labor is
+fixed at $L^{\text{tot}}$; letting it respond to aggregate value is a
+later extension.
+
+\paragraph{The labor share.}
+Total labor payment is
+$\int \beta\,\Pi(\mathbf{r})(1 - a(\mathbf{r}))\,n(\mathbf{r})^{\beta}\,
+d\mathbf{r}$ and total factor payment to human and capital is
+$\int \beta\,\Pi(\mathbf{r})\,n(\mathbf{r})^{\beta}\, d\mathbf{r}$, so
+the labor share of factor income is
+\begin{equation}
+  \Lambda
+  \;=\;
+  \frac{\int \Pi(\mathbf{r})\,\bigl(1 - a(\mathbf{r})\bigr)\,
+        n(\mathbf{r})^{\beta}\, d\mathbf{r}}
+       {\int \Pi(\mathbf{r})\, n(\mathbf{r})^{\beta}\, d\mathbf{r}}.
+  \label{eq:labor-share-two-factor}
+\end{equation}
+The congestion exponent $\beta$ cancels: it governs the spatial sort but
+not the share. The share is the price- and density-weighted mean of
+$1 - a(\mathbf{r})$. With no automation it is one; the field lowers it
+by raising $a$ where \eqref{eq:regime-shift} is crossed. Solving
+\eqref{eq:equilibrium} once with the original bundles and once with the
+rewritten bundles gives two equilibria, and the difference in $\Lambda$
+is the effect of the technology. The displacement of labor onto fewer
+tasks then appears not at the automated places, where $a$ is high and
+density falls, but at their destinations, where the re-sorting raises
+$n$ and congestion bites. The bunching of \textcite{acemoglu2018race} is
+recovered as an equilibrium effect of the sort rather than assumed
+locally, and whether the share falls hardest in priced or unpriced
+directions is decided by where $a$ rises against the price field.
+
+\subsection{Augmentation and the Character of the Technology}
+\label{sec:character}
+
+The augmenting part $(1 - s_K)\,\phi_K$ does not take the task. It lowers
+the labor the worker needs to produce it. The human labor requirement at
+$\mathbf{r}$ is scaled by
+\begin{equation}
+  \frac{1}{1 + (1 - s_K)\,\phi_K(\mathbf{r})},
+  \label{eq:aug-factor}
+\end{equation}
+so the worker covers the same output with less labor and the output of
+the location is unchanged. The labor this releases does not leave the
+model. It enters the mobile pool and re-sorts through the allocation
+\eqref{eq:equilibrium}, alongside the labor freed by replacement. Where
+it lands is set by occupation value and mobility cost, not by the
+location it left.
+
+The two parts differ in three ways. \emph{Completeness.} Replacement
+takes the whole priced contribution of the crossed micro-tasks, more of
+the bundle the higher $s_K$ is and sooner the lower $R$ is, because both
+widen the region where \eqref{eq:regime-shift} holds. Augmentation never
+takes the task; it scales the requirement by a bounded factor and leaves
+the work with the worker. \emph{Feedback.} Replacement is self-damping in
+its own direction: as priced mass passes to capital the location's
+average price falls, the threshold $R/\Pi$ rises, and further takeover
+slows, the brake of \textcite{acemoglu2018race} inherited through the
+price field. Augmentation has no such brake, because it moves no priced
+mass to capital and does not change $\Pi$. \emph{Destination.}
+Replacement seeds reinstatement on the gradient ring, so part of the
+displaced mass returns near where it was lost, gated by the deficit.
+Augmentation seeds nothing: reinstatement is a fraction of displaced
+mass, and the augmenting end displaces nothing, so $M = 0$ and
+$\iota_o = 0$ there. The freed labor only re-sorts, and its outcome is
+set entirely by the priced locations it can reach. The augmenting end is
+a statement about destinations.
+
+The main model takes $s_K$ near one, where capital replaces and
+reinstatement follows. The pure augmenting end $s_K = 0$ is the contrast:
+no takeover, no seeding, only labor freed and re-sorted.
+
+Two bounds on this treatment. The character $s_K$ is a scalar, uniform
+over the reach of the technology. A technology that replaces in one
+direction and assists in another is a direction-dependent character,
+$s_K(\mathbf{r})$ as a field, which we leave as an extension. The
+augmenting end is also where the model most strains its static closure:
+separating the labor present at a location from the labor it requires
+decouples congestion from output, which the worker layer of
+Section~\ref{sec:equilibrium} does not yet carry. We hold the main
+results at $s_K$ near one, where labor present and task-work coincide and
+the accounting below is exact, and develop the destination problem of
+freed labor in work that joins this framework to occupational mobility
+\parencite{storck2026mobility}.
+
+%% ============================================================
+\section{Calibration}
+\label{sec:calibration}
+%% ============================================================
+
+\todo{Kalibrering av teknologiparametrar mot empiriska
+exponeringsdata (Gmyrek et al. 2025). p\_K fixeras från G3-4-centroid,
+z\_K och A\_K kalibreras mot gradient-korrelation och operated task
+mass. Jämförelse med Paper 1 Case 2-parametrar. Lägg till kalibrering
+av attachment-skalan $\ell$ mot observerade centroidförskjutningar
+$\Delta\mu_o$ 2019--2024, och av prisfältets koefficienter $m_0$--$m_5$
+direkt från Paper 1. Notera att $\phi_K$ är en generell storhet och att
+Gmyrek bara är en realisering: SML-måttet i
+\textcite{brynjolfsson2018mlworkforce} ligger redan på task-nivå med
+O*NET-importance-vikter och kan tjäna som ett jämförande exponeringsmått
+vid sidan av Gmyrek, möjligt just för att talen är tillgängliga.}
+
+%% ============================================================
+\section{Illustrative Cases}
+\label{sec:cases}
+%% ============================================================
+
+\todo{Kondenserad version av Case 1 och Case 2 från Paper 1,
+med kalibrerade parametrar. Fokus på den spatiala tröskelmekanismen
+och känslighetsanalysen över z\_K. Lägg till en figur över $u(\mathbf{r})$,
+kartan över obundna uppgifter, färglagd med $\Pi$.}
+
+%% ============================================================
+\section{Empirical Analysis}
+\label{sec:empirics}
+%% ============================================================
+
+\todo{DiD-specifikation, event study, robusthetscheckar.
+Baserat på notebook 9-resultaten. Lägg eventuellt till testet av
+buntomritning: projicera $\Delta\mu_o$ på $\nabla\Pi$ och pröva mot
+observerade löneförändringar 2019--2024, samma 741 yrken.}
+
+%% ============================================================
+\section{Discussion}
+\label{sec:discuss}
+%% ============================================================
+
+The central mechanism is the directional pricing of work. Reinstatement
+is good for employment wherever it lands, because it returns task mass
+to labor. It is good for wages only where the price field rewards the
+work it returns. New tasks seeded into the analytical directions, where
+depth is priced, can raise both employment and the wage. The same new
+tasks seeded into the service and manual directions raise employment
+but not the wage, because depth is unpriced there. A reinstatement
+elasticity that looks protective in aggregate can therefore leave
+manual workers with more work and no more pay. This is a distributional
+statement that a one-dimensional model cannot make, because it has no
+direction in which to place the new work.
+
+Default automation and default reinstatement pull the wage in opposite
+directions, and the price field decides the contest. The first term of
+\eqref{eq:wage-change} strips the dear tasks, since the operated
+threshold \eqref{eq:regime-shift} is crossed first where $\Pi$ is high.
+The second term refills with tasks that the deficit gate admits, which
+are mostly cheap. Left to run, the process bleeds priced work and
+returns unpriced work, the bundle form of the Turing trap. The same
+price channel supplies its own brake. As a bundle loses priced mass to
+capital, its average price falls, which raises the threshold $R/\Pi$ for
+the work that remains and slows further takeover in that direction. This
+is the self-correction of \textcite{acemoglu2018race}, where a wave of
+automation lowers the effective cost of the labor that is left and
+discourages further automation, here inherited through the price field
+rather than assumed.
+
+The displacement falls within occupations, not between regions, because
+it lives on the interior margin $a(\mathbf{r})$ rather than on a
+boundary in space. A bundle spans a range of locations, and the
+operated share varies across them, so some of an occupation's own tasks
+cross the margin while others do not. This is why the occupation is the
+wrong unit and the task is the right one. The point has an empirical
+counterpart: the automatability of work varies more within occupations
+than between them \parencite{brynjolfsson2018mlworkforce}, which is the
+same statement as a bundle spanning a range of $\phi_K$. The within
+occupation margin is therefore not a modeling convenience but the level
+at which the displacement actually occurs.
+
+Exposure and incidence are distinct, and the model keeps them apart.
+The field $\phi_K$ is technical exposure, what capital can do at a
+location. The operated share $a(\mathbf{r})$ is economic incidence, what
+capital is paid to do there, set by exposure against price through
+\eqref{eq:regime-shift}. The two need not coincide. A weak correlation
+between exposure and wages does not weaken the trap, because the trap is
+a claim about where operation is profitable given exposure, not about
+where exposure happens to fall. Directed implementation concentrates on
+the work that is both exposed and dear
+\parencite{brynjolfsson2018mlworkforce}, which is exactly the high-$\Pi$
+high-$\phi_K$ region where \eqref{eq:regime-shift} is crossed first.
+Reading exposure alone would miss this; the price field is what turns
+exposure into incidence.
+
+The deficit gate is also the boundary between two outcomes that the
+debate often conflates. Where attachment capacity $C(\mathbf{r})$ is
+positive, the bundle is redrawn and the occupation is redefined. Where
+$C(\mathbf{r})$ collapses, the seeded mass stays unbound, and where it
+clusters it marks a candidate occupation that no existing bundle can
+hold. Redefinition and the birth of a new occupation are then the two
+sides of the same gate, separated by whether any occupation already
+holds the priced capability the new work requires.
+
+Several limitations bound these claims. The worker layer is closed as a
+static equilibrium, so the results are comparative statics between two
+rest points rather than a path in time: the adjustment dynamics and the
+response of total labor supply to aggregate value are left for later
+work. The output value of a place is held fixed under the
+human-capital split, which keeps the framework partial and carries no
+channel for goods prices or growth. New tasks enter as added weight on
+existing locations rather than as genuinely new points on the disk,
+which understates the possibility that automation opens directions the
+geometry does not yet contain. The cluster weights $v_k$ and the
+acquisition scale $\ell$ are identified from the cross-section and held
+fixed, and the wage test of the displacement channel, projecting the
+centroid shift $\Delta\mu_o$ on $\nabla\Pi$ against observed wage
+changes, is the sharpest available check on whether the takeover
+framing is right.
+
+\todo{Relatera till Autor \& Thompson (2025) när referensen
+verifierats; placera i stycket om riktningsberoende prissättning eller
+gränszonen.}
+
+%% ============================================================
+\printbibliography
+%% ============================================================
+
+\todo{Bibposter att lägga till och verifiera i references.bib:
+acemoglu2018race (Acemoglu \& Restrepo, ``The Race between Man and
+Machine: Implications of Technology for Growth, Factor Shares, and
+Employment'', American Economic Review 108(6):1488--1542, 2018,
+DOI 10.1257/aer.20160696 --- verifierad mot fulltext);
+brynjolfsson2018mlworkforce (Brynjolfsson, Mitchell \& Rock, ``What Can
+Machines Learn and What Does It Mean for Occupations and the Economy?'',
+AEA Papers and Proceedings 108:43--47, 2018, DOI 10.1257/pandp.20181019
+--- verifierad mot fulltext); brynjolfsson2022turing (Brynjolfsson,
+``The Turing Trap: The Promise \& Peril of Human-Like Artificial
+Intelligence'', Daedalus 2022 --- ej verifierad mot fulltext, kontrollera
+volym, nummer och sidor). Kontrollera även att storck2026geometry,
+gmyrek2025 och acemoglu2019automation redan finns. Kontrollera även
+nyckeln storck2026mobility, som arbetarlagret nu använder för
+buntavståndet $d(o,o')$: bekräfta att den pekar på Paper 2 om
+yrkesrörlighet och att nyckelnamnet stämmer.}
+
+\end{document}
