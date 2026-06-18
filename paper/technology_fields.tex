@@ -194,12 +194,22 @@ price of skill is a field over the disk, identified by
 \textcite{storck2026geometry} and carried here as the price of labor at
 each task location. What the field leaves unexplained is recorded in a
 measurement layer: a family-level wage wedge $\eta_g$, measured once on
-the cross-section, validated against institutional composition, and
-held fixed under technology shocks. The wedge is not part of the
-theory; simulations are reported with and without it
+the cross-section and held fixed under technology shocks. The wedge is
+not part of the theory; simulations are reported with and without it
 (Section~\ref{sec:calibration}).
 
-\subsection{The Price of Skill}
+The model's objects accordingly divide into three layers with
+different epistemic status. The \emph{theory} is two objects: the
+capability plane and the price functional
+(Section~\ref{sec:price}). The \emph{measurement} is their frozen
+coordinates: the plane coefficients, the components of the price
+functional, and the wage wedge, each estimated once on the
+cross-section and never free under shocks. The \emph{simulation} owns
+the free primitives: the technology ($p_K$, $z_K$, $A_K$, $s_K$) and
+the economy ($R$, $\tau$, $\gamma$, $\ell$, $\beta$, $c$, $\kappa$).
+A technology scenario varies the last list only.
+
+\subsection{The Capability Plane and the Price of Skill}
 \label{sec:price}
 
 \textcite{storck2026geometry} shows that the labor market does not
@@ -207,7 +217,51 @@ value position in task space isotropically. The return to radial depth
 is positive toward the analytical directions and absent toward the
 service and manual directions, and what the market prices is the
 socio-cognitive cluster of capabilities concentrated in the northern
-half. We summarize this as a price field $\Pi(\mathbf{r})$ over the
+half.
+
+These findings are not independent, and the model rests on the
+structure that unifies them. \textcite{storck2026geometry} establishes
+four regularities about how capabilities organize over the disk: the
+mean similarity of capability deviation profiles between occupations
+follows $a\cos\Delta\xi$; the distance of a profile from the mean
+profile grows with $\chi$ while its shape concentration does not; the
+wage return to $\chi$ has no isotropic component; and the directional
+return is a single first harmonic. One structure generates all four.
+We posit that the capability content of work is, to first order, a
+two-dimensional plane in capability space,
+\begin{equation}
+  v_o
+  \;=\;
+  \bar v \;+\; \chi_o\bigl(\cos\xi_o\, u_1 + \sin\xi_o\, u_2\bigr)
+  \;+\; \varepsilon_o,
+  \label{eq:capability-plane}
+\end{equation}
+where $v_o$ is the occupation's capability profile, $\bar v$ the mean
+profile, and $u_1 \perp u_2$ the two poles of the plane. The task disk
+is the polar map of this plane: $\chi$ is amplitude, $\xi$ is phase.
+Under the plane, the cosine law for deviation similarity is exact,
+with noise attenuating it to $a\cos\Delta\xi$ and more so for central
+pairs; the deviation magnitude is $\chi$ itself; the profile shape is
+free of $\chi$; and distance on the disk is, up to the common pole
+norm, distance in capability space. This is the structural postulate
+of the model. Every field the model carries over the disk,
+requirements and prices alike, inherits its functional form from it;
+higher-order structure is texture, measured and reported in
+Section~\ref{sec:calibration} but carried outside the theory.
+Section~\ref{sec:calibration} also tests the postulate directly: the
+leading two components hold roughly three quarters of the capability
+deviation variance, with a sharp gap to the third, and the leading
+score plane aligns with the disk coordinates.
+
+The market enters through one further primitive: capabilities are
+priced by a linear functional, so the log price of a unit of work is
+affine in the capability content of its location,
+$\ln \Pi(\mathbf{r}) = \kappa + \sum_k p_k\, q_k(\mathbf{r})$. Under
+the plane this implies that the depth return is a single first
+harmonic, $\chi\,(p \!\cdot\! u_1 \cos\xi + p \!\cdot\! u_2 \sin\xi)$,
+and that the isotropic depth term is zero; both are confirmed in the
+estimation (Section~\ref{sec:calibration}). We summarize the price of
+skill as a field $\Pi(\mathbf{r})$ over the
 disk, the price the market pays for a unit of work performed at task
 location $\mathbf{r} = (\xi, \chi)$. It is the reduced form of the
 directional wage equation of \textcite{storck2026geometry}, a
@@ -220,8 +274,12 @@ whose radial term is modulated by direction,
   \;+\; \chi\,\bigl(m_3 + m_4 \cos\xi + m_5 \sin\xi\bigr).
   \label{eq:price-field}
 \end{equation}
-The direction-modulated radial term is what makes depth rewarded in
-the north and unrewarded in the south. $\Pi$ is estimated once, on the
+The direction-modulated radial term is what the plane generates, and
+it is what makes depth rewarded in the north and unrewarded in the
+south. The level terms $m_1, m_2$ are measured structure outside the
+plane: the part of the wage that does not run through depth-built
+capabilities, retained in the reduced form and quantified as texture
+in Section~\ref{sec:calibration}. $\Pi$ is estimated once, on the
 cross-section of occupations, and treated as fixed structure here.
 Calling it a reduced form is precise: the coefficients are identified
 at occupational centroids, where wages are observed, while the model
@@ -409,24 +467,21 @@ boundary ring. With $\hat{g}(\mathbf{r}) = \|\nabla\phi_K(\mathbf{r})\|
 $s(\mathbf{r}) = M\,\hat{g}(\mathbf{r})$.
 
 \paragraph{Which occupations can take them.}
-A new task at $\mathbf{r}$ requires a profile of capabilities. We carry
-the requirement as four fields over the disk, one per capability
-cluster of \textcite{storck2026geometry}, of the same functional family
-as the price field: first-harmonic in direction, linear in depth,
+A new task at $\mathbf{r}$ requires a profile of capabilities. The
+requirement fields are not a modeling choice: under the postulate of
+Section~\ref{sec:price} they are the plane itself, read per capability
+cluster,
 \begin{equation}
   q_k(\xi, \chi)
   \;=\;
-  \alpha_{k,0} + \alpha_{k,1}\cos\xi + \alpha_{k,2}\sin\xi
-  \;+\; \chi\,\bigl(\alpha_{k,3} + \alpha_{k,4}\cos\xi
-  + \alpha_{k,5}\sin\xi\bigr),
+  \bar v_k \;+\; \chi\,\bigl(u_{1,k}\cos\xi + u_{2,k}\sin\xi\bigr),
   \label{eq:capability-field}
 \end{equation}
 for $k \in \{\mathrm{S1}, \mathrm{S2}, \mathrm{A1}, \mathrm{A2}\}$,
-fitted to occupation-level cluster intensities
-(Section~\ref{sec:calibration}). This is the minimal parametrization of
-the two regularities the geometry establishes: the direction $\xi$ sets
-which capabilities the work demands, and the level demanded rises with
-$\chi$. The fields read the requirement at a location from the
+with coefficients fitted once to occupation-level cluster intensities
+(Section~\ref{sec:calibration}); a measured variant that adds the
+level harmonics and an isotropic depth term is carried as a
+sensitivity. The fields read the requirement at a location from the
 capabilities of the occupations positioned there, a
 revealed-requirement assumption. An occupation
 can attach the task readily when it already holds those capabilities,
@@ -436,23 +491,31 @@ shortfall, not a symmetric distance:
 \begin{equation}
   \delta_o(\mathbf{r})
   \;=\;
-  \sum_k v_k \,\max\!\bigl(q_k(\mathbf{r}) - q_{o,k},\, 0\bigr),
+  \sum_{k \in \mathcal{K}} v_k \,\max\!\bigl(q_k(\mathbf{r}) - q_{o,k},\, 0\bigr),
   \label{eq:deficit}
 \end{equation}
 where $q_k(\mathbf{r})$ is the level of capability cluster $k$ required
-at $\mathbf{r}$, $q_{o,k}$ is the occupation's level on cluster $k$, and
-$v_k$ is the weight of cluster $k$. Attaching tasks that use less of the
+at $\mathbf{r}$, $q_{o,k}$ is the occupation's level on cluster $k$,
+$v_k$ is the weight of cluster $k$, and $\mathcal{K}$ is the set of
+priced clusters. Attaching tasks that use less of the
 occupation's capabilities is free. Attaching tasks that demand more, or
 a different kind, is costly.
 
-The weights $v_k$ are the cluster wage returns from the mediation
-analysis of \textcite{storck2026geometry}: large for the
+The weights are not free parameters: they are the components of the
+price functional of Section~\ref{sec:price}, $v_k = p_k$, measured by
+the mediation analysis of \textcite{storck2026geometry} and replicated
+on the frozen inputs (Section~\ref{sec:calibration}): large for the
 socio-cognitive skill cluster S1, small for the technical cluster S2,
-near zero for the ability clusters A1 and A2. They are measured there
-and held fixed here, inputs rather than free parameters
-(Section~\ref{sec:calibration}). A single set of weights
-does two jobs. It measures how expensive a capability is to acquire,
-and how much the market pays for it. New tasks attach freely only where
+not significant for the ability clusters A1 and A2. The restriction to
+priced clusters follows from the same identification, not from a
+significance convention: a capability the functional does not price
+lies in its kernel, and a shortfall in it is no economic barrier in
+the sense the operator formalizes; the sign restriction $v_k \geq 0$
+excludes carrying noise estimates as theory. Empirically
+$\mathcal{K} = \{\mathrm{S1}, \mathrm{S2}\}$; the all-cluster variant
+is a sensitivity. A single functional thus
+does two jobs. It prices the work a location demands,
+and it gates what a bundle can absorb. New tasks attach freely only where
 the deficit is small, that is, where the priced capability content does
 not exceed what the occupation already holds. Reinstatement can
 therefore broaden a bundle but cannot lift its priced content. The wage
@@ -690,7 +753,10 @@ $L_o^{0}$, drawn toward value and damped by the bundle distance
 $d(o,o') = \|\mu_o - \mu_{o'}\|$, the Euclidean distance between
 occupational centroids, which \textcite{storck2026geometry} ties to
 the transferability of human capital in the sense of
-\textcite{gathmann2010}. The allocation is a logit
+\textcite{gathmann2010}. Under the capability plane the metric is
+induced rather than chosen: with orthogonal poles of equal norm,
+distance on the disk is proportional to distance in capability space,
+so the damping measures the capability gap a mover must close. The allocation is a logit
 over value net of the mobility cost from origin,
 \begin{equation}
   L_o
@@ -790,21 +856,260 @@ the accounting below is exact, and develop the destination problem of
 freed labor in later work on occupational mobility.
 
 %% ============================================================
-\section{Calibration}
+\section{Empirical Implementation and Calibration}
 \label{sec:calibration}
 %% ============================================================
 
-\todo{Kalibrering av teknologiparametrar mot empiriska
-exponeringsdata (Gmyrek et al. 2025). p\_K fixeras från G3-4-centroid,
-z\_K och A\_K kalibreras mot gradient-korrelation och operated task
-mass. Jämförelse med Paper 1 Case 2-parametrar. Lägg till kalibrering
-av attachment-skalan $\ell$ mot observerade centroidförskjutningar
-$\Delta\mu_o$ 2019--2024, och av prisfältets koefficienter $m_0$--$m_5$
-direkt från Paper 1. Notera att $\phi_K$ är en generell storhet och att
-Gmyrek bara är en realisering: SML-måttet i
-\textcite{brynjolfsson2018mlworkforce} ligger redan på task-nivå med
-O*NET-importance-vikter och kan tjäna som ett jämförande exponeringsmått
-vid sidan av Gmyrek, möjligt just för att talen är tillgängliga.}
+This section measures the frozen structure of the model: the
+capability plane, the price field, the bundle pricing it implies, the
+components of the price functional, and the wage wedge. Every number
+reported here is the output of a script in the replication repository,
+and the inputs are frozen copies of the Paper~1 exports with recorded
+provenance. The technology parameters, the only objects a scenario is
+allowed to vary, are calibrated in
+Section~\ref{sec:tech-calibration}.
+
+\subsection{Data and frozen inputs}
+\label{sec:frozen}
+
+All inputs are vendored from a pinned commit of the
+\textcite{storck2026geometry} repository by a single freezing script,
+which is the model's only contact surface with the upstream project;
+every analysis script reads exclusively from the frozen copies, and a
+manifest records the source commit, the encoder run, and per-file
+hashes and derivation recipes. The frozen inputs are the occupation
+and task polar coordinates of the reference encoder run (878
+occupations; task coordinates and relevance ratings defining the
+bundles $b_o$), BLS OEWS May 2023 median hourly wages, the
+frequency-weighted mean required level of education per occupation,
+the capability cluster intensities $q_{o,k}$, and the
+occupation-by-descriptor matrices of raw levels for the 35 O*NET
+Skills and 52 Abilities. Merging coordinates with positive median
+wages and education reproduces the Paper~1 estimation sample of
+$N = 785$ occupations; the capability-side estimations, which do not
+require wages, use all 878.
+
+\subsection{The capability plane}
+\label{sec:plane-test}
+
+The postulate of Section~\ref{sec:price} is testable directly, and the
+test uses data that enter no step in the construction of the
+coordinates: the disk is built from task text alone, while the
+descriptor matrices record surveyed capability levels. For each
+descriptor family we compute the principal components of the
+deviations $v_o - \bar v$ and ask two questions: how much of the
+deviation variance lies in a two-dimensional structure, and whether
+that structure is the disk.
+
+The answers are, respectively, three quarters and yes to first order.
+For Skills, the leading two components hold 73.3 percent of the
+deviation variance (46.2 and 27.0), with a sharp gap to the third
+(5.7); for Abilities, 75.4 percent (62.7 and 12.7, against 5.8 for the
+third). The leading score plane aligns with the disk coordinates
+$(x, y) = (\chi\cos\xi, \chi\sin\xi)$ with canonical correlations
+$0.93$ and $0.72$ for Skills and $0.89$ and $0.56$ for Abilities; the
+disk coordinates are recovered from the scores with $R^2 = 0.85$ ($x$)
+and $0.55$ ($y$) for Skills, $0.64$ and $0.49$ for Abilities. The
+capability content of work is two-dimensional to first order, and the
+task disk is an imperfect but unmistakable polar map of that plane:
+the first canonical direction is nearly identified, the second is
+recovered more coarsely.
+
+The plane read per capability cluster gives the requirement fields of
+eq.~\eqref{eq:capability-field}, fitted by OLS on the 878 occupations
+(Table~\ref{tab:plane-coefficients}). The pole structure matches the
+compass of \textcite{storck2026geometry}: the socio-cognitive clusters
+S1 and A1 point northeast ($52^\circ$ and $54^\circ$), the technical
+cluster S2 northwest ($151^\circ$), the physical cluster A2 west
+($189^\circ$). The exact plane form, three parameters per cluster,
+fits nearly as well as the measured six-parameter variant: adding the
+level harmonics and the isotropic depth term raises $R^2$ by at most
+$0.009$ (Table~\ref{tab:plane-coefficients}, last column). The theory
+costs almost nothing relative to the unrestricted first-harmonic fit.
+
+\begin{table}[!htbp]
+\centering
+\caption{The capability plane read per cluster,
+eq.~\eqref{eq:capability-field}: OLS on $N = 878$ occupations, HC3
+standard errors in parentheses. Pole direction is
+$\operatorname{atan2}(u_{2,k}, u_{1,k})$, amplitude
+$\lVert(u_{1,k}, u_{2,k})\rVert$. $\Delta R^2$ is the gain from the
+measured variant (adding level harmonics and an isotropic depth
+term).}
+\label{tab:plane-coefficients}
+\begin{tabular}{lcccccc}
+\toprule
+Cluster & $\bar v_k$ & $u_{1,k}$ & $u_{2,k}$ & Pole & $R^2$ &
+$\Delta R^2$ (meas.) \\
+\midrule
+S1 & $2.682$ $(0.011)$ & $+1.094$ $(0.027)$ & $+1.421$ $(0.048)$ &
+$52^\circ$ & $0.737$ & $+0.001$ \\
+S2 & $1.366$ $(0.018)$ & $-2.219$ $(0.048)$ & $+1.228$ $(0.080)$ &
+$151^\circ$ & $0.686$ & $+0.008$ \\
+A1 & $3.198$ $(0.009)$ & $+0.952$ $(0.024)$ & $+1.309$ $(0.041)$ &
+$54^\circ$ & $0.748$ & $+0.000$ \\
+A2 & $1.573$ $(0.016)$ & $-1.539$ $(0.038)$ & $-0.244$ $(0.065)$ &
+$189^\circ$ & $0.571$ & $+0.009$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+What the plane does not generate is recorded in a texture ledger
+(Table~\ref{tab:texture}), with the same discipline as the wage wedge:
+measured once, carried outside the theory, switched on in
+sensitivity runs. The entries are the level harmonics of the price
+field (the eastward gradient $m_1 = +0.19$), the east--west level
+second harmonic of wages ($\pm 9$ percent at fixed $\chi$), the
+cluster-level gains of Table~\ref{tab:plane-coefficients}, and the
+second-harmonic remainders of the requirement fields, which are
+statistically detectable at $N = 878$ but add at most $0.030$
+($0.011$) of $R^2$ in level (interaction).
+
+\begin{table}[!htbp]
+\centering
+\caption{Texture ledger: measured structure outside the capability
+plane. Each entry is estimated once and held fixed; regime runs are
+reported with and without the texture-bearing variants.}
+\label{tab:texture}
+\begin{tabular}{lll}
+\toprule
+Texture & Magnitude & Where measured \\
+\midrule
+Wage level gradient (east) & $m_1 = +0.192$, dir.\ $25^\circ$ &
+price-field estimation \\
+Wage level 2nd harmonic & $\pm 9\%$ E--W at fixed $\chi$ &
+price-field estimation \\
+$q_k$ level harmonics + isotropic depth & $\Delta R^2 \leq 0.009$ &
+plane estimation \\
+$q_k$ 2nd harmonics (level; interaction) & $\Delta R^2 \leq 0.030$;
+$\leq 0.011$ & plane estimation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The price field}
+\label{sec:field-estimation}
+
+The coefficients of eq.~\eqref{eq:price-field} are estimated by OLS of
+log median hourly wage on the polar regressors over the $N = 785$
+sample, with HC3 standard errors. The estimation first replicates the
+geometry-only regression of \textcite{storck2026geometry} exactly
+($\cos\xi$ $+0.212$, $\sin\xi$ $+0.389$, $\chi$ $-0.046$,
+$R^2 = 0.492$), pinning the sample, and then adds the interaction
+terms. The estimated field is
+\begin{equation*}
+\ln \Pi =
+  \underset{(0.036)}{3.420}
+  + \underset{(0.048)}{0.192}\cos\xi
+  + \underset{(0.051)}{0.089}\sin\xi
+  + \chi \bigl(
+    \underset{(0.090)}{-0.065}
+    + \underset{(0.112)}{0.008}\cos\xi
+    + \underset{(0.134)}{0.891}\sin\xi
+  \bigr),
+\end{equation*}
+$R^2 = 0.523$. The two predictions of the plane-with-linear-pricing
+structure hold: the isotropic depth term is indistinguishable from
+zero ($m_3 = -0.065$, $p = 0.47$), and the depth return is a single
+first harmonic, peaking at $89.5^\circ$ with amplitude $0.891$ and
+positive for $\xi \in (3.6^\circ, 175.3^\circ)$. The balanced
+second-harmonic test leaves the interaction terms jointly
+insignificant conditional on the level terms ($p = 0.44$); the naive
+test that omits the level terms rejects spuriously, because
+$\chi\cos 2\xi$ is nearly collinear with $\cos 2\xi$ (correlation
+$0.93$). The second-order structure that exists is a level effect of
+about $\pm 9$ percent along the east--west axis ($\cos 2\xi$:
+$+0.089$, $p < 0.001$), entered in the texture
+ledger.\footnote{Since $m_4$ is indistinguishable from zero, the
+depth-priced core of the field is, in Cartesian coordinates,
+$\ln\Pi \approx m_0 + 0.89\,y$ plus the level terms: a single linear
+coordinate of the plane. We note this in passing; the model carries
+the full reduced form.} An employment-weighted estimation leaves the
+depth harmonic intact ($m_5 = +0.848$, $R^2 = 0.704$).
+
+\subsection{From centroids to bundles}
+\label{sec:bundle-validation}
+
+The reduced-form step of Section~\ref{sec:price} is from coefficients
+identified at occupational centroids to a field read at task
+locations, and eq.~\eqref{eq:wage-bundle} makes it testable: the model
+prices an occupation as its bundle, not as the field at its centroid.
+The bundle-integrated wage predicts observed log wages with
+$R^2 = 0.510$ against $0.523$ for the in-sample centroid evaluation
+(prediction $R^2$ without refitting; correlation $0.717$), and the
+Jensen gap $\ln w_{\text{bundle}} - \ln\Pi(\mu_o)$ is small (mean
+$+0.018$, sd $0.049$, range $-0.168$ to $+0.195$). Bundle dispersion
+matters little for pricing in the cross-section, which is what
+licenses estimating the field at centroids and operating it at tasks.
+
+The same step crosses the support boundary stated in
+Section~\ref{sec:price}: the field is identified on centroids with
+$\chi \leq 0.752$, while tasks extend to the rim. The extrapolated
+region carries on average $7.3$ percent of an occupation's bundle mass
+(median zero, maximum $66.7$ percent; $7.5$ percent of tasks
+unweighted). Its quantitative weight in pricing is negligible:
+clipping the field at the support boundary changes bundle log wages by
+$+0.0007$ on average (sd $0.0044$, maximum $0.038$) and moves the
+prediction $R^2$ from $0.5097$ to $0.5101$, while the extrapolated price
+at the northern rim exceeds the boundary value by $23$ percent. The
+model uses the extrapolated field, consistent with the task layer
+being defined to the rim; the clipped variant is a sensitivity.
+
+\subsection{The price functional and the gate weights}
+\label{sec:vk}
+
+The components $p_k$ of the price functional, which the deficit gate
+of eq.~\eqref{eq:deficit} uses as weights $v_k$, are measured by
+replicating the global mediation regression of
+\textcite{storck2026geometry} on the frozen inputs: log wage on the
+direction terms, $\chi$, mean required education, and the four cluster
+intensities ($N = 785$, HC3, $R^2 = 0.683$). The replication is exact
+against the published values: $\chi$ $-0.079$ ($p = 0.24$; published
+$-0.08$, $p = 0.24$), S1 $+0.328$ ($p < 0.001$; published $+0.33$), S2
+$+0.049$ ($p = 0.020$; published $+0.05$, $p = 0.02$), A1 $-0.030$ and
+A2 $+0.010$ (both insignificant). The direction terms are part of the
+replicated specification; the variant without them does not replicate.
+The gate accordingly runs on the priced clusters,
+$\mathcal{K} = \{\mathrm{S1}, \mathrm{S2}\}$ with $v = (0.328, 0.049)$,
+as derived in Section~\ref{sec:reinstatement}; the all-cluster variant
+is a sensitivity in the regime runs.
+
+\subsection{The wage wedge}
+\label{sec:wedge}
+
+The price field accounts for roughly half of the wage cross-section;
+the residual variance share is $0.477$, with weak but significant
+spatial autocorrelation (Moran's I $+0.080$, permutation
+$p = 0.001$). The residual is not capability structure in disguise:
+the four cluster intensities explain $9.7$ percent of it, while Job
+Family fixed effects explain $27.9$ percent ($33.4$ jointly with the
+intensities, for a total $R^2$ of $0.682$ against log wages). What
+remains above the field is mostly classification-level wage setting,
+which is precisely what the theory layer excludes and the measurement
+layer records. The occupation wedge is
+$\eta_o = \ln w_{\text{obs},o} - \ln w_{\text{bundle},o}$, and the
+family wedge $\eta_g$ is its unweighted family mean, ranging from
+$-0.261$ (Personal Care and Service) to $+0.372$ (Management) and
+absorbing $30.2$ percent of the occupation-level wedge variance
+(employment-weighted means correlate at $0.948$). The wedge is
+measured once on this cross-section and held fixed under technology
+shocks. It enters the operated regime, when switched on, through the
+effective price $\Pi_{\text{eff}} = e^{\eta_g}\,\Pi$, so that dearer
+families cross the takeover margin sooner; the regime runs of
+Section~\ref{sec:cases} are reported with and without it.
+
+\subsection{Technology calibration}
+\label{sec:tech-calibration}
+
+\todo{Kalibrering av teknologiparametrarna $(p_K, z_K, A_K, s_K)$ mot
+task-nivå-AI-exponering, och av attachment-skalan $\ell$ mot
+observerade centroidförskjutningar. Datakälla avgörs i steg D:
+kandidater som redan ligger på O*NET-tasknivå är Eloundou et al.\
+(2024) och SML \parencite{brynjolfsson2018mlworkforce}; Gmyrek et al.\
+(2025) kräver överföring från polska task-statements och prövas endast
+om de direkta källorna faller. Enheter: $R$ och $\Pi$ i USD per timme,
+$A_K$ dimensionslös effektivitet, $\tau$ marginbredd i samma enhet som
+$s_K\phi_K - R/\Pi$.}
 
 %% ============================================================
 \section{Illustrative Cases}
