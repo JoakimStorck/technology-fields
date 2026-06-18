@@ -189,10 +189,15 @@ and at which technology exposure is measured. Occupations enter as
 bundles of tasks, not as primitives.
 
 Wages are pinned by the price of skill and the task bundles alone, and
-the model carries no occupation-specific wage parameter. The price of
-skill is a field over the disk, identified by
+the theory layer carries no occupation-specific wage parameter. The
+price of skill is a field over the disk, identified by
 \textcite{storck2026geometry} and carried here as the price of labor at
-each task location.
+each task location. What the field leaves unexplained is recorded in a
+measurement layer: a family-level wage wedge $\eta_g$, measured once on
+the cross-section, validated against institutional composition, and
+held fixed under technology shocks. The wedge is not part of the
+theory; simulations are reported with and without it
+(Section~\ref{sec:calibration}).
 
 \subsection{The Price of Skill}
 \label{sec:price}
@@ -204,8 +209,9 @@ service and manual directions, and what the market prices is the
 socio-cognitive cluster of capabilities concentrated in the northern
 half. We summarize this as a price field $\Pi(\mathbf{r})$ over the
 disk, the price the market pays for a unit of work performed at task
-location $\mathbf{r} = (\xi, \chi)$. It is the wage field of
-\textcite{storck2026geometry}, a first-harmonic field on the circle
+location $\mathbf{r} = (\xi, \chi)$. It is the reduced form of the
+directional wage equation of \textcite{storck2026geometry}, a
+first-harmonic field on the circle
 whose radial term is modulated by direction,
 \begin{equation}
   \ln \Pi(\mathbf{r})
@@ -216,8 +222,24 @@ whose radial term is modulated by direction,
 \end{equation}
 The direction-modulated radial term is what makes depth rewarded in
 the north and unrewarded in the south. $\Pi$ is estimated once, on the
-cross-section of occupations, and treated as fixed structure here. It
-is the price of labor at a task location.
+cross-section of occupations, and treated as fixed structure here.
+Calling it a reduced form is precise: the coefficients are identified
+at occupational centroids, where wages are observed, while the model
+reads the field at task locations, where production happens. The step
+from the one to the other is testable, because the model prices an
+occupation as its bundle, eq.~\eqref{eq:wage-bundle} below, not as the
+field at its centroid; Section~\ref{sec:calibration} shows that the
+bundle-integrated wage reproduces observed wages as well as the
+centroid evaluation does, and quantifies the gap between the two.
+
+The field is identified on the occupational support, which extends to
+$\chi = 0.752$, the largest centroid radius in the estimation sample;
+tasks extend to $\chi = 1$. We treat \eqref{eq:price-field} as
+structure over the full disk, so evaluating it at peripheral task
+locations is a linear extrapolation in $\chi$ beyond the occupational
+support. The task layer is defined to the rim, and the field follows
+it; Section~\ref{sec:calibration} reports the quantitative weight of
+the extrapolated region.
 
 Productivity is isotropic. \textcite{storck2026geometry} does not
 find that workers are more productive in the north. It finds that the
@@ -235,7 +257,8 @@ tasks. What varies over the disk is how much labor is present and what
 that labor is paid.
 
 An occupation $o$ is a bundle: a weight measure $b_o(\mathbf{r})$ over
-task space, normalized to one, with the importance weights of
+task space, normalized to one, weighted by the O*NET task-relevance
+ratings, the same weights that define the occupational centroids in
 \textcite{storck2026geometry}. Its centroid
 $\mu_o = \int \mathbf{r}\, b_o(\mathbf{r})\, d\mathbf{r}$ is a summary
 of the bundle, not the object itself. The occupation's wage is the
@@ -386,9 +409,26 @@ boundary ring. With $\hat{g}(\mathbf{r}) = \|\nabla\phi_K(\mathbf{r})\|
 $s(\mathbf{r}) = M\,\hat{g}(\mathbf{r})$.
 
 \paragraph{Which occupations can take them.}
-A new task at $\mathbf{r}$ requires a profile of capabilities, read from
-the projected skill and ability profiles of
-\textcite{storck2026geometry} evaluated at $\mathbf{r}$. An occupation
+A new task at $\mathbf{r}$ requires a profile of capabilities. We carry
+the requirement as four fields over the disk, one per capability
+cluster of \textcite{storck2026geometry}, of the same functional family
+as the price field: first-harmonic in direction, linear in depth,
+\begin{equation}
+  q_k(\xi, \chi)
+  \;=\;
+  \alpha_{k,0} + \alpha_{k,1}\cos\xi + \alpha_{k,2}\sin\xi
+  \;+\; \chi\,\bigl(\alpha_{k,3} + \alpha_{k,4}\cos\xi
+  + \alpha_{k,5}\sin\xi\bigr),
+  \label{eq:capability-field}
+\end{equation}
+for $k \in \{\mathrm{S1}, \mathrm{S2}, \mathrm{A1}, \mathrm{A2}\}$,
+fitted to occupation-level cluster intensities
+(Section~\ref{sec:calibration}). This is the minimal parametrization of
+the two regularities the geometry establishes: the direction $\xi$ sets
+which capabilities the work demands, and the level demanded rises with
+$\chi$. The fields read the requirement at a location from the
+capabilities of the occupations positioned there, a
+revealed-requirement assumption. An occupation
 can attach the task readily when it already holds those capabilities,
 and only with difficulty when the task requires a capability the
 occupation lacks. The relevant quantity is the deficit, the positive
@@ -408,7 +448,9 @@ a different kind, is costly.
 The weights $v_k$ are the cluster wage returns from the mediation
 analysis of \textcite{storck2026geometry}: large for the
 socio-cognitive skill cluster S1, small for the technical cluster S2,
-near zero for the ability clusters A1 and A2. A single set of weights
+near zero for the ability clusters A1 and A2. They are measured there
+and held fixed here, inputs rather than free parameters
+(Section~\ref{sec:calibration}). A single set of weights
 does two jobs. It measures how expensive a capability is to acquire,
 and how much the market pays for it. New tasks attach freely only where
 the deficit is small, that is, where the priced capability content does
@@ -464,6 +506,24 @@ $\hat{g}(\mathbf{r})$, high on the ring. The bundle is rewritten
 continuously as the technology intensifies. This is the geometric form
 of occupational redefinition \parencite{brynjolfsson2018mlworkforce}:
 the occupation does not vanish, its bundle is redrawn.
+
+The operator does not preserve the bundle's mass. Integrating
+\eqref{eq:bundle-operator} gives
+$\int b_o^{\text{post}} = 1 - D_o + B_o/L_o$, where
+$B_o = \int \iota_o\, d\mathbf{r}$ is the seeded mass the occupation
+binds. We do not renormalize. Renormalization would assert that the
+freed time is spread proportionally over the remaining tasks, a
+behavioral claim that contradicts the fixed output value of a place
+(Section~\ref{sec:equilibrium}): there is no slack demand for
+additional human work at the retained locations. It would also
+double-count the model's actual channel for freed labor, the
+re-sorting of the worker layer. The mass deficit is that channel's
+input: $D_o - B_o/L_o$ is, per worker, exactly the labor the
+occupation releases to the worker layer. After the operator, the
+bundle is a measure of performed and paid content rather than a unit
+weight, and the wage \eqref{eq:wage-bundle} is the priced content of
+that measure, not an average over it; the two readings coincide only
+pre-technology.
 
 \paragraph{Wages and the Turing trap.}
 The wage change is the price-weighted change in the bundle,
@@ -562,12 +622,25 @@ equilibrium.
 
 \paragraph{Two factors share each place.}
 A location is produced by human and capital input as perfect
-substitutes, in the manner of \textcite{acemoglu2018race}. With density
-$n(\mathbf{r}) = \sum_o L_o\, b_o(\mathbf{r})$ from
-\eqref{eq:labor-density}, the human effective work at $\mathbf{r}$ is
-$n(\mathbf{r})(1 - a(\mathbf{r}))$ and the capital effective work is
-$n(\mathbf{r})\,a(\mathbf{r})$, so the total task-work is
-$n(\mathbf{r})$ regardless of the split. Output value is
+substitutes, in the manner of \textcite{acemoglu2018race}. The bundle
+operator splits each occupation's coverage of a place into a human
+part $h_o(\mathbf{r}) = b_o^{\text{post}}(\mathbf{r})$, the work the
+worker performs, and a capital part
+$k_o(\mathbf{r}) = b_o(\mathbf{r})\,a(\mathbf{r})$, the work capital
+bears. Total task-work at $\mathbf{r}$ is
+\begin{equation}
+  n(\mathbf{r})
+  \;=\;
+  \sum_o L_o\,\bigl(h_o(\mathbf{r}) + k_o(\mathbf{r})\bigr)
+  \;=\;
+  \sum_o L_o\, b_o(\mathbf{r}) \;+\; \sum_o \iota_o(\mathbf{r}),
+  \label{eq:taskwork-density}
+\end{equation}
+the pre-technology density \eqref{eq:labor-density} plus the bound
+seeded mass; unbound mass performs no work and does not enter. The
+operated share enters once, inside $h_o$; no further $(1 - a)$ factor
+is applied downstream. Pre-technology, $h_o = b_o$, $k_o = 0$, and
+$n$ reduces to \eqref{eq:labor-density}. Output value is
 \begin{equation}
   V(\mathbf{r})
   \;=\;
@@ -580,44 +653,44 @@ unchanged by who performs the work. We hold the output value of a place
 fixed under the human-capital split. This keeps the framework partial:
 it carries no channel for goods prices or growth, which would require
 modeling the wider economy, and we leave that to future work.
-Congestion acts on $n$, the work present; the operated share $a$ enters
-separately, as the part of the work the human no longer performs. Because
-the bundle $b_o$ is normalized, a broad task radius spreads it thin and
+Congestion acts on $n$, the total task-work present, regardless of
+which factor bears it; the takeover redistributes the work between
+$h_o$ and $k_o$ without changing their sum at a location. Because
+the pre-technology bundle $b_o$ is normalized, a broad task radius spreads it thin and
 contributes little to $n(\mathbf{r})$, so a concentrated occupation
 presses harder on the places it occupies than a diffuse one does.
 
 \paragraph{Returns to the two factors.}
 Human and capital are paid the marginal product of task-work,
-$\beta\,\Pi(\mathbf{r})\, n(\mathbf{r})^{\beta-1}$. The return to a
-worker is that marginal product on the share she still performs,
-\begin{equation}
-  \rho(\mathbf{r})
-  \;=\;
-  \beta\,\Pi(\mathbf{r})\,\bigl(1 - a(\mathbf{r})\bigr)\,
-  n(\mathbf{r})^{\beta-1},
-  \label{eq:worker-return}
-\end{equation}
-falling with the takeover through $1-a$, falling with congestion
-through $n^{\beta-1}$, rising with the price. Capital earns
-$\beta\,\Pi(\mathbf{r})\,a(\mathbf{r})\,n(\mathbf{r})^{\beta-1}$ per
-location. Human and capital payments sum to $\beta V(\mathbf{r})$; the
-residual $(1-\beta)V(\mathbf{r})$ is the congestion rent to the fixed
-local factor.
+$\beta\,\Pi(\mathbf{r})\, n(\mathbf{r})^{\beta-1}$, each on the part of
+the work it performs: the human side on
+$\sum_o L_o\, h_o(\mathbf{r})$, the capital side on
+$\sum_o L_o\, k_o(\mathbf{r})$. Their payments sum to
+$\beta V(\mathbf{r})$; the residual $(1-\beta)V(\mathbf{r})$ is the
+congestion rent to the fixed local factor.
 
 \paragraph{Occupation value and equilibrium.}
-A worker carries the whole bundle and earns the bundle-integrated
-return,
+A worker carries the whole bundle and earns the marginal product
+integrated over the content she performs,
 \begin{equation}
-  W_o \;=\; \int b_o(\mathbf{r})\, \rho(\mathbf{r})\, d\mathbf{r},
+  W_o
+  \;=\;
+  \beta \int h_o(\mathbf{r})\,\Pi(\mathbf{r})\,
+  n(\mathbf{r})^{\beta-1}\, d\mathbf{r},
   \label{eq:occ-value}
 \end{equation}
-the marginal, congestion- and takeover-adjusted counterpart of the gross
-bundle price $w_o$ of \eqref{eq:wage-bundle}. Occupation values are
+the congestion- and takeover-adjusted counterpart of the gross
+bundle price $w_o$ of \eqref{eq:wage-bundle}: the takeover enters
+through the stripped part of $h_o$, congestion through $n^{\beta-1}$,
+the price through $\Pi$. Occupation values are
 coupled, because a location's density sums over every occupation that
 covers it, so occupations that overlap in task space press on one
 another's returns. Labor re-sorts from the pre-technology distribution
-$L_o^{0}$, drawn toward value and damped by bundle distance $d(o,o')$ in
-the sense of \textcite{storck2026mobility}. The allocation is a logit
+$L_o^{0}$, drawn toward value and damped by the bundle distance
+$d(o,o') = \|\mu_o - \mu_{o'}\|$, the Euclidean distance between
+occupational centroids, which \textcite{storck2026geometry} ties to
+the transferability of human capital in the sense of
+\textcite{gathmann2010}. The allocation is a logit
 over value net of the mobility cost from origin,
 \begin{equation}
   L_o
@@ -634,23 +707,26 @@ fixed at $L^{\text{tot}}$; letting it respond to aggregate value is a
 later extension.
 
 \paragraph{The labor share.}
-Total labor payment is
-$\int \beta\,\Pi(\mathbf{r})(1 - a(\mathbf{r}))\,n(\mathbf{r})^{\beta}\,
+With $H(\mathbf{r}) = \sum_o L_o\, h_o(\mathbf{r})$ the human
+task-work, total labor payment is
+$\int \beta\,\Pi(\mathbf{r})\,H(\mathbf{r})\,n(\mathbf{r})^{\beta-1}\,
 d\mathbf{r}$ and total factor payment to human and capital is
 $\int \beta\,\Pi(\mathbf{r})\,n(\mathbf{r})^{\beta}\, d\mathbf{r}$, so
 the labor share of factor income is
 \begin{equation}
   \Lambda
   \;=\;
-  \frac{\int \Pi(\mathbf{r})\,\bigl(1 - a(\mathbf{r})\bigr)\,
-        n(\mathbf{r})^{\beta}\, d\mathbf{r}}
+  \frac{\int \Pi(\mathbf{r})\,H(\mathbf{r})\,
+        n(\mathbf{r})^{\beta-1}\, d\mathbf{r}}
        {\int \Pi(\mathbf{r})\, n(\mathbf{r})^{\beta}\, d\mathbf{r}}.
   \label{eq:labor-share-two-factor}
 \end{equation}
 The congestion exponent $\beta$ cancels: it governs the spatial sort but
-not the share. The share is the price- and density-weighted mean of
-$1 - a(\mathbf{r})$. With no automation it is one; the field lowers it
-by raising $a$ where \eqref{eq:regime-shift} is crossed. Solving
+not the share. The share is the price- and density-weighted mean of the
+human share $H(\mathbf{r})/n(\mathbf{r})$, which is one
+pre-technology; automation lowers it by raising $a$ where
+\eqref{eq:regime-shift} is crossed, and with no reinstatement it
+reduces to the mean of $1 - a(\mathbf{r})$. Solving
 \eqref{eq:equilibrium} once with the original bundles and once with the
 rewritten bundles gives two equilibria, and the difference in $\Lambda$
 is the effect of the technology. The displacement of labor onto fewer
@@ -711,8 +787,7 @@ decouples congestion from output, which the worker layer of
 Section~\ref{sec:equilibrium} does not yet carry. We hold the main
 results at $s_K$ near one, where labor present and task-work coincide and
 the accounting below is exact, and develop the destination problem of
-freed labor in work that joins this framework to occupational mobility
-\parencite{storck2026mobility}.
+freed labor in later work on occupational mobility.
 
 %% ============================================================
 \section{Calibration}
@@ -854,9 +929,12 @@ AEA Papers and Proceedings 108:43--47, 2018, DOI 10.1257/pandp.20181019
 ``The Turing Trap: The Promise \& Peril of Human-Like Artificial
 Intelligence'', Daedalus 2022 --- ej verifierad mot fulltext, kontrollera
 volym, nummer och sidor). Kontrollera även att storck2026geometry,
-gmyrek2025 och acemoglu2019automation redan finns. Kontrollera även
-nyckeln storck2026mobility, som arbetarlagret nu använder för
-buntavståndet $d(o,o')$: bekräfta att den pekar på Paper 2 om
-yrkesrörlighet och att nyckelnamnet stämmer.}
+gmyrek2025 och acemoglu2019automation redan finns. Nyckeln
+storck2026mobility används inte längre (beslut 2026-06-11: Paper 2
+citeras inte; buntavståndet $d(o,o')$ definieras självständigt via
+centroidavstånd med storck2026geometry). Lägg till och verifiera
+gathmann2010 (Gathmann \& Schönberg, ``How General Is Human Capital?
+A Task-Based Approach'', Journal of Labor Economics 28(1):1--49, 2010
+--- samma post som i Paper 1).}
 
 \end{document}

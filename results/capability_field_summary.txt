@@ -1,0 +1,98 @@
+Capability plane: estimation sample N = 878 (coordinates + intensities; wages not required)
+Mincer subsample for v_k: N = 785
+
+== Rank-2 test, Skills (35 descriptors, N = 878)
+   variance share of deviations: PC1 0.462, PC2 0.270, PC1+PC2 0.733 (PC3 0.057, PC4 0.039)
+   alignment of the leading score plane with the disk (x, y): canonical correlations 0.932, 0.723
+   R2(x ~ scores) = 0.854, R2(y ~ scores) = 0.551
+
+== Rank-2 test, Abilities (52 descriptors, N = 878)
+   variance share of deviations: PC1 0.627, PC2 0.127, PC1+PC2 0.754 (PC3 0.058, PC4 0.041)
+   alignment of the leading score plane with the disk (x, y): canonical correlations 0.885, 0.557
+   R2(x ~ scores) = 0.643, R2(y ~ scores) = 0.489
+
+== S1
+   Q_plane (theory, 3 params):  R2 = 0.7367
+      a0  (const    )  +2.6816  (se 0.0107, p 0.0000)
+      a4  (x        )  +1.0939  (se 0.0271, p 0.0000)
+      a5  (y        )  +1.4214  (se 0.0477, p 0.0000)
+      pole direction 52.4 deg, amplitude 1.794
+   Q1_field (measured, 6 params): R2 = 0.7379
+      a0  (const    )  +2.6359  (se 0.0326, p 0.0000)
+      a1  (cos_xi   )  +0.0273  (se 0.0414, p 0.5093)
+      a2  (sin_xi   )  +0.0376  (se 0.0536, p 0.4836)
+      a3  (chi      )  +0.1149  (se 0.0745, p 0.1231)
+      a4  (chi_cos  )  +1.0507  (se 0.0900, p 0.0000)
+      a5  (chi_sin  )  +1.3246  (se 0.1370, p 0.0000)
+   texture ledger (delta R2):
+      plane -> measured (level harmonics + isotropic depth): +0.0012
+      measured -> + level 2nd harmonic: +0.0073
+      + interaction 2nd harmonic: +0.0039   (balanced test p = 0.0007)
+
+== S2
+   Q_plane (theory, 3 params):  R2 = 0.6855
+      a0  (const    )  +1.3661  (se 0.0183, p 0.0000)
+      a4  (x        )  -2.2189  (se 0.0480, p 0.0000)
+      a5  (y        )  +1.2284  (se 0.0804, p 0.0000)
+      pole direction 151.0 deg, amplitude 2.536
+   Q1_field (measured, 6 params): R2 = 0.6940
+      a0  (const    )  +1.4158  (se 0.0590, p 0.0000)
+      a1  (cos_xi   )  -0.3086  (se 0.0760, p 0.0000)
+      a2  (sin_xi   )  +0.1220  (se 0.0934, p 0.1914)
+      a3  (chi      )  -0.0689  (se 0.1326, p 0.6033)
+      a4  (chi_cos  )  -1.5713  (se 0.1612, p 0.0000)
+      a5  (chi_sin  )  +0.9184  (se 0.2419, p 0.0001)
+   texture ledger (delta R2):
+      plane -> measured (level harmonics + isotropic depth): +0.0084
+      measured -> + level 2nd harmonic: +0.0296
+      + interaction 2nd harmonic: +0.0111   (balanced test p = 0.0000)
+
+== A1
+   Q_plane (theory, 3 params):  R2 = 0.7482
+      a0  (const    )  +3.1979  (se 0.0092, p 0.0000)
+      a4  (x        )  +0.9516  (se 0.0244, p 0.0000)
+      a5  (y        )  +1.3089  (se 0.0409, p 0.0000)
+      pole direction 54.0 deg, amplitude 1.618
+   Q1_field (measured, 6 params): R2 = 0.7486
+      a0  (const    )  +3.1714  (se 0.0269, p 0.0000)
+      a1  (cos_xi   )  +0.0113  (se 0.0365, p 0.7571)
+      a2  (sin_xi   )  +0.0130  (se 0.0422, p 0.7583)
+      a3  (chi      )  +0.0672  (se 0.0636, p 0.2908)
+      a4  (chi_cos  )  +0.9360  (se 0.0806, p 0.0000)
+      a5  (chi_sin  )  +1.2748  (se 0.1118, p 0.0000)
+   texture ledger (delta R2):
+      plane -> measured (level harmonics + isotropic depth): +0.0004
+      measured -> + level 2nd harmonic: +0.0072
+      + interaction 2nd harmonic: +0.0040   (balanced test p = 0.0005)
+
+== A2
+   Q_plane (theory, 3 params):  R2 = 0.5709
+      a0  (const    )  +1.5729  (se 0.0162, p 0.0000)
+      a4  (x        )  -1.5394  (se 0.0384, p 0.0000)
+      a5  (y        )  -0.2436  (se 0.0648, p 0.0002)
+      pole direction 189.0 deg, amplitude 1.559
+   Q1_field (measured, 6 params): R2 = 0.5803
+      a0  (const    )  +1.7400  (se 0.0504, p 0.0000)
+      a1  (cos_xi   )  -0.0690  (se 0.0708, p 0.3299)
+      a2  (sin_xi   )  -0.0725  (se 0.0749, p 0.3327)
+      a3  (chi      )  -0.4241  (se 0.1090, p 0.0001)
+      a4  (chi_cos  )  -1.4452  (se 0.1436, p 0.0000)
+      a5  (chi_sin  )  -0.0514  (se 0.1851, p 0.7812)
+   texture ledger (delta R2):
+      plane -> measured (level harmonics + isotropic depth): +0.0094
+      measured -> + level 2nd harmonic: +0.0231
+      + interaction 2nd harmonic: +0.0007   (balanced test p = 0.5544)
+
+== V_mediation: ln w ~ cos xi + sin xi + chi + rle_mean + S1 + S2 + A1 + A2 (N = 785, HC3)   R2 = 0.6826
+   Replication targets (Paper 1): chi -0.08 (p 0.24), S1 +0.33 (p < 0.001), S2 +0.05 (p 0.02), A1/A2 n.s.
+   const       +2.2468  (se 0.1211, p 0.0000)
+   cos_xi      -0.0135  (se 0.0266, p 0.6121)
+   sin_xi      +0.0986  (se 0.0235, p 0.0000)
+   chi         -0.0790  (se 0.0677, p 0.2433)
+   rle_mean    +0.0751  (se 0.0106, p 0.0000)
+   S1          +0.3280  (se 0.0649, p 0.0000)
+   S2          +0.0493  (se 0.0212, p 0.0200)
+   A1          -0.0299  (se 0.0775, p 0.6998)
+   A2          +0.0096  (se 0.0241, p 0.6901)
+   Gate weights (theory): priced clusters {S1, S2}; A1/A2 lie in the kernel of the price functional and do not gate.
+

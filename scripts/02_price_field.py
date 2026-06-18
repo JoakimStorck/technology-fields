@@ -109,6 +109,49 @@ def main() -> None:
     ]
     df.to_csv(RESULTS / "bundle_wage_validation.csv", index=False)
 
+    # ── (C) domain diagnostics: extrapolation beyond occupational
+    #        support (technology-free) ──────────────────────────────
+    # The field is identified on occupational centroids (chi <= chi_max);
+    # bundle pricing evaluates it at task locations, which extend to
+    # chi = 1. Quantify the extrapolated region and its weight in bundle
+    # wages. The model uses the extrapolated field (decision 2026-06-11:
+    # the task layer is defined to the rim); the clipped variant is a
+    # sensitivity, not the baseline.
+    chi_max = float(sample["chi"].max())
+    out_mass = (bundles.assign(out=bundles["chi"] > chi_max)
+                .groupby("onet_code")
+                .apply(lambda g: g.loc[g["out"], "b"].sum(),
+                       include_groups=False))
+    task_share_out = float((bundles["chi"] > chi_max).mean())
+
+    chi_clip = np.minimum(bundles["chi"].to_numpy(), chi_max)
+    pi_clip = field.pi(bundles["xi"].to_numpy(), chi_clip)
+    w_clip = (pd.Series(bundles["b"].to_numpy() * pi_clip,
+                        index=bundles["onet_code"].to_numpy())
+              .groupby(level=0).sum().rename("w_bundle_clip"))
+    df = df.merge(w_clip, left_on="onet_code", right_index=True, how="inner")
+    df["ln_w_bundle_clip"] = np.log(df["w_bundle_clip"])
+    d_ln = df["ln_w_bundle"] - df["ln_w_bundle_clip"]
+    r2_b_clip = r2(df["ln_wage"], df["ln_w_bundle_clip"])
+    pi_rim = float(field.pi(np.pi / 2, 1.0))
+    pi_edge = float(field.pi(np.pi / 2, chi_max))
+    lines += [
+        f"(C) Domain diagnostics: occupational support chi <= {chi_max:.4f}, "
+        "tasks to chi = 1",
+        f"  bundle mass beyond support: mean {out_mass.mean():.4f}, "
+        f"median {out_mass.median():.4f}, max {out_mass.max():.4f} per "
+        f"occupation; unweighted task share {task_share_out:.4f}",
+        f"  ln w_bundle (extrapolated) - ln w_bundle (clipped at chi_max): "
+        f"mean {d_ln.mean():+.4f}, sd {d_ln.std():.4f}, "
+        f"max {d_ln.max():+.4f}",
+        f"  R2(ln w_obs ~ ln w_bundle): extrapolated {r2_b:.4f}, "
+        f"clipped {r2_b_clip:.4f}",
+        f"  Pi(90 deg, chi): {pi_edge:.1f} at chi_max -> {pi_rim:.1f} "
+        f"at the rim (+{100 * (pi_rim / pi_edge - 1):.0f}%)",
+        "",
+    ]
+    df.to_csv(RESULTS / "bundle_wage_validation.csv", index=False)
+
     # ── (B) regime machinery demo ─────────────────────────────────
     t = DEMO_TECH
     lines += [

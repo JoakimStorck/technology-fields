@@ -25,6 +25,13 @@ Frozen inputs (data/):
                                            Paper 1, notebook 5 cell 18, from
                                            the cluster membership and overlay
                                            exports of the reference run)
+  occupation_skills_levels.csv             DERIVED: wide occupation x 35
+                                           Skills matrix of raw levels
+  occupation_abilities_levels.csv          DERIVED: wide occupation x 52
+                                           Abilities matrix of raw levels
+                                           (both pivoted from the overlay
+                                           long exports; inputs to the rank-2
+                                           test and capability-plane fit)
 
 Provenance is recorded in data/MANIFEST.json: source repository and commit,
 encoder run tag, per-file source path and SHA-256, and the derivation recipe
@@ -104,6 +111,19 @@ def derive_rle(ete_path: Path) -> pd.DataFrame:
             .rename(columns={"O*NET-SOC Code": "onet_code"}))
 
 
+def derive_descriptor_matrix(root: Path, rel: Path, col: str) -> pd.DataFrame:
+    """Wide occupation x descriptor matrix of raw levels ('value'),
+    pivoted from the overlay long export. One row per occupation,
+    one column per descriptor (35 Skills or 52 Abilities). Used by the
+    rank-2 test and the capability-plane estimation in
+    scripts/06_capability_fields.py."""
+    long_df = pd.read_csv(root / rel)
+    wide = (long_df.pivot(index="onet_code", columns=col, values="value")
+            .reset_index())
+    wide.columns.name = None
+    return wide
+
+
 def derive_cluster_intensity(root: Path) -> pd.DataFrame:
     """Mean descriptor level per occupation within each capability cluster
     (S1, S2, A1, A2), replicating Paper 1 notebook 5, cell 18: cluster_rank
@@ -179,6 +199,25 @@ def main() -> None:
                    "notebook 5, cell 18."),
     }
     print(f"derived occupation_cluster_intensity.csv ({len(ci)} occupations)")
+
+    for fname, rel, col, label in [
+        ("occupation_skills_levels.csv", SKILLS_LONG_REL, "skill", "Skills"),
+        ("occupation_abilities_levels.csv", ABILITIES_LONG_REL, "ability",
+         "Abilities"),
+    ]:
+        wide = derive_descriptor_matrix(root, rel, col)
+        wide.to_csv(DATA / fname, index=False)
+        entries[fname] = {
+            "source_path": str(rel),
+            "sha256_source": sha256(root / rel),
+            "derived": True,
+            "recipe": (f"Pivot of the {label} overlay long export to a wide "
+                       "occupation x descriptor matrix of raw levels "
+                       "('value'); one row per onet_code, one column per "
+                       "descriptor."),
+        }
+        print(f"derived {fname} ({wide.shape[0]} occupations x "
+              f"{wide.shape[1] - 1} descriptors)")
 
     manifest = {
         "frozen_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),

@@ -7,6 +7,12 @@ Price field Pi(r), coefficients from S1_field:
   R2(ln w_obs ~ ln w_bundle)       = 0.5097   (out-of-spec predictor; corr = 0.7167)
   Jensen gap ln w_bundle - ln Pi(mu): mean +0.0183, sd 0.0488, min -0.1682, max +0.1950
 
+(C) Domain diagnostics: occupational support chi <= 0.7523, tasks to chi = 1
+  bundle mass beyond support: mean 0.0733, median 0.0000, max 0.6674 per occupation; unweighted task share 0.0745
+  ln w_bundle (extrapolated) - ln w_bundle (clipped at chi_max): mean +0.0007, sd 0.0044, max +0.0377
+  R2(ln w_obs ~ ln w_bundle): extrapolated 0.5097, clipped 0.5101
+  Pi(90 deg, chi): 62.2 at chi_max -> 76.3 at the rim (+23%)
+
 (B) Regime demo - ILLUSTRATIVE technology (not calibrated):
   center (xi, chi) = (75 deg, 0.45), z_K = 0.35, A_K = 1.0, s_K = 1.0, R = 18.0, tau = 0.08
   price ordering within phi-bands: median Spearman rho(a, Pi) = 0.994 (min 0.653) - capital moves first against the dear work

@@ -1,7 +1,7 @@
 {
-  "frozen_utc": "2026-06-10T21:03:26+00:00",
+  "frozen_utc": "2026-06-11T20:57:04+00:00",
   "source_repository": "https://github.com/JoakimStorck/geometry-of-work",
-  "source_commit": "9238102bdfb46ab473c0e7c2a065052c5cc5b70f",
+  "source_commit": "28ed126d94da9f8bb5011b993e06b922d8e9c17f",
   "encoder_run_tag": "embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1",
   "files": {
     "occupation_embeddings_polar_scaled.csv": {
@@ -38,6 +38,18 @@
       ],
       "derived": true,
       "recipe": "Per occupation, mean raw descriptor 'value' within each capability cluster S1/S2/A1/A2; clusters from gradient_compass_clusters_membership (cluster_rank 1/2, prefix S=skills, A=abilities). Replicates Paper 1 notebook 5, cell 18."
+    },
+    "occupation_skills_levels.csv": {
+      "source_path": "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/skills_overlay_long.csv",
+      "sha256_source": "954da8849cde9fd0b5eac8379dc734bd6985f28eb9e75fa5a2a6136f5e7ddb79",
+      "derived": true,
+      "recipe": "Pivot of the Skills overlay long export to a wide occupation x descriptor matrix of raw levels ('value'); one row per onet_code, one column per descriptor."
+    },
+    "occupation_abilities_levels.csv": {
+      "source_path": "out/runs/embeddings__openai__text-embedding-3-large__d3072__year-2025__v30_1/exports/abilities_overlay_long.csv",
+      "sha256_source": "f2ffe934b45c3232b0fa7927efe7a205bf781dc0d21ae11b710612e97956e144",
+      "derived": true,
+      "recipe": "Pivot of the Abilities overlay long export to a wide occupation x descriptor matrix of raw levels ('value'); one row per onet_code, one column per descriptor."
     }
   }
 }
