@@ -1,0 +1,34 @@
+Technology calibration: phi_K(r) against the AI exposure surface phi(r)
+  exposure source: Eloundou et al. (2024) beta, frozen in onet_task_exposure.csv
+  tasks joined on Task ID: 17549 of 17606 (99.7%)
+  phi: mean 0.345, sd 0.351, min 0.000, max 1.000
+  z_K is reach as a fraction of center-to-rim distance (rim chi = 1); occupational support reaches chi = 0.7523
+
+PRIMARY (unweighted task-LS) -- calibrates the technology's form:
+  center xi_K = 38.4 deg, chi_K = 0.4633  (p_K = (+0.3632, +0.2876))
+  reach z_K = 0.5825   amplitude A_K = 0.6032
+  R2 vs task-level beta: unweighted 0.2460, employment-weighted 0.2336
+
+SENSITIVITY (employment-weighted, L_o*b coverage 96.8% of tasks):
+  center xi_K = 39.4 deg, chi_K = 0.4175   z_K = 0.5776   A_K = 0.5999
+  shift from primary: d(xi_K) = +1.1 deg, d(chi_K) = -0.0458, d(z_K) = -0.0050
+  (employment weight pulls the center inward toward large office occupations, as expected; the shift is small, so task density does
+   not dominate the unweighted fit.)
+
+(i) Identification of A_K (amplitude-width degeneracy check):
+  fitted center chi_K = 0.4633 lies INSIDE the occupied disk (support chi_max = 0.7523, task rim = 1.0):
+      the peak is observed, not on an extrapolated flank, so A_K and z_K are jointly identified.
+  exposure near the center (|r - p_K| < 0.12): n = 604, mean beta 0.522, max 1.000 (A_K = 0.603 tracks the local mean, below the spiky max).
+  Gauss-Newton normal matrix J^T J eigenvalues (px, py, z_K, A_K): [  424.9  1762.5  2265.6 12773.2]
+  condition number 30.1 (well-conditioned, no ridge); corr(z_K, A_K) = -0.298 (mild, not degenerate).
+
+(ii) How well one isotropic Gaussian captures the surface (polar grid 16 x 10, 152 non-empty cells):
+  task-level R2                    0.2460
+  surface R2 (vs binned E[beta|r]) 0.8174
+  between-cell share eta^2         0.2981   (smoothable ceiling at this grid)
+  within-cell share                0.7019   (irreducible: Eloundou E0-E3 ratings clump at 0 / 0.5 / 1)
+  Gaussian share of smoothable var 0.8252   (= task R2 / eta^2)
+  Reading: the modest task-level R2 is a property of the discrete rating scale, not a failure of the field form. One isotropic
+  Gaussian reproduces ~82% of the smoothable structure in the AI exposure surface. Directional and higher-order structure the
+  isotropic field misses is texture; a richer phi_K is an extension, not a repair here.
+

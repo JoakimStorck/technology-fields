@@ -226,7 +226,16 @@ def main() -> None:
         "encoder_run_tag": RUN_TAG,
         "files": entries,
     }
-    (DATA / "MANIFEST.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    # External inputs (e.g. the Eloundou exposure file, recorded by script 08)
+    # have a different provenance kind from the Paper 1 freeze and live in a
+    # separate top-level block. Carry any existing block forward so re-freezing
+    # the Paper 1 inputs does not erase it.
+    manifest_path = DATA / "MANIFEST.json"
+    if manifest_path.exists():
+        prior = json.loads(manifest_path.read_text())
+        if "external_inputs" in prior:
+            manifest["external_inputs"] = prior["external_inputs"]
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"manifest data/MANIFEST.json (source commit "
           f"{manifest['source_commit'][:12]})")
 

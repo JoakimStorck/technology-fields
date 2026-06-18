@@ -51,5 +51,18 @@
       "derived": true,
       "recipe": "Pivot of the Abilities overlay long export to a wide occupation x descriptor matrix of raw levels ('value'); one row per onet_code, one column per descriptor."
     }
+  },
+  "external_inputs": {
+    "onet_task_exposure.csv": {
+      "recorded_utc": "2026-06-18T22:56:25+00:00",
+      "source": "Eloundou, Manning, Mishkin & Rock (2024), \"GPTs are GPTs: Labor market impact potential of LLMs\", Science 384(6702):1306-1308",
+      "source_repository": "https://github.com/openai/GPTs-are-GPTs",
+      "source_file": "full_labelset.tsv",
+      "measure": "phi = beta = E1 + 0.5*E2 (continuous LLM exposure in [0,1])",
+      "derived": true,
+      "recipe": "Read full_labelset.tsv, select column 'beta', one row per O*NET Task ID; written by scripts/07_build_exposure.py. Joined to the geometry on numeric Task ID downstream (17549/17606 tasks, 99.7%).",
+      "sha256_source": "094378905e1f3349e50a9a83dc69643a2ef227954d611c8316a46da08cb3d8de",
+      "sha256_frozen": "ae7d790a3db9789374a1b12fe7321b91e5ce5273830f12455ec9091618732740"
+    }
   }
 }
