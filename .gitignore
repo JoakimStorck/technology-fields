@@ -21,3 +21,11 @@ venv/
 # NOTE deliberate policy: data/ (frozen inputs + MANIFEST.json) and
 # results/ (small deterministic estimation outputs) ARE tracked.
 scratch/
+
+# Secrets
+.env
+.env.*
+
+# Exposure embedding cache (large, machine-local; from the retired evaluator)
+data/_exposure_cache/
+
