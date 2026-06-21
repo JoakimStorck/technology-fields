@@ -63,6 +63,39 @@
       "recipe": "Read full_labelset.tsv, select column 'beta', one row per O*NET Task ID; written by scripts/07_build_exposure.py. Joined to the geometry on numeric Task ID downstream (17549/17606 tasks, 99.7%).",
       "sha256_source": "094378905e1f3349e50a9a83dc69643a2ef227954d611c8316a46da08cb3d8de",
       "sha256_frozen": "ae7d790a3db9789374a1b12fe7321b91e5ce5273830f12455ec9091618732740"
+    },
+    "national_M2019_dl.xlsx": {
+      "recorded_utc": "2026-06-21T16:07:31+00:00",
+      "source": "U.S. Bureau of Labor Statistics, Occupational Employment and Wage Statistics (OEWS), May 2019 national estimates",
+      "source_url": "https://www.bls.gov/oes/tables.htm",
+      "source_file": "national_M2019_dl.xlsx",
+      "release": "May 2019",
+      "soc_system": "2018 SOC",
+      "derived": false,
+      "sha256_source": "e49bae66ebe30db52125c3afe850e6a7a159bcdb97644c16fd7936e18c14c787",
+      "note": "Origin year for the centroid-shift test (script 11). Header row uses LOWERCASE column names (occ_code, o_group, h_median) unlike the 2024/2025 vintages; normalise on read. 789 detailed SOC, 723 with numeric H_MEDIAN."
+    },
+    "national_M2024_dl.xlsx": {
+      "recorded_utc": "2026-06-21T16:07:31+00:00",
+      "source": "U.S. Bureau of Labor Statistics, Occupational Employment and Wage Statistics (OEWS), May 2024 national estimates",
+      "source_url": "https://www.bls.gov/oes/tables.htm",
+      "source_file": "national_M2024_dl.xlsx",
+      "release": "May 2024",
+      "soc_system": "2018 SOC",
+      "derived": false,
+      "sha256_source": "a9bad3093703e28d7490cedb765b6730f4eaa4b37a7c8f68e866814167761f11",
+      "note": "Robustness vintage. UPPERCASE headers. 831 detailed SOC, 755 with numeric H_MEDIAN; 695 detailed SOC carry numeric H_MEDIAN in both 2019 and 2024."
+    },
+    "national_M2025_dl.xlsx": {
+      "recorded_utc": "2026-06-21T16:07:31+00:00",
+      "source": "U.S. Bureau of Labor Statistics, Occupational Employment and Wage Statistics (OEWS), May 2025 national estimates",
+      "source_url": "https://www.bls.gov/oes/tables.htm",
+      "source_file": "national_M2025_dl.xlsx",
+      "release": "May 2025",
+      "soc_system": "2018 SOC",
+      "derived": false,
+      "sha256_source": "852250997ceff9b721ff68f63e877d818f9c1ec8b1b69dd367958faedd5282b2",
+      "note": "Primary endpoint for the 2019->2025 centroid-shift test (latest available vintage). UPPERCASE headers. 830 detailed SOC, 772 with numeric H_MEDIAN; 695 detailed SOC carry numeric H_MEDIAN in both 2019 and 2025."
     }
   }
 }
