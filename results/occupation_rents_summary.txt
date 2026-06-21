@@ -1,0 +1,14 @@
+Occupation-level rents and AR (w32536) Prop 4: within-group compression.
+
+Robustness of the rent measure (CAP_TOP_FRAC=0):
+control         wageR2  eta_sd  wf_sd  corr(D,eta)  corr(dlnw,eta)     sd0->sd1  %compress
+price            0.565   0.298  0.249       +0.438          -0.808 0.285->0.237        86%
+capabilities     0.656   0.265  0.223       +0.454          -0.772 0.285->0.251        82%
+cap+position     0.671   0.259  0.222       +0.438          -0.797 0.285->0.252        82%
+
+[default='capabilities', hook (no cap)]  n=22 families, wage R^2=0.656
+   within-family corr(D,eta)=+0.454  corr(dlnw,eta)=-0.772  sd 0.285->0.251 (82% compress)
+   profile dlnw by within-group wage percentile: +0.018 +0.017 +0.001 -0.005 -0.005 -0.050 -0.059 -0.126
+[default='capabilities', U (top 5% non-automatable)]  n=22 families, wage R^2=0.656
+   within-family corr(D,eta)=+0.262  corr(dlnw,eta)=-0.670  sd 0.285->0.269 (77% compress)
+   profile dlnw by within-group wage percentile: +0.018 +0.017 +0.001 -0.005 -0.002 -0.024 -0.039 -0.058

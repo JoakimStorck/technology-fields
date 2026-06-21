@@ -40,7 +40,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from .regime import RegimeInputs, _ring_density, _readiness
+from .regime import RegimeInputs, _ring_density, _readiness, _fit, NMIN
 
 
 @dataclass
@@ -61,7 +61,8 @@ class Equilibrium:
     def __init__(self, inp: RegimeInputs, tech, R: float, tau: float,
                  gamma: float, ell: float, beta: float,
                  wedge: np.ndarray | None = None,
-                 eta: float = 1.0, survival: bool = False):
+                 eta: float = 1.0, survival: bool = False,
+                 rho: float = 0.5, lam_over: float = 1.0):
         # eta: demand elasticity. Competitive pricing passes the automation cost
         #   saving to consumers; isoelastic demand scales place revenue by the
         #   multiplier D(r) = (c(r)/Pi)^(1-eta) on the price field, where the unit
@@ -103,7 +104,7 @@ class Equilibrium:
         self.area = grid.area
         self.pi_cell = field.pi(grid.xi, grid.chi)
         self.g_hat = _ring_density(tech, grid)                  # ring shape
-        self.e = _readiness(inp, ell)                           # (n_occ, n_cells)
+        self.e = _fit(inp, ell, rho, lam_over)                  # (n_occ, n_cells)
         self.cell_of = _cell_index(grid, self.b_xi, self.b_chi)
 
         # field-level operated share a(r) on the grid (no occupation wedge):
@@ -149,7 +150,7 @@ class Equilibrium:
         n = n0 + iota_tot
 
         with np.errstate(divide="ignore", invalid="ignore"):
-            nb1 = np.where(n > 0, n ** (beta - 1.0), 0.0)
+            nb1 = np.maximum(n, NMIN) ** (beta - 1.0)
         # W_o strip: beta sum_t b(1-a) D(task) Pi n^{beta-1}
         strip_val = beta * np.bincount(
             self.row_of, weights=self.strip_wD * nb1[self.cell_of],
@@ -220,7 +221,7 @@ class Equilibrium:
                                  minlength=self.area.size) / self.area)
         H = (n0 - La_binned) + iota_tot
         with np.errstate(divide="ignore", invalid="ignore"):
-            nb1 = np.where(n > 0, n ** (beta - 1.0), 0.0)
+            nb1 = np.maximum(n, NMIN) ** (beta - 1.0)
         w = self.D_grid * self.pi_cell
         num = float(np.sum(w * H * nb1 * self.area))
         den = float(np.sum(w * (n ** beta) * self.area))

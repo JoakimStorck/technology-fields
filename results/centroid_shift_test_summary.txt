@@ -1,0 +1,14 @@
+Centroid-shift consistency test (NON-CAUSAL directional check).
+  calibrated AI field; operator at baseline L0; gamma 0.5, ell 0.1330
+  validation vs regime(): max|dD_o| 0.0e+00, max|dB_o| 0.0e+00
+  model occupations 849; with OEWS 2019&2025 wage 725 (640 unique SOC)
+  proj<0 share 96.1% (field pushes bundles down-gradient); median proj -0.0455
+  overall mean dlnw 2019->2025 +0.2246 (nominal; differenced out by the rank correlation)
+
+Predicted directional pressure vs observed wage change 2019->2025:
+  [occupation level: proj vs dlnw]  N=725  Spearman +0.340 (p=4.3e-21)  Pearson +0.208 (p=1.5e-08)
+  [occupation level: dW_bundle vs dlnw]  N=725  Spearman +0.424 (p=4.6e-33)  Pearson +0.323 (p=4.4e-19)
+  [SOC level (emp-wtd proj) vs dlnw]  N=640  Spearman +0.351 (p=5.5e-20)  Pearson +0.212 (p=5.9e-08)
+
+Robustness endpoint 2019->2024:
+  [SOC level (emp-wtd proj) vs dlnw]  N=640  Spearman +0.391 (p=8.0e-25)  Pearson +0.240 (p=7.3e-10)

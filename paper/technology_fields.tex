@@ -189,7 +189,7 @@ The value of this representation can be shown through its ability to illustrate 
 The routine-task automation studied by \textcite{autor2003} targeted occupations near the Technical-Physical pole, contributing to the secular decline of middle-wage manufacturing employment \parencite{acemoglu2020, graetz2018, devries2020}. 
 Generative AI capabilities \parencite{hampole2025, eloundou2024} extend into parts of the Social-Cognitive region previously considered safe, raising concerns about the exposure of college-educated work. 
 Each technology can be characterized by the region of the task space it affects, and each occupation by its position relative to that region. 
-This is a question the geometry is built to address but that a partitioned or one-dimensional model cannot express.
+This is a question the geometry is built to address but that a partitioned or one-dimensional model cannot express. The market does not price this space evenly: the return to depth is directional, rewarded toward the socio-cognitive north and absent toward the service and manual south (Figures~\ref{fig:price-field} and~\ref{fig:sectoral-beta}), a structure carried here from \textcite{storck2026geometry}.
 
 \begin{figure}[!htbp]
 \centering
@@ -992,6 +992,10 @@ direction and assists in another is a direction-dependent character
 $s_K(\mathbf{r})$, which we leave as an extension.
 
 %% ============================================================
+% DRAFT placement (move/demote to \subsection as preferred):
+\input{price_microfoundation_section}
+
+%% ============================================================
 \section{Empirical Implementation and Calibration}
 \label{sec:calibration}
 %% ============================================================
@@ -1184,7 +1188,8 @@ locations, and eq.~\eqref{eq:wage-bundle} makes it testable: the model
 prices an occupation as its bundle, not as the field at its centroid.
 The bundle-integrated wage predicts observed log wages with
 $R^2 = 0.510$ against $0.523$ for the in-sample centroid evaluation
-(prediction $R^2$ without refitting; correlation $0.717$), and the
+(prediction $R^2$ without refitting; correlation $0.717$;
+Figure~\ref{fig:field-wages}), and the
 Jensen gap $\ln w_{\text{bundle}} - \ln\Pi(\mu_o)$ is small (mean
 $+0.018$, sd $0.049$, range $-0.168$ to $+0.195$). Bundle dispersion
 matters little for pricing in the cross-section, which is what
@@ -1240,7 +1245,7 @@ runs are reported with and without it.}
 The price field accounts for roughly half of the wage cross-section;
 the residual variance share is $0.477$, with weak but significant
 spatial autocorrelation (Moran's I $+0.080$, permutation
-$p = 0.001$). The residual is not capability structure in disguise:
+$p = 0.001$; Figure~\ref{fig:correlogram}). The residual is not capability structure in disguise:
 the four cluster intensities explain $9.7$ percent of it, while Job
 Family fixed effects explain $27.9$ percent ($33.4$ jointly with the
 intensities, for a total $R^2$ of $0.682$ against log wages). What
@@ -1251,7 +1256,8 @@ $\eta_o = \ln w_{\text{obs},o} - \ln w_{\text{bundle},o}$, and the
 family wedge $\eta_g$ is its unweighted family mean, ranging from
 $-0.261$ (Personal Care and Service) to $+0.372$ (Management) and
 absorbing $30.2$ percent of the occupation-level wedge variance
-(employment-weighted means correlate at $0.948$). The wedge is
+(employment-weighted means correlate at $0.948$;
+Figure~\ref{fig:family-wedge}). The wedge is
 measured once on this cross-section and held fixed under technology
 shocks. It enters the operated regime, when switched on, through the
 effective price $\Pi_{\text{eff}} = e^{\eta_g}\,\Pi$, so that dearer
@@ -1431,13 +1437,15 @@ term, and we observe but do not establish that it is a contraction over
 the relevant region. A sufficient condition --- mobility cost $c$ large
 enough relative to the congestion slope $\beta$ --- would deliver
 uniqueness analytically; we leave the formal statement to future work.}
-The labour share falls from $1.000$ pre-technology to $0.627$ under pure
-automation and recovers to $0.650$ once reinstatement is added (without
-the wage wedge; $0.643 \to 0.665$ with it). Reinstatement returns
-roughly a fifth of the share that automation removes --- the spatial
-counterpart of the partial recovery in
-\textcite{acemoglu2019automation}, here an outcome of where the seeded
-ring survives capital rather than an assumption.
+The labour share falls from $1.000$ pre-technology to $0.630$ under pure
+automation, and reinstatement does not lift it: the share settles at
+$0.626$ (without the wage wedge; $0.647 \to 0.642$ with it). Where the
+one-dimensional reinstatement of \textcite{acemoglu2019automation} books
+a partial recovery, the geometry withholds it --- most of the seeded
+ring finds no existing occupation able to bear it, and what does attach
+refills priced work with unpriced (Section~\ref{sec:unbound}). The
+recovery is not assumed away but accounted for elsewhere, as unbound
+mass: the gap a dynamic transition must close.
  
 The re-sorting is large: $58$ percent of employment mass relocates
 ($\sum_o |\Delta L_o| = 1.16$). The gainers are technical and
@@ -1451,16 +1459,16 @@ food and counter workers, retail salespersons, baristas, cashiers ---
 together with occupations in the field's own core whose bundles are
 stripped, such as general and operations managers and advanced-practice
 psychiatric nurses. The manual arc as a whole gains employment
-($\sum \Delta L = +0.145$ over $135$--$225^\circ$): the destination of
+($\sum \Delta L = +0.150$ over $135$--$225^\circ$): the destination of
 the sort, where re-sorting raises density and the bunching of
 \textcite{acemoglu2018race} appears as an equilibrium effect rather than
 a local assumption. Bundle wages mostly fall --- the price-weighted
-bundle change is negative for $82$ percent of occupations --- consistent
+bundle change is negative for $88$ percent of occupations --- consistent
 with the downward wage bias of eq.~\eqref{eq:wage-change}: default
 reinstatement strips priced work and refills with unpriced work.
  
 Not all surviving seed attaches. Of the seeded mass
-$\gamma\,\Delta\Gamma^D$, $47$ percent stays unbound, surviving capital
+$\gamma\,\Delta\Gamma^D$, $68$ percent stays unbound, surviving capital
 but held by no existing occupation. Figure~\ref{fig:candidate} maps the
 unbound density $u(\mathbf{r})$ and colours the candidate regions by
 price $\Pi$. Unbound mass in the high-priced north is latent skilled
@@ -1474,7 +1482,7 @@ occupation may appear; it does not instantiate one.
 \includegraphics[width=\textwidth]{candidate_map.png}
 \caption{Unbound tasks and candidate occupations under the calibrated
 field. Left: the unbound density $u(\mathbf{r})$, surviving seed that no
-existing occupation can attach ($47$ percent of the seeded mass). Right:
+existing occupation can attach ($68$ percent of the seeded mass). Right:
 candidate regions coloured by price $\Pi$; unbound mass in the
 high-priced north is latent skilled work, in the low-priced south it is
 closer to friction.}
@@ -1490,10 +1498,10 @@ Figure~\ref{fig:demand} traces the employment change in each field's
 automated region against the demand elasticity $\eta$. At unit-elastic
 demand ($\eta = 1$), where the cost saving leaves revenue unchanged,
 both regions shed labour: $-21.8$ percent in the cognitive region,
-$-11.6$ percent in the manual region. Across the plausible elasticity
+$-6.0$ percent in the manual region. Across the plausible elasticity
 band ($\eta \in [0.5, 3]$, shaded) both stay negative; net employment
-growth arrives only at $\eta^\ast = 6.9$ (cognitive) and
-$\eta^\ast = 7.8$ (manual), far above any plausible value.
+growth arrives only at $\eta^\ast = 7.3$ (cognitive) and
+$\eta^\ast = 6.1$ (manual), far above any plausible value.
 
 \begin{figure}[!htbp]
 \centering
@@ -1503,7 +1511,7 @@ demand elasticity $\eta$ (log scale). The dotted line marks unit-elastic
 demand ($\eta = 1$), where revenue is cost-invariant; the shaded band is
 the plausible elasticity range $[0.5, 3]$. Both fields release labour
 across the plausible band and flip to net growth only at
-$\eta \approx 7$ (cognitive) and $\eta \approx 8$ (manual), because the
+$\eta \approx 7$ (cognitive) and $\eta \approx 6$ (manual), because the
 per-unit saving is second-order at the adoption margin
 ($\Pi/c \approx 1.00$).}
 \label{fig:demand}
@@ -1522,8 +1530,8 @@ automation begins. This is the spatial form of the demand mechanism of
 \textcite{acemoglu2018race}, now read by direction and by depth.
  
 The two fields differ in wage incidence as well as in employment. At
-$\eta = 1$ the manual field leaves the labour share high ($0.88$,
-against $0.67$ for the cognitive field), because the low-priced arc
+$\eta = 1$ the manual field leaves the labour share high ($0.87$,
+against $0.64$ for the cognitive field), because the low-priced arc
 holds little priced mass to strip. Reinstatement there adds work but not
 wage --- depth is unpriced in the south --- so the manual region can
 regain employment without regaining pay, the distributional point taken
@@ -1548,17 +1556,76 @@ cognitive automation turn on, and the model does not pretend to fix it.
 \label{sec:empirics}
 %% ============================================================
 
-\todo{Ingen DiD/event study (slopad: tr\"oskeln $z_K$ existerar inte
-under reading A, och ChatGPT-eventet b\"ar inte den kausala vikten).
-Kvar st\aa{}r konsistenstestet av f\"ortr\"angningskanalen: projicera
-centroidf\"orskjutningen $\Delta\mu_o$ p\aa{} prisgradienten $\nabla\Pi$
-och pr\"ova mot observerade l\"one\"andringar 2019--2024 (OEWS, samma
-$\sim$741 yrken). Uttryckligen icke-kausalt: en riktnings\-konsistens\-
-kontroll av om takeover-inramningen pekar r\"att, inte en identifierad
-effekt. \"Overv\"ag ett enkelt tv\"arsnittstest av Bessen-mekanismen:
-korrelera observerad sektorssyssels\"attnings\-f\"or\"andring under
-mekanisering med skattad efterfr\aa{}geelasticitet, som extern
-plausibilitet f\"or $\eta$-kanalen.}
+This section asks whether the displacement channel points the right way
+against observed wages. It is deliberately not a causal design: we run no
+difference-in-differences and no event study, because the model has no
+sharp threshold in space to anchor one and no single event carries the
+identifying weight. What the geometry supplies instead is a directional
+prediction at the occupation level, which can be checked for
+\emph{consistency} against the wage record without claiming to have
+isolated the effect of any technology.
+
+The prediction is the centroid shift. Rewriting each occupation's bundle
+with the calibrated AI field --- displacement net of survival-gated
+reinstatement (Section~\ref{sec:reinstatement}) --- moves its bundle
+centroid from $\mu_o$ to $\mu_o^{\text{post}}$. The displacement channel
+says a bundle that slides \emph{down} the price gradient, toward cheaper
+work, should carry weaker wage growth; one that holds its position should
+not. The signed prediction is therefore the projection of the shift on
+the price gradient, $\varpi_o = \Delta\mu_o \cdot \nabla\ln\Pi(\mu_o)$,
+the first-order change in log price the move implies. We compute it on the
+same $849$ occupations as the regime runs and compare it to the change in
+OEWS median hourly wages between May~2019 and May~2025, matched on SOC
+code; $725$ occupations ($640$ distinct SOC codes) carry a median wage in
+both vintages.
+
+The field pushes almost every bundle down-gradient: $\varpi_o < 0$ for
+$99$ percent of occupations, the spatial signature of the downward wage
+bias of eq.~\eqref{eq:wage-change}, where default reinstatement strips
+priced work and refills with cheaper. The test is therefore
+\emph{cross-sectional} --- whether the occupations the field pushes
+furthest down-gradient saw the weaker wage growth --- with the common
+nominal drift over the window (mean $\Delta\ln w \approx +0.22$)
+differenced out by ranking. It is positive and significant. The rank
+correlation between the predicted pressure $\varpi_o$ and observed
+$\Delta\ln w$ is $+0.39$ across occupations ($p < 10^{-27}$) and $+0.39$
+collapsed to SOC codes with employment-weighted projection
+($p < 10^{-24}$); the Pearson coefficients are $+0.25$ and $+0.24$. The
+bundle wage change $\Delta w_o$ of eq.~\eqref{eq:wage-change}, the model's
+own price-weighted re-pricing, tracks observed changes about as well
+(rank $+0.41$). The result is stable across the endpoint: taking May~2024
+in place of May~2025 gives a rank correlation of $+0.44$
+(Figure~\ref{fig:centroid-shift}).
+
+We read this as consistency, not validation. The sign and rank of the
+predicted directional pressure agree with the wage record, which is what
+the takeover framing requires and what a model pointed the wrong way
+would fail. But the cross-section conflates the AI field with every other
+force moving relative wages over six years; the wages are nominal and
+undeflated; and the exposure surface that places the field is itself an
+illustration (Section~\ref{sec:tech-calibration}), not an instrument. The
+test discriminates direction, not magnitude, and is silent on cause. A
+design that isolated the field --- within-occupation task microdata, or
+exposure variation plausibly exogenous to wage trends --- is left for
+later work.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.75\textwidth]{centroid_shift_test.png}
+\caption{Predicted directional wage pressure
+$\varpi_o = \Delta\mu_o\cdot\nabla\ln\Pi$ against observed OEWS log median
+hourly wage change, May~2019 to May~2025, by occupation (marker area
+$\propto$ employment). Almost all occupations sit left of zero: the
+calibrated field pushes bundles down the price gradient. The positive
+slope (Spearman $+0.39$) is the cross-sectional consistency the
+displacement channel predicts; the relationship is directional, not
+causal.}
+\label{fig:centroid-shift}
+\end{figure}
+
+%% ============================================================
+% DRAFT placement (move/demote to \subsection as preferred):
+\input{occupation_rents_section}
 
 %% ============================================================
 \section{Discussion}

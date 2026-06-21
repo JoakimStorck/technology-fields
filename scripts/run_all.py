@@ -5,7 +5,7 @@ Run the analysis pipeline end to end. Every script reads exclusively from
 data/ (frozen by scripts/00_freeze_inputs.py; provenance in data/MANIFEST.json),
 so the pipeline is self-contained once the inputs are frozen.
 
-Default order (01..11):
+Default order (01..13):
   01  wage field            estimate the price-field coefficients ln Pi
                             (replicates Paper 1, Table 3)
   02  price field           bundle pricing, support diagnostics, regime demo
@@ -20,8 +20,14 @@ Default order (01..11):
                             share, candidate map, operated-regime illustration
   10  demand channel        two fields through the economy; the eta sweep
                             and the second-order automation margin (Bessen)
-  11  centroid-shift test   displacement-channel consistency vs observed
-                            wage changes (stub; needs OEWS 2019/2024)
+  11  centroid-shift test   displacement-channel consistency vs OEWS 2019-2025
+                            wage changes (needs OEWS medians in data/)
+  12  price microfoundation derive Pi as a capability-assignment equilibrium;
+                            selects the demand closure (rejects the scarcity and
+                            productivity-complementarity accounts)
+  13  occupation rents      occupation-level rents and within-group wage
+                            compression; the AR (w32536) Prop 4 extension
+                            (needs OEWS medians in data/)
 
 Notes:
   - 00 (freeze inputs) is NOT in the default run. It vendors the Paper 1
@@ -33,7 +39,7 @@ Notes:
     API, so 07 now runs anywhere as part of the pipeline.
 
 Usage:
-    python scripts/run_all.py                          # 01..11
+    python scripts/run_all.py                          # 01..13
     python scripts/run_all.py --only 08                # one script
     python scripts/run_all.py --from 07                # 07 onward
     python scripts/run_all.py --freeze --geometry-root PATH   # prepend 00
@@ -60,9 +66,12 @@ PIPELINE = [
     ("09", "09_equilibrium_regime.py"),
     ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),
+    ("12", "12_price_microfoundation.py"),
+    ("13", "13_occupation_rents.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
+OEWS_DEPENDENT = {"11", "13"}
 
 
 def run(script: Path, args: list[str] | None = None) -> int:
@@ -107,6 +116,12 @@ def main() -> None:
         if not labelset.exists():
             print(f"WARNING: {labelset} not found; steps 07/08 need the "
                   "Eloundou labelset (github.com/openai/GPTs-are-GPTs).")
+
+    if any(k in OEWS_DEPENDENT for k, _ in steps):
+        oews = SCRIPTS.parent / "data" / "national_M2019_dl.xlsx"
+        if not oews.exists():
+            print(f"WARNING: {oews} not found; steps 11/13 need the BLS OEWS "
+                  "national medians (2019, 2024, 2025) in data/.")
 
     results: list[tuple[str, str, int]] = []
     for key, name in steps:

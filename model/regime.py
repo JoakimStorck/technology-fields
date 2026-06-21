@@ -108,10 +108,46 @@ def _readiness(inp: RegimeInputs, ell: float, priced_only: bool = True):
     return np.exp(-delta / ell)
 
 
+NMIN = 0.01  # density floor: caps the marginal value beta*Pi*n^(beta-1) at empty
+             # cells so empty regions are not infinitely valuable (the dynamic
+             # layer's A10 fix, brought into the static comparative static).
+
+
+def _fit(inp: RegimeInputs, ell: float, rho: float = 0.5, lam_over: float = 1.0,
+         priced_only: bool = True):
+    """Attachment primitive shared with the dynamic layer:
+    FIT_o(r) = E_match_o(r) * exp(-d(r, mu_o)/rho).
+    E_match is the SYMMETRIC capability match exp(-(under + lam_over*over)/ell) --
+    penalising over-qualification as well as under-qualification, so an
+    over-qualified generalist far from its core no longer attaches as if it were a
+    good home -- and the locality factor ties reinstatement to geometric proximity
+    to the occupation's centroid mu_o. lam_over = 0 and rho -> inf recover the
+    one-sided, non-local _readiness.
+    """
+    cap, grid = inp.cap, inp.grid
+    keys = cap.v_gate.keys() if priced_only else cap.alpha.keys()
+    codes = inp.occ_codes()
+    under = np.zeros((len(codes), grid.xi.size))
+    over = np.zeros_like(under)
+    for k in keys:
+        q_o = inp.occ[k].to_numpy()[:, None]
+        q_r = cap.q(k, grid.xi, grid.chi)[None, :]
+        under += cap.v[k] * np.maximum(q_r - q_o, 0.0)
+        over += cap.v[k] * np.maximum(q_o - q_r, 0.0)
+    E = np.exp(-(under + lam_over * over) / ell)
+    gx = grid.chi * np.cos(grid.xi)
+    gy = grid.chi * np.sin(grid.xi)
+    mux = inp.occ["chi"].to_numpy() * np.cos(inp.occ["xi"].to_numpy())
+    muy = inp.occ["chi"].to_numpy() * np.sin(inp.occ["xi"].to_numpy())
+    d = np.sqrt((gx[None, :] - mux[:, None]) ** 2 + (gy[None, :] - muy[:, None]) ** 2)
+    return E * np.exp(-d / rho)
+
+
 def regime(inp: RegimeInputs, tech: Technology, L: np.ndarray,
            R: float, tau: float, gamma: float, ell: float, beta: float,
            wedge: np.ndarray | None = None,
-           eta: float = 1.0, survival: bool = False) -> dict:
+           eta: float = 1.0, survival: bool = False,
+           rho: float = 0.5, lam_over: float = 1.0) -> dict:
     """Post-technology comparative static at employment L (aligned to
     inp.occ_codes()). Returns displacement, reinstatement, the bundle-operator
     wage change, the labor share, occupation value W_o, and densities, with the
@@ -165,7 +201,7 @@ def regime(inp: RegimeInputs, tech: Technology, L: np.ndarray,
     # ── reinstatement on the grid ──
     g_hat = _ring_density(tech, grid)
     s = M * g_hat                                              # seeded density
-    e = _readiness(inp, ell)                                  # (n_occ, n_cells)
+    e = _fit(inp, ell, rho, lam_over)                        # (n_occ, n_cells)
     C = (L[:, None] * e).sum(axis=0)                          # capacity (n_cells)
     Phi = np.where(C > 0, C / (1.0 + C), 0.0)
     with np.errstate(divide="ignore", invalid="ignore"):
@@ -195,7 +231,7 @@ def regime(inp: RegimeInputs, tech: Technology, L: np.ndarray,
                             minlength=grid.xi.size) / grid.area
     H = (n0 - La_binned) + iota_tot
     with np.errstate(divide="ignore", invalid="ignore"):
-        nb1 = np.where(n > 0, n ** (beta - 1.0), 0.0)
+        nb1 = np.maximum(n, NMIN) ** (beta - 1.0)   # NMIN floor (no divergence)
     # value objects carry the demand multiplier D; densities and dW_bundle do not
     num = np.sum(D_grid * pi_cell * H * nb1 * grid.area)
     den = np.sum(D_grid * pi_cell * (n ** beta) * grid.area)
