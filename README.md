@@ -39,8 +39,16 @@ numbered, runnable analyses that orchestrate it and write to `results/`.
 | `scripts/03_field_vs_paper1.py` | Compares the field with Paper 1's published results: continuous beta_chi(xi) with confidence band against the re-estimated sectoral slopes (periodic closure shown), wage map on a shared scale, residual map. |
 | `scripts/04_residual_structure.py` | Tests whether field residuals are spatially structured or compositional: Moran's I with permutation null, spatial correlogram, capability and Job Family decompositions. |
 | `scripts/05_family_wedge.py` | Measurement layer for the non-spatial wage component: estimates the family wage wedge eta_g vs the bundle-priced wage, exports it for sensitivity runs, and quantifies its effect on the operated regime (baseline vs wedged displacement). |
+| `scripts/06_capability_fields.py` | The capability plane: rank-2 sufficiency test and the q_k coefficients that weight the priced-deficit gate. |
+| `scripts/07_build_exposure.py` | Data step: freezes the Eloundou task exposure (beta scores) into `data/onet_task_exposure.csv` (no API; provenance in `MANIFEST.json`). |
+| `scripts/08_calibrate_technology.py` | Calibrates the technology field phi_K against the exposure surface; records exposure provenance in `MANIFEST.json`. |
+| `scripts/09_equilibrium_regime.py` | Worker-layer equilibrium under the calibrated technology: re-sorting Delta L_o, the labor share, the bundle wage change, the candidate map u(r), the multi-start uniqueness check, and the operated-regime illustration a(r). |
+| `scripts/10_demand_channel.py` | The demand channel over two fields (cognitive + manual): the eta sweep, the second-order automation margin, and Bessen's growth threshold. |
+| `scripts/11_centroid_shift_test.py` | Empirical consistency test (stub): projects the equilibrium centroid shift Delta mu_o on the price gradient and tests it against observed wage changes 2019-2024 (needs OEWS 2019/2024 frozen into `data/`). |
 
 Outputs are written to `results/`.
+
+The dynamic-model work (the unbound-stock probes in `experiment/`, the companion draft `paper/tempo_of_automation.tex`, and the whitepaper) is **experimental** and not part of this paper's pipeline; it will move to its own repository once the form settles.
 
 ## Setup
 

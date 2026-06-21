@@ -1,5 +1,5 @@
 """
-12_equilibrium_regime.py
+09_equilibrium_regime.py
 ------------------------
 Solves the worker-layer equilibrium under the calibrated AI technology and
 reports the regime outcome with and without the family wage wedge. The
@@ -14,19 +14,22 @@ Reports:
   - the labor share pre-technology, automation-only, and with reinstatement;
   - the bundle wage change Delta w_o;
   - the unbound mass (candidate-occupation territory) and the candidate map
-    u(r) colored by the price field.
+    u(r) colored by the price field;
+  - the operated regime of the calibrated technology: a(r) and the seeding
+    ring, and a price-ordering check (takeover ordered by price).
 
 Mobility (c, kappa) are set to an interpretable reference (one SD of value =
 one logit unit; a typical move costs about one unit); their effect on the
-threshold is swept in scripts/13.
+threshold is swept in scripts/10.
 
 Outputs:
     results/equilibrium_regime.csv
     results/equilibrium_regime_summary.txt
     results/candidate_map.png
+    results/operated_share_demo.png
 
 Usage:
-    python scripts/12_equilibrium_regime.py
+    python scripts/09_equilibrium_regime.py
 """
 
 from __future__ import annotations
@@ -143,12 +146,60 @@ def main() -> None:
             n_field = diag["n"]
 
     res_rows.to_csv(RESULTS / "equilibrium_regime.csv", index=False)
+    _operated_regime_demo(inp, tech, R, TAU, lines,
+                          RESULTS / "operated_share_demo.png")
     (RESULTS / "equilibrium_regime_summary.txt").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
     _candidate_map(inp, u_field, tech, RESULTS / "candidate_map.png")
     print(f"wrote {RESULTS / 'equilibrium_regime.csv'}")
     print(f"wrote {RESULTS / 'candidate_map.png'}")
+    print(f"wrote {RESULTS / 'operated_share_demo.png'}")
+
+
+def _operated_regime_demo(inp, tech, R, TAU, lines, out_path):
+    """Illustrate the operated regime of the CALIBRATED technology: a price-
+    ordering check (capital moves first against the dear work) and the a(r) /
+    seeding-ring map. Bare operated share, no wedge -- the technology's own
+    footprint, distinct from the wedged equilibrium reported above."""
+    field = inp.field
+    bx = inp.bundles
+    xi_t, chi_t = bx["xi"].to_numpy(), bx["chi"].to_numpy()
+    a_t = tech.operated_share(xi_t, chi_t, field, R, TAU)
+    pi_t = field.pi(xi_t, chi_t)
+    phi_t = tech.phi(xi_t, chi_t)
+    bands = pd.qcut(phi_t, 20, duplicates="drop")
+    rho = (pd.DataFrame({"a": a_t, "pi": pi_t, "band": bands})
+           .groupby("band", observed=True)
+           .apply(lambda d: d["a"].corr(d["pi"], method="spearman"),
+                  include_groups=False))
+    lines += [
+        "",
+        "Operated regime of the calibrated technology (bare a, no wedge):",
+        f"  price ordering within phi-bands: median Spearman rho(a, Pi) = "
+        f"{rho.median():.3f} (min {rho.min():.3f}) -- capital moves first "
+        f"against the dear work",
+    ]
+    g = np.linspace(-1, 1, 401)
+    X, Y = np.meshgrid(g, g)
+    inside = np.hypot(X, Y) <= 1.0
+    XI, CHI = np.arctan2(Y, X), np.hypot(X, Y)
+    A = np.where(inside, tech.operated_share(XI, CHI, field, R, TAU), np.nan)
+    G = np.where(inside, tech.grad_phi_norm(XI, CHI), np.nan)
+    fig, axes = plt.subplots(1, 2, figsize=(12.5, 5.8))
+    cf0 = axes[0].contourf(X, Y, A, levels=24, cmap="magma")
+    axes[0].set_title(r"Operated share $a(\mathbf{r})$ (calibrated technology)")
+    fig.colorbar(cf0, ax=axes[0], shrink=0.8)
+    cf1 = axes[1].contourf(X, Y, G, levels=24, cmap="cividis")
+    axes[1].set_title(r"$\|\nabla\phi_K\|$ -- seeding ring at $z_K$")
+    fig.colorbar(cf1, ax=axes[1], shrink=0.8)
+    for ax in axes:
+        px, py = tech.p_K
+        ax.plot(px, py, "w+", ms=10)
+        ax.set_aspect("equal"); ax.set_xticks([]); ax.set_yticks([])
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
 
 
 def _candidate_map(inp, u, tech, out_path):

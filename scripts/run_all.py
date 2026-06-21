@@ -5,7 +5,7 @@ Run the analysis pipeline end to end. Every script reads exclusively from
 data/ (frozen by scripts/00_freeze_inputs.py; provenance in data/MANIFEST.json),
 so the pipeline is self-contained once the inputs are frozen.
 
-Default order (01..08):
+Default order (01..11):
   01  wage field            estimate the price-field coefficients ln Pi
                             (replicates Paper 1, Table 3)
   02  price field           bundle pricing, support diagnostics, regime demo
@@ -16,6 +16,12 @@ Default order (01..08):
   07  build exposure        freeze Eloundou beta -> data/onet_task_exposure.csv
   08  calibrate technology  phi_K against the exposure surface; records the
                             exposure provenance in data/MANIFEST.json
+  09  equilibrium regime    worker-layer equilibrium: re-sorting, labor
+                            share, candidate map, operated-regime illustration
+  10  demand channel        two fields through the economy; the eta sweep
+                            and the second-order automation margin (Bessen)
+  11  centroid-shift test   displacement-channel consistency vs observed
+                            wage changes (stub; needs OEWS 2019/2024)
 
 Notes:
   - 00 (freeze inputs) is NOT in the default run. It vendors the Paper 1
@@ -27,7 +33,7 @@ Notes:
     API, so 07 now runs anywhere as part of the pipeline.
 
 Usage:
-    python scripts/run_all.py                          # 01..08
+    python scripts/run_all.py                          # 01..11
     python scripts/run_all.py --only 08                # one script
     python scripts/run_all.py --from 07                # 07 onward
     python scripts/run_all.py --freeze --geometry-root PATH   # prepend 00
@@ -51,6 +57,9 @@ PIPELINE = [
     ("06", "06_capability_fields.py"),
     ("07", "07_build_exposure.py"),
     ("08", "08_calibrate_technology.py"),
+    ("09", "09_equilibrium_regime.py"),
+    ("10", "10_demand_channel.py"),
+    ("11", "11_centroid_shift_test.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}

@@ -13,20 +13,3 @@ Price field Pi(r), coefficients from S1_field:
   R2(ln w_obs ~ ln w_bundle): extrapolated 0.5097, clipped 0.5101
   Pi(90 deg, chi): 62.2 at chi_max -> 76.3 at the rim (+23%)
 
-(B) Regime demo - ILLUSTRATIVE technology (not calibrated):
-  center (xi, chi) = (75 deg, 0.45), z_K = 0.35, A_K = 1.0, s_K = 1.0, R = 18.0, tau = 0.08
-  price ordering within phi-bands: median Spearman rho(a, Pi) = 0.994 (min 0.653) - capital moves first against the dear work
-
-  Top 10 by displaced mass D_o:
-    Biofuels/Biodiesel Technology and Product   D_o = 0.993  wage loss = 0.993
-    Financial Quantitative Analysts             D_o = 0.992  wage loss = 0.991
-    Industrial Ecologists                       D_o = 0.986  wage loss = 0.985
-    Microbiologists                             D_o = 0.984  wage loss = 0.986
-    Water/Wastewater Engineers                  D_o = 0.974  wage loss = 0.980
-    Wind Energy Development Managers            D_o = 0.973  wage loss = 0.975
-    Bioengineers and Biomedical Engineers       D_o = 0.969  wage loss = 0.975
-    Hydrologists                                D_o = 0.968  wage loss = 0.971
-    Environmental Restoration Planners          D_o = 0.964  wage loss = 0.970
-    Software Quality Assurance Analysts and Te  D_o = 0.960  wage loss = 0.976
-
-  Mean displaced bundle share across occupations: 0.2911

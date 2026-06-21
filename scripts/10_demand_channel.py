@@ -1,5 +1,5 @@
 """
-13_demand_channel.py
+10_demand_channel.py
 --------------------
 The demand channel and Bessen's threshold, over two technology fields.
 
@@ -8,7 +8,7 @@ demand of elasticity eta scales each place's revenue by D(r) = (c(r)/Pi)^(1-eta)
 which multiplies the price field in the occupation value W_o (closure 1: a
 revenue multiplier, so the demand boost splits between higher wages and more
 employment through the congestion beta). eta = 1 (unit elastic) gives D = 1 and
-reproduces the cost-invariant equilibrium of script 12.
+reproduces the cost-invariant equilibrium of script 09.
 
 Two fields are run through the same economy:
   - COGNITIVE: the calibrated AI technology (north, broad; script 08).
@@ -165,7 +165,7 @@ def _figure(etas, curves, out_path):
     ax.set_xlabel(r"demand elasticity $\eta$  (log scale)")
     ax.set_ylabel("employment change in the automated region (%)")
     ax.set_title("Automation releases or grows employment by demand elasticity")
-    ax.annotate(r"$\eta=1$: cost-invariant" + "\n(reproduces script 12)",
+    ax.annotate(r"$\eta=1$: cost-invariant" + "\n(reproduces script 09)",
                 xy=(1.0, ax.get_ylim()[0]), xytext=(1.15, ax.get_ylim()[0] * 0.6),
                 fontsize=8, color="0.3")
     ax.legend(frameon=False, fontsize=8, loc="upper left")
