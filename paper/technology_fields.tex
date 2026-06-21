@@ -191,6 +191,29 @@ Generative AI capabilities \parencite{hampole2025, eloundou2024} extend into par
 Each technology can be characterized by the region of the task space it affects, and each occupation by its position relative to that region. 
 This is a question the geometry is built to address but that a partitioned or one-dimensional model cannot express.
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{price_field_map.png}
+\caption{The price of skill $\Pi(\mathbf{r})$ over the task disk,
+eq.~\eqref{eq:price-field}. Depth is rewarded toward the
+socio-cognitive north (the first-harmonic peak at $89.5^\circ$) and
+unrewarded toward the service and manual south; the field is the reduced
+form of the directional wage equation of \textcite{storck2026geometry}.}
+\label{fig:price-field}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{field_vs_sectoral_beta_chi.png}
+\caption{Sectoral depth return $\beta_\chi(\xi)$ re-estimated on the
+frozen inputs against the published values of \textcite{storck2026geometry}
+(maximum deviation $0.005$). The return is positive in the northeast and
+north and negative in the south, the directional pricing the model
+carries in $\Pi$.}
+\label{fig:sectoral-beta}
+\end{figure}
+
+
 %% ============================================================
 \section{Model}
 \label{sec:model}
@@ -1140,6 +1163,18 @@ coordinate of the plane. We note this in passing; the model carries
 the full reduced form.} An employment-weighted estimation leaves the
 depth harmonic intact ($m_5 = +0.848$, $R^2 = 0.704$).
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{field_vs_observed_wages.png}
+\caption{Bundle-integrated wage $w_{\text{bundle}}$ against observed
+median wage, $N = 785$ ($R^2 = 0.510$, correlation $0.717$). Pricing an
+occupation as its bundle reproduces observed wages about as well as the
+in-sample centroid evaluation ($R^2 = 0.523$), which licenses estimating
+the field at centroids and operating it at tasks.}
+\label{fig:field-wages}
+\end{figure}
+
+
 \subsection{From centroids to bundles}
 \label{sec:bundle-validation}
 
@@ -1187,6 +1222,18 @@ $\mathcal{K} = \{\mathrm{S1}, \mathrm{S2}\}$ with $v = (0.328, 0.049)$,
 as derived in Section~\ref{sec:reinstatement}; the all-cluster variant
 is a sensitivity in the regime runs.
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{family_wedge.png}
+\caption{Family wage wedge $\eta_g$, the family-mean residual above the
+price field, from $-0.261$ (Personal Care and Service) to $+0.372$
+(Management). The wedge absorbs $30$ percent of the occupation-level
+wedge variance and is measured once and held fixed under shocks; regime
+runs are reported with and without it.}
+\label{fig:family-wedge}
+\end{figure}
+
+
 \subsection{The wage wedge}
 \label{sec:wedge}
 
@@ -1211,43 +1258,290 @@ effective price $\Pi_{\text{eff}} = e^{\eta_g}\,\Pi$, so that dearer
 families cross the takeover margin sooner; the regime runs of
 Section~\ref{sec:cases} are reported with and without it.
 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{residual_correlogram.png}
+\caption{Spatial correlogram of the price-field residual. The raw
+residual carries weak short-range autocorrelation (Moran's $I = +0.080$,
+$p = 0.001$); once Job Family fixed effects are removed it is largely
+flat, consistent with the residual being classification-level wage
+setting rather than capability structure the field misses.}
+\label{fig:correlogram}
+\end{figure}
+
 \subsection{Technology calibration}
 \label{sec:tech-calibration}
+ 
+The two technology scenarios of Section~\ref{sec:cases} are built from
+the same machinery but identified differently, and the contrast is
+deliberate: one field is calibrated to data, the other placed by hand.
+ 
+\paragraph{The cognitive field.}
+We calibrate the cognitive field to task-level AI exposure. The
+GPT-exposure scores of \textcite{eloundou2024}, frozen in the
+replication inputs, join to the task coordinates on O*NET Task ID with
+no crosswalk, matching $17{,}549$ of $17{,}606$ tasks ($99.7$ percent).
+This yields an exposure surface $\phi(\mathbf{r})$ over the disk (mean
+$0.345$, spanning the full $[0,1]$), against which we fit the isotropic
+Gaussian of eq.~\eqref{eq:phi-K} by task-level least squares. The fitted
+field sits in the socio-cognitive north,
+$\xi_K = 38.4^\circ$, $\chi_K = 0.463$, with reach $z_K = 0.583$ (a
+fraction of the centre-to-rim distance) and amplitude $A_K = 0.603$
+(Table~\ref{tab:tech-calibration}). The centre lies inside the occupied
+disk ($\chi_K = 0.463 < \chi_{\max} = 0.752$), so its peak is observed
+rather than read off an extrapolated flank, and amplitude and reach are
+jointly identified: the Gauss--Newton normal matrix is well conditioned
+(condition number $30.1$), with only mild $z_K$--$A_K$ correlation
+($-0.30$). An employment-weighted fit moves the centre by little
+($\Delta\xi_K = +1.1^\circ$, $\Delta\chi_K = -0.046$), so task density
+does not drive the location.
+ 
+The field explains a modest share of task-level exposure
+($R^2 = 0.246$) but most of its \emph{smoothable} structure. The
+exposure ratings clump at $0$, $0.5$ and $1$, so the bulk of task-level
+variance is within-cell and irreducible to any smooth field; binned to a
+$16\times 10$ polar grid the surface is reproduced at $R^2 = 0.817$, and
+the single Gaussian captures $83$ percent of the between-cell variance.
+The low task-level $R^2$ is thus a property of the discrete rating
+scale, not a failed field; the directional and higher-order structure
+the isotropic field misses is texture, and a richer $\phi_K$ is an
+extension rather than a repair. We read this field as an
+\emph{illustration} of a technology field placed where exposure data
+permit, not as a validation of the model
+(Figures~\ref{fig:exposure-fit}--\ref{fig:exposure-cond}).
 
-\todo{Kalibrering. Det kognitiva fältet $(p_K, z_K, A_K)$ kalibreras mot
-task-niv\aa-AI-exponering projicerad p\aa{} geometrin (script 08, Eloundou
-et al.\ 2024 som prim\"ar k\"alla; Gmyrek et al.\ 2025 endast om den
-direkta k\"allan faller). Det manuella f\"altet placeras f\"or hand
-(v\"ast, smalt $z_K$, h\"ogt $A_K$ f\"or att korsa prisgrinden mot billig
-arbetskraft); \"oppen v\"ag att binda det till RTI \parencite{autor2013}
-eller robotexponering \parencite{acemoglu2020robots}, se noten i
-diskussionen. Karakt\"aren s\"atts $s_K = 1$ i huvudmodellen.
-Attachment-skalan $\ell$ s\"atts tolkningsbart till inomriktnings-SD:n
-f\"or det prissatta f\"orm\aa{}geindexet. Efterfr\aa{}geelasticiteten
-$\eta$ kalibreras inte utan sveps; i den historiska l\"asningen kan den
-s\"attas till Bessens skattade sektorselasticiteter. Enheter: $R$ och
-$\Pi$ i USD per timme, $A_K$ dimensionsl\"os effektivitet, $\tau$
-marginbredd i samma enhet som $s_K\phi_K - R/\Pi$.}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{exposure_field_fit.png}
+\caption{Task-level AI exposure \parencite{eloundou2024} as a surface
+over the task disk (left) and the fitted isotropic technology field
+$\phi_K$ (right). The fitted centre sits in the socio-cognitive north at
+$(\xi_K, \chi_K) = (38.4^\circ, 0.463)$; one Gaussian reproduces $82$
+percent of the smoothable (between-cell) structure of the surface.}
+\label{fig:exposure-fit}
+\end{figure}
+ 
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{exposure_calibration_conditioning.png}
+\caption{Loss basin in the reach--amplitude plane $(z_K, A_K)$, centre
+fixed at the optimum. The basin is convex with a single interior
+minimum and only mild $z_K$--$A_K$ correlation ($-0.30$); the peak lies
+inside the occupied disk, so $A_K$ and $z_K$ are jointly identified
+rather than trading off along a ridge.}
+\label{fig:exposure-cond}
+\end{figure}
 
-%% ============================================================
+
+\paragraph{The manual field.}
+No task-level exposure measure on the modern classification exists for
+industrial automation, so we place the manual field by hand: a narrow
+field on the low-priced technical--physical arc,
+$\xi_K = 180^\circ$, $\chi_K = 0.45$, reach $z_K = 0.30$, amplitude
+$A_K = 1.2$, the amplitude chosen high enough that the field crosses the
+price gate \eqref{eq:regime-shift} against cheap labour. It stands for
+mechanisation of the western pole; binding it to a measured exposure ---
+the routine-task index of \textcite{autor2013} or the robot exposure of
+\textcite{acemoglu2020robots} --- is left open
+(Section~\ref{sec:discuss}). Both fields take character $s_K = 1$, pure
+replacement, in the main runs.
+ 
+\paragraph{The economy.}
+The economy primitives are set once and held across scenarios. The
+attachment scale is interpretable: $\ell = 0.133$ is fixed so that a
+deficit of one within-direction standard deviation of the
+priced-capability index costs a factor $e^{-1}$ in readiness. The
+mobility parameters are interpretable in the same spirit:
+$\kappa = 10.49$ is one standard deviation of the baseline occupation
+value (one logit unit of value), and $c = 20.40$ is set so that a
+typical within-subsystem move costs about one logit unit --- mobility
+damped but not dead. The remaining primitives are the rental
+$R = 18.0$ (USD per hour, the federal sub-minimum benchmark), the margin
+width $\tau = 0.08$, the congestion exponent $\beta = 0.5$, and the
+reinstatement fraction $\gamma = 0.5$. The demand elasticity $\eta$ is
+swept, not calibrated; in the historical reading of
+Section~\ref{sec:cases} it indexes Bessen's regimes.
+ 
+\begin{table}[!htbp]
+\centering
+\caption{Technology calibration. The cognitive field is fitted to
+task-level AI exposure \parencite{eloundou2024} by least squares; the
+manual field is placed by hand. $z_K$ is reach as a fraction of the
+centre-to-rim distance (rim $\chi = 1$; occupational support reaches
+$\chi = 0.752$). Fit columns are for the calibrated field only.}
+\label{tab:tech-calibration}
+\begin{tabular}{lcccccc}
+\toprule
+Field & $\xi_K$ & $\chi_K$ & $z_K$ & $A_K$ & Identification &
+$R^2$ (task / surface) \\
+\midrule
+Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ &
+calibrated (Eloundou) & $0.246 / 0.817$ \\
+Manual & $180^\circ$ & $0.45$ & $0.30$ & $1.20$ &
+placed by hand & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 \section{Illustrative Cases}
 \label{sec:cases}
-%% ============================================================
+ 
+We run two technologies through the same calibrated economy: the
+cognitive field, calibrated to AI exposure, and the manual field, placed
+by hand (Section~\ref{sec:tech-calibration}). The aim is not to validate
+the model against either technology but to show what the geometry makes
+visible --- where work is taken, where it is reinstated, who re-sorts,
+and how the employment effect turns on the elasticity of demand. We take
+the calibrated cognitive field through the full equilibrium, then run
+both fields through the demand channel.
+ 
+\subsection{The calibrated field through the equilibrium}
+\label{sec:cases-eq}
+ 
+The cognitive field operates the disk exactly as the price gate
+predicts. Within bands of equal technical effectiveness $\phi_K$, the
+operated share $a(\mathbf{r})$ orders locations by their price: the
+median within-band rank correlation between $a$ and $\Pi$ is $0.994$
+(minimum $0.975$ across bands). Capital moves first against the dear
+work, wherever it lies, not against a fixed task index.
+Figure~\ref{fig:operated} shows the operated share over the disk beside
+the seeding ring $\|\nabla\phi_K\|$, which peaks at distance $z_K$ from
+the field's core.
 
-\todo{Tv\aa{} teknikf\"alt genom samma ekonomi (script 10). (1) Kognitivt:
-norr, brett, kalibrerat. (2) Manuellt/industriellt: v\"ast, smalt,
-placerat. F\"or vart och ett: svep $\eta$ och visa syssels\"attnings-
-och l\"one\"andring i f\"altets egna automatiserade region. Huvudfigur
-\texttt{demand\_channel\_eta.png}: \%-\"andring i regionens
-syssels\"attning mot $\eta$ (logskala), b\aa{}da f\"alten, $\eta = 1$
-markerat (reproducerar den kostnadsinvarianta modellen), rimligt
-elasticitetsband skuggat; b\aa{}da friinst\"aller vid trolig $\eta$ och
-v\"ander f\"orst vid $\eta \approx 7$--$8$. Po\"angen \"ar
-andra-ordnings-egenskapen: $\Pi/c \to 1$ vid adoptionsmarginalen (numeriskt
-$1.00$), s\aa{} besparingen och d\"armed efterfr\aa{}gekanalen \"ar svag
-d\"ar. L\"agg till kartan \"over obundna uppgifter $u(\mathbf{r})$
-f\"arglagd med $\Pi$. Knyt till Bessens tre regimer (jordbruk oelastiskt
-$\to$ friinst\"allning; 1800-talstextil elastiskt $\to$ tillv\"axt).}
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{operated_share_demo.png}
+\caption{The calibrated cognitive field over the task disk. Left: the
+operated share $a(\mathbf{r})$, the degree to which capital bears the
+work; within bands of equal $\phi_K$ it orders locations by price
+($\rho(a,\Pi) = 0.994$). Right: the gradient magnitude
+$\|\nabla\phi_K\|$, which peaks at distance $z_K$ and seeds the
+reinstatement ring.}
+\label{fig:operated}
+\end{figure}
+ 
+Solving the worker layer \eqref{eq:equilibrium} once with the original
+bundles and once with the rewritten bundles gives the comparative
+static. From many random starts the solver returns the same allocation,
+the spread across starts being $5\times 10^{-11}$, so the fixed point is
+numerically unique.\footnote{This is numerical, not a proof: the map
+\eqref{eq:equilibrium} composes a logit allocation with a congestion
+term, and we observe but do not establish that it is a contraction over
+the relevant region. A sufficient condition --- mobility cost $c$ large
+enough relative to the congestion slope $\beta$ --- would deliver
+uniqueness analytically; we leave the formal statement to future work.}
+The labour share falls from $1.000$ pre-technology to $0.627$ under pure
+automation and recovers to $0.650$ once reinstatement is added (without
+the wage wedge; $0.643 \to 0.665$ with it). Reinstatement returns
+roughly a fifth of the share that automation removes --- the spatial
+counterpart of the partial recovery in
+\textcite{acemoglu2019automation}, here an outcome of where the seeded
+ring survives capital rather than an assumption.
+ 
+The re-sorting is large: $58$ percent of employment mass relocates
+($\sum_o |\Delta L_o| = 1.16$). The gainers are technical and
+engineering-technician occupations --- mechanical engineering
+technologists, electro-mechanical and mechatronics technicians,
+electrical and electronics repairers, aerospace and automotive
+engineering technicians --- occupations that already hold the priced
+technical capability the seeded ring requires and can therefore attach
+it. The losers are the large low-priced service occupations --- fast
+food and counter workers, retail salespersons, baristas, cashiers ---
+together with occupations in the field's own core whose bundles are
+stripped, such as general and operations managers and advanced-practice
+psychiatric nurses. The manual arc as a whole gains employment
+($\sum \Delta L = +0.145$ over $135$--$225^\circ$): the destination of
+the sort, where re-sorting raises density and the bunching of
+\textcite{acemoglu2018race} appears as an equilibrium effect rather than
+a local assumption. Bundle wages mostly fall --- the price-weighted
+bundle change is negative for $82$ percent of occupations --- consistent
+with the downward wage bias of eq.~\eqref{eq:wage-change}: default
+reinstatement strips priced work and refills with unpriced work.
+ 
+Not all surviving seed attaches. Of the seeded mass
+$\gamma\,\Delta\Gamma^D$, $47$ percent stays unbound, surviving capital
+but held by no existing occupation. Figure~\ref{fig:candidate} maps the
+unbound density $u(\mathbf{r})$ and colours the candidate regions by
+price $\Pi$. Unbound mass in the high-priced north is latent skilled
+work awaiting a bearer, the kind of region from which qualified new
+occupations have historically grown; unbound mass in the low-priced
+south is closer to precarious friction. The model marks where a new
+occupation may appear; it does not instantiate one.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{candidate_map.png}
+\caption{Unbound tasks and candidate occupations under the calibrated
+field. Left: the unbound density $u(\mathbf{r})$, surviving seed that no
+existing occupation can attach ($47$ percent of the seeded mass). Right:
+candidate regions coloured by price $\Pi$; unbound mass in the
+high-priced north is latent skilled work, in the low-priced south it is
+closer to friction.}
+\label{fig:candidate}
+\end{figure}
+ 
+\subsection{The demand channel}
+\label{sec:cases-demand}
+ 
+Whether either field raises or lowers employment in its own automated
+region is settled by the demand for output, not by the takeover.
+Figure~\ref{fig:demand} traces the employment change in each field's
+automated region against the demand elasticity $\eta$. At unit-elastic
+demand ($\eta = 1$), where the cost saving leaves revenue unchanged,
+both regions shed labour: $-21.8$ percent in the cognitive region,
+$-11.6$ percent in the manual region. Across the plausible elasticity
+band ($\eta \in [0.5, 3]$, shaded) both stay negative; net employment
+growth arrives only at $\eta^\ast = 6.9$ (cognitive) and
+$\eta^\ast = 7.8$ (manual), far above any plausible value.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{demand_channel_eta.png}
+\caption{Employment change in each field's automated region against the
+demand elasticity $\eta$ (log scale). The dotted line marks unit-elastic
+demand ($\eta = 1$), where revenue is cost-invariant; the shaded band is
+the plausible elasticity range $[0.5, 3]$. Both fields release labour
+across the plausible band and flip to net growth only at
+$\eta \approx 7$ (cognitive) and $\eta \approx 8$ (manual), because the
+per-unit saving is second-order at the adoption margin
+($\Pi/c \approx 1.00$).}
+\label{fig:demand}
+\end{figure}
+
+The reason is the second-order automation margin. At the adoption margin
+the ratio of price to unit cost is $\Pi/c \approx 1.00$ for both fields
+($1.002$ and $1.001$): the marginal task capital takes is one it
+produces at the price labour charged, so the saving --- and with it the
+demand channel --- vanishes there. The saving is realised only deep in
+the core ($\Pi/c$ reaches $1.55$ and $1.47$ where $a > 0.9$), too narrow
+a region to lift a whole direction at plausible $\eta$. Displacement is
+first-order and dominates; the demand channel is weak exactly where
+automation begins. This is the spatial form of the demand mechanism of
+\textcite{bessen2019demand} and the second-order margin of
+\textcite{acemoglu2018race}, now read by direction and by depth.
+ 
+The two fields differ in wage incidence as well as in employment. At
+$\eta = 1$ the manual field leaves the labour share high ($0.88$,
+against $0.67$ for the cognitive field), because the low-priced arc
+holds little priced mass to strip. Reinstatement there adds work but not
+wage --- depth is unpriced in the south --- so the manual region can
+regain employment without regaining pay, the distributional point taken
+up in Section~\ref{sec:discuss}.
+ 
+Read across $\eta$, the two fields stand in for the contrast Bessen
+draws. A direction whose output demand is inelastic --- mechanised
+agriculture, food --- sits at low $\eta$ and sheds labour; a direction
+elastic enough that consumption outran the labour saved ---
+nineteenth-century textiles --- sits above the flip and grew employment
+for decades \parencite{bessen2019demand}. The geometry places both on
+one axis and adds the location at which each happens. It does not trace
+the rise-and-fall over time that \textcite{bessen2019demand} documents
+as a sector's elasticity falls with saturation; that appears here as a
+cross-section over $\eta$, not a trajectory. Where the demand for
+cognitive output falls on this scale is what the consequences of
+cognitive automation turn on, and the model does not pretend to fix it.
+ 
 
 %% ============================================================
 \section{Empirical Analysis}
