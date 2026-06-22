@@ -115,6 +115,24 @@ def main():
           f"(share<0 {100*np.mean(dw0<0):.0f}% -> {100*np.mean(dwk<0):.0f}%)")
     print("\n  reference one-pass extremes: scarcity 0.333 | ar_level 0.827 | fixed 0.582")
 
+    # paper-consistent (re-solved allocation, out.L) basis: the labour-share
+    # diagnostics above hold the allocation at L0 to isolate the price channel;
+    # the paper reports the share at the re-solved equilibrium allocation, so we
+    # also report the pair on that basis (matches script 09's 0.626 at fixed Pi).
+    L0_out = eq0.solve(c, kappa).L
+    ls_fix_out = regime(inp, tech, L0_out, R, TAU, GAMMA, ell, BETA,
+                        wedge=None, survival=True)['labor_share']
+    eq_star = Equilibrium(inp_star, tech, R, TAU, GAMMA, ell, BETA,
+                          wedge=None, survival=True)
+    eq_star.L0 = L0
+    L_star = eq_star.solve(c, kappa).L
+    ls_ge_out = regime(inp_star, tech, L_star, R, TAU, GAMMA, ell, BETA,
+                       wedge=None, survival=True)['labor_share']
+    print(f"\n  labour share, re-solved allocation (out.L, paper basis): "
+          f"{ls_fix_out:.4f} -> {ls_ge_out:.4f}")
+    print("    (price and allocation both equilibrate; this is the pair the "
+          "static paper cites)")
+
 
 if __name__ == "__main__":
     main()
