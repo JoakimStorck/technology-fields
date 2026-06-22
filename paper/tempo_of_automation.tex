@@ -420,6 +420,88 @@ absorption, and a short table of the leading gainers in each regime.
 Replace any relative-change ranking with absolute and spatial measures,
 since the relative measure is unbounded for small occupations.}
 
+\section{The general-equilibrium price feedback}
+\label{sec:ge-feedback}
+
+Both the static regime and the dynamic transition above hold the price field
+$\Pi(r)$ fixed: the shock relocates labour and re-sorts it, congestion adjusts
+the marginal value of crowded destinations, but the per-unit price of capability
+content does not re-solve. This is a short-run reading. The price field is an
+equilibrium object --- Section~\ref{sec:microfoundation} derives it as a
+capability assignment --- and an equilibrium that does not equilibrate discards
+its own content. \textcite{acemoglu2024rents} make the point sharply: in their
+task model the base wage \emph{adjusts} to automation (their propagation matrix
+$\Theta$), and that adjustment is the mechanism. Our fixed-price layers hold even
+more fixed than they do --- both the rent wedge and the base price --- so to
+``derive the prices'' in their sense we must let the base price move. This
+section closes that loop.
+
+\paragraph{The closure: level from data, change from the assignment.}
+We keep the level from the estimated field --- the empirical anchor --- and take
+the \emph{change} from the assignment, exactly as \textcite{acemoglu2024rents}
+take the wage level as given and compute its response. Their wage law
+$w_g \propto (\Gamma_g/\ell_g)^{1/\lambda}$ ties the wage to tasks per worker;
+its spatial form is
+\begin{equation}
+  \Delta \ln \Pi(r) \;=\; \frac{1}{\sigma}\Big[\,\ln\big(1-a(r)\big) \;-\; \ln\frac{n_L(r)}{n_L^0(r)}\,\Big],
+  \label{eq:price-feedback}
+\end{equation}
+applied to the baseline, $\Pi(r) = \Pi_0(r)\,e^{\Delta\ln\Pi(r)}$. Automation is a
+\emph{demand} shock to labour: where capital takes the task ($a$ high), the task
+leaves the human set and the wage falls; and displaced labour crowding the
+remaining work ($n_L > n_L^0$) lowers it further. Both terms are stabilising. The
+sign is not innocuous: the opposite reading --- treating automation as a
+\emph{supply} shock that makes scarce human work dearer --- inverts
+equation~\eqref{eq:price-feedback} and is destabilising, since a dearer wage
+opens the takeover gate. Run as a single pass at $\sigma = 3$, the scarcity
+reading collapses the labour share to $0.33$ (capital chases the work it has just
+made dear), while the demand reading lifts it to $0.83$; the fixed-price value
+$0.58$ sits between. The headline is not robust to the sign, which therefore must
+be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
+automation dissipates rents and lowers wages, it does not raise them.
+
+\paragraph{The static fixed point.}
+Equation~\eqref{eq:price-feedback} is a contraction --- a lower price closes the
+takeover gate, which raises the price back --- so iterating price and allocation
+to mutual consistency converges (eight damped steps). The self-consistent state
+is an interior point, not the one-pass extreme: the labour share settles at
+$0.73$ (against $0.58$ at fixed prices), the price level falls $26$ percent, and
+displacement is cut by roughly $44$ percent ($D_o$ from $0.28$ to $0.16$). The
+wage adjustment absorbs most of the shock: human work becomes about a quarter
+cheaper, capital adopts far less, and the labour share stays high --- but the
+harm now sits in the wage \emph{level}, not in employment, which is precisely the
+rent- and wage-dissipation of \textcite{acemoglu2024rents}.
+
+\paragraph{The dynamic close, and statics meeting dynamics.}
+Wired into the transition --- the price responding to the current adoption and
+allocation at every step, equation~\eqref{eq:price-feedback} with a one-step lag
+--- the feedback shapes the whole path, not just the end. The wage level falls
+monotonically as adoption rises, from $-0.09$ early to a plateau at $-0.29$, and
+the displacement wave is markedly gentler: the unbound-mass (mismatch) peak is
+cut by about $64$ percent (from $0.44$ to $0.16$ percent of the workforce) at the
+same timing, and the reinstated stock ends lower, because the falling wage deters
+the automation that would have produced the mismatch. Crucially, the transition
+lands where the static fixed point says it should: the dynamic end-state price
+level ($-0.285$) and labour share ($0.739$) reproduce the static fixed point
+($-0.26$, $0.73$) to within rounding. Two independent constructions --- static
+fixed-point iteration and dynamic time-stepping --- reach the same equilibrium,
+so the price feedback is a property of the model rather than of either method,
+and the static and dynamic accounts cohere.
+
+\paragraph{What this does and does not establish.}
+The feedback is first-order: at fixed prices both layers overstate the
+displacement and understate the labour share, and they overstate the violence of
+the transition. The stabilising wage adjustment is the shock absorber, and it
+operates throughout the transition, not only at its end. The quantitative point
+estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
+closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
+region-wise, not a full re-solve of the assignment programme of
+Section~\ref{sec:microfoundation} --- and the AI field remains one illustrative
+instance of a technology field, not a measurement. We therefore read the result
+as establishing the \emph{direction and order of magnitude} of the price
+feedback, and the mutual consistency of the static and dynamic closes, rather
+than a calibrated forecast of the labour share.
+
 %% ============================================================
 \section{Discussion}
 \label{sec:discussion}
