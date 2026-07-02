@@ -202,7 +202,8 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
     k_shock = 5.88/T_shock                                        # 5%->95% spans T_shock years
     A_of = lambda t: A_final/(1.0+np.exp(-k_shock*(t-0.5*T_shock)))
     ts = np.arange(0.0, T_max+dt, dt); GammaD_prev = None
-    rec = {k: [] for k in ("t","A_K","U_tot","B_tot","n_occ","emp_newborn","Lsum")}
+    rec = {k: [] for k in ("t","A_K","U_tot","B_tot","n_occ","emp_newborn","Lsum",
+                           "cap_util")}
     if verbose:
         print(f"  full dynamic run (fit-weighted): theta_L={theta_L}, lam_b={lam_b}, rho={rho}")
         print(f"  {'t':>5} {'A_K':>6} {'U_tot':>8} {'B_tot':>8} {'n_occ':>6} {'emp_new':>8} {'Lsum':>7}")
@@ -239,6 +240,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
             f_glob = min(1.0, dt/theta_abs)
             dyn.reinst[:] = dyn.reinst + t_o.sum(1)*f_glob
             absorbed = t_o.sum(0)*f_glob
+            absorbed_tot = float(absorbed.sum())
             dyn.U = dyn.U - absorbed/dyn.area
             dyn.B = dyn.B + absorbed/dyn.area
             f = np.full(dyn.n_occ, f_glob)                        # for the newborn grain below
@@ -253,6 +255,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
                 f = np.where(des > 1e-15, np.minimum(1.0, capo/des), 0.0)  # absorbed fraction (rate cap)
             dyn.reinst[:] = dyn.reinst + des*f                    # absorb min(match-claim, size-cap)
             absorbed = (t_o*f[:, None]).sum(0)                    # total mass bound per cell
+            absorbed_tot = float((des*f).sum())
             dyn.U = dyn.U - absorbed/dyn.area                     # residual stays unbound -> cascades
             dyn.B = dyn.B + absorbed/dyn.area                     # bound density (feeds n)
         for o in range(dyn.n0, dyn.n_occ):                       # grain for newborns (their own claim)
@@ -291,6 +294,10 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
         dyn.L = dyn.L + (dt/theta_L)*(Tgt - dyn.L)
         emp_new = float(np.sum(dyn.L[dyn.n0:])) if dyn.n_occ > dyn.n0 else 0.0
         rec["t"].append(t); rec["A_K"].append(A_K)
+        # capacity utilisation: mass absorbed this step over the aggregate
+        # capacity bound (dt/theta_abs) * M_tot -- the share of task mass at
+        # binding caps; 1 in the deep slow limit (Prop. 2 regime).
+        rec["cap_util"].append(absorbed_tot/((dt/theta_abs)*float(M.sum())))
         rec["U_tot"].append(float(np.sum(dyn.U*dyn.area)))
         rec["B_tot"].append(float(np.sum(dyn.B*dyn.area)))
         rec["n_occ"].append(dyn.n_occ); rec["emp_newborn"].append(emp_new)

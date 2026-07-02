@@ -18,6 +18,7 @@
 \onehalfspacing
 
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newtheorem{proposition}{Proposition}
 \newcommand{\rr}{\mathbf{r}}
 
 \title{Reinstatement out of equilibrium: shock speed and the destination of new work\\
@@ -364,6 +365,78 @@ Section~\ref{sec:destination} reports the result's sensitivity to
 $\beta_m$ over $1$ to $8$ and shows that the destination result is
 carried by $\theta_{\text{abs}}$ alone.
 
+\subsection{Limit allocations}
+\label{sec:limits}
+
+The two roles that the binding law separates become exact in the two
+limits of the absorption tempo, and the destination result of
+Section~\ref{sec:results} is the path between them.
+
+\begin{proposition}[fast absorption]
+\label{prop:fast}
+Fix the occupation set. As $\theta_{\text{abs}}/T_{\text{shock}} \to 0$
+no capacity ever binds, and the final allocation of reinstated mass is
+\begin{equation}
+R_o = \int w_o(\rr)\, s(\rr)\, d\rr,
+\qquad
+w_o(\rr) = \frac{e_o(\rr)^{\beta_m}}{\sum_{o'} e_{o'}(\rr)^{\beta_m}},
+\label{eq:fastlimit}
+\end{equation}
+where $s$ is the cumulative surviving seed density. As
+$\beta_m \to \infty$ the shares concentrate on the best match and the
+allocation converges to strict best-match assignment.
+\end{proposition}
+
+\noindent\emph{Proof.} With slack capacities the absorbed fraction is one
+for every occupation at every step, so each step's seeding is bound in
+full at the claim shares of eq.~\eqref{eq:claim}. Absent births the
+readiness fields are time-invariant, so the shares $w_o$ are as well, and
+summing over steps gives $R_o = \int w_o\, s$. The second statement is
+the pointwise limit of the sharpened shares. \hfill$\square$
+
+The statement is exact at the level of the discrete law: at
+$\theta_{\text{abs}} = 0.05$ the realised allocation matches
+$\int w_o\, s$ to machine precision (relative $L_1$ error below
+$10^{-15}$).
+
+\begin{proposition}[slow absorption]
+\label{prop:slow}
+As $\theta_{\text{abs}}/T_{\text{shock}} \to \infty$ the final allocation
+converges to the initial size shares,
+$R_o \to S\, M_o(0)/M_{\text{tot}}$, with $S$ the total surviving seed
+mass.
+\end{proposition}
+
+\noindent\emph{Proof.} Every claim share is strictly positive, since the
+readiness is an exponential, so each occupation's desired intake is
+positive wherever unbound mass remains, while the capacities
+$M_o/\theta_{\text{abs}}$ shrink without bound; for
+$\theta_{\text{abs}}$ large enough every capacity binds throughout the
+drain. While they bind, absorption follows
+$\dot r_o = M_o(t)/\theta_{\text{abs}}$ with $M_o(t) = M_o(0) + r_o(t)$,
+whose solution $r_o(t) = M_o(0)\,(e^{t/\theta_{\text{abs}}} - 1)$ is a
+common exponential factor times the initial mass: endogenous task-mass
+growth preserves the proportions. The phases in which some capacity is
+slack --- the extreme tails of the seeding pulse, and the end of the
+drain where the remaining unbound mass falls below the largest capacity
+--- carry a mass share that vanishes as $\theta_{\text{abs}}$ grows.
+\hfill$\square$
+
+While all capacities bind, the aggregate obeys
+$\dot U_{\text{tot}} = \dot s_{\text{tot}}(t) - M_{\text{tot}}/\theta_{\text{abs}}$,
+so after seeding ends the stock drains linearly and empties in
+$\theta_{\text{abs}}\, S/M_{\text{tot}}$ years. The bound is saturated
+only in the deep limit: the capacity utilisation --- the mass absorbed
+per step over the aggregate bound
+$(\Delta t/\theta_{\text{abs}})\,M_{\text{tot}}$, read at the peak of the
+mismatch --- rises from $0.11$ at $\theta_{\text{abs}} = 2$ to $0.56$ at
+$15$ and $0.99$ at $120$. The shortfall is the spatial locality of
+binding: claims are proportional to $e_o^{\beta_m}$, so the mass on the
+seeding crescent is in practice drained by the occupations near it, and
+the aggregate task mass overstates the absorbing mass at intermediate
+tempos. This is why the mismatch hump of
+Section~\ref{sec:transitional} outlives the naive aggregate prediction.
+
 %% ============================================================
 \section{Results}
 \label{sec:results}
@@ -505,6 +578,39 @@ congested absorbers become large health and administrative occupations
 rather than food service; the comparative-advantage gate raises the
 mass-weighted gainer price with $\lambda_h$. The downgrading ---
 congested gainers priced below gradual gainers --- persists throughout.
+
+\subsection{The homotopy between the limits}
+\label{sec:homotopy}
+
+The tempo result is the path between the two proved endpoints of
+Section~\ref{sec:limits}. Figure~\ref{fig:homotopy} traces the final
+allocation across $\theta_{\text{abs}}$ from $0.5$ to $120$ years against
+the fixed five-year shock, with mobility held fast ($\theta_L = 1$; the
+decomposition above shows the destination is carried by
+$\theta_{\text{abs}}$). Its correlation with the fast-limit allocation of
+Proposition~\ref{prop:fast} falls monotonically from $+1.00$ to $+0.07$,
+and its correlation with the size shares of
+Proposition~\ref{prop:slow} rises monotonically from $+0.03$ to $+0.94$
+($+0.996$ by rank) over the same sweep. The crossover, where the two
+associations are equal, sits between $\theta_{\text{abs}} = 10$ and
+$15$: two to three shock windows. The simulation's remaining role is to
+locate this crossover between two allocations that are derived, not
+simulated.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{limit_allocations.png}
+\caption{The destination as a homotopy between proved limits. Left: the
+correlation of the final allocation with the fast-limit claim allocation
+(Proposition~\ref{prop:fast}) and with the slow-limit size shares
+(Proposition~\ref{prop:slow}), across the absorption tempo at fixed
+mobility; the vertical line marks the shock window. Right: the capacity
+utilisation at the mismatch peak, the mass absorbed per step over the
+aggregate bound; the shortfall at intermediate tempos is the spatial
+locality of binding, and Proposition~\ref{prop:slow} is the regime where
+it reaches one.}
+\label{fig:homotopy}
+\end{figure}
 
 \section{The general-equilibrium price feedback}
 \label{sec:ge-feedback}
