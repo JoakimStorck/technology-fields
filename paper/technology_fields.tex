@@ -21,7 +21,6 @@
 
 \onehalfspacing
 
-\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
 
 \title{Technology fields, automation and task reinstatement}
 \author{Joakim Storck}
@@ -133,15 +132,11 @@ studied by \textcite{autor2024newwork}; the geometry recasts it as a
 question of location relative to priced capabilities.
 
 This changes the meaning of reinstatement. Task creation is not
-automatically worker-benefiting. It raises employment where it restores
-human task mass, but it raises wages only where the new tasks carry
-priced capabilities. Reinstatement in a low-priced manual or service
-direction can return work without restoring pay. Conversely, new tasks
-in a high-priced socio-cognitive direction can protect both employment
-and wages, provided existing workers can bind them. The relevant
-question is therefore not whether automation creates new tasks, but
-where those tasks appear relative to the priced capabilities already
-held by workers.
+automatically worker-benefiting. Reinstatement in a low-priced manual
+or service direction can return work without restoring pay. The
+relevant question is not whether automation creates new tasks, but
+where those tasks appear relative to the priced capabilities workers
+already hold.
 
 Employment effects also depend on output demand. Automation lowers unit
 cost where capital replaces labour. Under competitive pricing, the cost
@@ -216,9 +211,14 @@ normalized to one before technology acts. The occupation's position is given by 
 \[
   \mu_o = \int \mathbf{r}\,b_o(\mathbf{r})\,d\mathbf{r},
 \]
-and thus represents the point in task space where the weighted average of the task bundle is located. 
-\textcite{storck2026geometry} do not prescribe how the polar geometry should be created,
-but demonstrates that it can be created from O*NET task-statements through semantic embedding and principal component analysis (PCA).
+and thus represents the point in task space where the weighted average of the task bundle is located.
+The coordinates are constructed in \textcite{storck2026geometry}: the
+17{,}606 O*NET task statements are embedded with a sentence encoder,
+projected onto their first two principal components, and expressed in
+polar form. The orientation is frozen to a fixed reference, so
+positions are comparable across runs, encoders, and database releases.
+That paper validates the geometry against wages, education, and
+occupational classifications; this paper takes it as given.
 
 \begin{figure}[!htbp]
 \centering
@@ -267,6 +267,38 @@ occupations as indivisible units. A technology may affect part of an
 occupation's bundle while leaving the rest intact. The relevant unit of
 exposure is therefore the task location, and the relevant unit of
 worker consequence is the rewritten occupational bundle.
+
+The disk has a fixed compass. The east holds human-centered work:
+instruction, communication, advice. The north holds analytical work:
+research and investigation. The west holds technical-physical work:
+mechanical and manual execution. The south holds service work: direct
+service and operational support. Tasks near the origin are generic
+activities found in many occupations, such as organizing or
+documenting; tasks near the rim are domain-specific. The radial
+coordinate $\chi$ measures this specificity, and an occupation deep in
+a direction is one whose tasks are both specific and aligned.
+
+Figure~\ref{fig:geometry-map} places nine familiar occupations on the
+disk. Lawyers ($5^\circ$) and Pathologists ($44^\circ$) sit in the
+interpersonal-analytical east and northeast. Software Developers
+($75^\circ$) and Chemical Engineers ($109^\circ$) lie in the analytical
+north. Machinists ($164^\circ$) and Carpenters ($196^\circ$) occupy
+the technical-physical west, Dishwashers ($239^\circ$) and Waiters
+($272^\circ$) the service south, and Biology Teachers ($340^\circ$) the
+instructional southeast. Throughout the paper, ``the socio-cognitive
+north'' refers to the analytical-interpersonal arc from east to north,
+``the manual west'' to the technical-physical direction, and ``the
+service south'' to the service direction.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{geometry_map.png}
+\caption{Occupational centroids on the task disk, with the four
+directional poles of \textcite{storck2026geometry} and nine example
+occupations. Grey points are the 878 O*NET occupations; the rim is the
+task boundary $\chi=1$.}
+\label{fig:geometry-map}
+\end{figure}
 
 The geometry also matters because the labour market does not price the
 space uniformly. The return to depth is directional. Depth in the
@@ -329,6 +361,15 @@ fields over the disk. For each capability cluster $k$,
   \bigr).
   \label{eq:capability-field}
 \end{equation}
+The clusters are the four directional families of O*NET descriptors
+identified in \textcite{storck2026geometry}: social-cognitive skills
+(S1), technical-physical skills (S2), social-cognitive abilities (A1),
+and technical-physical abilities (A2). S1 and A1 peak in the north and
+east, S2 in the west and northwest, A2 in the south and west. The
+market prices S1 strongly and S2 weakly; A1 and A2 carry no wage
+premium once the others are held fixed
+(Section~\ref{sec:gate-wedge}).
+
 The empirical implementation tests this postulate directly using
 O*NET capability descriptors that do not enter the construction of the
 task coordinates. The leading two components account for roughly three
@@ -392,7 +433,7 @@ task level.
 \includegraphics[width=0.8\textwidth]{price_field_map.png}
 \caption{The price of skill $\Pi(\mathbf{r})$ over the task disk.
 Depth is rewarded toward the socio-cognitive north and weakly rewarded
-or unrewarded toward the service and manual south.}
+or unrewarded toward the manual west and the service south.}
 \label{fig:price-field}
 \end{figure}
 
@@ -922,7 +963,8 @@ in what they hold fixed.
 \label{sec:sorting}
 
 Labour re-sorts from the pre-technology distribution. The mobility cost
-between two occupations is proportional to their distance in task space:
+between two occupations is proportional to their distance in task space,
+task distance in the sense of \textcite{gathmann2010}:
 \[
   d(j,o)=\|\mu_j-\mu_o\|.
 \]
@@ -1096,7 +1138,7 @@ The main mechanism is reported with and without this wedge.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{family_wedge.png}
-\caption{Family wage wedge.}
+\caption{Family wage wedge $\omega_g$: mean log deviation of observed wages from the bundle-priced wage, by job family. Management sits highest above the field and Personal Care and Service lowest below it; the wedge enters only the adoption margin.}
 \label{fig:family-wedge-new}
 \end{figure}
 
@@ -1567,40 +1609,5 @@ $\rho,\,\lambda_{\mathrm{over}}$ & attachment locality scale and over-qualificat
 %% ============================================================
 \printbibliography
 %% ============================================================
-
-\todo{Bibposter att lägga till och verifiera i references.bib:
-acemoglu2018race (Acemoglu \& Restrepo, ``The Race between Man and
-Machine: Implications of Technology for Growth, Factor Shares, and
-Employment'', American Economic Review 108(6):1488--1542, 2018,
-DOI 10.1257/aer.20160696 --- verifierad mot fulltext);
-brynjolfsson2018mlworkforce (Brynjolfsson, Mitchell \& Rock, ``What Can
-Machines Learn and What Does It Mean for Occupations and the Economy?'',
-AEA Papers and Proceedings 108:43--47, 2018, DOI 10.1257/pandp.20181019
---- verifierad mot fulltext); brynjolfsson2022turing (Brynjolfsson,
-``The Turing Trap: The Promise \& Peril of Human-Like Artificial
-Intelligence'', Daedalus 2022 --- ej verifierad mot fulltext, kontrollera
-volym, nummer och sidor). Kontrollera även att storck2026geometry,
-gmyrek2025 och acemoglu2019automation redan finns. Nyckeln
-storck2026mobility används inte längre (beslut 2026-06-11: Paper 2
-citeras inte; buntavståndet $d(o,o')$ definieras självständigt via
-centroidavstånd med storck2026geometry). Lägg till och verifiera
-gathmann2010 (Gathmann \& Schönberg, ``How General Is Human Capital?
-A Task-Based Approach'', Journal of labour Economics 28(1):1--49, 2010
---- samma post som i Paper 1).
-Nya poster f\"or den reviderade modellen:
-bessen2019demand (Bessen, ``AI and Jobs: The Role of Demand'', NBER
-Working Paper 24235, 2018; publicerad som kapitel i Agrawal, Gans \&
-Goldfarb (red.), \emph{The Economics of Artificial Intelligence: An
-Agenda}, Univ.\ of Chicago Press, 2019 --- kontrollera vilken version som
-ska citeras och sidnummer);
-autor2013 (Autor \& Dorn, ``The Growth of Low-Skill Service Jobs and the
-Polarization of the US labour Market'', American Economic Review
-103(5):1553--1597, 2013 --- RTI-m\aa{}ttet, anv\"ands i
-kalibreringsnoten);
-acemoglu2020robots (Acemoglu \& Restrepo, ``Robots and Jobs: Evidence
-from US labour Markets'', Journal of Political Economy 128(6):2188--2244,
-2020 --- robotexponering, anv\"ands i kalibreringsnoten). Samtliga
-verifieras mot fulltext innan inl\"amning. Notera att eloundou2024 redan
-beh\"ovs (AI-exponering, kalibrering).}
 
 \end{document}
