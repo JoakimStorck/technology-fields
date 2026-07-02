@@ -11,7 +11,16 @@ Owns one nameable part of the argument: the final allocation of reinstated
 task mass across occupations depends on the tempo. The headline number is the
 Pearson correlation of final reinstated mass across the pre-existing
 occupations, unweighted; the rank (Spearman) and employment-weighted Pearson
-correlations are reported alongside as sensitivity. All numbers are written to
+correlations are reported alongside as sensitivity.
+
+Also produces the per-occupation mechanism evidence behind fig:tempo. An
+occupation's UNCONSTRAINED CLAIM is the seed-weighted share the claim law
+(eq. claim, beta_m = 3) would allocate with no size cap, computed on the
+survival-gated seeding field at the mature technology (an end-state
+approximation of the flow-weighted claim); its SIZE is the pre-shock task
+mass that caps the absorption rate. Per regime the script reports the
+correlation of absorption with each, and the quartile shares of absorbed
+mass by claim rank and by size rank. All numbers are written to
 experiment/results/ and asserted against the frozen baseline below.
 
 Births are disabled (max_births = 0) so the occupation set is identical across
@@ -77,6 +86,35 @@ def main():
     assert abs(pear - BASELINE_PEARSON) < 0.02, f"Pearson drifted: {pear:.3f}"
     assert abs(spear - BASELINE_SPEARMAN) < 0.02, f"Spearman drifted: {spear:.3f}"
 
+    # ---- mechanism evidence: unconstrained claim vs size ----
+    dyn_ref = None
+    # rerun-free: recover FIT and original from a fresh Dyn at the layer state
+    import importlib.util as _il
+    _dspec = _il.spec_from_file_location("run_dynamic", REPO / "experiment" / "run_dynamic.py")
+    a_mature = layer.set_maturity(layer.tech.A_K)
+    seed_w = layer.eq.g_hat * (1.0 - a_mature) * layer.eq.area
+    seed_w = seed_w / seed_w.sum()
+    dyn_ref = rd.Dyn(layer.eq, layer.inp, layer.L0, layer.ell,
+                     layer.rho, lam_over=layer.lam_over)
+    BETA_M = 3.0
+    Wb = dyn_ref.FIT[:n0] ** BETA_M
+    claim = (Wb / Wb.sum(0)[None, :]) @ seed_w
+    size = dyn_ref.original[:n0]
+
+    def quartile_shares(r, key):
+        q = np.quantile(key, [0.25, 0.5, 0.75])
+        idx = np.digitize(key, q)
+        return [float(r[idx == k].sum() / r.sum()) for k in range(4)]
+
+    mech = {}
+    for name, r in (("gradual", rg), ("congested", rc)):
+        mech[name] = dict(
+            claim_p=float(pearsonr(r, claim)[0]), claim_s=float(spearmanr(r, claim)[0]),
+            size_p=float(pearsonr(r, size)[0]), size_s=float(spearmanr(r, size)[0]),
+            q_claim=quartile_shares(r, claim), q_size=quartile_shares(r, size))
+    assert abs(mech["gradual"]["claim_p"] - 0.833) < 0.02
+    assert abs(mech["congested"]["size_s"] - 0.950) < 0.02
+
     occ = layer.occ
     lines = [
         "tempo_regimes -- the destination of reinstated work depends on the tempo",
@@ -88,6 +126,24 @@ def main():
         f"corr(gradual, congested), Spearman rank:            {spear:+.3f}",
         f"corr(gradual, congested), Pearson, L0-weighted:     {wpear:+.3f}",
         f"reinstated mass totals: gradual {rg.sum():.4f}, congested {rc.sum():.4f}",
+        "",
+        "mechanism evidence (claim = unconstrained seed-weighted claim share at "
+        f"beta_m = {BETA_M:g}; size = pre-shock task mass):",
+    ]
+    for name in ("gradual", "congested"):
+        m = mech[name]
+        lines += [
+            f"  {name}:",
+            f"    corr(absorption, claim): pearson {m['claim_p']:+.3f}  "
+            f"spearman {m['claim_s']:+.3f}",
+            f"    corr(absorption, size):  pearson {m['size_p']:+.3f}  "
+            f"spearman {m['size_s']:+.3f}",
+            "    share of reinstated mass by claim quartile (low->top): "
+            + "  ".join(f"{100*x:.0f}%" for x in m["q_claim"]),
+            "    share of reinstated mass by size quartile  (low->top): "
+            + "  ".join(f"{100*x:.0f}%" for x in m["q_size"]),
+        ]
+    lines += [
         "",
         "top gainers, gradual regime:",
     ]
@@ -101,14 +157,14 @@ def main():
     iface.RESULTS.mkdir(parents=True, exist_ok=True)
     import pandas as pd
     pd.DataFrame({"OCC_CODE": occ["OCC_CODE"], "Title": occ["Title"],
-                  "L0": layer.L0, "reinst_gradual": rg, "reinst_congested": rc}
+                  "L0": layer.L0, "reinst_gradual": rg, "reinst_congested": rc,
+                  "claim_unconstrained": claim, "size_task_mass": size}
                  ).to_csv(iface.RESULTS / "tempo_regimes.csv", index=False)
 
     # ---- figure: two disk panels ----
     grid = layer.inp.grid
     gx = grid.chi * np.cos(grid.xi)
     gy = grid.chi * np.sin(grid.xi)
-    a_mature = layer.set_maturity(layer.tech.A_K)
     seed = layer.eq.g_hat * (1.0 - a_mature)          # survival-gated seeding field
     seed = seed / seed.max()
     mux = occ["chi"].to_numpy() * np.cos(occ["xi"].to_numpy())

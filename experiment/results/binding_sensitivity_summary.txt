@@ -1,0 +1,17 @@
+binding_sensitivity -- beta_m sweep and timescale decomposition
+gradual theta = 1, congested theta = 15, T_shock = 5 years, births off
+
+(1) cross-regime correlation of final reinstated mass, by claim sharpness:
+  beta_m   pearson  spearman
+       1    +0.255    +0.287
+       2    +0.304    +0.262
+       3    +0.371    +0.308
+       5    +0.503    +0.473
+       8    +0.612    +0.650
+the divergence survives the full sweep; the point size depends on the handle.
+
+(2) timescale decomposition at beta_m = 3 (corr with the gradual run):
+  congested, both slowed (theta_L = theta_abs = 15):   +0.371
+  slow absorption only (theta_L = 1, theta_abs = 15):  +0.385
+  slow mobility only  (theta_L = 15, theta_abs = 1):   +0.996
+the destination result is carried by the absorption timescale alone.

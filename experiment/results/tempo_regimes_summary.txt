@@ -7,6 +7,18 @@ corr(gradual, congested), Spearman rank:            +0.308
 corr(gradual, congested), Pearson, L0-weighted:     +0.680
 reinstated mass totals: gradual 0.1046, congested 0.1182
 
+mechanism evidence (claim = unconstrained seed-weighted claim share at beta_m = 3; size = pre-shock task mass):
+  gradual:
+    corr(absorption, claim): pearson +0.833  spearman +0.916
+    corr(absorption, size):  pearson +0.039  spearman +0.104
+    share of reinstated mass by claim quartile (low->top): 11%  16%  23%  49%
+    share of reinstated mass by size quartile  (low->top): 22%  24%  25%  28%
+  congested:
+    corr(absorption, claim): pearson +0.370  spearman +0.213
+    corr(absorption, size):  pearson +0.518  spearman +0.950
+    share of reinstated mass by claim quartile (low->top): 19%  18%  26%  37%
+    share of reinstated mass by size quartile  (low->top): 4%  11%  28%  57%
+
 top gainers, gradual regime:
   0.00150  Preventive Medicine Physicians
   0.00135  Physicists

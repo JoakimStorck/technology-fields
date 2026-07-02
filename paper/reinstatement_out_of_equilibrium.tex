@@ -350,9 +350,18 @@ timescale $\theta_{\text{abs}}$ are calibration handles, not worldviews;
 their economic content --- whether absorptive capacity scales linearly or
 sub-linearly with size, and how sharply the best match wins --- is settled
 by a sweep, and the central result below is itself such a sweep.
-\todo{Fix or bound $\beta_m$ and $\theta_{\text{abs}}$; report the result's
-sensitivity to both. State the economic interpretation of each as a
-calibration target.}
+Their economic interpretation is direct. The sharpness $\beta_m$ sets how
+strongly the best match dominates the local claim: $\beta_m = 1$ shares
+the mass in proportion to fit, $\beta_m \to \infty$ assigns each location
+strictly to its best match; its calibration target is the observed
+concentration of new work across occupations. The absorption timescale
+$\theta_{\text{abs}}$ is the time an occupation needs to absorb its own
+task mass in new work, an onboarding capacity per unit size; its target
+is the observed pace at which occupations take on new task content. The
+runs fix $\beta_m = 3$ and sweep the tempo;
+Section~\ref{sec:destination} reports the result's sensitivity to
+$\beta_m$ over $1$ to $8$ and shows that the destination result is
+carried by $\theta_{\text{abs}}$ alone.
 
 %% ============================================================
 \section{Results}
@@ -454,10 +463,30 @@ occupations. The two final allocations correlate at $+0.37$.}
 \label{fig:tempo}
 \end{figure}
 
-\todo{Add the size-versus-match correlation in each regime and the
-quartile shares of absorption. Keep all rankings in absolute and spatial
-measures, since the relative measure is unbounded for small
-occupations.}
+The mechanism reads off the per-occupation evidence. Define an
+occupation's unconstrained claim as the seed-weighted share the claim law
+\eqref{eq:claim} would allocate with no size cap, and its size as the
+pre-shock task mass that caps the rate. In the gradual regime absorption
+tracks the claim --- Pearson $+0.83$, rank $+0.92$ --- and is
+uncorrelated with size ($+0.04$); the top claim quartile takes $49$
+percent of the reinstated mass. In the congested regime the claim
+decouples ($+0.37$, rank $+0.21$) and size takes over (rank $+0.95$);
+the top size quartile takes $57$ percent of the mass and the bottom
+quartile is squeezed from $22$ to $4$ percent. All rankings are in
+absolute mass; the relative-change measure is unbounded for small
+occupations and is not used.
+
+Two robustness checks bound the claim. Sweeping the sharpness $\beta_m$
+from $1$ to $8$ moves the cross-regime correlation from $+0.26$ to
+$+0.61$: the divergence of destinations survives the full range, while
+its point size depends on the handle. And decomposing the tempo into its
+two timescales shows which one binds: slowing only absorption
+($\theta_L = 1$, $\theta_{\text{abs}} = 15$) reproduces the congested
+allocation (correlation $+0.39$ with the gradual run), while slowing
+only mobility ($\theta_L = 15$, $\theta_{\text{abs}} = 1$) leaves the
+destination essentially unchanged ($+1.00$). The forced downgrading is a
+statement about how fast occupations can take on new work, not about how
+fast workers move.
 
 \section{The general-equilibrium price feedback}
 \label{sec:ge-feedback}
@@ -585,13 +614,14 @@ the foundation paper. At minimum, state plainly that the high- versus
 low-skill character of the gainers is conditional on the gate.}
 
 The second qualification is the binding calibration. The allocation
-depends on the sharpness $\beta$ and the absorption timescale
-$\theta_{\text{abs}}$, and the central result is presented as a sweep over
-the tempo precisely so that the dependence is exhibited rather than
-hidden. But the regime boundary --- how slow redistribution must be,
-relative to the shock, for downgrading to set in --- is a quantitative
-claim that rests on these handles, and a reader is owed their economic
-interpretation and the result's sensitivity to them.
+depends on the sharpness $\beta_m$ and the absorption timescale
+$\theta_{\text{abs}}$, and Section~\ref{sec:destination} reports both
+sensitivities: the divergence of destinations survives the sharpness
+sweep with a point size that moves with the handle, and it is carried by
+the absorption timescale alone. The remaining quantitative claim is the
+regime boundary --- how slow absorption must be, relative to the shock,
+for downgrading to set in --- which the tempo sweep exhibits rather than
+derives.
 
 Several limitations remain. The realisation is illustrative, inheriting
 the companion paper's calibration and its discipline: no causal claim is
@@ -630,9 +660,5 @@ sense, properties of the path and not only of the endpoint.
 %% ============================================================
 \printbibliography
 %% ============================================================
-
-\todo{Authorship of the companion-paper entries in references.bib
-(storck2026fields, storck2026geometry) is a deferred decision; verify
-against the final author lists before submission.}
 
 \end{document}
