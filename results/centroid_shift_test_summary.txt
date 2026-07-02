@@ -12,3 +12,29 @@ Predicted directional pressure vs observed wage change 2019->2025:
 
 Robustness endpoint 2019->2024:
   [SOC level (emp-wtd proj) vs dlnw]  N=640  Spearman +0.391 (p=8.0e-25)  Pearson +0.240 (p=7.3e-10)
+
+Confound analysis (baseline wage / pandemic compression):
+  [confound: w_origin vs dlnw]  N=725  Spearman -0.576 (p=2.2e-65)  Pearson -0.392 (p=4.1e-28)
+  [collinearity: proj vs w_origin]  N=725  Spearman -0.565 (p=1.8e-62)  Pearson -0.389 (p=1.3e-27)
+  [partial | rank(w_origin)] proj vs dlnw: rho=+0.021 (p=0.57)
+  [partial | rank(w_origin)] dW_bundle vs dlnw: rho=+0.028 (p=0.45)
+  rank-R2 of dlnw: on w_origin alone 0.3321; adding proj 0.3324 (increment +0.0003)
+
+Placebo by exposure tercile (phi_K at the centroid):
+  [low  phi] N=242  w0->dlnw rho=-0.640  proj|w0 rho=-0.142 (p=0.03)
+  [mid  phi] N=241  w0->dlnw rho=-0.585  proj|w0 rho=+0.066 (p=0.31)
+  [high phi] N=242  w0->dlnw rho=-0.141  proj|w0 rho=-0.132 (p=0.04)
+  rank(dlnw) ~ rank(w0) + rank(phi) + rank(w0) x rank(phi):
+    const     b=+0.952  t=+27.95
+    w0        b=-0.928  t=-11.84
+    phi       b=-0.413  t=-5.23
+    w0 x phi  b=+0.723  t=+5.49
+
+proj -> dlnw within baseline-wage halves:
+  [bottom half] N=363  Spearman +0.218 (p=2.9e-05)
+  [top half   ] N=362  Spearman -0.030 (p=5.7e-01)
+
+Window split (OEWS 2023 vintage), N=725:
+  [2019-2023]  proj raw +0.340 (p=4.0e-21)  proj|w0 +0.031 (p=0.40)  w0->dlnw -0.565
+  [2023-2025]  proj raw +0.040 (p=2.8e-01)  proj|w0 -0.026 (p=0.48)  w0->dlnw -0.110
+  [2019-2025]  proj raw +0.340 (p=4.3e-21)  proj|w0 +0.021 (p=0.57)  w0->dlnw -0.576

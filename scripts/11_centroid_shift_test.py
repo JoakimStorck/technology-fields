@@ -20,6 +20,27 @@ Design:
     nominal drift is differenced out by the ranking). 2019 -> 2024 as a
     robustness endpoint.
 
+Confound analysis (paper section 'What the Wage Cross-Section Can and Cannot
+Show'). The naive correlation is confounded by the 2019-2025 low-wage
+compression (Autor, Dube & McGrew 2023): predicted pressure is collinear with
+baseline wage because the price gate targets dear work. The script therefore
+also reports:
+  - partial rank correlations of proj and dW_bundle with dlnw, controlling for
+    the baseline-wage rank (residualise ranks on rank(w_origin), correlate
+    residuals), plus the incremental rank-R^2 of the mechanism over baseline
+    wage alone;
+  - a placebo by exposure tercile: the w0 -> dlnw gradient and the conditional
+    proj correlation within terciles of phi_K at the occupation centroid (the
+    mechanism predicts the gradient concentrated where the field reaches;
+    compression predicts it among unexposed low-wage occupations);
+  - a rank-interaction regression rank(dlnw) ~ rank(w0) + rank(phi) +
+    rank(w0) x rank(phi);
+  - the proj -> dlnw correlation within the top and bottom halves of the
+    baseline-wage distribution;
+  - a window split using the OEWS 2023 vintage: 2019 -> 2023 (peak pandemic
+    compression, pre-LLM deployment) against 2023 -> 2025 (LLM era), written
+    to results/centroid_shift_windows.csv for the paper table.
+
 The iota_o / centroid computation mirrors model.regime exactly and is validated
 against regime()'s D_o and B_o at run time (asserts machine-precision match), so
 this script cannot silently drift from the committed operator.
@@ -60,6 +81,7 @@ DATA = REPO_ROOT / "data"
 RESULTS = REPO_ROOT / "results"
 R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5
 ORIGIN_YEAR, ENDPOINT_YEAR, ROBUST_YEAR = 2019, 2025, 2024
+MID_YEAR = 2023  # window split: pre-LLM/peak-compression vs LLM-era
 
 
 def post_centroids(inp, tech, L, ell, rho=0.5, lam_over=1.0):
@@ -123,6 +145,30 @@ def _corr_block(label, x, y):
             f"Pearson {pr:+.3f} (p={pp:.1e})")
 
 
+def _rank01(x):
+    from scipy.stats import rankdata
+    r = rankdata(np.asarray(x, float))
+    return r / len(r)
+
+
+def _partial_rank(x, y, z):
+    """Partial Spearman: rank all three, residualise rank(x) and rank(y) on
+    rank(z), correlate the residuals. Returns (rho, p)."""
+    rx, ry, rz = _rank01(x), _rank01(y), _rank01(z)
+    ex = rx - np.polyval(np.polyfit(rz, rx, 1), rz)
+    ey = ry - np.polyval(np.polyfit(rz, ry, 1), rz)
+    return pearsonr(ex, ey)
+
+
+def _rank_r2(y, X_cols):
+    """Rank-R^2 of rank(y) on an intercept plus the ranked columns."""
+    ry = _rank01(y)
+    X = np.column_stack([np.ones(len(ry))] + [_rank01(c) for c in X_cols])
+    beta, *_ = np.linalg.lstsq(X, ry, rcond=None)
+    resid = ry - X @ beta
+    return 1.0 - resid @ resid / ((ry - ry.mean()) @ (ry - ry.mean()))
+
+
 def main() -> None:
     inp, L0, occ = _setup.build_inputs()
     tech = _setup.load_tech()
@@ -150,6 +196,7 @@ def main() -> None:
         "Title": occ["Title"].to_numpy(), "L0": L0,
         "dmu_mag": np.hypot(dmu[:, 0], dmu[:, 1]),
         "proj": proj, "dW_bundle": diag["dW_bundle"],
+        "phi_K": tech.phi(xi_o, chi_o),   # technical exposure at the centroid
     })
 
     h0 = oews_median(ORIGIN_YEAR)
@@ -192,24 +239,94 @@ def main() -> None:
     lines += ["", f"Robustness endpoint {ORIGIN_YEAR}->{ROBUST_YEAR}:"]
     lines.append(_corr_block("SOC level (emp-wtd proj) vs dlnw", socr["proj"], socr["dlnw"]))
 
+    # ------------------------------------------------------------------
+    # Confound analysis: baseline-wage collinearity and the 2019-2025
+    # low-wage compression (Autor, Dube & McGrew 2023).
+    # ------------------------------------------------------------------
+    lines += ["", "Confound analysis (baseline wage / pandemic compression):"]
+    w0, dl = res["w_origin"], res["dlnw"]
+    lines.append(_corr_block("confound: w_origin vs dlnw", w0, dl))
+    lines.append(_corr_block("collinearity: proj vs w_origin", res["proj"], w0))
+    for nm in ("proj", "dW_bundle"):
+        rho, p = _partial_rank(res[nm], dl, w0)
+        lines.append(f"  [partial | rank(w_origin)] {nm} vs dlnw: "
+                     f"rho={rho:+.3f} (p={p:.2f})")
+    r2_w = _rank_r2(dl, [w0])
+    r2_wp = _rank_r2(dl, [w0, res["proj"]])
+    lines.append(f"  rank-R2 of dlnw: on w_origin alone {r2_w:.4f}; "
+                 f"adding proj {r2_wp:.4f} (increment {r2_wp - r2_w:+.4f})")
+
+    # placebo: where does the wage-growth gradient live in exposure terms?
+    lines += ["", "Placebo by exposure tercile (phi_K at the centroid):"]
+    res["phi_ter"] = pd.qcut(res["phi_K"], 3, labels=["low", "mid", "high"])
+    for t, g in res.groupby("phi_ter", observed=True):
+        gr = spearmanr(g["w_origin"], g["dlnw"])
+        pp, ppv = _partial_rank(g["proj"], g["dlnw"], g["w_origin"])
+        lines.append(f"  [{t:4s} phi] N={len(g):3d}  w0->dlnw rho={gr[0]:+.3f}  "
+                     f"proj|w0 rho={pp:+.3f} (p={ppv:.2f})")
+    # rank-interaction regression: rank(dlnw) ~ rank(w0)*rank(phi)
+    ry = _rank01(dl)
+    rw, rp = _rank01(w0), _rank01(res["phi_K"])
+    X = np.column_stack([np.ones(len(ry)), rw, rp, rw * rp])
+    beta, *_ = np.linalg.lstsq(X, ry, rcond=None)
+    resid = ry - X @ beta
+    se = np.sqrt(np.diag(np.linalg.inv(X.T @ X)) * (resid @ resid) / (len(ry) - 4))
+    lines.append("  rank(dlnw) ~ rank(w0) + rank(phi) + rank(w0) x rank(phi):")
+    for nm, b, s_ in zip(("const", "w0", "phi", "w0 x phi"), beta, se):
+        lines.append(f"    {nm:9s} b={b:+.3f}  t={b / s_:+.2f}")
+
+    # subsample: mechanism most active at the top; compression at the bottom
+    lines += ["", "proj -> dlnw within baseline-wage halves:"]
+    med = res["w_origin"].median()
+    for lab, g in (("bottom half", res[res["w_origin"] <= med]),
+                   ("top half   ", res[res["w_origin"] > med])):
+        sr_, sp_ = spearmanr(g["proj"], g["dlnw"])
+        lines.append(f"  [{lab}] N={len(g):3d}  Spearman {sr_:+.3f} (p={sp_:.1e})")
+
+    # window split on the 2023 vintage: pre-LLM/compression vs LLM era
+    res["w_mid"] = res["OCC_CODE"].map(oews_median(MID_YEAR))
+    win = res.dropna(subset=["w_mid"]).copy()
+    win["dlnw_early"] = np.log(win["w_mid"]) - np.log(win["w_origin"])
+    win["dlnw_late"] = np.log(win["w_end"]) - np.log(win["w_mid"])
+    windows = [
+        (f"{ORIGIN_YEAR}-{MID_YEAR}", win["dlnw_early"], win["w_origin"]),
+        (f"{MID_YEAR}-{ENDPOINT_YEAR}", win["dlnw_late"], win["w_mid"]),
+        (f"{ORIGIN_YEAR}-{ENDPOINT_YEAR}", win["dlnw"], win["w_origin"]),
+    ]
+    lines += ["", f"Window split (OEWS {MID_YEAR} vintage), N={len(win)}:"]
+    rows = []
+    for lab, dly, wz in windows:
+        raw, rawp = spearmanr(win["proj"], dly)
+        par, parp = _partial_rank(win["proj"], dly, wz)
+        grad = spearmanr(wz, dly)[0]
+        rows.append({"window": lab, "N": len(win),
+                     "spearman_raw": raw, "p_raw": rawp,
+                     "partial_w0": par, "p_partial": parp,
+                     "w0_gradient": grad})
+        lines.append(f"  [{lab}]  proj raw {raw:+.3f} (p={rawp:.1e})  "
+                     f"proj|w0 {par:+.3f} (p={parp:.2f})  w0->dlnw {grad:+.3f}")
+    pd.DataFrame(rows).to_csv(RESULTS / "centroid_shift_windows.csv", index=False)
+
     res.to_csv(RESULTS / "centroid_shift_test.csv", index=False)
     (RESULTS / "centroid_shift_test_summary.txt").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
 
-    # scatter
-    fig, ax = plt.subplots(figsize=(7.2, 5.6))
-    ax.scatter(res["proj"], res["dlnw"], s=10 + 1.2e4 * res["L0"],
-               c="#3b528b", alpha=0.45, edgecolors="none")
-    ax.axvline(0, color="0.6", lw=0.8)
-    ax.axhline(res["dlnw"].mean(), color="0.6", lw=0.8, ls=":")
-    sr = spearmanr(res["proj"], res["dlnw"])[0]
-    ax.set_xlabel(r"predicted directional wage pressure  $\Delta\mu_o\cdot\nabla\ln\Pi$")
-    ax.set_ylabel(rf"observed $\Delta\ln w$  ({ORIGIN_YEAR}$\to${ENDPOINT_YEAR})")
-    ax.set_title(f"Centroid-shift consistency (Spearman {sr:+.2f}); non-causal")
+    # scatter: the two windows side by side (same axes) -- the split carries
+    # the message: the raw correlation lives in the pre-LLM compression window
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.0), sharey=True)
+    for ax, (lab, dly, _) in zip(axes, windows[:2]):
+        ax.scatter(win["proj"], dly, s=10 + 1.2e4 * win["L0"],
+                   c="#3b528b", alpha=0.45, edgecolors="none")
+        ax.axvline(0, color="0.6", lw=0.8)
+        ax.axhline(float(np.mean(dly)), color="0.6", lw=0.8, ls=":")
+        sr_ = spearmanr(win["proj"], dly)[0]
+        ax.set_xlabel(r"predicted pressure  $\Delta\mu_o\cdot\nabla\ln\Pi$")
+        ax.set_title(f"{lab}:  Spearman {sr_:+.2f}")
+    axes[0].set_ylabel(r"observed $\Delta\ln w$")
     fig.tight_layout()
     fig.savefig(RESULTS / "centroid_shift_test.png", dpi=150)
     plt.close(fig)
-    print(f"wrote {RESULTS/'centroid_shift_test.csv'}, .png, _summary.txt")
+    print(f"wrote {RESULTS/'centroid_shift_test.csv'}, _windows.csv, .png, _summary.txt")
 
 
 if __name__ == "__main__":

@@ -167,6 +167,23 @@ case. The aim is not causal identification but mechanism: to show how
 the same economy responds differently when technology acts in different
 regions of task space.
 
+We also confront the model with observed occupational wage changes
+between 2019 and 2025. A naive directional check passes: occupations
+whose bundles are pushed further down the price gradient exhibit weaker
+wage growth. We then show that the pass is uninformative. Because the
+price gate targets dear work, the model's predicted wage pressure is
+nearly collinear with the baseline wage level, and the window is
+dominated by the pandemic-era compression of the US wage distribution
+\parencite{autor2023compression}, which makes the same cross-sectional
+prediction. Once baseline wage is held fixed, the mechanism adds
+nothing, and a vintage split shows that the entire raw correlation lies
+in the pre-deployment window. We report this as a finding about what the
+occupational cross-section can identify, not as empirical support: the
+identifying variation the model calls for is within-occupation task
+recomposition over time, which is deferred to companion work. The
+exercise doubles as a caution for the growing literature that correlates
+AI exposure with recent wage changes.
+
 The paper proceeds as follows.
 Section~\ref{sec:geometry} introduces the spatial occupational geometry.
 Section~\ref{sec:price-field} defines the price field and shows how it
@@ -177,8 +194,9 @@ and the bundle operator. Section~\ref{sec:employment-demand} closes the
 model with employment sorting and the output-demand channel.
 Section~\ref{sec:implementation} describes the empirical implementation
 and calibration. Section~\ref{sec:cases} presents the illustrative
-cases. Section~\ref{sec:directional-check} provides a directional
-consistency check against observed occupational wage changes.
+cases. Section~\ref{sec:directional-check} confronts the model with
+observed occupational wage changes and shows what the 2019--2025
+cross-section can and cannot identify.
 Section~\ref{sec:discuss} discusses implications and limitations.
 
 %% ============================================================
@@ -408,16 +426,19 @@ In the numerical assignment closure, occupations are capability types,
 tasks require capability vectors $q(\mathbf{r})$, and workers allocate
 toward tasks that pay high prices relative to their readiness. With
 uniform demand, the assignment recovers much of the shape of the
-reduced-form field but produces too weak a north-south gradient. A
+reduced-form field (rank correlation $+0.92$) but produces too weak a
+north--south gradient ($+0.08$ against the observed $+0.39$). A
 single cognitive demand shifter,
 \[
   \alpha(\mathbf{r})
   =
   \exp(\lambda q_{S1}(\mathbf{r})),
 \]
-steepens the gradient and reproduces the observed field closely. A
+steepens the gradient to $+0.36$ while preserving the shape (rank
+correlation $+0.97$ at $\lambda=0.2$). A
 production-complementarity alternative concentrates labour in the north
-but makes it too cheap, because output expands faster than price. The
+but makes it too cheap, because output expands faster than price: the
+correlation between wages and the price surface turns negative. The
 dearness of cognitive work is therefore better understood as
 demand-driven assignment pressure than as productivity superiority.
 
@@ -1103,7 +1124,12 @@ and reinstatement does not restore it, leaving it at $0.626$ in the main
 calibration. The reason is not that task creation is absent, but that
 much of the seeded mass either fails to attach or attaches in lower
 priced regions. The geometry withholds the aggregate recovery that a
-one-dimensional model would assign to labour by construction.
+one-dimensional model would assign to labour by construction. The
+result is robust to the family wage wedge: with the wedge in the
+adoption gate, the share falls to $0.647$ under automation and $0.642$
+after reinstatement, the unbound share of surviving seed is unchanged at
+$68$ percent, and the ordering of gaining and losing occupations is
+preserved.
 
 Re-sorting is substantial: $58$ percent of employment mass relocates.
 Gainers are occupations whose existing capabilities let them bind the
@@ -1147,9 +1173,9 @@ $22$ percent for the cognitive field and $6$ percent for the manual one.
 Across plausible elasticities, displacement dominates because savings
 are small at the adoption margin: the price-to-cost ratio is essentially
 one there against roughly $1.5$ deep in the technology core. Net
-employment growth appears only at high elasticity --- the region crosses
-zero between $\eta=6$ and $7$ --- or where infra-marginal savings are
-large.
+employment growth appears only at high elasticity --- the cognitive
+region crosses zero at $\eta\approx7.3$ and the manual region at
+$\eta\approx6.1$ --- or where infra-marginal savings are large.
 
 \begin{figure}[!htbp]
 \centering
@@ -1168,15 +1194,19 @@ automation is conditional on the still uncertain elasticity of demand
 for cognitive output.
 
 %% ============================================================
-\section{Directional Consistency Check}
+\section{What the Wage Cross-Section Can and Cannot Show}
 \label{sec:directional-check}
 %% ============================================================
 
 The model's empirical implication is directional. If automation and
 reinstatement push an occupation's bundle down the price gradient, that
 occupation should experience weaker wage growth than occupations whose
-bundles move less or remain closer to high-priced work. This is not a
-causal design. It is a falsification-oriented consistency check.
+bundles move less or remain closer to high-priced work. This section
+confronts that implication with observed occupational wage changes. The
+confrontation proceeds in two steps: a naive directional check, which the
+model passes, and a confound analysis, which shows that the pass is
+uninformative in this window. We report both, because the second step
+carries a methodological point that extends beyond this paper.
 
 Using the calibrated cognitive field, each occupation's bundle is
 rewritten and its centroid shifts from $\mu_o$ to $\mu_o^{\text{post}}$. The
@@ -1198,28 +1228,111 @@ by SOC code; $725$ of $849$ occupations ($640$ distinct SOC codes) carry
 a median wage in both vintages. Because the match is many-to-one and the
 wages nominal, we compare ranks, which differences out the common
 nominal drift (mean $\Delta\ln w\approx+0.22$). The field pushes almost
-every bundle down-gradient ($96$ percent), and the prediction has the
-expected sign: occupations pushed further down-gradient exhibit weaker
-wage growth. The rank correlation between predicted pressure and observed
-wage change is $+0.34$ across occupations ($p<10^{-20}$) and $+0.35$ at
-the SOC level; the model's own bundle wage change tracks observed changes
-slightly better ($+0.42$). The result is stable when May 2024 is used as
-the endpoint ($+0.39$).
+every bundle down-gradient ($96$ percent), and the naive check passes:
+the rank correlation between predicted pressure and observed wage change
+is $+0.34$ across occupations ($p<10^{-20}$) and $+0.35$ at the SOC
+level; the model's own bundle wage change tracks observed changes
+slightly better ($+0.42$), and the result is stable when May 2024 is
+used as the endpoint ($+0.39$).
+
+\subsection{The confound}
+\label{sec:check-confound}
+
+Taken at face value, this supports the mechanism. It should not be taken
+at face value. The predicted pressure is nearly collinear with the
+baseline wage level: because the price gate targets dear work,
+occupations with high 2019 wages are pushed furthest down-gradient (rank
+correlation $-0.57$ between predicted pressure and baseline wage). And
+the window contains the pandemic-era compression of the US wage
+distribution, in which low-wage occupations saw exceptional relative
+wage growth for reasons unrelated to automation
+\parencite{autor2023compression}: baseline wage alone predicts wage
+growth at rank correlation $-0.58$. The model and the compression
+therefore make the same cross-sectional prediction, and the raw
+correlation cannot distinguish between them.
+
+The data resolve the collinearity in favour of the confound. Controlling
+for the baseline-wage rank, the partial rank correlation between
+predicted pressure and wage growth is $+0.02$ ($p=0.57$); the bundle
+wage change performs no better ($+0.03$). Adding the mechanism raises
+the rank-$R^2$ already achieved by baseline wage alone by $0.0003$. The
+fine structure points the same way. The wage-growth gradient is steepest
+among the occupations the technology field barely reaches (rank
+correlation $-0.64$ in the least exposed tercile of $\phi_K$) and nearly
+flat where the field is strongest ($-0.14$ in the most exposed tercile);
+in a rank regression the wage--exposure interaction is positive and
+significant, so exposure attenuates the gradient rather than creating
+it. Among above-median-wage occupations --- where the mechanism strips
+the most and the compression matters least --- the raw correlation
+vanishes entirely ($-0.03$). This is the footprint of compression at the
+bottom of the distribution, not of high-priced content being stripped in
+the exposed region.
+
+A window split settles the matter. The OEWS 2023 vintage divides the
+period into 2019--2023, which contains the peak of the compression and
+essentially predates the deployment of the technology the field is
+calibrated to, and 2023--2025, the period of actual diffusion.
+Table~\ref{tab:window-split} reports the result: the entire raw
+correlation lives in the pre-deployment window, and in the deployment
+window it is absent, along with most of the compression gradient itself.
+
+\begin{table}[!htbp]
+\centering
+\caption{Window split of the directional check. Spearman rank
+correlations between predicted directional wage pressure and observed
+wage change; the partial correlation controls for the rank of the wage
+level at the start of each window. The baseline gradient is the rank
+correlation between the starting wage level and wage growth ($N=725$).}
+\label{tab:window-split}
+\begin{tabular}{lccc}
+\toprule
+Window & Raw & Partial $\mid$ baseline wage & Baseline gradient \\
+\midrule
+2019--2023 (pre-deployment) & $+0.34$ & $+0.03$ & $-0.57$ \\
+2023--2025 (deployment) & $+0.04$ & $-0.03$ & $-0.11$ \\
+2019--2025 (full) & $+0.34$ & $+0.02$ & $-0.58$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.75\textwidth]{centroid_shift_test.png}
+\includegraphics[width=\textwidth]{centroid_shift_test.png}
 \caption{Predicted directional wage pressure against observed
-occupational wage change.}
+occupational wage change, split at the OEWS 2023 vintage. The raw
+correlation is confined to the 2019--2023 window, which contains the
+peak of the pandemic wage compression and predates the deployment of the
+technology the cognitive field is calibrated to; in the 2023--2025
+window it is absent.}
 \label{fig:centroid-shift-new}
 \end{figure}
 
-This result should be read narrowly. The test does not isolate the
-causal effect of AI or any other technology. It checks whether the
-spatial displacement mechanism points in the same direction as observed
-relative wage movement. A model pointing the wrong way would fail this
-test. Passing it supports the mechanism but does not validate its
-magnitude.
+\subsection{What follows}
+\label{sec:check-reading}
+
+Two conclusions follow, and they should be kept apart. First, the
+2019--2025 occupational cross-section cannot test the mechanism. Its
+observable prediction and the dominant wage shock of the period load on
+the same index --- the baseline wage --- and once that index is held
+fixed there is no identifying variation left. The identifying variation
+the model calls for is within-occupation task recomposition over time:
+whether the paid content of exposed bundles is being redrawn in the
+direction the operator predicts. That test requires within-occupation
+microdata and is left to companion work. Second, the null in the
+deployment window is not evidence against the model. The model does not
+predict that two years of diffusion should be visible in occupational
+median wages; a loud pass in this window would have deserved suspicion
+rather than confidence.
+
+The exercise also carries a caution that extends beyond this paper. A
+naive correlation between AI exposure and 2019--2025 occupational wage
+growth has the right sign, a small $p$-value, and nothing to do with AI:
+it measures the pandemic compression. This is the exposure-versus-incidence
+distinction of Section~\ref{sec:operated-share} in empirical form.
+Technical exposure correlates with wage levels, wage levels drove
+relative wage growth in this period, and the chain of correlations
+manufactures apparent support for any mechanism whose cross-sectional
+footprint is a wage gradient.
 
 %% ============================================================
 \section{Discussion}
