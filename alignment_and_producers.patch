@@ -1,0 +1,840 @@
+diff --git a/experiment/_interface.py b/experiment/_interface.py
+new file mode 100644
+index 0000000..b3a051b
+--- /dev/null
++++ b/experiment/_interface.py
+@@ -0,0 +1,119 @@
++"""
++_interface.py
++-------------
++The static layer as a frozen input to the dynamic work.
++
++Every numbered experiment script (d01, d02, ...) consumes the static paper's
++calibration through this module and through nothing else: no d-script imports
++scripts/_setup.py or constructs an Equilibrium directly. The contract is one
++object, StaticLayer, holding
++
++  - the frozen geometry and occupation inputs (inp, L0, occ),
++  - the calibrated technology field (tech) and its unit-amplitude shape
++    (g0_grid, g0_task) for maturation trajectories A_K(t),
++  - the companion paper's economy parameters (R, tau, beta, gamma, ell,
++    rho, lam_over -- Table `economy-parameters` of the static manuscript),
++  - a survival-gated Equilibrium with the shared attachment primitive
++    (eq.e = model.regime._fit = the companion's eq. `attachment`),
++  - the mobility reference (kappa, c) computed by the companion's rule
++    (kappa = one SD of baseline occupation value; the median move costs
++    one kappa), evaluated at A_K = 0.
++
++If the dynamic layer moves to a dedicated repository, this module is the cut
++line: load_static_layer() is reimplemented as a reader of a serialized
++calibration artifact exported by the static pipeline, and the API stays.
++
++Result-bearing scripts write figures, tables, and a plain-text summary to
++experiment/results/ (RESULTS below), and assert their own baseline numbers so
++a drifted calibration fails loudly instead of silently changing the paper.
++"""
++from __future__ import annotations
++
++import importlib.util
++import sys
++from pathlib import Path
++
++import numpy as np
++
++REPO = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(REPO))
++
++from model.equilibrium import Equilibrium
++from model.technology import Technology
++
++RESULTS = REPO / "experiment" / "results"
++
++# Companion-paper economy parameters (static Table `economy-parameters`).
++R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5
++RHO, LAM_OVER = 0.5, 1.0
++
++
++class StaticLayer:
++    """Plain container (not a dataclass: this module is loaded via importlib
++    spec by scripts, where dataclass machinery breaks)."""
++
++    def __init__(self, inp, L0, occ, tech, ell, eq, g0_grid, g0_task, kappa, c):
++        self.inp, self.L0, self.occ = inp, L0, occ
++        self.tech, self.ell, self.eq = tech, ell, eq
++        self.g0_grid, self.g0_task = g0_grid, g0_task
++        self.kappa, self.c = kappa, c
++        self.R, self.tau, self.beta, self.gamma = R, TAU, BETA, GAMMA
++        self.rho, self.lam_over = RHO, LAM_OVER
++
++    def set_maturity(self, A_K: float) -> np.ndarray:
++        """Update the A_K-dependent arrays of eq in place (s_K = 1, eta = 1)
++        and return the operated share on the grid."""
++        eq = self.eq
++        a_grid = 1.0 / (1.0 + np.exp(-(A_K * self.g0_grid - self.R / eq.pi_cell) / self.tau))
++        a_task = 1.0 / (1.0 + np.exp(-(A_K * self.g0_task - self.R / eq.pi_task) / self.tau))
++        eq.a_grid = a_grid
++        eq.a_task = a_task
++        eq.D_o = np.bincount(eq.row_of, weights=eq.b_w * a_task, minlength=eq.n_occ)
++        return a_grid
++
++
++_CACHE: dict[str, StaticLayer] = {}
++
++
++def load_static_layer(cached: bool = True) -> StaticLayer:
++    """Build (once) and return the frozen static layer."""
++    if cached and "layer" in _CACHE:
++        return _CACHE["layer"]
++    spec = importlib.util.spec_from_file_location("_setup", REPO / "scripts" / "_setup.py")
++    _setup = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(_setup)
++
++    inp, L0, occ = _setup.build_inputs()
++    tech = _setup.load_tech()
++    ell = _setup.interpretable_ell(inp)
++
++    eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None, survival=True)
++    eq.L0 = L0
++    unit = Technology(xi_K=tech.xi_K, chi_K=tech.chi_K, z_K=tech.z_K, A_K=1.0, s_K=1.0)
++    g0_grid = unit.phi(inp.grid.xi, inp.grid.chi)
++    g0_task = unit.phi(eq.b_xi, eq.b_chi)
++
++    layer = StaticLayer(inp=inp, L0=L0, occ=occ, tech=tech, ell=ell, eq=eq,
++                        g0_grid=g0_grid, g0_task=g0_task, kappa=0.0, c=0.0)
++    # Mobility reference at the pre-technology baseline (A_K = 0), by the
++    # companion's rule: kappa = SD of baseline occupation value W0; the median
++    # move costs one kappa.
++    layer.set_maturity(0.0)
++    _, _, W0 = eq.density_and_value(L0)
++    layer.kappa = float(np.std(W0))
++    layer.c = layer.kappa / float(np.median(eq.d[eq.d > 0]))
++
++    if cached:
++        _CACHE["layer"] = layer
++    return layer
++
++
++def write_summary(name: str, lines: list[str]) -> Path:
++    """Write a plain-text summary to experiment/results/ and echo it."""
++    RESULTS.mkdir(parents=True, exist_ok=True)
++    path = RESULTS / f"{name}_summary.txt"
++    text = "\n".join(lines) + "\n"
++    path.write_text(text)
++    print(text)
++    print(f"wrote {path}")
++    return path
+diff --git a/experiment/d01_calendar_dynamics.py b/experiment/d01_calendar_dynamics.py
+new file mode 100644
+index 0000000..9828a9c
+--- /dev/null
++++ b/experiment/d01_calendar_dynamics.py
+@@ -0,0 +1,126 @@
++"""
++d01_calendar_dynamics.py
++------------------------
++Producer of fig:calendar in the tempo manuscript: the technology maturing as a
++logistic diffusion over a T_shock = 5 year window (left), and the unbound stock
++U(t) -- the transitional mismatch between destruction and creation -- for four
++redistribution tempos theta in {1, 3, 8, 15} years against that fixed shock
++(right). theta sets theta_L and theta_abs together ("the redistribution
++tempo").
++
++Owns one nameable part of the argument: the mismatch hump grows and lingers as
++redistribution slows relative to the shock, but always drains to zero. The
++result-bearing numbers are the peak heights, their timing, the fastest-to-
++slowest peak ratio, and the drain check; all are written to
++experiment/results/ and asserted against the frozen baseline below.
++
++Births are disabled (max_births = 0): the birth layer belongs to the birth
++extension (probe_allocation.py) and would confound the tempo comparison by
++changing the occupation set across regimes.
++
++Usage: python experiment/d01_calendar_dynamics.py
++"""
++import importlib.util
++import sys
++from pathlib import Path
++
++import numpy as np
++
++REPO = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(REPO))
++import matplotlib
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++
++
++def _load(name):
++    spec = importlib.util.spec_from_file_location(name, REPO / "experiment" / f"{name}.py")
++    mod = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(mod)
++    return mod
++
++
++iface = _load("_interface")
++rd = _load("run_dynamic")
++
++THETAS = (1.0, 3.0, 8.0, 15.0)
++T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
++
++# Frozen baseline (this machine, this calibration). Asserted with 5 percent
++# relative tolerance so a drifted calibration fails loudly.
++BASELINE_PEAKS = {1.0: 0.000306, 3.0: 0.004358, 8.0: 0.013881, 15.0: 0.024563}
++BASELINE_RATIO = 80.2
++
++
++def main():
++    layer = iface.load_static_layer()
++    res = {}
++    for th in THETAS:
++        dyn, rec, occ = rd.main(theta_L=th, theta_abs=th, T_shock=T_SHOCK,
++                                T_max=T_MAX, dt=DT, max_births=0,
++                                verbose=False, layer=layer)
++        res[th] = rec
++        assert abs(rec["Lsum"][0] - rec["Lsum"][-1]) < 1e-6, "population not conserved"
++        assert rec["U_tot"][-1] < 1e-8, f"U does not drain at theta={th}"
++
++    peaks = {th: float(res[th]["U_tot"].max()) for th in THETAS}
++    tpeak = {th: float(res[th]["t"][res[th]["U_tot"].argmax()]) for th in THETAS}
++    ratio = peaks[THETAS[-1]] / peaks[THETAS[0]]
++
++    for th in THETAS:
++        assert abs(peaks[th] / BASELINE_PEAKS[th] - 1.0) < 0.05, \
++            f"peak drifted at theta={th}: {peaks[th]:.6f} vs {BASELINE_PEAKS[th]:.6f}"
++    assert abs(ratio / BASELINE_RATIO - 1.0) < 0.05, f"peak ratio drifted: {ratio:.1f}"
++
++    # ---- csv ----
++    iface.RESULTS.mkdir(parents=True, exist_ok=True)
++    t = res[THETAS[0]]["t"]
++    cols = [t, res[THETAS[0]]["A_K"]] + [res[th]["U_tot"] for th in THETAS]
++    header = "t,A_K," + ",".join(f"U_tot_theta{th:g}" for th in THETAS)
++    np.savetxt(iface.RESULTS / "calendar_dynamics.csv",
++               np.column_stack(cols), delimiter=",", header=header, comments="")
++
++    # ---- figure ----
++    colors = {1.0: "#2C5A57", 3.0: "#B5532A", 8.0: "#6D3C8E", 15.0: "#8A8A3A"}
++    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.5, 4.6))
++    r0 = res[THETAS[0]]
++    ax1.plot(r0["t"], r0["A_K"], lw=2, color="0.25")
++    ax1.axvspan(0, T_SHOCK, color="0.9", zorder=0)
++    ax1.set_xlim(0, 15)
++    ax1.set_xlabel("years")
++    ax1.set_ylabel(r"technology maturity $A_K(t)$")
++    ax1.set_title(f"Logistic diffusion over a {T_SHOCK:g}-year window")
++    ax1.grid(alpha=0.25)
++    for th in THETAS:
++        ax2.plot(res[th]["t"], res[th]["U_tot"], lw=2, color=colors[th],
++                 label=rf"$\theta = {th:g}$")
++    ax2.axvspan(0, T_SHOCK, color="0.9", zorder=0)
++    ax2.set_xlim(0, 20)
++    ax2.set_xlabel("years")
++    ax2.set_ylabel(r"unbound stock $U(t)$")
++    ax2.set_title("The mismatch hump grows as redistribution slows")
++    ax2.legend(fontsize=9, title=r"redistribution tempo")
++    ax2.grid(alpha=0.25)
++    fig.tight_layout()
++    fig.savefig(iface.RESULTS / "calendar_dynamics.png", dpi=150)
++
++    lines = [
++        "calendar_dynamics -- U(t) mismatch hump over redistribution tempos",
++        f"T_shock = {T_SHOCK:g} years (logistic 5%->95%), dt = {DT}, T_max = {T_MAX:g}, births off",
++        f"theta = theta_L = theta_abs, swept over {THETAS}",
++        "",
++        f"{'theta':>6} {'peak U_tot':>11} {'t(peak)':>8} {'U_tot(end)':>11}",
++    ]
++    for th in THETAS:
++        lines.append(f"{th:>6g} {peaks[th]:>11.6f} {tpeak[th]:>8.1f} "
++                     f"{res[th]['U_tot'][-1]:>11.2e}")
++    lines += [
++        "",
++        f"peak ratio slowest/fastest (theta {THETAS[-1]:g} / {THETAS[0]:g}): {ratio:.1f}",
++        "population conserved and U drains to zero in every run (asserted).",
++    ]
++    iface.write_summary("calendar_dynamics", lines)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/experiment/d02_tempo_regimes.py b/experiment/d02_tempo_regimes.py
+new file mode 100644
+index 0000000..b5b1992
+--- /dev/null
++++ b/experiment/d02_tempo_regimes.py
+@@ -0,0 +1,145 @@
++"""
++d02_tempo_regimes.py
++--------------------
++Producer of fig:tempo and the manuscript's headline correlation: the
++destination of reinstated work under a gradual transition (theta = 1 year,
++redistribution faster than the T_shock = 5 year diffusion) against a congested
++one (theta = 15 years, redistribution much slower), through the same
++technology and the same field. theta sets theta_L and theta_abs together.
++
++Owns one nameable part of the argument: the final allocation of reinstated
++task mass across occupations depends on the tempo. The headline number is the
++Pearson correlation of final reinstated mass across the pre-existing
++occupations, unweighted; the rank (Spearman) and employment-weighted Pearson
++correlations are reported alongside as sensitivity. All numbers are written to
++experiment/results/ and asserted against the frozen baseline below.
++
++Births are disabled (max_births = 0) so the occupation set is identical across
++regimes and the correlation is well defined; the birth layer belongs to the
++birth extension (probe_allocation.py).
++
++Usage: python experiment/d02_tempo_regimes.py
++"""
++import importlib.util
++import sys
++from pathlib import Path
++
++import numpy as np
++
++REPO = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(REPO))
++import matplotlib
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++from scipy.stats import pearsonr, spearmanr
++
++
++def _load(name):
++    spec = importlib.util.spec_from_file_location(name, REPO / "experiment" / f"{name}.py")
++    mod = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(mod)
++    return mod
++
++
++iface = _load("_interface")
++rd = _load("run_dynamic")
++
++THETA_GRADUAL, THETA_CONGESTED = 1.0, 15.0
++T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
++
++# Frozen baseline (this machine, this calibration), absolute tolerance 0.02.
++BASELINE_PEARSON = 0.371
++BASELINE_SPEARMAN = 0.308
++
++
++def weighted_pearson(x, y, w):
++    w = w / w.sum()
++    mx, my = np.sum(w * x), np.sum(w * y)
++    cov = np.sum(w * (x - mx) * (y - my))
++    return cov / np.sqrt(np.sum(w * (x - mx) ** 2) * np.sum(w * (y - my) ** 2))
++
++
++def main():
++    layer = iface.load_static_layer()
++    runs = {}
++    for th in (THETA_GRADUAL, THETA_CONGESTED):
++        dyn, rec, occ = rd.main(theta_L=th, theta_abs=th, T_shock=T_SHOCK,
++                                T_max=T_MAX, dt=DT, max_births=0,
++                                verbose=False, layer=layer)
++        assert rec["U_tot"][-1] < 1e-8, f"U does not drain at theta={th}"
++        runs[th] = dyn.reinst[:dyn.n0].copy()
++    n0 = runs[THETA_GRADUAL].size
++    rg, rc = runs[THETA_GRADUAL], runs[THETA_CONGESTED]
++
++    pear = float(pearsonr(rg, rc)[0])
++    spear = float(spearmanr(rg, rc)[0])
++    wpear = float(weighted_pearson(rg, rc, layer.L0))
++    assert abs(pear - BASELINE_PEARSON) < 0.02, f"Pearson drifted: {pear:.3f}"
++    assert abs(spear - BASELINE_SPEARMAN) < 0.02, f"Spearman drifted: {spear:.3f}"
++
++    occ = layer.occ
++    lines = [
++        "tempo_regimes -- the destination of reinstated work depends on the tempo",
++        f"gradual theta = {THETA_GRADUAL:g}, congested theta = {THETA_CONGESTED:g} "
++        f"(theta_L = theta_abs = theta), T_shock = {T_SHOCK:g} years, births off",
++        f"final reinstated mass per occupation, n = {n0} pre-existing occupations",
++        "",
++        f"corr(gradual, congested), Pearson, unweighted:      {pear:+.3f}   (the headline)",
++        f"corr(gradual, congested), Spearman rank:            {spear:+.3f}",
++        f"corr(gradual, congested), Pearson, L0-weighted:     {wpear:+.3f}",
++        f"reinstated mass totals: gradual {rg.sum():.4f}, congested {rc.sum():.4f}",
++        "",
++        "top gainers, gradual regime:",
++    ]
++    for i in np.argsort(rg)[::-1][:8]:
++        lines.append(f"  {rg[i]:.5f}  {occ['Title'].iloc[i]}")
++    lines.append("top gainers, congested regime:")
++    for i in np.argsort(rc)[::-1][:8]:
++        lines.append(f"  {rc[i]:.5f}  {occ['Title'].iloc[i]}")
++
++    # ---- csv ----
++    iface.RESULTS.mkdir(parents=True, exist_ok=True)
++    import pandas as pd
++    pd.DataFrame({"OCC_CODE": occ["OCC_CODE"], "Title": occ["Title"],
++                  "L0": layer.L0, "reinst_gradual": rg, "reinst_congested": rc}
++                 ).to_csv(iface.RESULTS / "tempo_regimes.csv", index=False)
++
++    # ---- figure: two disk panels ----
++    grid = layer.inp.grid
++    gx = grid.chi * np.cos(grid.xi)
++    gy = grid.chi * np.sin(grid.xi)
++    a_mature = layer.set_maturity(layer.tech.A_K)
++    seed = layer.eq.g_hat * (1.0 - a_mature)          # survival-gated seeding field
++    seed = seed / seed.max()
++    mux = occ["chi"].to_numpy() * np.cos(occ["xi"].to_numpy())
++    muy = occ["chi"].to_numpy() * np.sin(occ["xi"].to_numpy())
++    kx = layer.tech.chi_K * np.cos(layer.tech.xi_K)
++    ky = layer.tech.chi_K * np.sin(layer.tech.xi_K)
++
++    fig, axes = plt.subplots(1, 2, figsize=(12.5, 6.2))
++    panels = [(axes[0], rg, f"Gradual transition ($\\theta = {THETA_GRADUAL:g} < "
++                            f"T_{{shock}} = {T_SHOCK:g}$)", "#2C5A57"),
++              (axes[1], rc, f"Congested transition ($\\theta = {THETA_CONGESTED:g} > "
++                            f"T_{{shock}}$)", "#B5532A")]
++    smax = max(rg.max(), rc.max())
++    for ax, r, title, col in panels:
++        ax.scatter(gx, gy, s=6, c="0.55", alpha=0.85 * seed, linewidths=0)
++        th = np.linspace(0, 2 * np.pi, 200)
++        ax.plot(np.cos(th), np.sin(th), color="0.75", lw=1)
++        ax.plot(kx + layer.tech.z_K * np.cos(th), ky + layer.tech.z_K * np.sin(th),
++                ls="--", color="0.35", lw=1.2)
++        ax.scatter(mux, muy, s=600 * r / smax + 1, c=col, alpha=0.7, linewidths=0)
++        ax.set_title(title, fontsize=11)
++        ax.set_aspect("equal")
++        ax.set_xlim(-1.05, 1.05); ax.set_ylim(-1.05, 1.05)
++        ax.axis("off")
++    fig.suptitle("Reinstated task mass gained per occupation "
++                 f"(final allocations correlate at {pear:+.2f})", fontsize=12)
++    fig.tight_layout()
++    fig.savefig(iface.RESULTS / "tempo_regimes.png", dpi=150)
++
++    iface.write_summary("tempo_regimes", lines)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/experiment/run_dynamic.py b/experiment/run_dynamic.py
+index b0e9569..1b9e8da 100644
+--- a/experiment/run_dynamic.py
++++ b/experiment/run_dynamic.py
+@@ -6,14 +6,15 @@ technology trajectory A_K(t), with the binding flow allocated to occupations as
+ grain growth, bound mass accumulating as a persistent stock that feeds back into
+ place value, AND occupational birth with mid-run structural rebuild.
+ 
+-One unifying principle (this revision). A single FIT field drives binding,
+-allocation, and birth:
+-        FIT_o(r) = e_o(r) * exp(-d(r, mu_o)/rho)
+-the one-sided CAPABILITY readiness e_o modulated by SYMMETRIC distance to the
+-occupation's core. The one-sided gate (over-qualified => ready arbitrarily far in
+-the easy direction) is thus confined to "can do"; everything OUTCOME-bearing uses
+-the symmetric fit, so an over-qualified generalist far from its core no longer
+-binds, wins, or blocks a birth as if it were a good home.
++One unifying principle. A single FIT field drives binding, allocation, and
++birth:
++        FIT_o(r) = exp(-(under_o + lam_over*over_o)/ell) * exp(-d(r, mu_o)/rho)
++the SYMMETRIC capability match (under- and over-qualification both penalised)
++times locality to the occupation's core. This is the attachment primitive of
++the static paper, eq. `attachment` (= model.regime._fit = Equilibrium.e); the
++static and dynamic layers share it verbatim, so an over-qualified generalist
++far from its core neither attaches in the static capacity nor binds, wins, or
++blocks a birth here.
+ 
+   binding capacity  C(r) = sum_o L_o FIT_o(r)        (poor fit binds weakly)
+   binding flow      iota = lambda_b Phi(C) U,  Phi=C/(1+C)
+@@ -33,9 +34,8 @@ occupation's share of B; reinst_o reinstated employment.
+ FLAGGED SIMPLIFICATIONS: (S1) newborn readiness e_new=exp(-dist/ell), a local
+ bump not a full q-vector; (S2) W is one bundle-value integral (presence x place
+ value); (S3) birth = fit-gap + carrying-capacity threshold, periodic check, capped.
+-Fit-weighted capacity rescales Phi vs the static one-sided C -- the hump magnitude
+-shifts accordingly (intended: binding is harder, fit matters). eta=1, survival on.
+-No committed code touched.
++The capacity C(r) = sum_o L_o FIT_o(r) is the static paper's attachment capacity
++(same primitive, same parameters). eta=1, survival on. No committed code touched.
+ """
+ import importlib.util, sys
+ from pathlib import Path
+@@ -69,10 +69,11 @@ class Dyn:
+         self.Pi = eq.pi_cell
+         self.n0 = eq.n_occ
+         self.mu = eq.mu.copy()
+-        # MATCH-based readiness for the dynamic binding (distinct from the static
+-        # one-sided "can do" capacity eq.e). delta = under-qualification (cannot do)
+-        # PLUS lam_over * over-qualification (wrong home / deskilling). lam_over=1 is
+-        # the unbiased capability distance; lam_over=0 recovers the one-sided gate.
++        # Attachment primitive, recomputed here for the (possibly growing)
++        # occupation set. At construction this EQUALS the static eq.e
++        # (model.regime._fit, the static paper's eq. `attachment`): delta =
++        # under-qualification PLUS lam_over * over-qualification, times locality.
++        # lam_over=0 and rho->inf recover the one-sided, non-local readiness.
+         cap, grid = inp.cap, inp.grid; keys = list(cap.v_gate.keys())
+         under = np.zeros((eq.n_occ, grid.xi.size)); over = np.zeros_like(under)
+         for k in keys:
+@@ -157,16 +158,22 @@ def softmax_target(dyn, W, c, kappa):
+ 
+ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
+          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
+-         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4):
+-    inp, L0, occ = _setup.build_inputs(); tech = _setup.load_tech()
+-    ell = _setup.interpretable_ell(inp); A_final = tech.A_K
+-    eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None, survival=True)
+-    eq.L0 = L0
+-    unit = Technology(xi_K=tech.xi_K, chi_K=tech.chi_K, z_K=tech.z_K, A_K=1.0, s_K=1.0)
+-    g0_grid = unit.phi(inp.grid.xi, inp.grid.chi); g0_task = unit.phi(eq.b_xi, eq.b_chi)
++         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4, layer=None):
++    # The static layer enters through experiment/_interface.py (frozen inputs,
++    # calibrated technology, shared attachment primitive, mobility reference);
++    # numbered d-scripts pass their cached layer, standalone use loads it here.
++    if layer is None:
++        _ispec = importlib.util.spec_from_file_location(
++            "_interface", REPO / "experiment" / "_interface.py")
++        _iface = importlib.util.module_from_spec(_ispec)
++        _ispec.loader.exec_module(_iface)
++        layer = _iface.load_static_layer()
++    inp, L0, occ = layer.inp, layer.L0, layer.occ
++    tech, ell = layer.tech, layer.ell; A_final = tech.A_K
++    eq = layer.eq
++    g0_grid, g0_task = layer.g0_grid, layer.g0_task
+     set_AK(eq, 0.0, g0_grid, g0_task)
+-    _, _, W0 = eq.density_and_value(L0)
+-    kappa = float(np.std(W0)); c = kappa/float(np.median(eq.d[eq.d > 0]))
++    kappa, c = layer.kappa, layer.c
+     dyn = Dyn(eq, inp, L0, ell, rho, lam_over=lam_over)
+     # Technology maturation in CALENDAR time: a logistic (S-curve) diffusion that
+     # rises 5%->95% over T_shock years, centred at T_shock/2. t is now in years, so
+diff --git a/paper/sync_figures.py b/paper/sync_figures.py
+index cda5206..e03c04d 100644
+--- a/paper/sync_figures.py
++++ b/paper/sync_figures.py
+@@ -39,7 +39,8 @@ from pathlib import Path
+ 
+ PAPER = Path(__file__).resolve().parent
+ ROOT = PAPER.parent
+-SOURCES = [ROOT / "results", ROOT / "experiment"]      # priority order
++SOURCES = [ROOT / "results", ROOT / "experiment" / "results",
++           ROOT / "experiment"]                        # priority order
+ EXTS = [".png", ".pdf"]                                # tried when a ref omits the extension
+ INCLUDE_RE = re.compile(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}")
+ COMMENT_RE = re.compile(r"(?<!\\)%.*$")
+diff --git a/paper/tempo_of_automation.tex b/paper/tempo_of_automation.tex
+index dd179e0..2c0810a 100644
+--- a/paper/tempo_of_automation.tex
++++ b/paper/tempo_of_automation.tex
+@@ -56,7 +56,7 @@ absorb it and the mass is taken instead by the large, lower-skilled
+ occupations that can, a forced downgrading. The same technology and the
+ same field thus yield materially different distributions of work
+ depending only on the tempo: the final allocations of the slow and fast
+-regimes correlate at roughly $0.3$. This path-dependence of the
++regimes correlate at $0.37$. This path-dependence of the
+ destination, and not only of the transitional cost, is invisible to the
+ equilibrium framework, whose fixed point sees only the endpoint. The
+ realisation is illustrative, inheriting the calibration of the companion
+@@ -129,7 +129,7 @@ fit the frontier. A shock that outruns redistribution forces the work
+ onto the large, lower-skilled occupations that can absorb it fastest, a
+ downgrading that the gradual transition avoids. The two regimes are run
+ through the same technology and the same field; their final allocations
+-of reinstated work correlate at roughly $0.3$. The destination, not just
++of reinstated work correlate at $0.37$. The destination, not just
+ the transitional cost, is path-dependent, and the equilibrium framework
+ sees none of it.
+ 
+@@ -158,31 +158,53 @@ is a directional field
+ \end{equation}
+ high in the socio-cognitive directions and low in the service and manual
+ ones. A technology is a Gaussian field
+-$\varphi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
++$\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
+ with maturity $A_K$, centre $\mathbf p_K$, and reach $z_K$. Capital bears
+ a task only where it is the cheaper producer, so the operated share is
+ \begin{equation}
+-a(\rr) = \sigma\!\big((s_K\varphi_K - R/\Pi)/\tau\big),
++a(\rr) = \Bigl[1+\exp\!\bigl(-\bigl(s_K\phi_K(\rr) - R/\Pi(\rr)\bigr)/\tau\bigr)\Bigr]^{-1},
+ \label{eq:operated}
+ \end{equation}
+-which crosses first where the price $\Pi$ is high: automation takes the
++where $\tau$ is the width of the adoption margin, and the condition
++crosses first where the price $\Pi$ is high: automation takes the
+ dearest work. Each occupation $o$ is a bundle $b_o(\rr)$ with centroid
+ $\mu_o$; its displaced mass is $D_o = \int b_o a$, and the aggregate
+ displacement is $\Delta\Gamma^D = \sum_o L_o D_o$.
+ 
+ Reinstatement creates new task mass $M = \gamma\,\Delta\Gamma^D$ on the
+ gradient ring of the field,
+-$\hat g(\rr) = \lVert\nabla\varphi_K\rVert / \int\lVert\nabla\varphi_K\rVert$,
++$\hat g(\rr) = \lVert\nabla\phi_K\rVert / \int\lVert\nabla\phi_K\rVert$,
+ which peaks at distance $z_K$ from the centre. A seeded task survives as
+ human work only where the operated share is low, through the survival
+ gate $(1-a)$: deep in the core, where capital dominates, the same seed is
+ captured by capital. The surviving seed density is therefore
+ $\hat g\,(1-a)$, concentrated on the boundary crescent. An occupation can
+-take a seeded task only where it already holds the priced capability the
+-task requires; in the static model this readiness is the one-sided,
+-$v$-weighted deficit gate $e_o(\rr) = \exp(-\delta_o(\rr)/\ell)$ with
+-$\delta_o = \sum_k v_k\max(q_k - q_{o,k},0)$, and the attachment capacity
+-of a location is $C(\rr) = \sum_o L_o e_o$.
++take a seeded task only where its capabilities match the task's
++requirements. The implemented readiness, the companion paper's
++eq.~(attachment), is symmetric and local,
++\begin{equation}
++e_o(\rr)
++= \exp\!\bigl[-\bigl(\delta_o(\rr)
++  + \lambda_{\mathrm{over}}\,\bar\delta_o(\rr)\bigr)/\ell\bigr]\,
++  \exp\bigl(-\lVert\rr-\mu_o\rVert/\rho\bigr),
++\label{eq:attachment-recap}
++\end{equation}
++where $\delta_o = \sum_k v_k\max(q_k(\rr) - q_{o,k},0)$ is the $v$-weighted
++capability deficit, $\bar\delta_o$ the corresponding surplus,
++$\ell$ the acquisition scale, $\rho$ the attachment locality, and
++$\lambda_{\mathrm{over}}$ the over-qualification weight. The attachment
++capacity of a location is $C(\rr) = \sum_o L_o e_o(\rr)$. This primitive is
++shared verbatim between the two papers and between the static and dynamic
++layers of the implementation.
++
++All parameters of this foundation are inherited unchanged from the
++companion paper's economy table: $R=18$, $\tau=0.08$, $\beta=0.5$
++(congestion), $\gamma=0.5$, $\ell=0.133$, $\rho=0.5$,
++$\lambda_{\mathrm{over}}=1$. The mobility scale $\nu$ (one standard
++deviation of baseline occupation value per logit unit) and the move cost
++$c_m$ (the median move costs one $\nu$) follow the same rules;
++recomputed at the dynamic baseline they are $\nu = 11.8$ and
++$c_m = 23.0$.
+ 
+ Two features of this foundation are load-bearing for what follows. First,
+ displacement falls \emph{within} occupations, on the interior margin
+@@ -270,9 +292,11 @@ Anchoring the shock in calendar time makes $\theta_L$ and the binding
+ timescale below calendar quantities, so that the outcome is governed by
+ the \emph{ratio} of the shock tempo $T_{\text{shock}}$ to the
+ redistribution tempo. We use $T_{\text{shock}}=5$ years throughout as an
+-illustrative diffusion window. \todo{Justify or sweep $T_{\text{shock}}$;
+-note that only the ratio to the redistribution tempo matters, so the
+-choice is a normalisation of the time axis, not a free result.}
++illustrative diffusion window. Only the ratio of $T_{\text{shock}}$ to the
++redistribution tempo enters the results: all rates in the model scale as
++$1/\theta$ or are set by the diffusion window, so the choice of window is a
++normalisation of the time axis, and the sweep over $\theta$ at fixed
++$T_{\text{shock}}$ traverses the ratio.
+ 
+ \subsection{Binding: match allocates, size limits the rate}
+ \label{sec:binding}
+@@ -284,9 +308,7 @@ attracted to the best match through a sharpened share, and each
+ occupation binds up to a size-limited capacity:
+ \begin{align}
+ t_o(\rr) &= U(\rr)\,
+-\frac{\mathrm{FIT}_o(\rr)^{\beta}}{\sum_{o'}\mathrm{FIT}_{o'}(\rr)^{\beta}},
+-\qquad
+-\mathrm{FIT}_o(\rr) = e_o^{\text{match}}(\rr)\;e^{-\lVert\rr-\mu_o\rVert/\rho},
++\frac{e_o(\rr)^{\beta_m}}{\sum_{o'} e_{o'}(\rr)^{\beta_m}},
+ \label{eq:claim}\\[2pt]
+ c_o &= M_o/\theta_{\text{abs}}, \quad M_o = b_o^{\text{orig}} + r_o,
+ \qquad
+@@ -294,8 +316,9 @@ c_o &= M_o/\theta_{\text{abs}}, \quad M_o = b_o^{\text{orig}} + r_o,
+ \label{eq:cap}
+ \end{align}
+ The claim $t_o$ distributes the unbound mass by sharpened match: the
+-exponent $\beta>1$ lets the best match dominate the claim at each
+-location. The capacity $c_o$ scales with the occupation's task mass
++readiness $e_o$ is the shared attachment primitive of
++eq.~\eqref{eq:attachment-recap}, and the exponent $\beta_m>1$ lets the
++best match dominate the claim at each location. The capacity $c_o$ scales with the occupation's task mass
+ $M_o$, which grows endogenously with the reinstated mass $r_o$ it has
+ already bound. What a saturated occupation cannot staff this step ---
+ the fraction $1-\min(1,c_o/\!\int t_o)$ --- returns to $U$ and is offered,
+@@ -303,32 +326,31 @@ at the next step, to the next-best match. Large occupations therefore
+ bind faster in absolute terms but not faster relative to their size, and
+ the residue cascades down the match ranking.
+ 
+-The readiness in $\mathrm{FIT}_o$ is a \emph{two-sided} match distance
+-$e_o^{\text{match}}$, penalising both under- and over-qualification, in
+-contrast to the one-sided deficit gate $e_o$ of
+-\S\ref{sec:foundation}, which is retained for the static capacity. The
+-reason is that being able to do a task and becoming its home are
+-different questions: an occupation far above a task's level can perform it
+-but should not draw it in as its own work. \todo{State the two-sided
+-distance explicitly and reconcile with the companion paper's one-sided
+-gate, which is retained both for the static capacity and because its
+-direction generates the cross-system mobility asymmetry of Paper 2.}
++The same primitive sets the static attachment capacity $C$ and allocates
++the unbound mass here; the static and dynamic layers of the
++implementation share it exactly. Its symmetry carries the economics:
++being able to do a task and becoming its home are different questions,
++and penalising over-qualification alongside the deficit keeps an
++occupation far above a task's level from drawing the task in as its own
++work. The companion paper states the form and its one-sided limit
++($\lambda_{\mathrm{over}}=0$, $\rho\to\infty$). What the dynamic layer
++adds is only the sharpening $\beta_m$ and the size-limited rate.
+ 
+ The form was chosen against an alternative that conflates the two roles.
+ A binding rate proportional to size times match, $\iota_o \propto
+-M_o\,\mathrm{FIT}_o$, lets size \emph{multiply} match: in that form the
++M_o\,e_o$, lets size \emph{multiply} match: in that form the
+ absolute absorption correlates with occupation size at roughly $0.99$ and
+ with match quality at roughly $0.04$ --- size decides the destination and
+ match governs only the relative growth. The match-allocated form with a
+ size cap breaks this; the correlation of absorption with size falls to
+ roughly $0.04$, and the destination is governed by match, with size
+ demoted from setting \emph{where} the work goes to \emph{how fast} it
+-binds, which is its proper role. The sharpness $\beta$ and the absorption
++binds, which is its proper role. The sharpness $\beta_m$ and the absorption
+ timescale $\theta_{\text{abs}}$ are calibration handles, not worldviews;
+ their economic content --- whether absorptive capacity scales linearly or
+ sub-linearly with size, and how sharply the best match wins --- is settled
+ by a sweep, and the central result below is itself such a sweep.
+-\todo{Fix or bound $\beta$ and $\theta_{\text{abs}}$; report the result's
++\todo{Fix or bound $\beta_m$ and $\theta_{\text{abs}}$; report the result's
+ sensitivity to both. State the economic interpretation of each as a
+ calibration target.}
+ 
+@@ -341,9 +363,16 @@ We run a single technology field, calibrated to task-level AI exposure as
+ in the companion paper, through the dynamic economy. The field matures
+ over $T_{\text{shock}}=5$ years; we vary the redistribution tempo
+ $\theta$ (taking $\theta_L$ and $\theta_{\text{abs}}$ together) against
+-this fixed shock. \todo{State the calibration cross-reference precisely
+-and report the parameter table; confirm population conservation and the
+-drain of $U$ to zero as reproducibility checks.}
++this fixed shock. The economy parameters are the companion paper's,
++restated in Section~\ref{sec:foundation}; the dynamic layer adds the
++redistribution timescales $\theta_L$ and $\theta_{\text{abs}}$ (both
++$3$ years at reference), the claim sharpness $\beta_m = 3$, the diffusion
++window $T_{\text{shock}} = 5$ years, and the step $\Delta t = 0.2$ years.
++Occupational birth is switched off in the runs of this section, so the
++occupation set is identical across regimes and the allocation comparison
++is well defined. In every run the population sum is conserved to
++numerical precision and the unbound stock drains below $10^{-8}$; both
++are asserted by the producing scripts.
+ 
+ \subsection{The transitional mismatch}
+ \label{sec:transitional}
+@@ -351,11 +380,13 @@ drain of $U$ to zero as reproducibility checks.}
+ Figure~\ref{fig:calendar} shows the shock and the mismatch it creates.
+ The left panel is the logistic diffusion of \eqref{eq:maturation}, rising
+ over the five-year window. The right panel is the unbound stock $U(t)$
+-for four redistribution tempos. When redistribution is faster than the
+-shock, the mismatch is barely visible: the market binds the displaced
+-work as fast as it is seeded. As redistribution slows, the mismatch hump
+-grows --- roughly twenty-fold from the fastest to the slowest tempo shown
+---- and peaks later, within and just after the adoption window. In every
++for four redistribution tempos, $\theta \in \{1, 3, 8, 15\}$ years. When
++redistribution is faster than the shock, the mismatch is barely visible:
++the market binds the displaced work as fast as it is seeded. As
++redistribution slows, the mismatch hump grows --- by a factor of eighty
++from the fastest to the slowest tempo shown --- and peaks later, moving
++from $t \approx 2.6$ to $t \approx 3.6$ years within the adoption
++window. In every
+ case it drains to zero once diffusion saturates and binding catches up.
+ There is no permanent mismatch in the model: all created work is
+ eventually bound. The transitional cost lives entirely in the path --- in
+@@ -368,7 +399,8 @@ exactly what the static model, seeing only the endpoint, cannot register.
+ \caption{Calendar-time dynamics. Left: the technology matures as a
+ logistic diffusion over a five-year window. Right: the unbound stock
+ $U(t)$, the transitional mismatch between destruction and creation, for
+-four redistribution tempos $\theta$ against the fixed five-year shock.
++four redistribution tempos $\theta \in \{1, 3, 8, 15\}$ years against the
++fixed five-year shock.
+ The mismatch hump grows and lingers as redistribution slows relative to
+ the shock, but always drains to zero: the transitional cost is in the
+ path, not the endpoint.}
+@@ -381,20 +413,28 @@ path, not the endpoint.}
+ The hump measures the cost of the transition; the same ratio also
+ determines its outcome. Figure~\ref{fig:tempo} shows where the reinstated
+ work is bound in two regimes, run through the same technology and the
+-same field. In the gradual regime, with redistribution faster than the
+-shock, the best-matched occupations keep pace and absorb the work: the
++same field. In the gradual regime ($\theta = 1$ year against the five-year
++shock), the best-matched occupations keep pace and absorb the work: the
+ gainers are the high-skill specialists whose capabilities sit at the
+-frontier of the field. In the congested regime, with redistribution much
+-slower than the shock, the small best-matched occupations cannot bind
++frontier of the field. In the congested regime ($\theta = 15$ years),
++the small best-matched occupations cannot bind
+ fast enough --- their size-limited capacity $c_o = M_o/\theta$ is small,
+ the mass accumulates in $U$, and it is taken instead by the large,
+ lower-skilled occupations that can absorb it quickly. The same work is
+-downgraded.
++downgraded. The leading gainers make the point concretely: in the
++gradual regime they are preventive-medicine physicians, physicists, and
++natural-sciences managers; in the congested regime, fast-food and
++counter workers, waiters, and dishwashers.
+ 
+ The shift is not marginal. The final allocations of reinstated mass in
+-the two regimes correlate at roughly $0.3$: substantially different
++the two regimes correlate at $+0.37$ (Pearson, unweighted across the
++$849$ pre-existing occupations; $+0.31$ by rank): substantially different
+ destinations from one technology and one field, differing only in the
+-tempo of the shock relative to the market's capacity to respond. This is
++tempo of the shock relative to the market's capacity to respond.
++Weighting by baseline employment raises the correlation to $+0.68$,
++because the largest occupations gain in both regimes; the divergence is
++concentrated in whether specialist best matches or large absorbers take
++the frontier work, which is the margin the result is about. This is
+ the destination counterpart of the transitional hump, and it is a
+ statement the equilibrium framework cannot make. The fixed point sees the
+ endpoint of a frictionless reallocation; it cannot see that the endpoint
+@@ -410,15 +450,14 @@ for the same five-year shock. Left, a gradual transition: the best
+ matches keep pace and high-skill specialists at the frontier absorb the
+ work. Right, a congested transition: small best-matched occupations
+ cannot keep up and the work is forced onto large, lower-skilled
+-occupations. The two final allocations correlate at roughly $0.3$.}
++occupations. The two final allocations correlate at $+0.37$.}
+ \label{fig:tempo}
+ \end{figure}
+ 
+-\todo{Add the per-occupation evidence behind the figure: the
+-size-versus-match correlation in each regime, the quartile shares of
+-absorption, and a short table of the leading gainers in each regime.
+-Replace any relative-change ranking with absolute and spatial measures,
+-since the relative measure is unbounded for small occupations.}
++\todo{Add the size-versus-match correlation in each regime and the
++quartile shares of absorption. Keep all rankings in absolute and spatial
++measures, since the relative measure is unbounded for small
++occupations.}
+ 
+ \section{The general-equilibrium price feedback}
+ \label{sec:ge-feedback}
+@@ -427,9 +466,9 @@ Both the static regime and the dynamic transition above hold the price field
+ $\Pi(r)$ fixed: the shock relocates labour and re-sorts it, congestion adjusts
+ the marginal value of crowded destinations, but the per-unit price of capability
+ content does not re-solve. This is a short-run reading. The price field is an
+-equilibrium object --- Section~\ref{sec:microfoundation} derives it as a
+-capability assignment --- and an equilibrium that does not equilibrate discards
+-its own content. \textcite{acemoglu2024rents} make the point sharply: in their
++equilibrium object --- the companion paper derives it as a capability
++assignment (its Section~3.3) --- and an equilibrium that does not
++equilibrate discards its own content. \textcite{acemoglu2024rents} make the point sharply: in their
+ task model the base wage \emph{adjusts} to automation (their propagation matrix
+ $\Theta$), and that adjustment is the mechanism. Our fixed-price layers hold even
+ more fixed than they do --- both the rent wedge and the base price --- so to
+@@ -456,7 +495,11 @@ equation~\eqref{eq:price-feedback} and is destabilising, since a dearer wage
+ opens the takeover gate. Run as a single pass at $\sigma = 3$, the scarcity
+ reading collapses the labour share to $0.33$ (capital chases the work it has just
+ made dear), while the demand reading lifts it to $0.83$; the fixed-price value
+-$0.58$ sits between. The headline is not robust to the sign, which therefore must
++$0.58$ sits between. Labour shares in this section hold the allocation at
++its baseline, which isolates the price channel; the companion paper's
++headline shares re-solve the allocation as well and are correspondingly
++higher --- $0.626$ at fixed prices, $0.78$ at the fixed point below. The
++headline is not robust to the sign, which therefore must
+ be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
+ automation dissipates rents and lowers wages, it does not raise them.
+ 
+@@ -495,8 +538,8 @@ the transition. The stabilising wage adjustment is the shock absorber, and it
+ operates throughout the transition, not only at its end. The quantitative point
+ estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
+ closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
+-region-wise, not a full re-solve of the assignment programme of
+-Section~\ref{sec:microfoundation} --- and the AI field remains one illustrative
++region-wise, not a full re-solve of the companion paper's assignment
++programme --- and the AI field remains one illustrative
+ instance of a technology field, not a measurement. We therefore read the result
+ as establishing the \emph{direction and order of magnitude} of the price
+ feedback, and the mutual consistency of the static and dynamic closes, rather
+@@ -588,14 +631,8 @@ sense, properties of the path and not only of the endpoint.
+ \printbibliography
+ %% ============================================================
+ 
+-\todo{Bibliography keys to add/verify in references.bib:
+-storck2026fields (the companion static paper, ``Technology fields,
+-automation and task reinstatement'', Storck \& Andersson, 2026 --- the
+-foundation cited throughout); storck2026geometry (Paper 1, polar
+-geometry, already in references.bib); acemoglu2018race,
+-acemoglu2019automation, bessen2019demand (already needed by the companion
+-paper). No new external references are strictly required for this draft;
+-all machinery is inherited. Verify each against full text before
+-submission.}
++\todo{Authorship of the companion-paper entries in references.bib
++(storck2026fields, storck2026geometry) is a deferred decision; verify
++against the final author lists before submission.}
+ 
+ \end{document}
+\ No newline at end of file

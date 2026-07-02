@@ -1,0 +1,12 @@
+calendar_dynamics -- U(t) mismatch hump over redistribution tempos
+T_shock = 5 years (logistic 5%->95%), dt = 0.2, T_max = 60, births off
+theta = theta_L = theta_abs, swept over (1.0, 3.0, 8.0, 15.0)
+
+ theta  peak U_tot  t(peak)  U_tot(end)
+     1    0.000306      2.6    2.80e-21
+     3    0.004358      3.0   -3.70e-23
+     8    0.013876      3.4   -3.00e-24
+    15    0.024558      3.6    4.33e-15
+
+peak ratio slowest/fastest (theta 15 / 1): 80.2
+population conserved and U drains to zero in every run (asserted).

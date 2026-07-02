@@ -39,7 +39,8 @@ from pathlib import Path
 
 PAPER = Path(__file__).resolve().parent
 ROOT = PAPER.parent
-SOURCES = [ROOT / "results", ROOT / "experiment"]      # priority order
+SOURCES = [ROOT / "results", ROOT / "experiment" / "results",
+           ROOT / "experiment"]                        # priority order
 EXTS = [".png", ".pdf"]                                # tried when a ref omits the extension
 INCLUDE_RE = re.compile(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}")
 COMMENT_RE = re.compile(r"(?<!\\)%.*$")

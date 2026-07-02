@@ -6,14 +6,15 @@ technology trajectory A_K(t), with the binding flow allocated to occupations as
 grain growth, bound mass accumulating as a persistent stock that feeds back into
 place value, AND occupational birth with mid-run structural rebuild.
 
-One unifying principle (this revision). A single FIT field drives binding,
-allocation, and birth:
-        FIT_o(r) = e_o(r) * exp(-d(r, mu_o)/rho)
-the one-sided CAPABILITY readiness e_o modulated by SYMMETRIC distance to the
-occupation's core. The one-sided gate (over-qualified => ready arbitrarily far in
-the easy direction) is thus confined to "can do"; everything OUTCOME-bearing uses
-the symmetric fit, so an over-qualified generalist far from its core no longer
-binds, wins, or blocks a birth as if it were a good home.
+One unifying principle. A single FIT field drives binding, allocation, and
+birth:
+        FIT_o(r) = exp(-(under_o + lam_over*over_o)/ell) * exp(-d(r, mu_o)/rho)
+the SYMMETRIC capability match (under- and over-qualification both penalised)
+times locality to the occupation's core. This is the attachment primitive of
+the static paper, eq. `attachment` (= model.regime._fit = Equilibrium.e); the
+static and dynamic layers share it verbatim, so an over-qualified generalist
+far from its core neither attaches in the static capacity nor binds, wins, or
+blocks a birth here.
 
   binding capacity  C(r) = sum_o L_o FIT_o(r)        (poor fit binds weakly)
   binding flow      iota = lambda_b Phi(C) U,  Phi=C/(1+C)
@@ -33,9 +34,8 @@ occupation's share of B; reinst_o reinstated employment.
 FLAGGED SIMPLIFICATIONS: (S1) newborn readiness e_new=exp(-dist/ell), a local
 bump not a full q-vector; (S2) W is one bundle-value integral (presence x place
 value); (S3) birth = fit-gap + carrying-capacity threshold, periodic check, capped.
-Fit-weighted capacity rescales Phi vs the static one-sided C -- the hump magnitude
-shifts accordingly (intended: binding is harder, fit matters). eta=1, survival on.
-No committed code touched.
+The capacity C(r) = sum_o L_o FIT_o(r) is the static paper's attachment capacity
+(same primitive, same parameters). eta=1, survival on. No committed code touched.
 """
 import importlib.util, sys
 from pathlib import Path
@@ -69,10 +69,11 @@ class Dyn:
         self.Pi = eq.pi_cell
         self.n0 = eq.n_occ
         self.mu = eq.mu.copy()
-        # MATCH-based readiness for the dynamic binding (distinct from the static
-        # one-sided "can do" capacity eq.e). delta = under-qualification (cannot do)
-        # PLUS lam_over * over-qualification (wrong home / deskilling). lam_over=1 is
-        # the unbiased capability distance; lam_over=0 recovers the one-sided gate.
+        # Attachment primitive, recomputed here for the (possibly growing)
+        # occupation set. At construction this EQUALS the static eq.e
+        # (model.regime._fit, the static paper's eq. `attachment`): delta =
+        # under-qualification PLUS lam_over * over-qualification, times locality.
+        # lam_over=0 and rho->inf recover the one-sided, non-local readiness.
         cap, grid = inp.cap, inp.grid; keys = list(cap.v_gate.keys())
         under = np.zeros((eq.n_occ, grid.xi.size)); over = np.zeros_like(under)
         for k in keys:
@@ -157,16 +158,22 @@ def softmax_target(dyn, W, c, kappa):
 
 def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
-         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4):
-    inp, L0, occ = _setup.build_inputs(); tech = _setup.load_tech()
-    ell = _setup.interpretable_ell(inp); A_final = tech.A_K
-    eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None, survival=True)
-    eq.L0 = L0
-    unit = Technology(xi_K=tech.xi_K, chi_K=tech.chi_K, z_K=tech.z_K, A_K=1.0, s_K=1.0)
-    g0_grid = unit.phi(inp.grid.xi, inp.grid.chi); g0_task = unit.phi(eq.b_xi, eq.b_chi)
+         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4, layer=None):
+    # The static layer enters through experiment/_interface.py (frozen inputs,
+    # calibrated technology, shared attachment primitive, mobility reference);
+    # numbered d-scripts pass their cached layer, standalone use loads it here.
+    if layer is None:
+        _ispec = importlib.util.spec_from_file_location(
+            "_interface", REPO / "experiment" / "_interface.py")
+        _iface = importlib.util.module_from_spec(_ispec)
+        _ispec.loader.exec_module(_iface)
+        layer = _iface.load_static_layer()
+    inp, L0, occ = layer.inp, layer.L0, layer.occ
+    tech, ell = layer.tech, layer.ell; A_final = tech.A_K
+    eq = layer.eq
+    g0_grid, g0_task = layer.g0_grid, layer.g0_task
     set_AK(eq, 0.0, g0_grid, g0_task)
-    _, _, W0 = eq.density_and_value(L0)
-    kappa = float(np.std(W0)); c = kappa/float(np.median(eq.d[eq.d > 0]))
+    kappa, c = layer.kappa, layer.c
     dyn = Dyn(eq, inp, L0, ell, rho, lam_over=lam_over)
     # Technology maturation in CALENDAR time: a logistic (S-curve) diffusion that
     # rises 5%->95% over T_shock years, centred at T_shock/2. t is now in years, so

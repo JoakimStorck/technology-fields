@@ -56,7 +56,7 @@ absorb it and the mass is taken instead by the large, lower-skilled
 occupations that can, a forced downgrading. The same technology and the
 same field thus yield materially different distributions of work
 depending only on the tempo: the final allocations of the slow and fast
-regimes correlate at roughly $0.3$. This path-dependence of the
+regimes correlate at $0.37$. This path-dependence of the
 destination, and not only of the transitional cost, is invisible to the
 equilibrium framework, whose fixed point sees only the endpoint. The
 realisation is illustrative, inheriting the calibration of the companion
@@ -129,7 +129,7 @@ fit the frontier. A shock that outruns redistribution forces the work
 onto the large, lower-skilled occupations that can absorb it fastest, a
 downgrading that the gradual transition avoids. The two regimes are run
 through the same technology and the same field; their final allocations
-of reinstated work correlate at roughly $0.3$. The destination, not just
+of reinstated work correlate at $0.37$. The destination, not just
 the transitional cost, is path-dependent, and the equilibrium framework
 sees none of it.
 
@@ -158,31 +158,53 @@ is a directional field
 \end{equation}
 high in the socio-cognitive directions and low in the service and manual
 ones. A technology is a Gaussian field
-$\varphi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
+$\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
 with maturity $A_K$, centre $\mathbf p_K$, and reach $z_K$. Capital bears
 a task only where it is the cheaper producer, so the operated share is
 \begin{equation}
-a(\rr) = \sigma\!\big((s_K\varphi_K - R/\Pi)/\tau\big),
+a(\rr) = \Bigl[1+\exp\!\bigl(-\bigl(s_K\phi_K(\rr) - R/\Pi(\rr)\bigr)/\tau\bigr)\Bigr]^{-1},
 \label{eq:operated}
 \end{equation}
-which crosses first where the price $\Pi$ is high: automation takes the
+where $\tau$ is the width of the adoption margin, and the condition
+crosses first where the price $\Pi$ is high: automation takes the
 dearest work. Each occupation $o$ is a bundle $b_o(\rr)$ with centroid
 $\mu_o$; its displaced mass is $D_o = \int b_o a$, and the aggregate
 displacement is $\Delta\Gamma^D = \sum_o L_o D_o$.
 
 Reinstatement creates new task mass $M = \gamma\,\Delta\Gamma^D$ on the
 gradient ring of the field,
-$\hat g(\rr) = \lVert\nabla\varphi_K\rVert / \int\lVert\nabla\varphi_K\rVert$,
+$\hat g(\rr) = \lVert\nabla\phi_K\rVert / \int\lVert\nabla\phi_K\rVert$,
 which peaks at distance $z_K$ from the centre. A seeded task survives as
 human work only where the operated share is low, through the survival
 gate $(1-a)$: deep in the core, where capital dominates, the same seed is
 captured by capital. The surviving seed density is therefore
 $\hat g\,(1-a)$, concentrated on the boundary crescent. An occupation can
-take a seeded task only where it already holds the priced capability the
-task requires; in the static model this readiness is the one-sided,
-$v$-weighted deficit gate $e_o(\rr) = \exp(-\delta_o(\rr)/\ell)$ with
-$\delta_o = \sum_k v_k\max(q_k - q_{o,k},0)$, and the attachment capacity
-of a location is $C(\rr) = \sum_o L_o e_o$.
+take a seeded task only where its capabilities match the task's
+requirements. The implemented readiness, the companion paper's
+eq.~(attachment), is symmetric and local,
+\begin{equation}
+e_o(\rr)
+= \exp\!\bigl[-\bigl(\delta_o(\rr)
+  + \lambda_{\mathrm{over}}\,\bar\delta_o(\rr)\bigr)/\ell\bigr]\,
+  \exp\bigl(-\lVert\rr-\mu_o\rVert/\rho\bigr),
+\label{eq:attachment-recap}
+\end{equation}
+where $\delta_o = \sum_k v_k\max(q_k(\rr) - q_{o,k},0)$ is the $v$-weighted
+capability deficit, $\bar\delta_o$ the corresponding surplus,
+$\ell$ the acquisition scale, $\rho$ the attachment locality, and
+$\lambda_{\mathrm{over}}$ the over-qualification weight. The attachment
+capacity of a location is $C(\rr) = \sum_o L_o e_o(\rr)$. This primitive is
+shared verbatim between the two papers and between the static and dynamic
+layers of the implementation.
+
+All parameters of this foundation are inherited unchanged from the
+companion paper's economy table: $R=18$, $\tau=0.08$, $\beta=0.5$
+(congestion), $\gamma=0.5$, $\ell=0.133$, $\rho=0.5$,
+$\lambda_{\mathrm{over}}=1$. The mobility scale $\nu$ (one standard
+deviation of baseline occupation value per logit unit) and the move cost
+$c_m$ (the median move costs one $\nu$) follow the same rules;
+recomputed at the dynamic baseline they are $\nu = 11.8$ and
+$c_m = 23.0$.
 
 Two features of this foundation are load-bearing for what follows. First,
 displacement falls \emph{within} occupations, on the interior margin
@@ -270,9 +292,11 @@ Anchoring the shock in calendar time makes $\theta_L$ and the binding
 timescale below calendar quantities, so that the outcome is governed by
 the \emph{ratio} of the shock tempo $T_{\text{shock}}$ to the
 redistribution tempo. We use $T_{\text{shock}}=5$ years throughout as an
-illustrative diffusion window. \todo{Justify or sweep $T_{\text{shock}}$;
-note that only the ratio to the redistribution tempo matters, so the
-choice is a normalisation of the time axis, not a free result.}
+illustrative diffusion window. Only the ratio of $T_{\text{shock}}$ to the
+redistribution tempo enters the results: all rates in the model scale as
+$1/\theta$ or are set by the diffusion window, so the choice of window is a
+normalisation of the time axis, and the sweep over $\theta$ at fixed
+$T_{\text{shock}}$ traverses the ratio.
 
 \subsection{Binding: match allocates, size limits the rate}
 \label{sec:binding}
@@ -284,9 +308,7 @@ attracted to the best match through a sharpened share, and each
 occupation binds up to a size-limited capacity:
 \begin{align}
 t_o(\rr) &= U(\rr)\,
-\frac{\mathrm{FIT}_o(\rr)^{\beta}}{\sum_{o'}\mathrm{FIT}_{o'}(\rr)^{\beta}},
-\qquad
-\mathrm{FIT}_o(\rr) = e_o^{\text{match}}(\rr)\;e^{-\lVert\rr-\mu_o\rVert/\rho},
+\frac{e_o(\rr)^{\beta_m}}{\sum_{o'} e_{o'}(\rr)^{\beta_m}},
 \label{eq:claim}\\[2pt]
 c_o &= M_o/\theta_{\text{abs}}, \quad M_o = b_o^{\text{orig}} + r_o,
 \qquad
@@ -294,8 +316,9 @@ c_o &= M_o/\theta_{\text{abs}}, \quad M_o = b_o^{\text{orig}} + r_o,
 \label{eq:cap}
 \end{align}
 The claim $t_o$ distributes the unbound mass by sharpened match: the
-exponent $\beta>1$ lets the best match dominate the claim at each
-location. The capacity $c_o$ scales with the occupation's task mass
+readiness $e_o$ is the shared attachment primitive of
+eq.~\eqref{eq:attachment-recap}, and the exponent $\beta_m>1$ lets the
+best match dominate the claim at each location. The capacity $c_o$ scales with the occupation's task mass
 $M_o$, which grows endogenously with the reinstated mass $r_o$ it has
 already bound. What a saturated occupation cannot staff this step ---
 the fraction $1-\min(1,c_o/\!\int t_o)$ --- returns to $U$ and is offered,
@@ -303,32 +326,31 @@ at the next step, to the next-best match. Large occupations therefore
 bind faster in absolute terms but not faster relative to their size, and
 the residue cascades down the match ranking.
 
-The readiness in $\mathrm{FIT}_o$ is a \emph{two-sided} match distance
-$e_o^{\text{match}}$, penalising both under- and over-qualification, in
-contrast to the one-sided deficit gate $e_o$ of
-\S\ref{sec:foundation}, which is retained for the static capacity. The
-reason is that being able to do a task and becoming its home are
-different questions: an occupation far above a task's level can perform it
-but should not draw it in as its own work. \todo{State the two-sided
-distance explicitly and reconcile with the companion paper's one-sided
-gate, which is retained both for the static capacity and because its
-direction generates the cross-system mobility asymmetry of Paper 2.}
+The same primitive sets the static attachment capacity $C$ and allocates
+the unbound mass here; the static and dynamic layers of the
+implementation share it exactly. Its symmetry carries the economics:
+being able to do a task and becoming its home are different questions,
+and penalising over-qualification alongside the deficit keeps an
+occupation far above a task's level from drawing the task in as its own
+work. The companion paper states the form and its one-sided limit
+($\lambda_{\mathrm{over}}=0$, $\rho\to\infty$). What the dynamic layer
+adds is only the sharpening $\beta_m$ and the size-limited rate.
 
 The form was chosen against an alternative that conflates the two roles.
 A binding rate proportional to size times match, $\iota_o \propto
-M_o\,\mathrm{FIT}_o$, lets size \emph{multiply} match: in that form the
+M_o\,e_o$, lets size \emph{multiply} match: in that form the
 absolute absorption correlates with occupation size at roughly $0.99$ and
 with match quality at roughly $0.04$ --- size decides the destination and
 match governs only the relative growth. The match-allocated form with a
 size cap breaks this; the correlation of absorption with size falls to
 roughly $0.04$, and the destination is governed by match, with size
 demoted from setting \emph{where} the work goes to \emph{how fast} it
-binds, which is its proper role. The sharpness $\beta$ and the absorption
+binds, which is its proper role. The sharpness $\beta_m$ and the absorption
 timescale $\theta_{\text{abs}}$ are calibration handles, not worldviews;
 their economic content --- whether absorptive capacity scales linearly or
 sub-linearly with size, and how sharply the best match wins --- is settled
 by a sweep, and the central result below is itself such a sweep.
-\todo{Fix or bound $\beta$ and $\theta_{\text{abs}}$; report the result's
+\todo{Fix or bound $\beta_m$ and $\theta_{\text{abs}}$; report the result's
 sensitivity to both. State the economic interpretation of each as a
 calibration target.}
 
@@ -341,9 +363,16 @@ We run a single technology field, calibrated to task-level AI exposure as
 in the companion paper, through the dynamic economy. The field matures
 over $T_{\text{shock}}=5$ years; we vary the redistribution tempo
 $\theta$ (taking $\theta_L$ and $\theta_{\text{abs}}$ together) against
-this fixed shock. \todo{State the calibration cross-reference precisely
-and report the parameter table; confirm population conservation and the
-drain of $U$ to zero as reproducibility checks.}
+this fixed shock. The economy parameters are the companion paper's,
+restated in Section~\ref{sec:foundation}; the dynamic layer adds the
+redistribution timescales $\theta_L$ and $\theta_{\text{abs}}$ (both
+$3$ years at reference), the claim sharpness $\beta_m = 3$, the diffusion
+window $T_{\text{shock}} = 5$ years, and the step $\Delta t = 0.2$ years.
+Occupational birth is switched off in the runs of this section, so the
+occupation set is identical across regimes and the allocation comparison
+is well defined. In every run the population sum is conserved to
+numerical precision and the unbound stock drains below $10^{-8}$; both
+are asserted by the producing scripts.
 
 \subsection{The transitional mismatch}
 \label{sec:transitional}
@@ -351,11 +380,13 @@ drain of $U$ to zero as reproducibility checks.}
 Figure~\ref{fig:calendar} shows the shock and the mismatch it creates.
 The left panel is the logistic diffusion of \eqref{eq:maturation}, rising
 over the five-year window. The right panel is the unbound stock $U(t)$
-for four redistribution tempos. When redistribution is faster than the
-shock, the mismatch is barely visible: the market binds the displaced
-work as fast as it is seeded. As redistribution slows, the mismatch hump
-grows --- roughly twenty-fold from the fastest to the slowest tempo shown
---- and peaks later, within and just after the adoption window. In every
+for four redistribution tempos, $\theta \in \{1, 3, 8, 15\}$ years. When
+redistribution is faster than the shock, the mismatch is barely visible:
+the market binds the displaced work as fast as it is seeded. As
+redistribution slows, the mismatch hump grows --- by a factor of eighty
+from the fastest to the slowest tempo shown --- and peaks later, moving
+from $t \approx 2.6$ to $t \approx 3.6$ years within the adoption
+window. In every
 case it drains to zero once diffusion saturates and binding catches up.
 There is no permanent mismatch in the model: all created work is
 eventually bound. The transitional cost lives entirely in the path --- in
@@ -368,7 +399,8 @@ exactly what the static model, seeing only the endpoint, cannot register.
 \caption{Calendar-time dynamics. Left: the technology matures as a
 logistic diffusion over a five-year window. Right: the unbound stock
 $U(t)$, the transitional mismatch between destruction and creation, for
-four redistribution tempos $\theta$ against the fixed five-year shock.
+four redistribution tempos $\theta \in \{1, 3, 8, 15\}$ years against the
+fixed five-year shock.
 The mismatch hump grows and lingers as redistribution slows relative to
 the shock, but always drains to zero: the transitional cost is in the
 path, not the endpoint.}
@@ -381,20 +413,28 @@ path, not the endpoint.}
 The hump measures the cost of the transition; the same ratio also
 determines its outcome. Figure~\ref{fig:tempo} shows where the reinstated
 work is bound in two regimes, run through the same technology and the
-same field. In the gradual regime, with redistribution faster than the
-shock, the best-matched occupations keep pace and absorb the work: the
+same field. In the gradual regime ($\theta = 1$ year against the five-year
+shock), the best-matched occupations keep pace and absorb the work: the
 gainers are the high-skill specialists whose capabilities sit at the
-frontier of the field. In the congested regime, with redistribution much
-slower than the shock, the small best-matched occupations cannot bind
+frontier of the field. In the congested regime ($\theta = 15$ years),
+the small best-matched occupations cannot bind
 fast enough --- their size-limited capacity $c_o = M_o/\theta$ is small,
 the mass accumulates in $U$, and it is taken instead by the large,
 lower-skilled occupations that can absorb it quickly. The same work is
-downgraded.
+downgraded. The leading gainers make the point concretely: in the
+gradual regime they are preventive-medicine physicians, physicists, and
+natural-sciences managers; in the congested regime, fast-food and
+counter workers, waiters, and dishwashers.
 
 The shift is not marginal. The final allocations of reinstated mass in
-the two regimes correlate at roughly $0.3$: substantially different
+the two regimes correlate at $+0.37$ (Pearson, unweighted across the
+$849$ pre-existing occupations; $+0.31$ by rank): substantially different
 destinations from one technology and one field, differing only in the
-tempo of the shock relative to the market's capacity to respond. This is
+tempo of the shock relative to the market's capacity to respond.
+Weighting by baseline employment raises the correlation to $+0.68$,
+because the largest occupations gain in both regimes; the divergence is
+concentrated in whether specialist best matches or large absorbers take
+the frontier work, which is the margin the result is about. This is
 the destination counterpart of the transitional hump, and it is a
 statement the equilibrium framework cannot make. The fixed point sees the
 endpoint of a frictionless reallocation; it cannot see that the endpoint
@@ -410,15 +450,14 @@ for the same five-year shock. Left, a gradual transition: the best
 matches keep pace and high-skill specialists at the frontier absorb the
 work. Right, a congested transition: small best-matched occupations
 cannot keep up and the work is forced onto large, lower-skilled
-occupations. The two final allocations correlate at roughly $0.3$.}
+occupations. The two final allocations correlate at $+0.37$.}
 \label{fig:tempo}
 \end{figure}
 
-\todo{Add the per-occupation evidence behind the figure: the
-size-versus-match correlation in each regime, the quartile shares of
-absorption, and a short table of the leading gainers in each regime.
-Replace any relative-change ranking with absolute and spatial measures,
-since the relative measure is unbounded for small occupations.}
+\todo{Add the size-versus-match correlation in each regime and the
+quartile shares of absorption. Keep all rankings in absolute and spatial
+measures, since the relative measure is unbounded for small
+occupations.}
 
 \section{The general-equilibrium price feedback}
 \label{sec:ge-feedback}
@@ -427,9 +466,9 @@ Both the static regime and the dynamic transition above hold the price field
 $\Pi(r)$ fixed: the shock relocates labour and re-sorts it, congestion adjusts
 the marginal value of crowded destinations, but the per-unit price of capability
 content does not re-solve. This is a short-run reading. The price field is an
-equilibrium object --- Section~\ref{sec:microfoundation} derives it as a
-capability assignment --- and an equilibrium that does not equilibrate discards
-its own content. \textcite{acemoglu2024rents} make the point sharply: in their
+equilibrium object --- the companion paper derives it as a capability
+assignment (its Section~3.3) --- and an equilibrium that does not
+equilibrate discards its own content. \textcite{acemoglu2024rents} make the point sharply: in their
 task model the base wage \emph{adjusts} to automation (their propagation matrix
 $\Theta$), and that adjustment is the mechanism. Our fixed-price layers hold even
 more fixed than they do --- both the rent wedge and the base price --- so to
@@ -456,7 +495,11 @@ equation~\eqref{eq:price-feedback} and is destabilising, since a dearer wage
 opens the takeover gate. Run as a single pass at $\sigma = 3$, the scarcity
 reading collapses the labour share to $0.33$ (capital chases the work it has just
 made dear), while the demand reading lifts it to $0.83$; the fixed-price value
-$0.58$ sits between. The headline is not robust to the sign, which therefore must
+$0.58$ sits between. Labour shares in this section hold the allocation at
+its baseline, which isolates the price channel; the companion paper's
+headline shares re-solve the allocation as well and are correspondingly
+higher --- $0.626$ at fixed prices, $0.78$ at the fixed point below. The
+headline is not robust to the sign, which therefore must
 be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
 automation dissipates rents and lowers wages, it does not raise them.
 
@@ -495,8 +538,8 @@ the transition. The stabilising wage adjustment is the shock absorber, and it
 operates throughout the transition, not only at its end. The quantitative point
 estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
 closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
-region-wise, not a full re-solve of the assignment programme of
-Section~\ref{sec:microfoundation} --- and the AI field remains one illustrative
+region-wise, not a full re-solve of the companion paper's assignment
+programme --- and the AI field remains one illustrative
 instance of a technology field, not a measurement. We therefore read the result
 as establishing the \emph{direction and order of magnitude} of the price
 feedback, and the mutual consistency of the static and dynamic closes, rather
@@ -588,14 +631,8 @@ sense, properties of the path and not only of the endpoint.
 \printbibliography
 %% ============================================================
 
-\todo{Bibliography keys to add/verify in references.bib:
-storck2026fields (the companion static paper, ``Technology fields,
-automation and task reinstatement'', Storck \& Andersson, 2026 --- the
-foundation cited throughout); storck2026geometry (Paper 1, polar
-geometry, already in references.bib); acemoglu2018race,
-acemoglu2019automation, bessen2019demand (already needed by the companion
-paper). No new external references are strictly required for this draft;
-all machinery is inherited. Verify each against full text before
-submission.}
+\todo{Authorship of the companion-paper entries in references.bib
+(storck2026fields, storck2026geometry) is a deferred decision; verify
+against the final author lists before submission.}
 
 \end{document}

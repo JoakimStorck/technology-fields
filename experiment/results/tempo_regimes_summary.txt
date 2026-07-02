@@ -1,0 +1,27 @@
+tempo_regimes -- the destination of reinstated work depends on the tempo
+gradual theta = 1, congested theta = 15 (theta_L = theta_abs = theta), T_shock = 5 years, births off
+final reinstated mass per occupation, n = 849 pre-existing occupations
+
+corr(gradual, congested), Pearson, unweighted:      +0.371   (the headline)
+corr(gradual, congested), Spearman rank:            +0.308
+corr(gradual, congested), Pearson, L0-weighted:     +0.680
+reinstated mass totals: gradual 0.1046, congested 0.1182
+
+top gainers, gradual regime:
+  0.00150  Preventive Medicine Physicians
+  0.00135  Physicists
+  0.00103  Natural Sciences Managers
+  0.00081  Chief Executives
+  0.00065  Dishwashers
+  0.00062  Mechanical Engineering Technologists and Technicians
+  0.00062  Aerospace Engineering and Operations Technologists and Technicians
+  0.00062  Epidemiologists
+top gainers, congested regime:
+  0.00082  Fast Food and Counter Workers
+  0.00080  Preventive Medicine Physicians
+  0.00079  Waiters and Waitresses
+  0.00074  Dishwashers
+  0.00070  Solar Energy Installation Managers
+  0.00070  Receptionists and Information Clerks
+  0.00068  Food Preparation Workers
+  0.00067  Electricians
