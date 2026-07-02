@@ -44,12 +44,9 @@ REPO = Path(__file__).resolve().parents[1]; sys.path.insert(0, str(REPO))
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 from model.equilibrium import Equilibrium
 from model.technology import Technology
-_spec = importlib.util.spec_from_file_location("_setup", REPO / "scripts" / "_setup.py")
-_setup = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(_setup)
 R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5
 NMIN = 0.01  # irreducible baseline density: caps marginal value beta*Pi*n^(b-1)
              # at empty cells (n->0) so empty regions are not infinitely valuable
-OUT = REPO / "scripts"
 
 
 def set_AK(eq, A_K, g0_grid, g0_task, h_grid=None, h_task=None):
@@ -161,9 +158,9 @@ def softmax_target(dyn, W, c, kappa):
     return dyn.L @ P
 
 
-def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
+def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
-         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4, layer=None,
+         verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
          survival_gate=True, ca_lambda=0.0, binding_law="match_allocated"):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
@@ -205,7 +202,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
     rec = {k: [] for k in ("t","A_K","U_tot","B_tot","n_occ","emp_newborn","Lsum",
                            "cap_util")}
     if verbose:
-        print(f"  full dynamic run (fit-weighted): theta_L={theta_L}, lam_b={lam_b}, rho={rho}")
+        print(f"  full dynamic run (fit-weighted): theta_L={theta_L}, theta_abs={theta_abs}, rho={rho}")
         print(f"  {'t':>5} {'A_K':>6} {'U_tot':>8} {'B_tot':>8} {'n_occ':>6} {'emp_new':>8} {'Lsum':>7}")
     for it, t in enumerate(ts):
         A_K = A_of(t); a_grid = set_AK(eq, A_K, g0_grid, g0_task, h_grid, h_task)

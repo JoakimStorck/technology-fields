@@ -19,6 +19,18 @@ object, StaticLayer, holding
     (kappa = one SD of baseline occupation value; the median move costs
     one kappa), evaluated at A_K = 0.
 
+Mobility-reference evaluation state. The companion's scripts evaluate the
+same rule with the Equilibrium constructed at the CALIBRATED technology
+(a > 0 enters the strip value), giving kappa 11.61, c 22.58 (the static
+table's 11.6/22.6). This layer evaluates it at the pre-shock baseline
+A_K = 0 -- the state the dynamics start from -- giving kappa 11.84,
+c 23.02 (the dynamic manuscript's 11.8/23.0). Same rule, different
+evaluation state; the difference is two per cent and moves no reported
+number at its stated precision (checked for the d08 fixed point). Every
+dynamic-paper script consumes THIS reference, so the dynamic layer is
+internally consistent; the static scripts are untouched, since changing
+their kappa would perturb every static re-sort result.
+
 If the dynamic layer moves to a dedicated repository, this module is the cut
 line: load_static_layer() is reimplemented as a reader of a serialized
 calibration artifact exported by the static pipeline, and the API stays.
@@ -39,9 +51,27 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
 from model.equilibrium import Equilibrium
+from model.regime import _cell_index
 from model.technology import Technology
 
 RESULTS = REPO / "experiment" / "results"
+
+
+class AdjustedField:
+    """The estimated price field with a cellwise log-adjustment applied:
+    Pi(r) = Pi_0(r) exp(dlnPi(r)). Level from data, change from the shock --
+    the price object of the GE feedback (d07-d09), shared here so the three
+    scripts carry one definition."""
+
+    def __init__(self, base, dlnPi, grid):
+        self._base, self._dlnPi, self._grid = base, dlnPi, grid
+
+    def pi(self, xi, chi):
+        cells = _cell_index(self._grid, np.asarray(xi, float), np.asarray(chi, float))
+        return self._base.pi(xi, chi) * np.exp(self._dlnPi[cells])
+
+    def __getattr__(self, name):
+        return getattr(self._base, name)
 
 # Companion-paper economy parameters (static Table `economy-parameters`).
 R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5

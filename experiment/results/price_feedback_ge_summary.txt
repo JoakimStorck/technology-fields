@@ -1,0 +1,22 @@
+d08: GE price feedback -- sign, one-pass extremes, fixed point, contraction
+sigma 3, damp 0.5; mobility reference kappa 11.839, c 23.018 (layer rule, A_K = 0)
+fixed-Pi baseline: labour share L0 0.5822 | out.L 0.6254; D_o mean 0.2786
+
+(H1) one-pass extremes, L0 basis:
+  scarcity (supply reading, destabilising)   labour share 0.3330
+  ar_level (demand reading, level falls)     labour share 0.8279
+  fixed price                                labour share 0.5822
+
+(H2) fixed point at sigma 3: converged in 9 damped steps
+  Delta ln Pi: level -0.2607, sd 0.3417; corr with operated share a +0.263
+  labour share  L0 basis   0.5822 -> 0.7334
+  labour share  out basis  0.6254 -> 0.7785   (price and allocation both equilibrate; the paper basis)
+  D_o mean      0.2786 -> 0.1561  (-44%)
+
+(H3) contraction sufficient condition:
+  gate slope K_gate = (1/sigma) a R/(Pi tau) at the fixed point:
+    sup 1.644, mass-weighted mean 0.457, 99th pct 1.558
+  power iteration on the full map (37 its): spectral radius K = 1.594
+  sufficient condition at damp 0.5: K < 2/damp - 1 = 3  ->  satisfied  (margin x1.9; implied max damp 0.77)
+
+all frozen-baseline asserts passed.

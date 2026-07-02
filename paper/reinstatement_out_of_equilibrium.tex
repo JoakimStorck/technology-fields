@@ -203,9 +203,11 @@ companion paper's economy table: $R=18$, $\tau=0.08$, $\beta=0.5$
 (congestion), $\gamma=0.5$, $\ell=0.133$, $\rho=0.5$,
 $\lambda_{\mathrm{over}}=1$. The mobility scale $\nu$ (one standard
 deviation of baseline occupation value per logit unit) and the move cost
-$c_m$ (the median move costs one $\nu$) follow the same rules;
-recomputed at the dynamic baseline they are $\nu = 11.8$ and
-$c_m = 23.0$.
+$c_m$ (the median move costs one $\nu$) follow the same rules, evaluated
+here at the pre-shock baseline $A_K = 0$, the state the dynamics start
+from: $\nu = 11.8$ and $c_m = 23.0$. The companion's table evaluates the
+same rules at the calibrated technology and reports $11.6$ and $22.6$;
+the two per cent difference moves no result at its reported precision.
 
 Two features of this foundation are load-bearing for what follows. First,
 displacement falls \emph{within} occupations, on the interior margin
@@ -657,9 +659,31 @@ be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
 automation dissipates rents and lowers wages, it does not raise them.
 
 \paragraph{The static fixed point.}
-Equation~\eqref{eq:price-feedback} is a contraction --- a lower price closes the
-takeover gate, which raises the price back --- so iterating price and allocation
-to mutual consistency converges (eight damped steps). The self-consistent state
+Iterating price and allocation to mutual consistency converges, and the
+convergence follows from a condition that can be evaluated at the
+calibration. Differentiating the gate~\eqref{eq:operated} gives
+$\partial \ln(1-a)/\partial \ln\Pi = -a\,(R/\Pi)/\tau$: a lower price
+closes the gate, which raises the price back. The slope of the
+map~\eqref{eq:price-feedback} is therefore bounded by
+\begin{equation}
+K \;\le\; \frac{1}{\sigma}\Bigl(\,\sup_{\rr}\,
+\frac{a(\rr)\,R}{\Pi(\rr)\,\tau} \;+\; \varepsilon_n\Bigr),
+\label{eq:contraction}
+\end{equation}
+where $\varepsilon_n$ is the crowding elasticity of the re-sorted
+density, and damped iteration with weight $d$ converges when the
+stabilising slope satisfies $K < 2/d - 1$; at $d = \tfrac12$ the
+threshold is $3$. Evaluated at the converged point, the gate term peaks
+at $1.64$ and the spectral radius of the full map, crowding included, is
+$1.59$ by power iteration: the condition holds with a factor-two margin,
+and the iteration converges in nine damped steps. The slope scales as
+$1/\sigma$ ($\sigma K = 4.77$ at $\sigma = 0.5$ against $4.78$ at
+$\sigma = 3$), which places the failure boundary at $d = \tfrac12$ near
+$\sigma = 1.6$; at $\sigma = 1$ the iteration indeed fails at
+$d = \tfrac12$ and converges at $d = \tfrac14$. The fixed point itself
+does not depend on the damping; only the path to it does.
+
+The self-consistent state
 is an interior point, not the one-pass extreme: the labour share settles at
 $0.73$ (against $0.58$ at fixed prices), the price level falls $26$ percent, and
 displacement is cut by roughly $44$ percent ($D_o$ from $0.28$ to $0.16$). The
@@ -674,7 +698,7 @@ allocation at every step, equation~\eqref{eq:price-feedback} with a one-step lag
 --- the feedback shapes the whole path, not just the end. The wage level falls
 monotonically as adoption rises, from $-0.09$ early to a plateau at $-0.29$, and
 the displacement wave is markedly gentler: the unbound-mass (mismatch) peak is
-cut by about $64$ percent (from $0.44$ to $0.16$ percent of the workforce) at the
+cut by about $63$ percent (from $0.44$ to $0.16$ percent of the workforce) at the
 same timing, and the reinstated stock ends lower, because the falling wage deters
 the automation that would have produced the mismatch. Crucially, the transition
 lands where the static fixed point says it should: the dynamic end-state price
@@ -693,7 +717,10 @@ estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
 closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
 region-wise, not a full re-solve of the companion paper's assignment
 programme --- and the AI field remains one illustrative
-instance of a technology field, not a measurement. We therefore read the result
+instance of a technology field, not a measurement. Across $\sigma$ from
+$5$ to $0.5$ the fixed-point lift of the labour share runs from $+0.11$
+to a peak of $+0.20$ at $\sigma = 1$, and the damping of the mismatch
+hump rises from $46$ to $89$ per cent. We therefore read the result
 as establishing the \emph{direction and order of magnitude} of the price
 feedback, and the mutual consistency of the static and dynamic closes, rather
 than a calibrated forecast of the labour share.
