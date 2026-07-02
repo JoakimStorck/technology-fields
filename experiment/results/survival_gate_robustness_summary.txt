@@ -1,0 +1,28 @@
+survival_gate_robustness -- the destination result across gate variants
+gradual theta = 1, congested theta = 15, T_shock = 5 years, births off
+
+  variant  corr(g,c) cong size-rank  meanPi grad  meanPi cong
+ baseline     +0.371         +0.950         32.1         31.4
+ gate_off     +0.347         +0.961         33.6         33.1
+   ca_0.5     +0.394         +0.942         32.5         31.9
+     ca_1     +0.417         +0.932         32.8         32.2
+     ca_2     +0.457         +0.907         33.2         32.7
+
+the divergence and the size mechanism survive every variant;
+the gate moves the gainers' price level, not the tempo dependence.
+
+top gainers, baseline:
+  gradual:   Preventive Medicine Physicians; Physicists; Natural Sciences Managers
+  congested: Fast Food and Counter Workers; Preventive Medicine Physicians; Waiters and Waitresses
+top gainers, gate_off:
+  gradual:   Preventive Medicine Physicians; Physicists; Natural Sciences Managers
+  congested: Preventive Medicine Physicians; Health Informatics Specialists; Medical and Health Services Manage
+top gainers, ca_0.5:
+  gradual:   Preventive Medicine Physicians; Physicists; Natural Sciences Managers
+  congested: Preventive Medicine Physicians; Dishwashers; Fast Food and Counter Workers
+top gainers, ca_1:
+  gradual:   Preventive Medicine Physicians; Physicists; Natural Sciences Managers
+  congested: Preventive Medicine Physicians; Dishwashers; Education Administrators, Kinderga
+top gainers, ca_2:
+  gradual:   Preventive Medicine Physicians; Physicists; Natural Sciences Managers
+  congested: Preventive Medicine Physicians; Education Administrators, Kinderga; Dishwashers

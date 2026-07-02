@@ -1,0 +1,10 @@
+binding_law_comparison -- size-multiplies-match vs match-allocated
+reference tempo theta = 3, T_shock = 5 years, births off
+claim = unconstrained seed-weighted claim share at beta_m = 3; size = pre-shock task mass (d02 metrics)
+
+             law  corr(absorb,size)  corr(absorb,claim)
+ size_multiplies             +0.995              +0.074   (rank: size +0.995, claim +0.058)
+ match_allocated             +0.125              +0.731   (rank: size +0.426, claim +0.758)
+
+under the conflated form size decides the destination and the claim is
+ignored; the match-allocated, size-rate-capped form inverts this.

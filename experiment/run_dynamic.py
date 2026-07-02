@@ -52,9 +52,14 @@ NMIN = 0.01  # irreducible baseline density: caps marginal value beta*Pi*n^(b-1)
 OUT = REPO / "scripts"
 
 
-def set_AK(eq, A_K, g0_grid, g0_task):
-    a_grid = 1.0/(1.0+np.exp(-(A_K*g0_grid - R/eq.pi_cell)/TAU))
-    a_task = 1.0/(1.0+np.exp(-(A_K*g0_task - R/eq.pi_task)/TAU))
+def set_AK(eq, A_K, g0_grid, g0_task, h_grid=None, h_task=None):
+    # h is a human-productivity field on the gate: labour's effective cost per
+    # task unit is Pi/h, so capital operates where s_K phi_K > h R / Pi.
+    # h = None (uniform 1) is the baseline absolute-productivity gate.
+    Rg = R if h_grid is None else R*h_grid
+    Rt = R if h_task is None else R*h_task
+    a_grid = 1.0/(1.0+np.exp(-(A_K*g0_grid - Rg/eq.pi_cell)/TAU))
+    a_task = 1.0/(1.0+np.exp(-(A_K*g0_task - Rt/eq.pi_task)/TAU))
     eq.a_grid = a_grid; eq.a_task = a_task
     eq.D_o = np.bincount(eq.row_of, weights=eq.b_w*a_task, minlength=eq.n_occ)
     return a_grid
@@ -158,7 +163,17 @@ def softmax_target(dyn, W, c, kappa):
 
 def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
-         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4, layer=None):
+         verbose=True, ESTAR=np.exp(-1.0), R_TASK=0.5, L_min=2e-4, layer=None,
+         survival_gate=True, ca_lambda=0.0, binding_law="match_allocated"):
+    # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
+    #   full gradient ring, including the capital-dominated core.
+    # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
+    #   phihat the unit-amplitude technology shape: human productivity high where
+    #   the machine is weak, entering the gate as s_K phi_K > h R / Pi.
+    #   ca_lambda = 0 recovers the uniform-R absolute gate.
+    # binding_law: "match_allocated" (eq. claim + size-rate cap, baseline) or
+    #   "size_multiplies" (iota_o ~ M_o * FIT_o, the conflated alternative of
+    #   manuscript sec. 3.3, kept for the d05 comparison).
     # The static layer enters through experiment/_interface.py (frozen inputs,
     # calibrated technology, shared attachment primitive, mobility reference);
     # numbered d-scripts pass their cached layer, standalone use loads it here.
@@ -172,7 +187,12 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
     tech, ell = layer.tech, layer.ell; A_final = tech.A_K
     eq = layer.eq
     g0_grid, g0_task = layer.g0_grid, layer.g0_task
-    set_AK(eq, 0.0, g0_grid, g0_task)
+    if ca_lambda > 0.0:
+        h_grid = np.exp(ca_lambda*(1.0 - g0_grid))
+        h_task = np.exp(ca_lambda*(1.0 - g0_task))
+    else:
+        h_grid = h_task = None
+    set_AK(eq, 0.0, g0_grid, g0_task, h_grid, h_task)
     kappa, c = layer.kappa, layer.c
     dyn = Dyn(eq, inp, L0, ell, rho, lam_over=lam_over)
     # Technology maturation in CALENDAR time: a logistic (S-curve) diffusion that
@@ -187,13 +207,13 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
         print(f"  full dynamic run (fit-weighted): theta_L={theta_L}, lam_b={lam_b}, rho={rho}")
         print(f"  {'t':>5} {'A_K':>6} {'U_tot':>8} {'B_tot':>8} {'n_occ':>6} {'emp_new':>8} {'Lsum':>7}")
     for it, t in enumerate(ts):
-        A_K = A_of(t); a_grid = set_AK(eq, A_K, g0_grid, g0_task)
+        A_K = A_of(t); a_grid = set_AK(eq, A_K, g0_grid, g0_task, h_grid, h_task)
         C = dyn.capacity(); n = dyn.density()
         pv = dyn.place_value(n); W = dyn.values(n)       # value field + source values
         GammaD = float(np.sum(dyn.L[:dyn.n0]*eq.D_o))
         dGamma = 0.0 if GammaD_prev is None else max((GammaD-GammaD_prev)/dt, 0.0)
         GammaD_prev = GammaD
-        surv = 1.0-a_grid
+        surv = (1.0-a_grid) if survival_gate else np.ones_like(a_grid)
         sdot = GAMMA*dGamma*eq.g_hat*surv
         dyn.U = dyn.U + dt*sdot                                   # seeding fills the unbound stock
         # MATCH-ALLOCATED, SIZE-RATE-LIMITED binding. The unbound mass is ATTRACTED to
@@ -208,18 +228,33 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, lam_b=1.0, rho=0.5, theta_abs=3.0, lam
         # which size multiplied match and the absolute capture tracked size at corr 0.99.)
         M = dyn.original + dyn.reinst                             # current task mass (grows endogenously)
         avail = dyn.U*dyn.area                                    # unbound mass available per cell
-        Wb = dyn.FIT**match_beta; Wsum = Wb.sum(0)               # match-share weights (sharpened)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            claim = np.where(Wsum > 0, avail/Wsum, 0.0)           # available mass per unit match-weight
-        t_o = Wb*claim[None, :]                                   # match-share claim, per occ per cell (mass)
-        des = t_o.sum(1)                                          # desired intake per occupation
-        capo = (dt/theta_abs)*M                                   # size-limited capacity this step
-        with np.errstate(divide="ignore", invalid="ignore"):
-            f = np.where(des > 1e-15, np.minimum(1.0, capo/des), 0.0)  # absorbed fraction (rate cap)
-        dyn.reinst[:] = dyn.reinst + des*f                        # absorb min(match-claim, size-cap)
-        absorbed = (t_o*f[:, None]).sum(0)                        # total mass bound per cell
-        dyn.U = dyn.U - absorbed/dyn.area                         # residual stays unbound -> cascades
-        dyn.B = dyn.B + absorbed/dyn.area                         # bound density (feeds n)
+        if binding_law == "size_multiplies":
+            # the conflated alternative: size MULTIPLIES match in the claim and
+            # no per-occupation cap -- absorption ~ M_o FIT_o share at a global
+            # rate dt/theta_abs. Kept only for the sec. 3.3 comparison (d05).
+            Wm = M[:, None]*dyn.FIT; Wms = Wm.sum(0)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                share = np.where(Wms > 0, Wm/Wms[None, :], 0.0)
+            t_o = share*avail[None, :]
+            f_glob = min(1.0, dt/theta_abs)
+            dyn.reinst[:] = dyn.reinst + t_o.sum(1)*f_glob
+            absorbed = t_o.sum(0)*f_glob
+            dyn.U = dyn.U - absorbed/dyn.area
+            dyn.B = dyn.B + absorbed/dyn.area
+            f = np.full(dyn.n_occ, f_glob)                        # for the newborn grain below
+        else:
+            Wb = dyn.FIT**match_beta; Wsum = Wb.sum(0)           # match-share weights (sharpened)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                claim = np.where(Wsum > 0, avail/Wsum, 0.0)       # available mass per unit match-weight
+            t_o = Wb*claim[None, :]                               # match-share claim, per occ per cell (mass)
+            des = t_o.sum(1)                                      # desired intake per occupation
+            capo = (dt/theta_abs)*M                               # size-limited capacity this step
+            with np.errstate(divide="ignore", invalid="ignore"):
+                f = np.where(des > 1e-15, np.minimum(1.0, capo/des), 0.0)  # absorbed fraction (rate cap)
+            dyn.reinst[:] = dyn.reinst + des*f                    # absorb min(match-claim, size-cap)
+            absorbed = (t_o*f[:, None]).sum(0)                    # total mass bound per cell
+            dyn.U = dyn.U - absorbed/dyn.area                     # residual stays unbound -> cascades
+            dyn.B = dyn.B + absorbed/dyn.area                     # bound density (feeds n)
         for o in range(dyn.n0, dyn.n_occ):                       # grain for newborns (their own claim)
             dyn.grain[o] = dyn.grain.get(o, np.zeros(dyn.ncell)) + t_o[o]*f[o]/dyn.area
         # birth: fit-gap AND carrying capacity (value-weighted seeded mass)

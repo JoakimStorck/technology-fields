@@ -339,13 +339,14 @@ adds is only the sharpening $\beta_m$ and the size-limited rate.
 The form was chosen against an alternative that conflates the two roles.
 A binding rate proportional to size times match, $\iota_o \propto
 M_o\,e_o$, lets size \emph{multiply} match: in that form the
-absolute absorption correlates with occupation size at roughly $0.99$ and
-with match quality at roughly $0.04$ --- size decides the destination and
-match governs only the relative growth. The match-allocated form with a
-size cap breaks this; the correlation of absorption with size falls to
-roughly $0.04$, and the destination is governed by match, with size
-demoted from setting \emph{where} the work goes to \emph{how fast} it
-binds, which is its proper role. The sharpness $\beta_m$ and the absorption
+absolute absorption correlates with occupation size at $+0.99$ and with
+the unconstrained claim at $+0.07$, at the reference tempo --- size
+decides the destination and match governs only the relative growth. The
+match-allocated form with a size cap inverts this: absorption tracks the
+claim at $+0.73$, and the size correlation falls to $+0.13$ at the
+reference tempo and to $+0.04$ in the gradual regime, with size demoted
+from setting \emph{where} the work goes to \emph{how fast} it binds,
+which is its proper role. The sharpness $\beta_m$ and the absorption
 timescale $\theta_{\text{abs}}$ are calibration handles, not worldviews;
 their economic content --- whether absorptive capacity scales linearly or
 sub-linearly with size, and how sharply the best match wins --- is settled
@@ -476,7 +477,7 @@ quartile is squeezed from $22$ to $4$ percent. All rankings are in
 absolute mass; the relative-change measure is unbounded for small
 occupations and is not used.
 
-Two robustness checks bound the claim. Sweeping the sharpness $\beta_m$
+Three robustness checks bound the claim. Sweeping the sharpness $\beta_m$
 from $1$ to $8$ moves the cross-regime correlation from $+0.26$ to
 $+0.61$: the divergence of destinations survives the full range, while
 its point size depends on the handle. And decomposing the tempo into its
@@ -487,6 +488,23 @@ only mobility ($\theta_L = 15$, $\theta_{\text{abs}} = 1$) leaves the
 destination essentially unchanged ($+1.00$). The forced downgrading is a
 statement about how fast occupations can take on new work, not about how
 fast workers move.
+
+The third check varies the survival gate itself, since the low-priced
+character of surviving seed is inherited from it. Both regimes are rerun
+with the gate off, and with a comparative-advantage gate: a
+human-productivity field $h(\rr) = \exp[\lambda_h(1-\hat\phi_K(\rr))]$,
+with $\hat\phi_K$ the unit-amplitude technology shape, so labour is more
+productive where the machine is weak and capital operates where
+$s_K\phi_K > h R/\Pi$; $\lambda_h$ is swept up to $2$, and
+$\lambda_h = 0$ recovers the uniform-$R$ gate. The divergence is intact
+in every variant --- the cross-regime correlation stays between $+0.35$
+and $+0.46$, and the congested size rank correlation between $+0.91$ and
+$+0.96$. What the gate moves is the gainers' price level, not the tempo
+dependence: without the gate the capital-dominated core seeds, and the
+congested absorbers become large health and administrative occupations
+rather than food service; the comparative-advantage gate raises the
+mass-weighted gainer price with $\lambda_h$. The downgrading ---
+congested gainers priced below gradual gainers --- persists throughout.
 
 \section{The general-equilibrium price feedback}
 \label{sec:ge-feedback}
@@ -592,26 +610,23 @@ the destination of a frictionless economy, and the friction here is time
 itself.
 
 Two qualifications bound the claim, and both are inherited rather than
-introduced. The first is the survival gate. The companion model places
-surviving reinstatement on the low-priced side of the boundary, because a
-seeded task is retained by labour where labour is the cheaper producer at
-a \emph{uniform} cost $R$, which is the low-$\Pi$, cheaper work. The
-reinstated work is therefore lower-priced to begin with, and the
-congested regime compounds this by routing it to the large low-skill
-occupations. Whether reinstatement \emph{ought} to be lower-skilled is a
-question about the survival gate, not the binding law: in
-\textcite{acemoglu2019automation} reinstatement is new \emph{complex}
-work in which labour has a comparative advantage, often higher-skilled,
-and capturing that would require the survival condition to turn on
-relative rather than absolute productivity --- a varying human
-productivity field, high where the machine is weak, in place of a uniform
-$R$. That is a change to the static foundation, deferred here and flagged
-in the companion paper. The destination results are therefore conditional
-on the survival-gate economics, exactly as the companion paper's
-incidence results are. \todo{Decide how far to take the
-comparative-advantage qualification here versus leaving it entirely to
-the foundation paper. At minimum, state plainly that the high- versus
-low-skill character of the gainers is conditional on the gate.}
+introduced. The first concerns the survival gate. The companion model
+places surviving reinstatement on the low-priced side of the boundary,
+because a seeded task is retained by labour where labour is the cheaper
+producer at a \emph{uniform} cost $R$; in
+\textcite{acemoglu2019automation} reinstatement is instead new
+\emph{complex} work in which labour has a comparative advantage, which
+requires the survival condition to turn on relative rather than absolute
+productivity. Section~\ref{sec:destination} runs exactly this variant,
+alongside the gate removed altogether, and the gate turns out to govern
+the \emph{character} of the destination rather than its tempo
+dependence: the divergence and the size mechanism survive every variant,
+while the gainers' price level moves with the gate. What remains
+conditional on the survival-gate economics is therefore the high- versus
+low-skill reading of the congested absorbers --- food service under the
+absolute gate, large health and administrative occupations without it
+--- not the result that a fast shock forces the work onto whoever is
+large enough to take it.
 
 The second qualification is the binding calibration. The allocation
 depends on the sharpness $\beta_m$ and the absorption timescale
