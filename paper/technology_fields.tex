@@ -178,11 +178,10 @@ dominated by the pandemic-era compression of the US wage distribution
 prediction. Once baseline wage is held fixed, the mechanism adds
 nothing, and a vintage split shows that the entire raw correlation lies
 in the pre-deployment window. We report this as a finding about what the
-occupational cross-section can identify, not as empirical support: the
-identifying variation the model calls for is within-occupation task
-recomposition over time, which is deferred to companion work. The
-exercise doubles as a caution for the growing literature that correlates
-AI exposure with recent wage changes.
+cross-section can identify, not as support. The variation the model
+calls for is within-occupation task recomposition over time, left to
+companion work. The exercise doubles as a caution for the growing
+literature that correlates AI exposure with recent wage changes.
 
 The paper proceeds as follows.
 Section~\ref{sec:geometry} introduces the spatial occupational geometry.
@@ -656,7 +655,29 @@ Readiness to attach the task is
   \exp[-\delta_o(\mathbf{r})/\ell],
   \label{eq:readiness}
 \end{equation}
-where $\ell$ is a global acquisition scale. Total attachment capacity at
+where $\ell$ is a global acquisition scale.
+
+The implementation uses a stricter form. Over-qualification is
+penalized alongside the deficit, with weight $\lambda_{\mathrm{over}}$,
+and attachment decays with distance to the occupation's centroid at
+scale $\rho$:
+\begin{equation}
+  e_o(\mathbf{r})
+  =
+  \exp\!\bigl[
+    -\bigl(\delta_o(\mathbf{r})
+    +\lambda_{\mathrm{over}}\,\bar\delta_o(\mathbf{r})\bigr)/\ell
+  \bigr]
+  \,
+  \exp\bigl(-\|\mathbf{r}-\mu_o\|/\rho\bigr),
+  \label{eq:attachment}
+\end{equation}
+where $\bar\delta_o(\mathbf{r})=\sum_{k\in\mathcal K}
+v_k\max(q_{o,k}-q_k(\mathbf{r}),0)$ is the surplus. Setting
+$\lambda_{\mathrm{over}}=0$ and $\rho\to\infty$ recovers
+eq.~\eqref{eq:readiness}. The stricter form keeps an over-qualified
+generalist far from its core from binding seed as if it were home
+territory. Total attachment capacity at
 a location is
 \[
   C(\mathbf{r})
@@ -784,8 +805,16 @@ statics between the pre-technology and post-technology rest points.
 \subsection{Task-work and output demand}
 \label{sec:demand}
 
-A location is produced by human and capital task-work as perfect
-substitutes. The human part of occupation $o$'s coverage is
+The market structure is stated once and used throughout. Each location
+$\mathbf{r}$ hosts a local product assembled from its micro-task
+continuum in fixed proportions. Human task work at $\mathbf{r}$ costs
+$\Pi(\mathbf{r})$. Capital is supplied elastically at rental $R$ and is
+paid its cost, $R/(s_K\phi_K(\mathbf{r}))$ per unit of task work; it
+retains no quasi-rent. The marginal cost of the local product is the
+blended index $c(\mathbf{r})$ of eq.~\eqref{eq:unit-cost}, and
+competition passes cost changes into the product price.
+
+The human part of occupation $o$'s coverage is
 \[
   h_o(\mathbf{r}) = b_o^{\text{post}}(\mathbf{r}),
 \]
@@ -807,11 +836,16 @@ Total task-work at location $\mathbf{r}$ is
   \sum_o \iota_o(\mathbf{r}).
   \label{eq:taskwork-density}
 \end{equation}
-Unbound tasks do not enter output.
 
-Under competitive pricing, unit price equals the marginal cost
-$c(\mathbf{r})$ from eq.~\eqref{eq:unit-cost}. With isoelastic demand
-of elasticity $\eta$, the quantity bought scales as
+Two components of seeded mass stay outside
+eq.~\eqref{eq:taskwork-density}. Unbound tasks have no bearer and
+produce nothing. Capital-captured seeds are new capital-run production;
+pricing them requires re-solving the field and is deferred with the rest
+of the closure. Only bound seed enters the frozen-field economy. The
+fate accounting of Section~\ref{sec:unbound} records all three.
+
+With isoelastic demand of elasticity $\eta$ around the baseline price,
+the quantity bought scales as
 \[
   \left(\frac{\Pi(\mathbf{r})}{c(\mathbf{r})}\right)^\eta,
 \]
@@ -844,13 +878,14 @@ Place output is
 At $\eta=1$, revenue is cost-invariant and $D\equiv1$. For
 $\eta>1$, cost reductions expand revenue and draw labour into the
 cheapened direction. For $\eta<1$, cost reductions reduce revenue and
-release labour.
+release labour. The congestion exponent $\beta<1$ is local capacity;
+its rent $(1-\beta)V$ accrues to a fixed local factor and stays outside
+the wage analysis.
 
 \subsection{Occupation values}
 \label{sec:occupation-values}
 
-Human and capital receive marginal products on the task-work they
-perform. The value of occupation $o$ is
+The value of occupation $o$ is
 \begin{equation}
   W_o
   =
@@ -868,6 +903,21 @@ task locations. When workers move into an occupation, they raise density
 where that occupation operates and reduce marginal value through
 congestion.
 
+Human task work is paid its marginal value product,
+eq.~\eqref{eq:occ-value}. Pricing uses cost; payment uses marginal
+value. The two are not tied by a zero-profit condition here, because
+that condition re-solves the price field. The frozen-field model keeps
+this seam visible and defers the closure.
+
+The paper carries three wage objects. The bundle wage
+$w_o=\int\Pi\,b_o$ prices a bundle at the frozen field and is used for
+cross-sectional levels. The occupation value $W_o$ adds demand and
+congestion and is what workers sort on. The bundle wage change
+$\Delta w_o$ of eq.~\eqref{eq:wage-change} is the operator's gross
+re-pricing of the bundle and is the object taken to the data in
+Section~\ref{sec:directional-check}. They agree on direction and differ
+in what they hold fixed.
+
 \subsection{Spatial re-sorting}
 \label{sec:sorting}
 
@@ -882,14 +932,14 @@ occupation $o$ is
   P_{j\to o}
   =
   \frac{
-    \exp[(W_o-c\,d(j,o))/\nu]
+    \exp[(W_o-c_m\,d(j,o))/\nu]
   }{
     \sum_{o'}
-    \exp[(W_{o'}-c\,d(j,o'))/\nu]
+    \exp[(W_{o'}-c_m\,d(j,o'))/\nu]
   },
   \label{eq:transition-probability}
 \end{equation}
-where $c$ governs mobility cost and $\nu$ logit smoothness. Employment
+where $c_m$ governs mobility cost and $\nu$ logit smoothness. Employment
 in occupation $o$ is then
 \begin{equation}
   L_o
@@ -937,7 +987,10 @@ The congestion exponent affects sorting but cancels from the share
 itself. The demand multiplier does not cancel, because it reweights the
 directions whose output expands or contracts. Automation lowers the
 share where the operated share rises; reinstatement raises it only where
-new human task-work binds.
+new human task-work binds. $\Lambda$ weights human task work by the
+local value of task work. It records who performs the valued work; the
+full income statement of a location, with capital cost, congestion rent
+and consumer gain, belongs to the deferred closure.
 
 %% ============================================================
 \section{Empirical Implementation and Calibration}
@@ -1070,10 +1123,38 @@ arc. It is narrow and sufficiently intense to cross the price gate
 against low-priced labour. It is used as an illustrative industrial
 automation field, not as an empirically calibrated exposure surface.
 
-The economy parameters are held fixed across scenarios: the attachment
-scale $\ell$, rental cost $R$, margin width $\tau$, congestion exponent
-$\beta$, mobility parameters $c$ and $\nu$, and reinstatement fraction
-$\gamma$. The output-demand elasticity $\eta$ is swept.
+The economy parameters are set by explicit rules and held fixed across
+scenarios; Table~\ref{tab:economy-parameters} lists them. The
+output-demand elasticity $\eta$ is swept. Sensitivity of the headline
+quantities to these parameters is reported in
+Section~\ref{sec:cognitive-case}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Economy parameters. Employment $L$ is normalized to shares
+summing to one, so the attachment capacity $C$ in $\Phi(C)=C/(1+C)$ is
+of order one. Mobility values are the reference at the baseline
+equilibrium.}
+\label{tab:economy-parameters}
+\begin{tabular}{llp{8.2cm}}
+\toprule
+Parameter & Value & Rule \\
+\midrule
+$R$ & $18$ & the gate binds in the calibrated field's core: capital
+cost $R/(s_K\phi_K)\approx30$ at the centre against $\Pi\approx47$;
+the gate closes where $s_K\phi_K\Pi<R$ \\
+$\tau$ & $0.08$ & width of the adoption margin, eq.~\eqref{eq:soft-switch} \\
+$\beta$ & $0.5$ & congestion benchmark; cancels from $\Lambda$ \\
+$\gamma$ & $0.5$ & seeded fraction of displaced mass; swept below \\
+$\ell$ & $0.133$ & one within-direction SD of the priced-capability
+index gives readiness $e^{-1}$ \\
+$\rho,\ \lambda_{\mathrm{over}}$ & $0.5,\ 1$ & attachment locality and
+over-qualification weight, eq.~\eqref{eq:attachment} \\
+$\nu$ & $11.6$ & one SD of baseline occupation value per logit unit \\
+$c_m$ & $22.6$ & the median move costs one $\nu$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[!htbp]
 \centering
@@ -1127,9 +1208,22 @@ priced regions. The geometry withholds the aggregate recovery that a
 one-dimensional model would assign to labour by construction. The
 result is robust to the family wage wedge: with the wedge in the
 adoption gate, the share falls to $0.647$ under automation and $0.642$
-after reinstatement, the unbound share of surviving seed is unchanged at
+after reinstatement, the unbound share of seeded mass is unchanged at
 $68$ percent, and the ordering of gaining and losing occupations is
 preserved.
+
+The level of the automation drop is set by the gate. Sweeping $R$ from
+$12$ to $24$ moves the post-automation share from $0.48$ to $0.77$,
+because $R$ fixes how deep the technology cuts. The structure of the
+result is not. Across a sixteenfold range of the attachment scale,
+$\gamma$ from $0.25$ to $0.75$, both margin widths, and the attachment
+shape, reinstatement moves the share by less than one percentage point
+in either direction, against an automation drop of $23$ to $52$ points;
+at the most generous corner it adds $0.4$ points. The unbound share of
+seeded mass stays between $53$ and $79$ percent over the full sweep,
+$61$ to $72$ within the attachment sweep. Re-sorted mass stays at $58$
+percent throughout. The claim the paper rests on is the gap between
+task creation and wage recovery, not the level of the drop.
 
 Re-sorting is substantial: $58$ percent of employment mass relocates.
 Gainers are occupations whose existing capabilities let them bind the
@@ -1145,10 +1239,12 @@ direction.
 \subsection{Unbound tasks}
 \label{sec:case-unbound}
 
-A large share of surviving seed remains unbound --- $68$ percent of it
-in the cognitive case. These are tasks that survive capital but cannot
-be absorbed by existing occupations under the deficit gate. Their spatial distribution marks the gap between task
-creation and occupational absorption.
+Of the seeded mass in the cognitive case, $27$ percent is captured by
+capital, $5$ percent binds to existing occupations, and $68$ percent
+survives capital but finds no bearer under the deficit gate. Of the
+seed that survives as human work, $93$ percent is unbound. Its spatial
+distribution marks the gap between task creation and occupational
+absorption.
 
 \begin{figure}[!htbp]
 \centering
@@ -1202,11 +1298,10 @@ The model's empirical implication is directional. If automation and
 reinstatement push an occupation's bundle down the price gradient, that
 occupation should experience weaker wage growth than occupations whose
 bundles move less or remain closer to high-priced work. This section
-confronts that implication with observed occupational wage changes. The
-confrontation proceeds in two steps: a naive directional check, which the
-model passes, and a confound analysis, which shows that the pass is
-uninformative in this window. We report both, because the second step
-carries a methodological point that extends beyond this paper.
+confronts that implication with observed occupational wage changes, in
+two steps: a naive directional check, which the model passes, and a
+confound analysis, which shows that the pass is uninformative in this
+window. We report both. The second step matters beyond this paper.
 
 Using the calibrated cognitive field, each occupation's bundle is
 rewritten and its centroid shifts from $\mu_o$ to $\mu_o^{\text{post}}$. The
@@ -1238,8 +1333,7 @@ used as the endpoint ($+0.39$).
 \subsection{The confound}
 \label{sec:check-confound}
 
-Taken at face value, this supports the mechanism. It should not be taken
-at face value. The predicted pressure is nearly collinear with the
+This looks like support for the mechanism. It is not. The predicted pressure is nearly collinear with the
 baseline wage level: because the price gate targets dear work,
 occupations with high 2019 wages are pushed furthest down-gradient (rank
 correlation $-0.57$ between predicted pressure and baseline wage). And
@@ -1310,7 +1404,7 @@ window it is absent.}
 \subsection{What follows}
 \label{sec:check-reading}
 
-Two conclusions follow, and they should be kept apart. First, the
+Two conclusions follow. First, the
 2019--2025 occupational cross-section cannot test the mechanism. Its
 observable prediction and the dominant wage shock of the period load on
 the same index --- the baseline wage --- and once that index is held
@@ -1321,10 +1415,10 @@ direction the operator predicts. That test requires within-occupation
 microdata and is left to companion work. Second, the null in the
 deployment window is not evidence against the model. The model does not
 predict that two years of diffusion should be visible in occupational
-median wages; a loud pass in this window would have deserved suspicion
-rather than confidence.
+median wages. A strong pass in this window would itself have been
+suspect.
 
-The exercise also carries a caution that extends beyond this paper. A
+The exercise carries a wider caution. A
 naive correlation between AI exposure and 2019--2025 occupational wage
 growth has the right sign, a small $p$-value, and nothing to do with AI:
 it measures the pandemic compression. This is the exposure-versus-incidence
@@ -1450,7 +1544,7 @@ $R,\,\tau$ & automation cost threshold (takeover compares $\Pi$ to $R/(s_K\phi_K
 $D_o$ & displaced share of occupation $o$ \\
 $\iota_o(\mathbf{r})$, $B_o=\int\iota_o\,d\mathbf{r}$ & reinstatement inflow and reinstated mass \\
 $\gamma$ & reinstatement fraction ($=0.5$) \\
-$\beta$ & congestion exponent in $V(\mathbf{r})=D\,\Pi\,n^{\beta}$; $\beta V$ is the payment to variable task-work (human and capital, split by performed work), $(1-\beta)V$ the congestion rent to the fixed factor \\
+$\beta$ & congestion exponent in $V(\mathbf{r})=D\,\Pi\,n^{\beta}$; human task-work is paid its marginal value product out of $\beta V$, capital is paid its cost, $(1-\beta)V$ is the congestion rent to the fixed factor \\
 $\Phi(C)=C/(1+C)$ & bound fraction at congestion $C$ \\
 $\Delta w_o$ & bundle wage change of occupation $o$ (eq.~\eqref{eq:wage-change}) \\
 \addlinespace
@@ -1466,7 +1560,8 @@ $\eta$ & demand elasticity (Section~\ref{sec:case-demand}) \\
 $\ell$ & attachment scale in the readiness $e_o=\exp(-\delta_o/\ell)$ \\
 $L_0,\,L$ & baseline and re-solved employment allocation \\
 $\lambda$ & price-fit elasticity in the microfoundation \\
-$c,\,\nu$ & mobility cost and logit smoothness in the re-sorting map \\
+$c_m,\,\nu$ & mobility cost and logit smoothness in the re-sorting map \\
+$\rho,\,\lambda_{\mathrm{over}}$ & attachment locality scale and over-qualification weight (eq.~\eqref{eq:attachment}) \\
 \end{longtable}
 
 %% ============================================================
