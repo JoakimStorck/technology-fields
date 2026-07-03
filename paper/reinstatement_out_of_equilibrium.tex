@@ -21,8 +21,7 @@
 \newtheorem{proposition}{Proposition}
 \newcommand{\rr}{\mathbf{r}}
 
-\title{Reinstatement out of equilibrium: shock speed and the destination of new work\\
-\large Working paper --- companion to ``Technology fields, automation and task reinstatement''}
+\title{Reinstatement out of equilibrium: shock speed and the destination of new work}
 \author{Joakim Storck}
 \date{Draft: \today}
 
@@ -31,12 +30,11 @@
 
 \begin{abstract}
 \noindent
-The companion paper closes the spatial task-based model as a static
+Storck (2026) closes the spatial task-based model as a static
 equilibrium and reads its consequences as comparative statics between
 two rest points. This paper turns the same model into laws of motion and
-asks what the static account cannot: not where reinstated work ends up in
-equilibrium, but how the transition unfolds in time, and how its outcome
-depends on the speed of the shock. The technology matures gradually --- a
+asks what the static account cannot: how the transition unfolds in time,
+and how its outcome depends on the speed of the shock. The technology matures gradually --- a
 logistic diffusion over a calendar window --- so that displacement, and
 the new tasks it seeds on the boundary of the technology field, are
 released as a flow rather than at once. The single new object the
@@ -62,8 +60,8 @@ the binding law, and the destination moves monotonically between them
 with the tempo. This path-dependence of the
 destination, and not only of the transitional cost, is invisible to the
 equilibrium framework, whose fixed point sees only the endpoint. The
-realisation is illustrative, inheriting the calibration of the companion
-paper.
+realisation is illustrative, inheriting the calibration of Storck
+(2026).
 \end{abstract}
 
 \tableofcontents
@@ -91,29 +89,31 @@ shock relative to the speed of adjustment determines not merely how
 costly the transition is but \emph{who ends up doing the reinstated
 work}.
 
-The companion paper \parencite{storck2026fields} develops the spatial
-generalisation of the task-based framework on which we build. Occupations
-are bundles of tasks in a two-dimensional task space; the market price of
-skill is a directional field over that space; a technology is a Gaussian
-augmentation field; automation removes the high-priced tasks of a bundle;
-and reinstatement seeds new tasks on the gradient boundary of the
-technology field, which survive as human work only where labour remains
-the cheaper producer. That paper closes the worker layer as a static
-equilibrium and states explicitly that the adjustment dynamics are left
-for later work, and that the rise-and-fall of employment which
+The framework we build on is developed in two papers.
+\textcite{storck2026geometry} construct the task space: tasks and
+occupations are mapped from O*NET statements onto a two-dimensional
+disk, occupations as bundles of tasks. \textcite{storck2026fields}
+builds the model of technological change on that geometry: the market
+price of skill is a directional field over the space; a technology is a
+Gaussian augmentation field; automation removes the high-priced tasks of
+a bundle; and reinstatement seeds new tasks on the gradient boundary of
+the technology field, which survive as human work only where labour
+remains the cheaper producer. That model is closed as a static
+equilibrium, with the adjustment dynamics left explicitly for later
+work; the rise-and-fall of employment which
 \textcite{bessen2019demand} documents over time appears in it only as a
-cross-section over the demand elasticity, not as a trajectory. This paper
-is that later work.
+cross-section over the demand elasticity, not as a trajectory. This
+paper is that later work.
 
-We make one structural addition and otherwise reuse the companion model
-unchanged. The static model creates new task mass on the boundary ring
+We make one structural addition and otherwise reuse the static model
+unchanged. That model creates new task mass on the boundary ring
 and partitions it into three fates --- captured by capital, bound to an
 occupation, and unbound --- but it has no home for the unbound part: it is
 created and discarded at every evaluation. The dynamic model gives it a
 home, a stock $U(\rr,t)$ of unbound task mass that fills as the
 technology matures and drains as occupations bind it. This stock is the
 only genuinely new object; population, price, displacement, seeding, and
-the bundle operator are the companion model's, now read as rates rather
+the bundle operator are the static model's, now read as rates rather
 than as a solved equilibrium. The trajectory of the stock, $U(t)$, is the
 transitional mismatch between destruction and creation, and it is the
 first observable the static model cannot produce.
@@ -163,16 +163,19 @@ of the path. Here the tempo of the shock races a fixed speed of
 reallocation, and the endpoint moves with it: the same technology, run
 slowly or quickly through the same economy, binds the reinstated work to
 different occupations. The calibration remains illustrative, in the
-discipline of the companion paper: no causal claim is made from it.
+discipline of \textcite{storck2026fields}: no causal claim is made from
+it.
 
 %% ============================================================
 \section{The static foundation}
 \label{sec:foundation}
 %% ============================================================
 
-We recall only what the dynamics require; the construction, calibration,
-and interpretation are in the companion paper
-\parencite{storck2026fields}.
+We recall only what the dynamics require. The geometry --- the disk,
+its coordinates, and the mapping of tasks and occupations into it --- is
+constructed and validated in \textcite{storck2026geometry}; the model
+of technological change on it, and the calibration used here, are from
+\textcite{storck2026fields}.
 
 Tasks lie on the unit disk in polar coordinates $\rr = (\xi,\chi)$, with
 $\xi$ a domain orientation and $\chi$ a depth. The market price of skill
@@ -182,7 +185,8 @@ is a directional field
 + \chi\,(m_3 + m_4\cos\xi + m_5\sin\xi),
 \end{equation}
 high in the socio-cognitive directions and low in the service and manual
-ones. Depth is what \textcite{adao2024fast} call skill specificity; the
+ones \parencite{storck2026geometry}. Depth is what
+\textcite{adao2024fast} call skill specificity; the
 geometry gives it a direction, and the price field decides where
 specificity pays. A technology is a Gaussian field
 $\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
@@ -207,8 +211,8 @@ gate $(1-a)$: deep in the core, where capital dominates, the same seed is
 captured by capital. The surviving seed density is therefore
 $\hat g\,(1-a)$, concentrated on the boundary crescent. An occupation can
 take a seeded task only where its capabilities match the task's
-requirements. The implemented readiness, the companion paper's
-eq.~(attachment), is symmetric and local,
+requirements. The implemented readiness, eq.~(attachment) of
+\textcite{storck2026fields}, is symmetric and local,
 \begin{equation}
 e_o(\rr)
 = \exp\!\bigl[-\bigl(\delta_o(\rr)
@@ -225,13 +229,13 @@ shared verbatim between the two papers and between the static and dynamic
 layers of the implementation.
 
 All parameters of this foundation are inherited unchanged from the
-companion paper's economy table: $R=18$, $\tau=0.08$, $\beta=0.5$
+economy table of \textcite{storck2026fields}: $R=18$, $\tau=0.08$, $\beta=0.5$
 (congestion), $\gamma=0.5$, $\ell=0.133$, $\rho=0.5$,
 $\lambda_{\mathrm{over}}=1$. The mobility scale $\nu$ (one standard
 deviation of baseline occupation value per logit unit) and the move cost
 $c_m$ (the median move costs one $\nu$) follow the same rules, evaluated
 here at the pre-shock baseline $A_K = 0$, the state the dynamics start
-from: $\nu = 11.8$ and $c_m = 23.0$. The companion's table evaluates the
+from: $\nu = 11.8$ and $c_m = 23.0$. That table evaluates the
 same rules at the calibrated technology and reports $11.6$ and $22.6$;
 the two per cent difference moves no result at its reported precision.
 
@@ -284,7 +288,7 @@ where $\dot s$ is the seeding rate and $\iota_o$ the binding flow to
 occupation $o$ (\S\ref{sec:binding}). The seeding follows the
 \emph{rate} of displacement: new tasks are created while the technology
 matures, and seeding ceases once displacement plateaus. The unbound
-stock is the only structural addition; everything else is the companion
+stock is the only structural addition; everything else is the static
 model read as a rate.
 
 A point of bookkeeping matters here. The dynamics do not impose global
@@ -361,7 +365,7 @@ implementation share it exactly. Its symmetry carries the economics:
 being able to do a task and becoming its home are different questions,
 and penalising over-qualification alongside the deficit keeps an
 occupation far above a task's level from drawing the task in as its own
-work. The companion paper states the form and its one-sided limit
+work. \textcite{storck2026fields} states the form and its one-sided limit
 ($\lambda_{\mathrm{over}}=0$, $\rho\to\infty$). What the dynamic layer
 adds is only the sharpening $\beta_m$ and the size-limited rate.
 
@@ -471,10 +475,10 @@ Section~\ref{sec:transitional} outlives the naive aggregate prediction.
 %% ============================================================
 
 We run a single technology field, calibrated to task-level AI exposure as
-in the companion paper, through the dynamic economy. The field matures
+in \textcite{storck2026fields}, through the dynamic economy. The field matures
 over $T_{\text{shock}}=5$ years; we vary the redistribution tempo
 $\theta$ (taking $\theta_L$ and $\theta_{\text{abs}}$ together) against
-this fixed shock. The economy parameters are the companion paper's,
+this fixed shock. The economy parameters are the static model's,
 restated in Section~\ref{sec:foundation}; the dynamic layer adds the
 redistribution timescales $\theta_L$ and $\theta_{\text{abs}}$ (both
 $3$ years at reference), the claim sharpness $\beta_m = 3$, the diffusion
@@ -651,9 +655,9 @@ Both the static regime and the dynamic transition above hold the price field
 $\Pi(r)$ fixed: the shock relocates labour and re-sorts it, congestion adjusts
 the marginal value of crowded destinations, but the per-unit price of capability
 content does not re-solve. This is a short-run reading. The price field is an
-equilibrium object --- the companion paper derives it as a capability
-assignment (its Section~3.3) --- and an equilibrium that does not
-equilibrate discards its own content. \textcite{acemoglu2024rents} make the point sharply: in their
+equilibrium object, derived as a capability assignment in
+\textcite{storck2026fields}, Section~3.3, and an equilibrium that does
+not equilibrate discards its own content. \textcite{acemoglu2024rents} make the point sharply: in their
 task model the base wage \emph{adjusts} to automation (their propagation matrix
 $\Theta$), and that adjustment is the mechanism. Our fixed-price layers hold even
 more fixed than they do --- both the rent wedge and the base price --- so to
@@ -681,8 +685,8 @@ opens the takeover gate. Run as a single pass at $\sigma = 3$, the scarcity
 reading collapses the labour share to $0.33$ (capital chases the work it has just
 made dear), while the demand reading lifts it to $0.83$; the fixed-price value
 $0.58$ sits between. Labour shares in this section hold the allocation at
-its baseline, which isolates the price channel; the companion paper's
-headline shares re-solve the allocation as well and are correspondingly
+its baseline, which isolates the price channel; the headline shares of
+\textcite{storck2026fields} re-solve the allocation as well and are correspondingly
 higher --- $0.626$ at fixed prices, $0.78$ at the fixed point below. The
 headline is not robust to the sign, which therefore must
 be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
@@ -745,8 +749,8 @@ the transition. The stabilising wage adjustment is the shock absorber, and it
 operates throughout the transition, not only at its end. The quantitative point
 estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
 closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
-region-wise, not a full re-solve of the companion paper's assignment
-programme --- and the AI field remains one illustrative
+region-wise, not a full re-solve of the assignment programme of
+\textcite{storck2026fields} --- and the AI field remains one illustrative
 instance of a technology field, not a measurement. Across $\sigma$ from
 $5$ to $0.5$ the fixed-point lift of the labour share runs from $+0.11$
 to a peak of $+0.20$ at $\sigma = 1$, and the damping of the mismatch
@@ -773,7 +777,7 @@ the destination of a frictionless economy, and the friction here is time
 itself.
 
 Two qualifications bound the claim, and both are inherited rather than
-introduced. The first concerns the survival gate. The companion model
+introduced. The first concerns the survival gate. The static model
 places surviving reinstatement on the low-priced side of the boundary,
 because a seeded task is retained by labour where labour is the cheaper
 producer at a \emph{uniform} cost $R$; in
@@ -802,8 +806,8 @@ for downgrading to set in --- which the tempo sweep exhibits rather than
 derives.
 
 Several limitations remain. The realisation is illustrative, inheriting
-the companion paper's calibration and its discipline: no causal claim is
-made from it. The unbound stock drains to zero, so the model has no
+the calibration and discipline of \textcite{storck2026fields}: no
+causal claim is made from it. The unbound stock drains to zero, so the model has no
 permanent mismatch and no involuntary non-employment; the transitional
 cost is the hump, and a model with task decay or irreversible binding
 would carry a permanent imprint of the shock speed that this one does

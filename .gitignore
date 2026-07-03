@@ -29,3 +29,16 @@ scratch/
 # Exposure embedding cache (large, machine-local; from the retired evaluator)
 data/_exposure_cache/
 
+# LaTeX build artifacts (latexmk/pdflatex/biber); the .tex, .bib, and
+# figure sources are tracked, the compiled outputs are regenerable.
+paper/*.aux
+paper/*.bbl
+paper/*.bcf
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.run.xml
+paper/*.toc
+#paper/*.pdf
