@@ -1,0 +1,26 @@
+The inherited economy: everything the dynamics consume across
+experiment/_interface.py, asserted against frozen baselines.
+
+occupations N = 849
+
+price field ln Pi (spec S1_field, HC3 se in parens; N = 785, R2 = 0.523):
+   m0 = +3.4195  (0.0355)
+   m1 = +0.1921  (0.0484)
+   m2 = +0.0889  (0.0512)
+   m3 = -0.0647  (0.0897)
+   m4 = +0.0082  (0.1123)
+   m5 = +0.8913  (0.1338)
+
+gate weights v_k (spec V_mediation, priced clusters K = {S1, S2}):
+   S1 = 0.3280   S2 = 0.0493
+
+technology (cognitive field, calibrated to task-level AI exposure):
+   xi_K = 38.4 deg   chi_K = 0.4633   z_K = 0.5825   A_K = 0.6032
+
+economy parameters (static Table economy-parameters):
+   R = 18.0   tau = 0.08   beta = 0.5   gamma = 0.5
+   ell = 0.133 (one within-direction SD of the priced-capability index)
+   rho = 0.5   lam_over = 1.0
+
+mobility reference at the dynamic evaluation state A_K = 0:
+   nu (kappa) = 11.84   c_m = 23.02   (static table at calibrated A_K: 11.6, 22.6)

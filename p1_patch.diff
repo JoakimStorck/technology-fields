@@ -1,0 +1,278 @@
+diff --git a/paper/reinstatement_out_of_equilibrium.tex b/paper/reinstatement_out_of_equilibrium.tex
+index 67bfd69..5871980 100644
+--- a/paper/reinstatement_out_of_equilibrium.tex
++++ b/paper/reinstatement_out_of_equilibrium.tex
+@@ -209,12 +209,32 @@ is a directional field
+ \begin{equation}
+ \ln \Pi(\rr) = m_0 + m_1\cos\xi + m_2\sin\xi
+ + \chi\,(m_3 + m_4\cos\xi + m_5\sin\xi),
++\label{eq:price-field}
+ \end{equation}
+ high in the socio-cognitive directions and low in the service and manual
+ ones \parencite{storck2026geometry}. The pattern is the observed wage
+-structure read spatially: the coefficients are estimated from
+-occupational wage data, and the well-paid professional and managerial
+-occupations sit in the socio-cognitive directions of the disk. Depth is what
++structure read spatially. Estimated on the occupational wage
++cross-section ($N = 785$; HC3 standard errors in parentheses), the field
++is
++\begin{equation}
++\ln \Pi(\rr) =
++\underset{(0.036)}{3.420}
+++ \underset{(0.048)}{0.192}\,\cos\xi
+++ \underset{(0.051)}{0.089}\,\sin\xi
+++ \chi\bigl(\underset{(0.090)}{-0.065}
+++ \underset{(0.112)}{0.008}\,\cos\xi
+++ \underset{(0.134)}{0.891}\,\sin\xi\bigr),
++\label{eq:price-estimates}
++\end{equation}
++with $R^2 = 0.523$; the well-paid professional and managerial
++occupations sit in the socio-cognitive directions of the disk. Two
++structural checks discipline the form. The isotropic depth term is
++indistinguishable from zero ($m_3 = -0.065$, $p = 0.47$), so depth pays
++only through direction, and a level-balanced second-harmonic test does
++not reject a single first harmonic for the depth return ($p = 0.44$),
++which peaks at $89.5^\circ$ and is positive only in the northern
++half-plane. Appendix~\ref{app:inherited} carries the estimation detail
++and the provenance of every inherited parameter. Depth is what
+ \textcite{adao2024fast} call skill specificity. The geometry gives it a
+ direction, and the price field decides where specificity pays. A technology is a Gaussian field
+ $\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
+@@ -238,6 +258,22 @@ human work only where the operated share is low, through the survival
+ gate $(1-a)$: deep in the core, where capital dominates, the same seed is
+ captured by capital. The surviving seed density is therefore
+ $\hat g\,(1-a)$, concentrated on the boundary crescent.
++Figure~\ref{fig:baseline-economy} draws this inherited economy from the
++pipeline: the price contours, the occupation centroids, and the
++technology field whose gradient ring carries the seeding.
++
++\begin{figure}[t]
++\centering
++\includegraphics[width=0.85\textwidth]{baseline_economy.png}
++\caption{The inherited economy. Grey: contours of the estimated log
++price field, eq.~\eqref{eq:price-estimates}. Blue: occupation centroids,
++area proportional to pre-shock employment share $L_0$. Red: the
++calibrated technology field $\phi_K$ at mature amplitude, its centre
++marked and the gradient ring at radius $z_K$ dashed; the surviving seed
++concentrates where the ring meets the low-priced side of the adoption
++boundary. Generated from the same objects the dynamic scripts consume.}
++\label{fig:baseline-economy}
++\end{figure}
+ 
+ This construction generalises the reinstatement of
+ \textcite{acemoglu2018race}, and the geometry of their model motivates
+@@ -265,8 +301,7 @@ construction.
+ 
+ An occupation can
+ take a seeded task only where its capabilities match the task's
+-requirements. The implemented readiness, eq.~(attachment) of
+-\textcite{storck2026fields}, is symmetric and local,
++requirements. The implemented readiness is symmetric and local,
+ \begin{equation}
+ e_o(\rr)
+ = \exp\!\bigl[-\bigl(\delta_o(\rr)
+@@ -277,7 +312,15 @@ e_o(\rr)
+ where $\delta_o = \sum_k v_k\max(q_k(\rr) - q_{o,k},0)$ is the $v$-weighted
+ capability deficit, $\bar\delta_o$ the corresponding surplus,
+ $\ell$ the acquisition scale, $\rho$ the attachment locality, and
+-$\lambda_{\mathrm{over}}$ the over-qualification weight. The attachment
++$\lambda_{\mathrm{over}}$ the over-qualification weight. Each parameter
++has a stated derivation. The requirement fields $q_k$ are capability
++planes over the disk, restated in Appendix~\ref{app:inherited}. The
++weights $v = (0.328,\, 0.049)$ on the priced clusters $K = \{S1, S2\}$
++are wage returns from a replication of the mediation regression of
++\textcite{storck2026geometry}; unpriced or negative components are not
++carried. The scale $\ell = 0.133$ is one within-direction standard
++deviation of the priced-capability index, the deficit at which readiness
++falls to $e^{-1}$. The attachment
+ capacity of a location is $C(\rr) = \sum_o L_o e_o(\rr)$. This primitive is
+ shared verbatim between the two papers and between the static and dynamic
+ layers of the implementation.
+@@ -292,6 +335,9 @@ here at the pre-shock baseline $A_K = 0$, the state the dynamics start
+ from, giving $\nu = 11.8$ and $c_m = 23.0$. That table evaluates the
+ same rules at the calibrated technology and reports $11.6$ and $22.6$.
+ The two per cent difference moves no result at its reported precision.
++Table~\ref{tab:provenance} in Appendix~\ref{app:inherited} consolidates
++every parameter of the economy with its provenance: estimated,
++calibrated, rule-derived, normalised, or swept.
+ 
+ Two features of this foundation are load-bearing for what follows. First,
+ displacement falls \emph{within} occupations, on the interior margin
+@@ -741,7 +787,8 @@ field $\Pi(r)$ fixed. The shock relocates labour and re-sorts it,
+ congestion adjusts the marginal value of crowded destinations, but the
+ per-unit price of capability content does not re-solve. This is a short-run reading. The price field is an
+ equilibrium object, derived as a capability assignment in
+-\textcite{storck2026fields}, Section~3.3; holding it fixed discards
++\textcite{storck2026fields}. Its level $\Pi_0$ is the estimated field of
++eq.~\eqref{eq:price-estimates}; holding it fixed discards
+ part of the model's own content. \textcite{acemoglu2024rents} make the point sharply. In their task
+ model the base wage \emph{adjusts} to automation through their
+ propagation matrix $\Theta$, and that adjustment is the mechanism. Our
+@@ -942,6 +989,167 @@ technology yields a different distribution of work depending only on how
+ fast it arrives. The cost and the outcome of automation are, in this
+ sense, properties of the path and not only of the endpoint.
+ 
++%% ============================================================
++\appendix
++\section{The inherited economy}
++\label{app:inherited}
++%% ============================================================
++
++The dynamics consume the static economy across one interface, and this
++appendix restates everything that crosses it, so that every parameter of
++the model traces to a stated source within this paper. The construction
++and validation of the geometry remain with \textcite{storck2026geometry};
++the model of technological change and its calibration with
++\textcite{storck2026fields}. Table values reproduced here are adapted
++from those papers. Table~\ref{tab:provenance} consolidates the
++parameters; the sections below state where each number comes from.
++
++\subsection*{Geometry}
++
++The task space is built from the $17{,}606$ task statements of O*NET,
++each encoded by a text-embedding model as a vector in a high-dimensional
++semantic space. The embedding matrix is centred and projected on its
++first two principal components, and the scores are read in polar
++coordinates: the angle $\xi$ is a domain orientation, the radius
++$\chi \in [0,1]$ a normalised specificity. The orientation of the map is
++frozen against a fixed reference, so runs, encoders, and database
++releases are comparable. Occupations enter as importance-weighted
++bundles $b_o(\rr)$ of their task points with centroid $\mu_o$;
++$849$ occupations with observed employment enter the dynamic economy,
++weighted by their OEWS employment shares $L_0$. The choice of encoder,
++the recovery of the expert-curated job-family classification, and the
++external validity of the coordinates are established in
++\textcite{storck2026geometry} and not reproduced here.
++
++\subsection*{The price field}
++
++The price of skill is the reduced form of eq.~\eqref{eq:price-field},
++estimated once on the occupational wage cross-section ($785$
++occupations with observed mean wages) and held fixed under the shock.
++The coefficients and their HC3 standard errors are those of
++eq.~\eqref{eq:price-estimates}, with $R^2 = 0.523$. Two structural
++checks discipline the form. The isotropic depth term is
++indistinguishable from zero ($m_3 = -0.065$, $p = 0.47$): depth pays
++only through its interaction with direction. A second-harmonic test
++balanced with level harmonics does not reject the single first harmonic
++of the depth return ($p = 0.44$); the remaining higher-order structure
++is a level effect, not additional depth pricing. The step from centroid
++wages to task-location prices is validated by bundle integration:
++pricing an occupation as $\int \Pi\, b_o$ reproduces observed wages
++about as well as evaluating the field at the centroid ($R^2$ $0.51$
++against $0.52$), which licenses operating the field at task locations.
++
++\subsection*{Readiness}
++
++The readiness primitive of eq.~\eqref{eq:attachment-recap} needs the
++requirement fields $q_k$, the weights $v_k$, and three scalars. Each
++capability cluster's requirement field is a plane over the disk,
++$q_k(\rr) = \bar v_k + \chi\,(u_{1,k}\cos\xi + u_{2,k}\sin\xi)$;
++Table~\ref{tab:planes} restates the coefficients. The gain from adding
++level harmonics and isotropic depth to the planes is at most
++$\Delta R^2 = 0.009$, so the plane is not a restrictive form. The
++weights $v_k$ are wage returns from a replication of the mediation
++regression of \textcite{storck2026geometry} on this sample:
++$v_{S1} = 0.328$ ($0.065$), $v_{S2} = 0.049$ ($0.021$). The ability
++clusters carry negative or negligible estimates and are excluded by the
++sign restriction $v_k \geq 0$, so the priced set is $K = \{S1, S2\}$.
++The acquisition scale $\ell = 0.133$ is one within-direction standard
++deviation of the priced-capability index, the deficit at which
++readiness falls to $e^{-1}$. The locality $\rho = 0.5$ and the
++over-qualification weight $\lambda_{\mathrm{over}} = 1$ are set, not
++estimated.
++
++\begin{table}[t]
++\centering
++\caption{Capability plane coefficients,
++$q_k(\rr) = \bar v_k + \chi\,(u_{1,k}\cos\xi + u_{2,k}\sin\xi)$.
++$R^2$ is the plane fit; $\Delta R^2$ the gain from level harmonics and
++isotropic depth. Only $S1$ and $S2$ are priced. Adapted from
++\textcite{storck2026fields}.}
++\label{tab:planes}
++\begin{tabular}{lcccccc}
++\toprule
++Cluster & $\bar v_k$ & $u_{1,k}$ & $u_{2,k}$ & Pole & $R^2$ & $\Delta R^2$ \\
++\midrule
++S1 & $2.68$ & $1.09$ & $1.42$ & $52^\circ$ & $0.74$ & $0.001$ \\
++S2 & $1.37$ & $-2.22$ & $1.23$ & $151^\circ$ & $0.69$ & $0.008$ \\
++A1 & $3.20$ & $0.95$ & $1.31$ & $54^\circ$ & $0.75$ & $0.000$ \\
++A2 & $1.57$ & $-1.54$ & $-0.24$ & $189^\circ$ & $0.57$ & $0.009$ \\
++\bottomrule
++\end{tabular}
++\end{table}
++
++\subsection*{The technology field}
++
++A technology is the Gaussian field of Section~\ref{sec:foundation} with
++centre $\mathbf p_K$, reach $z_K$, and mature amplitude $\bar A_K$. The
++field run in Section~\ref{sec:results} is calibrated to task-level AI
++exposure: each task statement carries the exposure score
++$\beta_E = E1 + \tfrac12 E2$ of \textcite{eloundou2024}, the scores are
++smoothed to a between-cell exposure surface on the disk, and the
++Gaussian is fitted to that surface by least squares. The fit places the
++centre at $(\xi_K, \chi_K) = (38.4^\circ,\, 0.463)$ with reach
++$z_K = 0.583$ and mature amplitude $\bar A_K = 0.603$, and explains
++$R^2 = 0.82$ of the smoothable between-cell surface ($0.25$ of raw
++task-level exposure). The projection is one instance of a technology
++field, an illustration rather than a measurement; nothing in the
++dynamics depends on the field being AI. The scale $s_K$ is normalised
++to one, and the maturation $A_K(t)$ rises from zero to $\bar A_K$ along
++the logistic of eq.~\eqref{eq:maturation}.
++
++\subsection*{Parameter provenance}
++
++Table~\ref{tab:provenance} consolidates the economy. Estimated
++parameters carry their regression source and standard error; calibrated
++parameters their target; rule-derived parameters their rule; the rest
++are normalised, set, or swept, as stated.
++
++\begin{table}[t]
++\centering
++\small
++\caption{Parameter provenance. The wage wedge $\eta_g$ and the texture
++ledger of \textcite{storck2026fields} do not cross the interface and are
++not used by the dynamics.}
++\label{tab:provenance}
++\begin{tabular}{llp{7.6cm}}
++\toprule
++Parameter & Value & Provenance \\
++\midrule
++$m_0,\dots,m_5$ & eq.~\eqref{eq:price-estimates} & estimated: wage
++cross-section, $N = 785$, HC3, $R^2 = 0.523$ \\
++$v_{S1},\ v_{S2}$ & $0.328,\ 0.049$ & estimated: mediation-regression
++replication, s.e.\ $0.065$, $0.021$; $v_k \geq 0$ excludes A1, A2 \\
++$\bar v_k, u_{1,k}, u_{2,k}$ & Table~\ref{tab:planes} & estimated:
++capability plane fits \\
++$\ell$ & $0.133$ & rule: one within-direction SD of the
++priced-capability index gives readiness $e^{-1}$ \\
++$\rho,\ \lambda_{\mathrm{over}}$ & $0.5,\ 1$ & set: attachment locality
++and over-qualification weight \\
++$R$ & $18$ & calibrated: the gate binds in the calibrated core, capital
++cost $\approx 30$ at the centre against $\Pi \approx 47$ \\
++$\tau$ & $0.08$ & set: width of the adoption margin,
++eq.~\eqref{eq:operated} \\
++$\beta$ & $0.5$ & normalised: congestion benchmark \\
++$\gamma$ & $0.5$ & set: seeded fraction of displaced mass; swept in the
++static companion \\
++$\nu$ & $11.8$ & rule: one SD of baseline occupation value per logit
++unit, evaluated at $A_K = 0$ \\
++$c_m$ & $23.0$ & rule: the median move costs one $\nu$ \\
++$\xi_K,\ \chi_K$ & $38.4^\circ,\ 0.463$ & calibrated: least-squares fit
++to the exposure surface \\
++$z_K$ & $0.583$ & calibrated: same fit \\
++$\bar A_K$ & $0.603$ & calibrated: same fit \\
++$s_K$ & $1$ & normalised \\
++$\theta_L,\ \theta_{\text{abs}}$ & $3$ yr & reference; swept in
++Section~\ref{sec:results} \\
++$\beta_m$ & $3$ & reference claim sharpness; swept $1$--$8$ \\
++$T_{\text{shock}}$ & $5$ yr & normalisation of the time axis \\
++$\Delta t$ & $0.2$ yr & numerical step \\
++$\sigma$ & $3$ & reference assignment elasticity; swept $0.5$--$5$ \\
++\bottomrule
++\end{tabular}
++\end{table}
++
+ %% ============================================================
+ \printbibliography
+ %% ============================================================
