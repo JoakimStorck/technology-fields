@@ -29,9 +29,9 @@
 
 \begin{abstract}
 \noindent
-Storck (2026) closes the spatial task-based model as a static
-equilibrium and reads its consequences as comparative statics between
-two rest points. This paper turns the same model into laws of motion and
+A previous paper by the author closes a spatial task-based model for technological 
+impact on labor as a static equilibrium and reads its consequences as comparative statics between
+two stationary points. This paper turns the same model into laws of motion and
 asks what the static account cannot: how the transition unfolds in time,
 and how its outcome depends on the speed of the shock. The technology
 matures gradually, as a logistic diffusion over a calendar window, so
@@ -54,9 +54,9 @@ best-matched occupations fall behind and the large, lower-skilled
 occupations take the mass instead, a forced downgrading. The same
 technology and the same field thus yield materially different
 distributions of work depending only on the tempo, and the final
-allocations of the slow and fast regimes correlate at $0.37$. The two regimes are the proved limits of
-the binding law, and the destination moves monotonically between them
-with the tempo. This path-dependence of the destination is invisible to the
+allocations of the slow and fast regimes correlate at $0.37$. The two
+regimes are bracketed by the proved limits of the binding law, and the
+destination moves monotonically between the limits with the tempo. This path-dependence of the destination is invisible to the
 equilibrium framework, whose fixed point sees only the endpoint. The
 realisation is illustrative and inherits the calibration of Storck
 (2026).
@@ -211,7 +211,10 @@ is a directional field
 + \chi\,(m_3 + m_4\cos\xi + m_5\sin\xi),
 \end{equation}
 high in the socio-cognitive directions and low in the service and manual
-ones \parencite{storck2026geometry}. Depth is what
+ones \parencite{storck2026geometry}. The pattern is the observed wage
+structure read spatially: the coefficients are estimated from
+occupational wage data, and the well-paid professional and managerial
+occupations sit in the socio-cognitive directions of the disk. Depth is what
 \textcite{adao2024fast} call skill specificity. The geometry gives it a
 direction, and the price field decides where specificity pays. A technology is a Gaussian field
 $\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
@@ -254,7 +257,7 @@ endpoint becomes the gradient ring, the ordering becomes the price
 field, and the guarantee becomes the gate, which prices survival region
 by region. The new tasks in which capital holds the advantage, noted
 and set aside in \textcite{acemoglu2019automation}, are the captured
-fate $s\,a$. The generalisation is what opens the destination question.
+fate $s\cdot a$. The generalisation is what opens the destination question.
 On the line new work has one place to appear. On the ring it appears in
 every direction around the field, and which occupations end up holding
 it becomes an economic outcome rather than a location fixed by
@@ -317,9 +320,10 @@ which records new human work before any occupation has taken it on.
 \subsection{Transition accounting and the unbound stock}
 
 In the static model the seeded mass $M$ meets three fates. Capital
-captures a part $s\,a$, occupations bind a part $s(1-a)\Phi$, and a
-part $s(1-a)(1-\Phi)$ remains unbound, where $s = M\hat g$ and $\Phi$
-is the bound share. The unbound part performs no work and does not enter the
+captures a part $s\cdot a$, occupations bind a part
+$s\cdot(1-a)\,\Phi$, and a part $s\cdot(1-a)\,(1-\Phi)$ remains
+unbound, where $s = M\hat g$ is the seed density and $\Phi$ is the
+bound share; the three parts sum to $s$. The unbound part performs no work and does not enter the
 density; it is created and discarded at each evaluation. The dynamic
 model gives it a stock,
 \begin{equation}
@@ -397,12 +401,12 @@ A_K(t) = \frac{\bar A_K}{1 + \exp\!\big(-(5.88/T_{\text{shock}})\,(t - T_{\text{
 Anchoring the shock in calendar time makes $\theta_L$ and the binding
 timescale below calendar quantities, so that the outcome is governed by
 the \emph{ratio} of the shock tempo $T_{\text{shock}}$ to the
-redistribution tempo. We use $T_{\text{shock}}=5$ years throughout as an
-illustrative diffusion window. Only the ratio of $T_{\text{shock}}$ to the
-redistribution tempo enters the results: all rates in the model scale as
-$1/\theta$ or are set by the diffusion window, so the choice of window is a
-normalisation of the time axis, and the sweep over $\theta$ at fixed
-$T_{\text{shock}}$ traverses the ratio.
+redistribution tempo. We set $T_{\text{shock}} = 5$ years throughout.
+The value is a normalisation of the time axis, not a calibration: every
+rate in the model scales as $1/\theta_L$ or $1/\theta_{\text{abs}}$ or
+is set by the window, so only the ratio enters the results, and the
+sweep over the redistribution tempo at fixed $T_{\text{shock}}$
+traverses it.
 
 \subsection{Binding: match allocates, size limits the rate}
 \label{sec:binding}
@@ -500,10 +504,11 @@ readiness fields are time-invariant, so the shares $w_o$ are as well, and
 summing over steps gives $R_o = \int w_o\, s$. The second statement is
 the pointwise limit of the sharpened shares. \hfill$\square$
 
-The statement is exact at the level of the discrete law: at
-$\theta_{\text{abs}} = 0.05$ the realised allocation matches
+The statement is exact at the level of the discrete law. As a
+self-consistency check of the discrete law against its own analytic
+limit, at $\theta_{\text{abs}} = 0.05$ the realised allocation matches
 $\int w_o\, s$ to machine precision (relative $L_1$ error below
-$10^{-15}$).
+$10^{-15}$). The check verifies the implementation, not the model.
 
 \begin{proposition}[slow absorption]
 \label{prop:slow}
@@ -551,8 +556,10 @@ Section~\ref{sec:transitional} outlives the naive aggregate prediction.
 We run a single technology field, calibrated to task-level AI exposure as
 in \textcite{storck2026fields}, through the dynamic economy. The field matures
 over $T_{\text{shock}}=5$ years; we vary the redistribution tempo
-$\theta$ (taking $\theta_L$ and $\theta_{\text{abs}}$ together) against
-this fixed shock. The economy parameters are the static model's,
+against this fixed shock, writing $\theta$ for the pooled setting
+$\theta_L = \theta_{\text{abs}} = \theta$. The two timescales are
+separated only in the decomposition check of
+Section~\ref{sec:destination}. The economy parameters are the static model's,
 restated in Section~\ref{sec:foundation}; the dynamic layer adds the
 redistribution timescales $\theta_L$ and $\theta_{\text{abs}}$ (both
 $3$ years at reference), the claim sharpness $\beta_m = 3$, the diffusion
@@ -612,7 +619,7 @@ shock), the best-matched occupations keep pace and absorb the work. The
 gainers are the high-skill specialists whose capabilities sit at the
 frontier of the field. In the congested regime ($\theta = 15$ years),
 the small best-matched occupations cannot bind fast enough. Their
-size-limited capacity $c_o = M_o/\theta$ is small, the mass accumulates
+size-limited capacity $c_o = M_o/\theta_{\text{abs}}$ is small, the mass accumulates
 in $U$, and the large, lower-skilled occupations that can absorb it
 quickly take it instead. The same work is downgraded. Large low-skill
 service occupations have played the absorbing role before, and
@@ -660,13 +667,16 @@ takes over (rank $+0.95$). The top size quartile takes $57$ percent of
 the mass and the bottom quartile is squeezed from $22$ to $4$
 percent. All rankings are in
 absolute mass; the relative-change measure is unbounded for small
-occupations and is not used.
+occupations and is not used. Rank agreement with size is not equality
+with global size shares: seeding is spatially local, so the congested
+allocation is an interior point between the limits, not the
+proportional allocation of Proposition~\ref{prop:slow}.
 
 Three robustness checks bound the claim. Sweeping the sharpness
 $\beta_m$ from $1$ to $8$ moves the cross-regime correlation from
 $+0.26$ to $+0.61$. The divergence of destinations survives the full
-range while its point size depends on the handle. Decomposing the tempo
-into its two timescales shows which one binds. Slowing only absorption
+range while its point size depends on the handle. Decomposing the
+pooled tempo into its two timescales shows which one binds. Slowing only absorption
 ($\theta_L = 1$, $\theta_{\text{abs}} = 15$) reproduces the congested
 allocation (correlation $+0.39$ with the gradual run), while slowing
 only mobility ($\theta_L = 15$, $\theta_{\text{abs}} = 1$) leaves the
@@ -816,12 +826,13 @@ percent (from $0.44$ to $0.16$ percent of the workforce) at the same
 timing, and the reinstated stock ends lower, because the falling wage
 deters the automation that would have produced the mismatch. The
 transition lands where the static fixed point says it should. The
-dynamic end-state price level ($-0.285$) and labour share ($0.739$)
-reproduce the static fixed point ($-0.26$, $0.73$) to within rounding.
-Two independent constructions, static fixed-point iteration and dynamic
-time-stepping, reach the same equilibrium, so the price feedback is a
-property of the model rather than of either method, and the static and
-dynamic accounts cohere.
+dynamic end-state labour share ($0.739$) matches the static fixed point
+($0.73$); the price levels ($-0.285$ against $-0.26$) differ by about
+ten per cent of the value. Two independent constructions, static
+fixed-point iteration and dynamic time-stepping, land within this gap
+of the same equilibrium, so the price feedback is a property of the
+model rather than of either method, and the static and dynamic accounts
+cohere.
 
 \paragraph{What this does and does not establish.}
 The feedback is first-order. At fixed prices both layers overstate the
