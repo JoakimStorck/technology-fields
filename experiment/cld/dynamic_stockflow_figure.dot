@@ -1,0 +1,28 @@
+digraph stockflow {
+  graph [rankdir=LR, splines=true, overlap=false];
+  node [fontsize=11];
+
+  tech [label="Technology maturity\nA_K(t)", shape=box, style="rounded"];
+  seed [label="Seeding flow\ns(r,t)", shape=ellipse];
+  U [label="Unbound task stock\nU(r,t)", shape=box, style="rounded,bold"];
+  bind [label="Binding flow\ni_o(r,t)", shape=ellipse];
+  B [label="Occupation-bound\nnew work B(r,t)", shape=box, style="rounded,bold"];
+  value [label="Occupational value", shape=box, style="rounded"];
+  L [label="Labour reallocation\nL_o(t)", shape=box, style="rounded"];
+  cap [label="Absorptive capacity\nc_o(t)", shape=box, style="rounded"];
+  match [label="Task-occupation\nmatch e_o(r)", shape=box, style="rounded"];
+
+  tech -> seed [label="+"];
+  seed -> U [label="+"];
+  U -> bind [label="+"];
+  bind -> U [label="-", arrowhead=tee];
+  bind -> B [label="+"];
+  B -> value [label="+"];
+  value -> L [label="+"];
+  L -> cap [label="+"];
+  cap -> bind [label="+"];
+  match -> bind [label="+"];
+
+  { rank=same; U; bind; B; }
+}
+

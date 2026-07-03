@@ -42,3 +42,6 @@ paper/*.out
 paper/*.run.xml
 paper/*.toc
 #paper/*.pdf
+
+# Generated CLD / stock-flow outputs
+outputs/

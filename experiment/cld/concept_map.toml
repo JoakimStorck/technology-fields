@@ -1,0 +1,232 @@
+[variables]
+A_K = "technology_maturity"
+a_grid = "automation_intensity"
+a_task = "automation_intensity"
+
+D_o = "displaced_old_work"
+GammaD = "displaced_old_work"
+dGamma = "displaced_old_work"
+
+sdot = "seeding_flow"
+g_hat = "surviving_new_task_share"
+survival_gate = "surviving_new_task_share"
+
+U = "unbound_task_stock"
+absorbed = "binding_flow"
+B = "occupation_bound_work"
+reinst = "occupation_bound_work"
+
+L = "occupational_population"
+Tgt = "target_population"
+W = "occupational_value"
+
+M = "absorptive_capacity"
+cap = "absorptive_capacity"
+theta_abs = "absorptive_capacity"
+
+density = "task_density"
+place_value = "occupational_value"
+
+Pi = "price_field"
+pi_task = "price_field"
+
+birth_potential = "occupation_birth_potential"
+new_occupation = "occupation_birth"
+
+grain = "occupation_grain"
+FIT = "task_occupation_fit"
+
+"dyn.U" = "unbound_task_stock"
+"self.U" = "unbound_task_stock"
+
+"dyn.B" = "occupation_bound_work"
+"self.B" = "occupation_bound_work"
+
+"dyn.L" = "occupational_population"
+"self.L" = "occupational_population"
+
+"dyn.reinst" = "occupation_bound_work"
+"self.reinst" = "occupation_bound_work"
+
+"dyn.grain" = "occupation_grain"
+"self.grain" = "occupation_grain"
+
+"self.FIT" = "task_occupation_fit"
+"self.E" = "task_occupation_fit"
+"self.LOC" = "occupation_location"
+"self.mu" = "occupation_location"
+
+"self.Pi" = "price_field"
+"self.eq.pi_task" = "price_field"
+"eq.pi_task" = "price_field"
+
+"self.eq.a_task" = "automation_intensity"
+"eq.a_task" = "automation_intensity"
+
+A_of = "technology_maturity"
+
+absorbed_tot = "binding_flow"
+des = "desired_binding"
+t_o = "binding_allocation"
+
+claim = "binding_claim"
+share = "binding_share"
+avail = "available_unbound_mass"
+
+n = "task_density"
+neff = "task_density"
+nb1 = "task_density"
+
+Wb = "occupational_value"
+Wm = "occupational_value"
+W_new_prosp = "occupational_value"
+w_new = "occupational_value"
+
+T_new = "target_population"
+emp_new = "occupational_population"
+
+capo = "absorptive_capacity"
+f_glob = "absorptive_capacity"
+
+gap = "unserved_fit_gap"
+potential = "occupation_birth_potential"
+carry = "occupation_birth_potential"
+loc_new = "occupation_birth"
+e_new = "occupation_birth"
+
+[concepts]
+technology_maturity = "Technology maturity"
+automation_intensity = "Automation intensity"
+displaced_old_work = "Displaced old work"
+surviving_new_task_share = "Surviving new task share"
+seeding_flow = "Seeding flow"
+unbound_task_stock = "Unbound task stock"
+binding_flow = "Occupational binding"
+occupation_bound_work = "Occupation-bound new work"
+occupational_population = "Occupational population"
+target_population = "Target population"
+occupational_value = "Occupational value"
+absorptive_capacity = "Absorptive capacity"
+task_density = "Task density"
+price_field = "Price field"
+occupation_birth_potential = "Occupation birth potential"
+occupation_birth = "Occupation birth"
+occupation_grain = "Occupation grain"
+task_occupation_fit = "Task-occupation fit"
+occupation_location = "Occupation location"
+desired_binding = "Desired binding"
+binding_allocation = "Binding allocation"
+binding_claim = "Binding claim"
+binding_share = "Binding share"
+available_unbound_mass = "Available unbound mass"
+unserved_fit_gap = "Unserved fit gap"
+
+[figure_nodes]
+technology_transition = "Technology transition"
+reinstatement_pressure = "Reinstatement pressure"
+occupational_absorption = "Occupational absorption"
+occupational_revaluation = "Occupational revaluation"
+labour_reallocation = "Labour reallocation"
+price_feedback = "Price feedback"
+occupation_birth = "Occupation birth"
+
+
+[aggregation]
+technology_maturity = "technology_transition"
+automation_intensity = "technology_transition"
+displaced_old_work = "technology_transition"
+
+surviving_new_task_share = "reinstatement_pressure"
+seeding_flow = "reinstatement_pressure"
+unbound_task_stock = "reinstatement_pressure"
+
+binding_flow = "occupational_absorption"
+occupation_bound_work = "occupational_absorption"
+absorptive_capacity = "occupational_absorption"
+task_occupation_fit = "occupational_absorption"
+
+occupational_value = "occupational_revaluation"
+task_density = "occupational_revaluation"
+
+occupational_population = "labour_reallocation"
+target_population = "labour_reallocation"
+
+price_field = "price_feedback"
+
+occupation_birth_potential = "occupation_birth"
+occupation_birth = "occupation_birth"
+occupation_grain = "occupation_birth"
+
+occupation_location = "occupational_absorption"
+desired_binding = "occupational_absorption"
+binding_allocation = "occupational_absorption"
+binding_claim = "occupational_absorption"
+binding_share = "occupational_absorption"
+available_unbound_mass = "reinstatement_pressure"
+unserved_fit_gap = "occupation_birth"
+
+# Manual edge rules override or supplement the AST graph.
+# sign: "+" or "-"
+# include_in_figure: true means the edge may enter the compact manuscript graph.
+[[manual_edges]]
+from = "technology_transition"
+to = "reinstatement_pressure"
+sign = "+"
+mechanism = "Technology maturity governs the timing of displacement and the creation of surviving new task mass."
+include_in_figure = true
+
+[[manual_edges]]
+from = "reinstatement_pressure"
+to = "occupational_absorption"
+sign = "+"
+mechanism = "Unbound task mass creates binding pressure."
+include_in_figure = true
+
+[[manual_edges]]
+from = "occupational_absorption"
+to = "reinstatement_pressure"
+sign = "-"
+mechanism = "Binding drains the unbound stock."
+include_in_figure = true
+
+[[manual_edges]]
+from = "occupational_absorption"
+to = "occupational_revaluation"
+sign = "+"
+mechanism = "Bound new work changes occupational value."
+include_in_figure = true
+
+[[manual_edges]]
+from = "occupational_revaluation"
+to = "labour_reallocation"
+sign = "+"
+mechanism = "Occupational value redirects labour."
+include_in_figure = true
+
+[[manual_edges]]
+from = "labour_reallocation"
+to = "occupational_absorption"
+sign = "+"
+mechanism = "Occupational population changes absorptive capacity."
+include_in_figure = true
+
+[[manual_edges]]
+from = "price_feedback"
+to = "technology_transition"
+sign = "+"
+mechanism = "The price field affects adoption and subsequent displacement."
+include_in_figure = false
+
+[[manual_edges]]
+from = "occupational_absorption"
+to = "occupation_birth"
+sign = "+"
+mechanism = "Unserved fit gaps and accumulated task mass can trigger occupation birth."
+include_in_figure = false
+
+[[manual_edges]]
+from = "occupation_birth"
+to = "occupational_absorption"
+sign = "+"
+mechanism = "New occupations add fit and absorptive channels."
+include_in_figure = false

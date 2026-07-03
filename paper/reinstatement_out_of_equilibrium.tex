@@ -277,24 +277,18 @@ with this second feature, and we return to it in the discussion.
 \label{sec:motion}
 %% ============================================================
 
-The static and dynamic models answer different questions. The static
-model computes a state $L = F(L)$ without intervening time. Its
-solver's intermediate steps are numerical artefacts and its damping is
-a convergence parameter rather than a speed. The dynamic model writes
-laws of motion, differential equations in time, and lets the state move
-under them with inertia and an actual elapse of time. That the dynamic
-state may approach a rest point is a consequence of the laws rather
-than something computed, and in general it never reaches one, because
-the target shifts while the technology matures.
+The static model computes a rest point $L = F(L)$. The present model
+attaches calendar time to the same primitives and studies the path of
+the allocation while technology matures. Technology maturity, population,
+unbound task mass, and occupational task content become state variables.
+Displacement, seeding, binding, and reallocation become transition rates.
+The task geometry supplies the constitutive laws for these rates. Prices
+set adoption, the boundary field locates reinstatement, readiness ranks
+viable destinations, and occupation size limits absorption. The resulting
+state accounting gives the transition an observable stock, $U(\rr,t)$,
+which records new human work before any occupation has taken it on.
 
-System dynamics supplies the grammar. Stocks change only through
-flows, and flows form loops. The geometry supplies the constitutive
-laws, since every flow rate is a functional of the geometric fields. The technology
-maturity $A_K(t)$, the population $L_o(t)$, the unbound stock
-$U(\rr,t)$, and the slow drift of occupational character are the
-stocks, and of these only $U$ is new.
-
-\subsection{The unbound stock}
+\subsection{Transition accounting and the unbound stock}
 
 In the static model the seeded mass $M$ meets three fates. Capital
 captures a part $s\,a$, occupations bind a part $s(1-a)\Phi$, and a
@@ -310,17 +304,43 @@ model gives it a stock,
 \end{equation}
 where $\dot s$ is the seeding rate and $\iota_o$ the binding flow to
 occupation $o$ (\S\ref{sec:binding}). The seeding follows the
-\emph{rate} of displacement: new tasks are created while the technology
-matures, and seeding ceases once displacement plateaus. The unbound
-stock is the only structural addition; everything else is the static
-model read as a rate.
+\emph{rate} of displacement. New tasks enter while the technology
+matures. Seeding ceases once displacement plateaus. The unbound stock is
+the sole structural addition; the remaining objects are the static
+model's primitives read as rates.
 
-A point of bookkeeping matters here. The dynamics do not impose global
-conservation of task mass, and should not, since seeding is a genuine
-source of new tasks. What is conserved is the population,
-$\sum_o\dot L_o = 0$, and the disposition of created task mass among its
-three fates. The stock $U$ closes the seeding ledger by giving the
-unbound fate a carrier; it does not impose a global conservation.
+Figure~\ref{fig:transition-accounting} gives the same transition
+accounting as a stock and flow diagram. Automation creates a timed inflow
+of surviving new task mass. Binding flows draw from $U(\rr,t)$ and add
+occupation-bound task mass. The accumulation of bound mass changes
+occupational values and subsequent adjustment incentives.
+
+\begin{figure}[t]
+\centering
+\setlength{\tabcolsep}{8pt}
+\begin{tabular}{c c c}
+\begin{tabular}{c}Technology\\maturation $A_K(t)$\end{tabular}
+& $\xrightarrow{\ \partial_t\Delta\Gamma^D\ }$
+& \begin{tabular}{c}Surviving seed\\flow $\dot s(\rr,t)$\end{tabular} \\
+&& $\downarrow$ \\
+&& \fbox{\begin{tabular}{c}Unbound stock\\$U(\rr,t)$\end{tabular}} \\
+&& $\downarrow\ \iota_o(\rr,t)$ \\
+&& \begin{tabular}{c}Occupation-bound\\task mass $r_o(t)$\end{tabular} \\
+&& $\circlearrowleft$ \\
+&& \begin{tabular}{c}values $W_o(t)$ and\\population $L_o(t)$\end{tabular}
+\end{tabular}
+\caption{Transition accounting for displaced and reinstated work. The
+stock $U(\rr,t)$ carries surviving new task mass until occupations bind
+it through the flows $\iota_o(\rr,t)$. Bound mass changes occupational
+values and population adjustment.}
+\label{fig:transition-accounting}
+\end{figure}
+
+Task mass enters through seeding and leaves $U$ through binding.
+Population is conserved, $\sum_o\dot L_o = 0$, and the created task mass
+is assigned among three fates: capital capture, occupation binding, and
+unbound carry-over. The stock $U$ closes this ledger by giving the
+carry-over term a state variable.
 
 \subsection{Population and maturation}
 
