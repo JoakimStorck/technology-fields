@@ -57,8 +57,7 @@ same field thus yield materially different distributions of work
 depending only on the tempo: the final allocations of the slow and fast
 regimes correlate at $0.37$. The two regimes are the proved limits of
 the binding law, and the destination moves monotonically between them
-with the tempo. This path-dependence of the
-destination, and not only of the transitional cost, is invisible to the
+with the tempo. This path-dependence of the destination is invisible to the
 equilibrium framework, whose fixed point sees only the endpoint. The
 realisation is illustrative, inheriting the calibration of Storck
 (2026).
@@ -138,9 +137,8 @@ limits of the binding law --- absorption faster than the shock converges
 to the match-weighted allocation, absorption slower than the shock to
 initial size shares --- and the realised destination moves monotonically
 between them as the tempo varies
-(Section~\ref{sec:homotopy}). The destination, not just
-the transitional cost, is path-dependent, and the equilibrium framework
-sees none of it.
+(Section~\ref{sec:homotopy}). The destination itself is
+path-dependent, and the equilibrium framework sees none of it.
 
 That reallocation takes time and shapes equilibrium is an old
 observation. In the islands tradition workers move slowly between
@@ -252,8 +250,7 @@ with this second feature, and we return to it in the discussion.
 \label{sec:motion}
 %% ============================================================
 
-The static and dynamic models are not one model seen two ways; they are
-different models that answer different questions. The static model
+The static and dynamic models answer different questions. The static model
 computes a state $L = F(L)$ without intervening time; its solver's
 intermediate steps are numerical artefacts and its damping is a
 convergence parameter, not a speed. The dynamic model writes laws of
@@ -295,8 +292,8 @@ A point of bookkeeping matters here. The dynamics do not impose global
 conservation of task mass, and should not: seeding is a genuine source
 (new tasks are created). What is conserved is the population,
 $\sum_o\dot L_o = 0$, and the disposition of created task mass among its
-three fates. The stock $U$ closes the seeding ledger --- it gives the
-unbound fate a carrier --- not a spurious global conservation.
+three fates. The stock $U$ closes the seeding ledger by giving the
+unbound fate a carrier; it does not impose a global conservation.
 
 \subsection{Population and maturation}
 
@@ -508,9 +505,9 @@ measure over the Great Recession, which likewise rises and drains with
 no structural shift; the driver here is task destruction and creation,
 not the business cycle.
 There is no permanent mismatch in the model: all created work is
-eventually bound. The transitional cost lives entirely in the path --- in
-the height and persistence of the hump --- not in the endpoint, which is
-exactly what the static model, seeing only the endpoint, cannot register.
+eventually bound. The transitional cost lives in the height and
+persistence of the hump, not in the endpoint, and the static model
+cannot register it.
 
 \begin{figure}[t]
 \centering
@@ -554,10 +551,9 @@ Weighting by baseline employment raises the correlation to $+0.68$,
 because the largest occupations gain in both regimes; the divergence is
 concentrated in whether specialist best matches or large absorbers take
 the frontier work, which is the margin the result is about. This is
-the destination counterpart of the transitional hump, and it is a
-statement the equilibrium framework cannot make. The fixed point sees the
-endpoint of a frictionless reallocation; it cannot see that the endpoint
-the economy actually reaches depends on how fast it was forced to move.
+the destination counterpart of the transitional hump. The fixed point
+sees the endpoint of a frictionless reallocation; the endpoint the
+economy actually reaches depends on how fast it was forced to move.
 
 \begin{figure}[t]
 \centering
@@ -630,8 +626,7 @@ Proposition~\ref{prop:slow} rises monotonically from $+0.03$ to $+0.94$
 ($+0.996$ by rank) over the same sweep. The crossover, where the two
 associations are equal, sits between $\theta_{\text{abs}} = 10$ and
 $15$: two to three shock windows. The simulation's remaining role is to
-locate this crossover between two allocations that are derived, not
-simulated.
+locate the crossover; the two endpoint allocations are derived.
 
 \begin{figure}[t]
 \centering
@@ -656,8 +651,8 @@ $\Pi(r)$ fixed: the shock relocates labour and re-sorts it, congestion adjusts
 the marginal value of crowded destinations, but the per-unit price of capability
 content does not re-solve. This is a short-run reading. The price field is an
 equilibrium object, derived as a capability assignment in
-\textcite{storck2026fields}, Section~3.3, and an equilibrium that does
-not equilibrate discards its own content. \textcite{acemoglu2024rents} make the point sharply: in their
+\textcite{storck2026fields}, Section~3.3; holding it fixed discards
+part of the model's own content. \textcite{acemoglu2024rents} make the point sharply: in their
 task model the base wage \emph{adjusts} to automation (their propagation matrix
 $\Theta$), and that adjustment is the mechanism. Our fixed-price layers hold even
 more fixed than they do --- both the rent wedge and the base price --- so to
@@ -688,9 +683,9 @@ $0.58$ sits between. Labour shares in this section hold the allocation at
 its baseline, which isolates the price channel; the headline shares of
 \textcite{storck2026fields} re-solve the allocation as well and are correspondingly
 higher --- $0.626$ at fixed prices, $0.78$ at the fixed point below. The
-headline is not robust to the sign, which therefore must
+headline depends on the sign, which therefore must
 be chosen on economic grounds. \textcite{acemoglu2024rents} choose ours:
-automation dissipates rents and lowers wages, it does not raise them.
+automation dissipates rents and lowers wages.
 
 \paragraph{The static fixed point.}
 Iterating price and allocation to mutual consistency converges, and the
@@ -723,18 +718,18 @@ $0.73$ (against $0.58$ at fixed prices), the price level falls $26$ percent, and
 displacement is cut by roughly $44$ percent ($D_o$ from $0.28$ to $0.16$). The
 wage adjustment absorbs most of the shock: human work becomes about a quarter
 cheaper, capital adopts far less, and the labour share stays high --- but the
-harm now sits in the wage \emph{level}, not in employment, which is precisely the
+harm now sits in the wage \emph{level}, not in employment, which is the
 rent- and wage-dissipation of \textcite{acemoglu2024rents}.
 
 \paragraph{The dynamic close, and statics meeting dynamics.}
 Wired into the transition --- the price responding to the current adoption and
 allocation at every step, equation~\eqref{eq:price-feedback} with a one-step lag
---- the feedback shapes the whole path, not just the end. The wage level falls
+--- the feedback shapes the whole path. The wage level falls
 monotonically as adoption rises, from $-0.09$ early to a plateau at $-0.29$, and
 the displacement wave is markedly gentler: the unbound-mass (mismatch) peak is
 cut by about $63$ percent (from $0.44$ to $0.16$ percent of the workforce) at the
 same timing, and the reinstated stock ends lower, because the falling wage deters
-the automation that would have produced the mismatch. Crucially, the transition
+the automation that would have produced the mismatch. The transition
 lands where the static fixed point says it should: the dynamic end-state price
 level ($-0.285$) and labour share ($0.739$) reproduce the static fixed point
 ($-0.26$, $0.73$) to within rounding. Two independent constructions --- static
@@ -746,7 +741,7 @@ and the static and dynamic accounts cohere.
 The feedback is first-order: at fixed prices both layers overstate the
 displacement and understate the labour share, and they overstate the violence of
 the transition. The stabilising wage adjustment is the shock absorber, and it
-operates throughout the transition, not only at its end. The quantitative point
+operates throughout the transition. The quantitative point
 estimate depends on the assignment elasticity $\sigma$ and on the reduced-form
 closure --- equation~\eqref{eq:price-feedback} is the AR wage law applied
 region-wise, not a full re-solve of the assignment programme of
@@ -764,17 +759,15 @@ than a calibrated forecast of the labour share.
 \label{sec:discussion}
 %% ============================================================
 
-The result is that the tempo of a technology shock, relative to the speed
-at which the labour market reallocates, is not merely a determinant of
-how painful the transition is but of its outcome. A gradual diffusion
-lets work find the occupations whose capabilities match it; a shock that
-outruns adjustment forces a downgrading that persists in the final
-allocation. The same field, the same displaced mass, and the same seeded
-reinstatement yield different societies depending on the pace. This is a
-genuinely dynamic statement, and it is the kind of statement the
-task-based equilibrium framework is not built to make: its rest point is
-the destination of a frictionless economy, and the friction here is time
-itself.
+The result is that the tempo of a technology shock, relative to the
+speed at which the labour market reallocates, determines where the
+reinstated work ends up. A gradual diffusion lets work find the
+occupations whose capabilities match it; a shock that outruns adjustment
+forces a downgrading that persists in the final allocation. The same
+field and the same seeded reinstatement yield different allocations of
+work depending on the pace. The task-based equilibrium framework is not
+built to make this statement: its rest point is the destination of a
+frictionless economy, and the friction here is time itself.
 
 Two qualifications bound the claim, and both are inherited rather than
 introduced. The first concerns the survival gate. The static model
