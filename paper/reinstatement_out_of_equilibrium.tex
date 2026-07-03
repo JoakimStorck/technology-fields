@@ -57,7 +57,9 @@ absorb it and the mass is taken instead by the large, lower-skilled
 occupations that can, a forced downgrading. The same technology and the
 same field thus yield materially different distributions of work
 depending only on the tempo: the final allocations of the slow and fast
-regimes correlate at $0.37$. This path-dependence of the
+regimes correlate at $0.37$. The two regimes are the proved limits of
+the binding law, and the destination moves monotonically between them
+with the tempo. This path-dependence of the
 destination, and not only of the transitional cost, is invisible to the
 equilibrium framework, whose fixed point sees only the endpoint. The
 realisation is illustrative, inheriting the calibration of the companion
@@ -75,14 +77,15 @@ paper.
 A technology does not arrive all at once. It emerges, diffuses, and
 matures over years, and while it does, the labour market is already
 responding: displacement, the creation of new tasks, and the
-reallocation of workers run in parallel, not in sequence. The static
-task-based framework cannot see this. It computes an equilibrium ---
-a state that satisfies a fixed-point condition --- and reads the
-consequences of a technology as the difference between two such rest
-points \parencite{acemoglu2018race, acemoglu2019automation}. The
-intermediate path, and with it the cost of the transition and any
-dependence of the outcome on the speed of the shock, is by construction
-absent. Yet the transition is where the human consequences of automation
+reallocation of workers run in parallel, not in sequence. The
+task-based framework cannot see this. Where it has dynamics they belong
+to the technology --- which tasks are automated, when new ones arrive
+\parencite{acemoglu2018race} --- while the allocation of workers to
+tasks clears instantaneously, so the consequences of a technology are
+read as the difference between two rest points
+\parencite{acemoglu2019automation}. The intermediate path of the
+allocation, and with it the cost of the transition and any dependence of
+the outcome on the speed of the shock, is by construction absent. Yet the transition is where the human consequences of automation
 are felt, and the central claim of this paper is that the speed of the
 shock relative to the speed of adjustment determines not merely how
 costly the transition is but \emph{who ends up doing the reinstated
@@ -130,16 +133,37 @@ fit the frontier. A shock that outruns redistribution forces the work
 onto the large, lower-skilled occupations that can absorb it fastest, a
 downgrading that the gradual transition avoids. The two regimes are run
 through the same technology and the same field; their final allocations
-of reinstated work correlate at $0.37$. The destination, not just
+of reinstated work correlate at $0.37$. Both endpoints are proved as
+limits of the binding law --- absorption faster than the shock converges
+to the match-weighted allocation, absorption slower than the shock to
+initial size shares --- and the realised destination moves monotonically
+between them as the tempo varies
+(Section~\ref{sec:homotopy}). The destination, not just
 the transitional cost, is path-dependent, and the equilibrium framework
 sees none of it.
 
-\todo{Position against the dynamic adjustment literature once the frame
-is fixed (e.g. mismatch and reallocation after sectoral shocks); decide
-how much to engage with the equilibrium-with-adjustment-cost tradition
-versus presenting the result as a property the spatial geometry makes
-visible. Keep the empirical-illustration discipline of the companion
-paper: no causal claim is made from the illustrative calibration.}
+That reallocation takes time and shapes equilibrium is an old
+observation. In the islands tradition workers move slowly between
+markets and unemployment is the reallocation in progress
+\parencite{lucas1974equilibrium, alvarez2011search}; distance appears as
+a cost, but there is no space in which the shock and the workers'
+capabilities are located together. \textcite{csahin2014mismatch} measure
+the unemployment produced when job seekers search in the wrong markets:
+workers waiting for work. The unbound stock of this paper is the reverse
+object, work that has been created but not yet attached to any
+occupation --- mismatch upstream of any vacancy --- and its hump is the
+model's analogue of their cyclical index, driven by task destruction and
+creation rather than by the business cycle. Closest on the question of
+tempo, \textcite{adao2024fast} relate the speed of a technological
+transition to skill specificity: when the benefited activities require
+skills far from the rest of the economy, incumbents cannot reallocate
+and demand is met by the entry of new generations. In their model the
+economy converges to the endpoint the technology pins down, regardless
+of the path. Here the tempo of the shock races a fixed speed of
+reallocation, and the endpoint moves with it: the same technology, run
+slowly or quickly through the same economy, binds the reinstated work to
+different occupations. The calibration remains illustrative, in the
+discipline of the companion paper: no causal claim is made from it.
 
 %% ============================================================
 \section{The static foundation}
@@ -158,7 +182,9 @@ is a directional field
 + \chi\,(m_3 + m_4\cos\xi + m_5\sin\xi),
 \end{equation}
 high in the socio-cognitive directions and low in the service and manual
-ones. A technology is a Gaussian field
+ones. Depth is what \textcite{adao2024fast} call skill specificity; the
+geometry gives it a direction, and the price field decides where
+specificity pays. A technology is a Gaussian field
 $\phi_K(\rr) = A_K\exp(-\tfrac12\lVert\rr-\mathbf p_K\rVert^2/z_K^2)$,
 with maturity $A_K$, centre $\mathbf p_K$, and reach $z_K$. Capital bears
 a task only where it is the cheaper producer, so the operated share is
@@ -473,6 +499,10 @@ from the fastest to the slowest tempo shown --- and peaks later, moving
 from $t \approx 2.6$ to $t \approx 3.6$ years within the adoption
 window. In every
 case it drains to zero once diffusion saturates and binding catches up.
+The shape is that of the mismatch index \textcite{csahin2014mismatch}
+measure over the Great Recession, which likewise rises and drains with
+no structural shift; the driver here is task destruction and creation,
+not the business cycle.
 There is no permanent mismatch in the model: all created work is
 eventually bound. The transitional cost lives entirely in the path --- in
 the height and persistence of the hump --- not in the endpoint, which is
@@ -777,15 +807,23 @@ made from it. The unbound stock drains to zero, so the model has no
 permanent mismatch and no involuntary non-employment; the transitional
 cost is the hump, and a model with task decay or irreversible binding
 would carry a permanent imprint of the shock speed that this one does
-not. New tasks enter as added weight on existing locations rather than as
+not. That extension is left for later work. New tasks enter as added
+weight on existing locations rather than as
 new points on the disk. And the relative-change measure of who gains is
 unbounded for small occupations, so the destination results should be
 read in absolute and spatial terms.
 
-\todo{Relate to the adjustment-cost and mismatch literatures once the
-framing is fixed; decide whether the permanent-imprint extension (task
-decay or forced downgrading that does not reverse) belongs here as a
-remark or in a further paper.}
+The downgrading of the fast regime has an empirical silhouette.
+\textcite{beaudry2016great} document a cascade after 2000: as demand for
+cognitive tasks fell, high-educated workers moved down the occupational
+ladder and pushed the less educated further down and out. The direction
+is reversed here. In their account workers descend the ladder because
+demand for their tasks has fallen; in the fast regime the work itself
+descends the match ranking because the occupations that fit it best are
+too small to absorb it in time. The same outward pattern --- work
+performed below the skill level that matches it --- arises from
+different mechanisms, one demand-side, one absorption-side, and the
+cascading image is theirs.
 
 %% ============================================================
 \section{Conclusion}
@@ -800,7 +838,9 @@ that grows with the tempo of the shock and drains as the market catches
 up. The second, and the central result, is that the tempo of the shock
 relative to the speed of redistribution determines the destination of the
 reinstated work: a gradual shock matches it to high-skill specialists, a
-fast shock forces it onto large lower-skilled occupations. The same
+fast shock forces it onto large lower-skilled occupations. Both
+endpoints are proved as limits of the binding law, and the realised
+destination moves monotonically between them with the tempo. The same
 technology yields a different distribution of work depending only on how
 fast it arrives. The cost and the outcome of automation are, in this
 sense, properties of the path and not only of the endpoint.
