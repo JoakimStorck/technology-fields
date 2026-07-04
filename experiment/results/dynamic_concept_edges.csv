@@ -34,6 +34,7 @@ price_feedback,technology_transition,+,manual,The price field affects adoption a
 price_field,automation_intensity,,ast,
 price_field,occupational_value,,ast,
 reinstatement_pressure,occupational_absorption,+,manual,Unbound task mass creates binding pressure.
+seeded_fraction,seeding_flow,,ast,
 seeding_flow,unbound_task_stock,,ast,
 surviving_new_task_share,seeding_flow,,ast,
 target_population,occupational_population,,ast,

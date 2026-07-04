@@ -1,14 +1,21 @@
 edge,status,witnesses,mechanism
-tech->disp,ast,technology_maturity->automation_intensity; automation_intensity->displaced_old_work,Maturation opens the gate and displaces old work.
-disp->seed,ast,displaced_old_work->seeding_flow; surviving_new_task_share->seeding_flow,"Reinstatement seeds at the displacement rate, gated by survival."
+old->seed,identity,,Source outside the accounting (Forrester 8.4); seeded mass is created.
 seed->U,ast,seeding_flow->unbound_task_stock,Seeded mass fills the unbound stock.
-U->bind,ast,unbound_task_stock->available_unbound_mass; available_unbound_mass->binding_claim; binding_claim->binding_allocation; binding_allocation->binding_flow,Unbound mass is offered and claimed.
-bind->U,ast,binding_flow->unbound_task_stock,Binding drains the stock; the residue cascades.
-bind->B,ast,binding_flow->occupation_bound_work; binding_allocation->occupation_bound_work,Bound mass accumulates as occupation-bound new work.
-M0->cap,ast,initial_task_mass->absorptive_capacity,Capacity is proportional to task mass.
-B->cap,ast,occupation_bound_work->absorptive_capacity,Bound mass grows the size margin: size learns.
-cap->bind,ast,absorptive_capacity->binding_flow,The size-limited rate cap; the saturated residue is re-offered.
-match->bind,ast,task_occupation_fit->binding_claim,Match allocates: claims are FIT^beta_m shares.
-B->value,ast,occupation_bound_work->occupational_value,Bound new work carries value.
-value->L,ast,occupational_value->target_population; target_population->occupational_population,The mobility re-sort follows value.
-L->value,identity,,Crowding by definition of the density: n = sum L_o b_o + B and marginal value beta Pi n^(beta-1).
+U->bind,ast,binding_flow->unbound_task_stock,Binding drains the stock; the saturated residue stays and cascades.
+bind->B,ast,binding_flow->occupation_bound_work,Bound mass accumulates as occupation-bound new work.
+occ->resort,identity,,Population is conserved; the flow is between occupations.
+resort->L,ast,target_population->occupational_population,The population relaxes toward the value-sorted target at tempo theta_L.
+AK->disp,ast,technology_maturity->automation_intensity; automation_intensity->displaced_old_work,Maturation displaces old work through the gate.
+AK->gate,ast,technology_maturity->automation_intensity,The takeover gate opens with maturity.
+disp->seed,ast,displaced_old_work->seeding_flow,Seeding follows the rate of displacement.
+gate->seed,ast,surviving_new_task_share->seeding_flow,Only the surviving share is seeded.
+gamma->seed,ast,seeded_fraction->seeding_flow,Seeded fraction of displaced mass.
+U->bind,ast,unbound_task_stock->available_unbound_mass; available_unbound_mass->binding_claim,Claims are shares of the offered stock.
+B->bind,ast,occupation_bound_work->absorptive_capacity; absorptive_capacity->binding_flow,Bound mass grows the size margin: size learns.
+M0->bind,parameter,,"Pre-shock size in M_o = M_o(0) + r_o, eq. (cap)."
+theta_abs->bind,parameter,,Absorption timescale of the capacity law.
+eo->bind,ast,task_occupation_fit->binding_claim,Frozen match readiness allocates: claims are FIT^beta_m shares.
+B->W,ast,occupation_bound_work->occupational_value,Bound new work carries value.
+L->W,identity,,Crowding by the density definition n = sum L_o b_o + B.
+W->resort,ast,occupational_value->target_population,The mobility target follows value.
+theta_L->resort,parameter,,Mobility timescale of the re-sort.

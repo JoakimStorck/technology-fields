@@ -8,6 +8,7 @@ GammaD = "displaced_old_work"
 dGamma = "displaced_old_work"
 
 sdot = "seeding_flow"
+GAMMA = "seeded_fraction"
 surv = "surviving_new_task_share"
 "eq.g_hat" = "surviving_new_task_share"
 g_hat = "surviving_new_task_share"
@@ -117,6 +118,7 @@ occupation_birth = "Occupation birth"
 occupation_grain = "Occupation grain"
 task_occupation_fit = "Task-occupation fit"
 initial_task_mass = "Initial task mass"
+seeded_fraction = "Seeded fraction"
 occupation_location = "Occupation location"
 desired_binding = "Desired binding"
 binding_allocation = "Binding allocation"
@@ -136,6 +138,7 @@ occupation_birth = "Occupation birth"
 
 [aggregation]
 initial_task_mass = "occupational_absorption"
+seeded_fraction = "technology_transition"
 technology_maturity = "technology_transition"
 automation_intensity = "technology_transition"
 displaced_old_work = "technology_transition"
@@ -228,158 +231,254 @@ mechanism = "New occupations add fit and absorptive channels."
 include_in_figure = false
 
 # ---------------------------------------------------------------------------
-# Stock-and-flow figure (manuscript Figure 2 replacement). Hand-declared,
-# code-audited: every edge lists concept-level witnesses that must exist with
-# AST support in the extracted graph, or carries identity = true with the
-# defining mechanism. The emitter fails loudly on an unwitnessed edge.
-# kinds: stock (bold box), flow (ellipse), regulator (box), source (plain),
-# aux (box).
+# Stock-and-flow figure (manuscript Figure 2), in the notation of Forrester,
+# Industrial Dynamics (1961), ch. 8: levels are rectangles (integrations),
+# rates are valves in the flow channels, auxiliaries circles, parameters
+# underlined names, sources clouds outside the accounting; solid lines are
+# material (task-mass) flows, double lines personnel flows, dashed lines
+# information with take-off circles at the source. Hand-declared,
+# code-audited: every edge carries AST witnesses, or identity = true with
+# its defining mechanism, or parameter = true (a constant is a declaration,
+# not a dataflow claim). The emitter fails loudly otherwise.
 # ---------------------------------------------------------------------------
 [stockflow]
 name = "dynamic_stockflow"
+ranks = [["disp", "gate", "old", "gamma"],
+         ["theta_abs", "M0", "eo", "bind", "occ"],
+         ["B", "W", "resort", "theta_L"]]
 
 [[stockflow.nodes]]
-id = "tech"
+id = "old"
 kind = "source"
-label = "Technology maturation\\nA_K(t)"
-
-[[stockflow.nodes]]
-id = "disp"
-kind = "flow"
-label = "Displacement\\n∂tΓ^D"
+label = "displaced\nold work"
 
 [[stockflow.nodes]]
 id = "seed"
-kind = "flow"
-label = "Survival-gated\\nseeding s(r,t)"
+group = "spine"
+kind = "rate"
+label = "seeding ṡ"
 
 [[stockflow.nodes]]
 id = "U"
-kind = "stock"
-label = "Unbound task stock\\nU(r,t)"
+group = "spine"
+kind = "level"
+label = "Unbound task stock\nU(r,t)"
 
 [[stockflow.nodes]]
 id = "bind"
-kind = "flow"
-label = "Binding\\ni_o(r,t)"
+group = "spine"
+kind = "rate"
+label = "binding ι_o"
 
 [[stockflow.nodes]]
 id = "B"
-kind = "stock"
-label = "Occupation-bound\\nnew work r_o(t)"
+group = "spine"
+kind = "level"
+label = "Occupation-bound\nnew work r_o(t)"
 
 [[stockflow.nodes]]
-id = "cap"
-kind = "regulator"
-label = "Absorptive capacity\\nc_o = M_o/theta_abs"
-
-[[stockflow.nodes]]
-id = "M0"
-kind = "source"
-label = "Pre-shock size\\nM_o(0)"
-
-[[stockflow.nodes]]
-id = "match"
-kind = "regulator"
-label = "Match readiness\\ne_o(r), frozen"
-
-[[stockflow.nodes]]
-id = "value"
+id = "AK"
 kind = "aux"
-label = "Occupational value\\nW_o(t)"
+label = "A_K(t)"
+
+[[stockflow.nodes]]
+id = "disp"
+kind = "aux"
+label = "∂_tΔΓ^D"
+
+[[stockflow.nodes]]
+id = "gate"
+kind = "aux"
+label = "1−a(r,t)"
+
+[[stockflow.nodes]]
+id = "W"
+kind = "aux"
+label = "W_o(t)"
 
 [[stockflow.nodes]]
 id = "L"
-kind = "aux"
-label = "Population\\nL_o(t)"
+kind = "level"
+label = "Population\nL_o(t)"
 
-[[stockflow.edges]]
-from = "tech"
-to = "disp"
-sign = "+"
-audit = ["technology_maturity->automation_intensity", "automation_intensity->displaced_old_work"]
-mechanism = "Maturation opens the gate and displaces old work."
+[[stockflow.nodes]]
+id = "occ"
+kind = "source"
+label = "other\noccupations"
 
+[[stockflow.nodes]]
+id = "resort"
+kind = "rate"
+label = "re-sort"
+
+[[stockflow.nodes]]
+id = "gamma"
+kind = "param"
+label = "γ"
+
+[[stockflow.nodes]]
+id = "theta_abs"
+kind = "param"
+label = "θ_abs"
+
+[[stockflow.nodes]]
+id = "M0"
+kind = "param"
+label = "M_o(0)"
+
+[[stockflow.nodes]]
+id = "eo"
+kind = "param"
+label = "e_o(r), β_m"
+
+[[stockflow.nodes]]
+id = "theta_L"
+kind = "param"
+label = "θ_L"
+
+# -- material channel: old work -> seeding -> U -> binding -> B --
 [[stockflow.edges]]
-from = "disp"
+from = "old"
 to = "seed"
-sign = "+"
-audit = ["displaced_old_work->seeding_flow", "surviving_new_task_share->seeding_flow"]
-mechanism = "Reinstatement seeds at the displacement rate, gated by survival."
+channel = "material"
+identity = true
+mechanism = "Source outside the accounting (Forrester 8.4); seeded mass is created."
 
 [[stockflow.edges]]
 from = "seed"
 to = "U"
-sign = "+"
+channel = "material"
 audit = ["seeding_flow->unbound_task_stock"]
 mechanism = "Seeded mass fills the unbound stock."
 
 [[stockflow.edges]]
 from = "U"
 to = "bind"
-sign = "+"
-audit = ["unbound_task_stock->available_unbound_mass", "available_unbound_mass->binding_claim", "binding_claim->binding_allocation", "binding_allocation->binding_flow"]
-mechanism = "Unbound mass is offered and claimed."
-
-[[stockflow.edges]]
-from = "bind"
-to = "U"
-sign = "-"
+channel = "material"
 audit = ["binding_flow->unbound_task_stock"]
-mechanism = "Binding drains the stock; the residue cascades."
+mechanism = "Binding drains the stock; the saturated residue stays and cascades."
 
 [[stockflow.edges]]
 from = "bind"
 to = "B"
-sign = "+"
-audit = ["binding_flow->occupation_bound_work", "binding_allocation->occupation_bound_work"]
+channel = "material"
+audit = ["binding_flow->occupation_bound_work"]
 mechanism = "Bound mass accumulates as occupation-bound new work."
 
+# -- personnel channel: the conserved re-sort --
 [[stockflow.edges]]
-from = "M0"
-to = "cap"
-sign = "+"
-audit = ["initial_task_mass->absorptive_capacity"]
-mechanism = "Capacity is proportional to task mass."
+from = "occ"
+to = "resort"
+channel = "personnel"
+identity = true
+mechanism = "Population is conserved; the flow is between occupations."
+
+[[stockflow.edges]]
+from = "resort"
+to = "L"
+channel = "personnel"
+audit = ["target_population->occupational_population"]
+mechanism = "The population relaxes toward the value-sorted target at tempo theta_L."
+
+# -- information channel --
+[[stockflow.edges]]
+from = "AK"
+to = "disp"
+channel = "information"
+audit = ["technology_maturity->automation_intensity", "automation_intensity->displaced_old_work"]
+mechanism = "Maturation displaces old work through the gate."
+
+[[stockflow.edges]]
+from = "AK"
+to = "gate"
+channel = "information"
+hints = "constraint=false"
+audit = ["technology_maturity->automation_intensity"]
+mechanism = "The takeover gate opens with maturity."
+
+[[stockflow.edges]]
+from = "disp"
+to = "seed"
+channel = "information"
+audit = ["displaced_old_work->seeding_flow"]
+mechanism = "Seeding follows the rate of displacement."
+
+[[stockflow.edges]]
+from = "gate"
+to = "seed"
+channel = "information"
+audit = ["surviving_new_task_share->seeding_flow"]
+mechanism = "Only the surviving share is seeded."
+
+[[stockflow.edges]]
+from = "gamma"
+to = "seed"
+channel = "information"
+audit = ["seeded_fraction->seeding_flow"]
+mechanism = "Seeded fraction of displaced mass."
+
+[[stockflow.edges]]
+from = "U"
+to = "bind"
+channel = "information"
+hints = "constraint=false, tailport=e, headport=ne"
+audit = ["unbound_task_stock->available_unbound_mass", "available_unbound_mass->binding_claim"]
+mechanism = "Claims are shares of the offered stock."
 
 [[stockflow.edges]]
 from = "B"
-to = "cap"
-sign = "+"
-audit = ["occupation_bound_work->absorptive_capacity"]
+to = "bind"
+channel = "information"
+hints = "constraint=false, tailport=e, headport=e"
+audit = ["occupation_bound_work->absorptive_capacity", "absorptive_capacity->binding_flow"]
 mechanism = "Bound mass grows the size margin: size learns."
 
 [[stockflow.edges]]
-from = "cap"
+from = "M0"
 to = "bind"
-sign = "+"
-audit = ["absorptive_capacity->binding_flow"]
-mechanism = "The size-limited rate cap; the saturated residue is re-offered."
+channel = "information"
+parameter = true
+mechanism = "Pre-shock size in M_o = M_o(0) + r_o, eq. (cap)."
 
 [[stockflow.edges]]
-from = "match"
+from = "theta_abs"
 to = "bind"
-sign = "+"
+channel = "information"
+parameter = true
+mechanism = "Absorption timescale of the capacity law."
+
+[[stockflow.edges]]
+from = "eo"
+to = "bind"
+channel = "information"
 audit = ["task_occupation_fit->binding_claim"]
-mechanism = "Match allocates: claims are FIT^beta_m shares."
+mechanism = "Frozen match readiness allocates: claims are FIT^beta_m shares."
 
 [[stockflow.edges]]
 from = "B"
-to = "value"
-sign = "+"
+to = "W"
+channel = "information"
 audit = ["occupation_bound_work->occupational_value"]
 mechanism = "Bound new work carries value."
 
 [[stockflow.edges]]
-from = "value"
-to = "L"
-sign = "+"
-audit = ["occupational_value->target_population", "target_population->occupational_population"]
-mechanism = "The mobility re-sort follows value."
+from = "L"
+to = "W"
+channel = "information"
+hints = "constraint=false"
+identity = true
+mechanism = "Crowding by the density definition n = sum L_o b_o + B."
 
 [[stockflow.edges]]
-from = "L"
-to = "value"
-sign = "-"
-identity = true
-mechanism = "Crowding by definition of the density: n = sum L_o b_o + B and marginal value beta Pi n^(beta-1)."
+from = "W"
+to = "resort"
+channel = "information"
+audit = ["occupational_value->target_population"]
+mechanism = "The mobility target follows value."
+
+[[stockflow.edges]]
+from = "theta_L"
+to = "resort"
+channel = "information"
+parameter = true
+mechanism = "Mobility timescale of the re-sort."

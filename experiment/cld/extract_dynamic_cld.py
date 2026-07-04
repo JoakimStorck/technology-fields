@@ -312,45 +312,85 @@ def write_dot(path: Path, edges: list[Edge], labels: dict[str, str]) -> None:
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
-SHAPE = {
-    "stock": ('box', 'rounded,bold'),
-    "flow": ('ellipse', ''),
-    "regulator": ('box', 'rounded'),
-    "source": ('box', 'rounded,dashed'),
-    "aux": ('box', 'rounded'),
+FORRESTER = {
+    "level": 'shape=box',
+    "aux": "shape=circle, fixedsize=false, margin=0.02",
+    "param": "shape=none",
+    "source": 'shape=ellipse, style=dashed, margin=0.06',
+}
+
+import html as _html
+import re as _re
+
+
+def _mathlabel(text: str, size: int | None = None) -> str:
+    """Convert a plain math-ish label to a graphviz HTML-like label body:
+    _token becomes subscript, ^token superscript, newlines become <br/>.
+    Tokens are alphanumeric runs, so theta_abs and M_o(0) both work."""
+    out = []
+    for i, line in enumerate(text.split("\n")):
+        if i:
+            out.append("<br/>")
+        pos = 0
+        for m in _re.finditer(r"[_^]([A-Za-z0-9]+)", line):
+            out.append(_html.escape(line[pos:m.start()]))
+            tag = "sub" if line[m.start()] == "_" else "sup"
+            out.append(f"<{tag}>{_html.escape(m.group(1))}</{tag}>")
+            pos = m.end()
+        out.append(_html.escape(line[pos:]))
+    body = "".join(out)
+    if size is not None:
+        body = f'<font face="DejaVu Sans" point-size="{size}">{body}</font>'
+    else:
+        body = f'<font face="DejaVu Sans">{body}</font>'
+    return body
+
+
+CHANNEL = {
+    "material": "",
+    "personnel": 'color="black:invis:black"',
+    "information": 'style=dashed, dir=both, arrowtail=odot, arrowhead=vee',
 }
 
 
 def emit_stockflow(config: dict, concept_edges: list[Edge], out_dir: Path) -> None:
     """Validate the [stockflow] declaration against the extracted concept
-    graph and write the dot. Every edge needs AST-supported witnesses or an
-    explicit identity marking; otherwise this raises."""
+    graph and write the dot in Forrester notation. Every edge needs AST
+    witnesses, or identity = true, or parameter = true; otherwise raises.
+    Layout tuning lives in the TOML: optional per-edge `hints` (raw dot
+    attributes) and top-level `ranks` (lists of node ids per rank group)."""
     sf = config.get("stockflow")
     if not sf:
         return
 
     supported = {(e.source, e.target) for e in concept_edges
                  if "ast" in e.source_type}
+    kinds = {n["id"]: n.get("kind", "aux") for n in sf.get("nodes", [])}
 
     audit_rows: list[dict] = []
     for edge in sf.get("edges", []):
         key = f"{edge['from']}->{edge['to']}"
         if edge.get("identity", False):
-            audit_rows.append({"edge": key, "status": "identity",
-                               "witnesses": "", "mechanism": edge.get("mechanism", "")})
-            continue
-        witnesses = edge.get("audit", [])
-        if not witnesses:
-            raise SystemExit(f"stockflow edge {key} has no audit witnesses "
-                             f"and is not marked identity")
-        missing = [w for w in witnesses
-                   if tuple(w.split("->")) not in supported]
-        if missing:
-            raise SystemExit(f"stockflow edge {key}: no AST support for "
-                             f"witness(es) {missing}; the figure no longer "
-                             f"matches the code")
-        audit_rows.append({"edge": key, "status": "ast",
-                           "witnesses": "; ".join(witnesses),
+            status = "identity"
+        elif edge.get("parameter", False):
+            status = "parameter"
+        else:
+            witnesses = edge.get("audit", [])
+            if not witnesses:
+                raise SystemExit(f"stockflow edge {key} has no audit "
+                                 f"witnesses and no identity/parameter mark")
+            missing = [w for w in witnesses
+                       if tuple(w.split("->")) not in supported]
+            if missing:
+                raise SystemExit(f"stockflow edge {key}: no AST support for "
+                                 f"witness(es) {missing}; the figure no "
+                                 f"longer matches the code")
+            status = "ast"
+        if status != "ast" and not edge.get("mechanism"):
+            raise SystemExit(f"stockflow edge {key}: {status} edges must "
+                             f"state their mechanism")
+        audit_rows.append({"edge": key, "status": status,
+                           "witnesses": "; ".join(edge.get("audit", [])),
                            "mechanism": edge.get("mechanism", "")})
 
     with (out_dir / "stockflow_audit.csv").open("w", newline="",
@@ -362,31 +402,61 @@ def emit_stockflow(config: dict, concept_edges: list[Edge], out_dir: Path) -> No
 
     lines = [
         f"digraph {sf.get('name', 'stockflow')} {{",
-        "  graph [rankdir=LR, splines=true, overlap=false, nodesep=0.45, ranksep=0.55];",
-        "  node [fontsize=11, fontname=\"Helvetica\"];",
-        "  edge [fontsize=10, fontname=\"Helvetica\"];",
+        "  graph [rankdir=TB, splines=true, overlap=false,"
+        ' nodesep=0.5, ranksep=0.55, fontname="DejaVu Sans"];',
+        '  node [fontsize=11, fontname="DejaVu Sans"];',
+        '  edge [fontsize=10, fontname="DejaVu Sans", arrowsize=0.7];',
         "",
     ]
     for node in sf.get("nodes", []):
-        shape, style = SHAPE[node.get("kind", "aux")]
-        style_attr = f', style="{style}"' if style else ""
-        lines.append(f'  {node["id"]} [label="{node["label"]}", '
-                     f'shape={shape}{style_attr}];')
+        kind = node.get("kind", "aux")
+        group = f', group="{node["group"]}"' if node.get("group") else ""
+        if kind == "rate":
+            lines.append(
+                f'  {node["id"]} [shape=none, margin=0{group}, label=<'
+                f'<table border="0" cellborder="0" cellspacing="0">'
+                f'<tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr>'
+                f'<tr><td>{_mathlabel(node["label"], 10)}'
+                f'</td></tr></table>>];')
+        elif kind == "param":
+            lines.append(
+                f'  {node["id"]} [shape=none, margin=0{group}, label=<'
+                f'<table border="0" cellborder="0" cellspacing="0">'
+                f'<tr><td>{_mathlabel(node["label"])}</td></tr>'
+                f'<tr><td port="c"><font face="DejaVu Sans">'
+                f'&#9472;&#8854;&#9472;</font></td></tr></table>>];')
+        else:
+            lines.append(f'  {node["id"]} [label=<{_mathlabel(node["label"])}>, '
+                         f'{FORRESTER[kind]}{group}];')
     lines.append("")
     for edge in sf.get("edges", []):
-        attrs = [f'label="{edge.get("sign", "")}"'] if edge.get("sign") else []
-        if edge.get("sign") == "-":
-            attrs.append('arrowhead="tee"')
-        attr_text = f" [{', '.join(attrs)}]" if attrs else ""
-        lines.append(f'  {edge["from"]} -> {edge["to"]}{attr_text};')
+        channel = edge.get("channel", "information")
+        base = CHANNEL[channel]
+        tail = edge["from"]
+        if channel == "information" and kinds.get(edge["from"]) == "param":
+            # Forrester Fig 8-7: the constant IS the bar-through-circle
+            # symbol; the information line departs from it undecorated.
+            base = 'style=dashed, arrowhead=vee'
+            tail = f'{edge["from"]}:c'
+        attrs = [base] if base else []
+        if channel in ("material", "personnel") \
+                and kinds.get(edge["to"]) == "rate":
+            attrs.append("arrowhead=none")
+        if edge.get("hints"):
+            attrs.append(edge["hints"])
+        attr_text = f' [{", ".join(a for a in attrs if a)}]' if attrs else ""
+        lines.append(f'  {tail} -> {edge["to"]}{attr_text};')
     lines.append("")
-    lines.append("  { rank=same; U; bind; B; }")
+    for group in sf.get("ranks", []):
+        lines.append(f"  {{ rank=same; {'; '.join(group)}; }}")
     lines.append("}")
     name = sf.get("name", "stockflow")
     (out_dir / f"{name}.dot").write_text("\n".join(lines), encoding="utf-8")
-    print(f"Stockflow: {len(audit_rows)} edges audited "
-          f"({sum(1 for r in audit_rows if r['status'] == 'ast')} ast, "
-          f"{sum(1 for r in audit_rows if r['status'] == 'identity')} identity)")
+    counts = {}
+    for r in audit_rows:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+    print(f"Stockflow (Forrester): {len(audit_rows)} edges audited "
+          + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
 
 
 def try_render_dot(dot_path: Path) -> None:
