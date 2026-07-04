@@ -410,27 +410,34 @@ the sole structural addition; the remaining objects are the static
 model's primitives read as rates.
 
 Figure~\ref{fig:transition-accounting} gives the transition accounting
-as a stock-and-flow diagram. Automation creates a timed, survival-gated
-inflow of new task mass. Binding drains $U(\rr,t)$ into occupation-bound
-work under the law's two regulators: the frozen match readiness that
-allocates the flow, and the absorptive capacity that limits its rate and
-returns the saturated residue to the stock. Bound mass feeds the
-capacity back, the size margin of Section~\ref{sec:binding}. The
-population enters only through the value loop, re-sorting toward bound
-work and crowding it; no edge runs from the population into the binding
+as a stock-and-flow diagram in the notation of
+\textcite{forrester1961industrial}. Automation creates a timed,
+survival-gated inflow of new task mass. The binding rate drains
+$U(\rr,t)$ into occupation-bound work, and its information inputs are
+the law of Section~\ref{sec:binding}: the match readiness that
+allocates the flow, and the size margin that limits its rate, fed back
+by the bound mass itself while the saturated residue stays in the
+stock. That the match readiness enters as a constant is the
+frozen-readiness assumption of Section~\ref{sec:binding} in symbol
+form. The population is a level of its own, moved by a personnel flow
+that follows value; no line runs from the population into the binding
 chain, which is the decomposition result of
-Section~\ref{sec:destination} in structural form.
+Section~\ref{sec:destination} drawn as structure.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\textwidth]{dynamic_stockflow.png}
-\caption{Transition accounting for displaced and reinstated work. Bold
-boxes are stocks, ellipses flows, dashed boxes exogenous or initial
-quantities. The unbound stock $U(\rr,t)$ carries surviving new task
-mass until binding drains it; match readiness allocates, absorptive
-capacity limits the rate, and bound mass grows the capacity. The figure
-is generated from the implementation, with every edge audited against a
-code witness.}
+\caption{Transition accounting for displaced and reinstated work, in
+the notation of \textcite{forrester1961industrial}: rectangles are
+levels, valves rates in the flow channels, circles auxiliary
+variables, a name over the bar-and-circle symbol a parameter, and
+dashed ellipses sources outside the accounting. Solid lines carry task
+mass, the double line the personnel flow, and dashed lines
+information, with a take-off circle at the source. The seeding rate is
+eq.~\eqref{eq:Ustock}, the binding rate is governed by
+eqs.~\eqref{eq:claim} and \eqref{eq:cap}, and the re-sort by
+eq.~\eqref{eq:pop}. The figure is generated from the implementation,
+with every edge audited against a code witness.}
 \label{fig:transition-accounting}
 \end{figure}
 
