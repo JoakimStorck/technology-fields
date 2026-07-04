@@ -643,6 +643,91 @@ the aggregate task mass overstates the absorbing mass at intermediate
 tempos. This is why the mismatch hump of
 Section~\ref{sec:transitional} outlives the naive aggregate prediction.
 
+\subsection{A two-occupation example}
+\label{sec:two-occ}
+
+The crossover between the limits is exhibited by the sweep of
+Section~\ref{sec:destination}; this subsection derives it in the
+smallest economy that can host the race. Two occupations compete for a
+seeding pulse. Occupation $1$ is small and well matched, with claim
+share $w_1 > \tfrac12$ and initial mass $M_1(0)$; occupation $2$ is
+large and poorly matched, with claim share $1 - w_1$, and large enough
+that its capacity never binds, so the cascade is one step. The seed
+arrives as a rectangular pulse of total mass $S$ over a window $T$. The
+pulse must be a flow: an instantaneous pulse saturates every capacity
+and match never enters, so the window is what makes the race exist.
+Write $\sigma_s = S/T$ for the flow, $\tau = \theta_{\text{abs}}/T$ for
+the tempo ratio, and $\bar m = M_1(0)/S$ for the small occupation's mass
+relative to the shock.
+
+In the continuous limit of the binding law the unbound stock vanishes.
+While occupation $1$ is unsaturated both absorb their claims; while it
+is saturated, the per-step residue is re-offered and taken by
+occupation $2$ within the step, so the stock is of order the step and
+the example isolates the destination race, not the mismatch hump, which
+lives on the depth of the cascade and the spatial locality of claims
+that a two-occupation economy collapses. Saturation is decided at the
+start and can only end, never begin: absorbed mass grows the capacity
+$c_1 = (M_1(0) + r_1)/\theta_{\text{abs}}$ while the claimed flow
+$w_1\sigma_s$ is constant. Occupation $1$ is saturated at the start if
+and only if $w_1\sigma_s > M_1(0)/\theta_{\text{abs}}$, that is
+$\tau > \bar m/w_1$.
+
+\begin{proposition}[two-occupation split]
+\label{prop:two-occ}
+The final allocation of the small occupation is
+\begin{equation}
+\frac{r_1(\tau)}{S} \;=\;
+\begin{cases}
+w_1,
+& \tau \le \bar m/w_1,\\[4pt]
+w_1(1+\tau) - \bar m - w_1\tau\,\ln\!\dfrac{w_1\tau}{\bar m},
+& \tau > \bar m/w_1,\ \ \tau\ln\!\dfrac{w_1\tau}{\bar m} < 1,\\[8pt]
+\bar m\,\bigl(e^{1/\tau} - 1\bigr),
+& \tau\ln\!\dfrac{w_1\tau}{\bar m} \ge 1,
+\end{cases}
+\label{eq:two-occ-split}
+\end{equation}
+and $r_2 = S - r_1$. The split is continuous, constant below
+$\tau^* = \bar m/w_1$, and strictly decreasing above it. It recovers the
+match allocation $r_1 = w_1 S$ as $\tau \to 0$ and the saturated
+allocation, $r_1 \to 0$ with the full pulse cascading to the large
+occupation, as $\tau \to \infty$. The crossover is at
+$\tau^* = M_1(0)/(w_1 S)$: the small occupation's mass over its claim
+on the shock.
+\end{proposition}
+
+\noindent\emph{Proof.} Below $\tau^*$ occupation $1$ is unsaturated at
+the start and, since $c_1$ grows while $w_1\sigma_s$ is constant, stays
+so; both occupations absorb their claims throughout the pulse and
+$r_1 = w_1 S$. Above $\tau^*$ occupation $1$ is saturated from the
+start and absorbs at capacity,
+$\dot r_1 = (M_1(0) + r_1)/\theta_{\text{abs}}$, so
+$r_1(t) = M_1(0)\,(e^{t/\theta_{\text{abs}}} - 1)$ while saturation
+lasts; occupation $2$ takes the residue $\sigma_s - c_1(t)$.
+De-saturation occurs when the grown capacity meets the claimed flow,
+$c_1(t_d) = w_1\sigma_s$, at
+$t_d = \theta_{\text{abs}}\ln(w_1\tau/\bar m)$. If $t_d < T$, that is
+$\tau\ln(w_1\tau/\bar m) < 1$, occupation $1$ absorbs its claim
+$w_1\sigma_s$ for the remaining $T - t_d$, giving the middle branch;
+if $t_d \ge T$ saturation lasts the whole pulse, giving the third. The
+branches agree at both boundaries. Within the middle branch
+$d(r_1/S)/d\tau = -\,w_1 \ln(w_1\tau/\bar m) < 0$, and within the third
+$d(r_1/S)/d\tau = -\,\bar m\,e^{1/\tau}/\tau^{2} < 0$, so the split is
+strictly decreasing above $\tau^*$ and monotone throughout.
+\hfill$\square$
+
+With $w_1 > \tfrac12$ the tempo reverses the majority: below $\tau^*$
+the well-matched specialist takes most of the reinstated work, and far
+above it the large, poorly matched occupation takes essentially all of
+it, the forced downgrading in miniature. The saturated phase is the
+$p = 1$ growth of Proposition~\ref{prop:slow}; under the sublinear law
+$c_1 = M_1^{\,p}/\theta_{\text{abs}}$ the same phase integrates to
+$M_1^{1-p}$ linear in time, the closed form of
+eq.~\eqref{eq:slow-general}. Figure~\ref{fig:homotopy} is the
+many-occupation version of this mechanism, with the single crossover
+$\tau^*$ smeared by the distribution of sizes and claims.
+
 %% ============================================================
 \section{Results}
 \label{sec:results}
@@ -1008,8 +1093,10 @@ sensitivities. The divergence of destinations survives the sharpness
 sweep with a point size that moves with the handle, and the absorption
 timescale alone carries it. The remaining quantitative claim is the
 regime boundary, how slow absorption must be relative to the shock for
-downgrading to set in, which the tempo sweep exhibits rather than
-derives.
+downgrading to set in. Section~\ref{sec:two-occ} derives it in the
+minimal economy, $\tau^* = M_1(0)/(w_1 S)$ in the tempo ratio, and the
+tempo sweep exhibits it in the full one, with the single crossover
+smeared by the distribution of sizes and claims.
 
 Several limitations remain. The realisation is illustrative, inherits
 the calibration and discipline of \textcite{storck2026fields}, and
