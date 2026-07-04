@@ -23,6 +23,9 @@ Default order and approximate runtimes:
                                 Prop 2 verification (~7 min)
   d11  readiness update         the frozen-readiness release (~5 min)
   d12  baseline economy         the inherited-economy figure and asserts (<1 min)
+  cld  structure audit          extracts the dependency graph from the core
+                                and re-emits the stock-flow figure; fails on
+                                any figure edge without a code witness (~1 s)
 
 A full pass is on the order of 35-45 minutes. After it, run
 paper/sync_figures.py to refresh the manuscript figures.
@@ -56,6 +59,7 @@ PIPELINE = [
     ("d10", "d10_capacity_exponent.py"),
     ("d11", "d11_readiness_update.py"),
     ("d12", "d12_baseline_economy.py"),
+    ("cld", "cld/extract_dynamic_cld.py"),
 ]
 
 

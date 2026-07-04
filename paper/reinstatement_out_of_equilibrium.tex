@@ -409,30 +409,28 @@ matures. Seeding ceases once displacement plateaus. The unbound stock is
 the sole structural addition; the remaining objects are the static
 model's primitives read as rates.
 
-Figure~\ref{fig:transition-accounting} gives the same transition
-accounting as a stock and flow diagram. Automation creates a timed inflow
-of surviving new task mass. Binding flows draw from $U(\rr,t)$ and add
-occupation-bound task mass. The accumulation of bound mass changes
-occupational values and subsequent adjustment incentives.
+Figure~\ref{fig:transition-accounting} gives the transition accounting
+as a stock-and-flow diagram. Automation creates a timed, survival-gated
+inflow of new task mass. Binding drains $U(\rr,t)$ into occupation-bound
+work under the law's two regulators: the frozen match readiness that
+allocates the flow, and the absorptive capacity that limits its rate and
+returns the saturated residue to the stock. Bound mass feeds the
+capacity back, the size margin of Section~\ref{sec:binding}. The
+population enters only through the value loop, re-sorting toward bound
+work and crowding it; no edge runs from the population into the binding
+chain, which is the decomposition result of
+Section~\ref{sec:destination} in structural form.
 
 \begin{figure}[t]
 \centering
-\setlength{\tabcolsep}{8pt}
-\begin{tabular}{c c c}
-\begin{tabular}{c}Technology\\maturation $A_K(t)$\end{tabular}
-& $\xrightarrow{\ \partial_t\Delta\Gamma^D\ }$
-& \begin{tabular}{c}Surviving seed\\flow $\dot s(\rr,t)$\end{tabular} \\
-&& $\downarrow$ \\
-&& \fbox{\begin{tabular}{c}Unbound stock\\$U(\rr,t)$\end{tabular}} \\
-&& $\downarrow\ \iota_o(\rr,t)$ \\
-&& \begin{tabular}{c}Occupation-bound\\task mass $r_o(t)$\end{tabular} \\
-&& $\circlearrowleft$ \\
-&& \begin{tabular}{c}values $W_o(t)$ and\\population $L_o(t)$\end{tabular}
-\end{tabular}
-\caption{Transition accounting for displaced and reinstated work. The
-stock $U(\rr,t)$ carries surviving new task mass until occupations bind
-it through the flows $\iota_o(\rr,t)$. Bound mass changes occupational
-values and population adjustment.}
+\includegraphics[width=\textwidth]{dynamic_stockflow.png}
+\caption{Transition accounting for displaced and reinstated work. Bold
+boxes are stocks, ellipses flows, dashed boxes exogenous or initial
+quantities. The unbound stock $U(\rr,t)$ carries surviving new task
+mass until binding drains it; match readiness allocates, absorptive
+capacity limits the rate, and bound mass grows the capacity. The figure
+is generated from the implementation, with every edge audited against a
+code witness.}
 \label{fig:transition-accounting}
 \end{figure}
 
