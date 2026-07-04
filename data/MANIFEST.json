@@ -54,7 +54,7 @@
   },
   "external_inputs": {
     "onet_task_exposure.csv": {
-      "recorded_utc": "2026-07-02T06:40:19+00:00",
+      "recorded_utc": "2026-07-04T10:14:35+00:00",
       "source": "Eloundou, Manning, Mishkin & Rock (2024), \"GPTs are GPTs: Labor market impact potential of LLMs\", Science 384(6702):1306-1308",
       "source_repository": "https://github.com/openai/GPTs-are-GPTs",
       "source_file": "full_labelset.tsv",
