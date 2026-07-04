@@ -1,0 +1,4 @@
+p,cross_regime_pearson,cross_regime_spearman,congested_size_rank,top_size_quartile,bottom_size_quartile
+0.5,0.6836,0.8392,0.4912,0.3531,0.1571
+0.7,0.5298,0.5673,0.7836,0.4259,0.0996
+1.0,0.3713,0.3078,0.9497,0.5724,0.0376

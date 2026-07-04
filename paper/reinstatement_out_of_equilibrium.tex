@@ -504,10 +504,9 @@ reference tempo and to $+0.04$ in the gradual regime, with size demoted
 from setting \emph{where} the work goes to \emph{how fast} it binds,
 which is its proper role. The sharpness $\beta_m$ and the absorption
 timescale $\theta_{\text{abs}}$ are calibration handles rather than
-worldviews. Their economic content, whether absorptive capacity scales
-linearly or sub-linearly with size and how sharply the best match wins,
-is settled by a sweep, and the central result below is itself such a
-sweep.
+worldviews, and their economic content, how sharply the best match wins
+and whether absorptive capacity scales linearly or sub-linearly with
+size, is settled by the sweeps of Section~\ref{sec:destination}.
 Their economic interpretation is direct. The sharpness $\beta_m$ sets how
 strongly the best match dominates the local claim: $\beta_m = 1$ shares
 the mass in proportion to fit, $\beta_m \to \infty$ assigns each location
@@ -520,6 +519,24 @@ runs fix $\beta_m = 3$ and sweep the tempo;
 Section~\ref{sec:destination} reports the result's sensitivity to
 $\beta_m$ over $1$ to $8$ and shows that the destination result is
 carried by $\theta_{\text{abs}}$ alone.
+
+\paragraph{Three structural assumptions.} The path-dependence of the
+results rests on three assumptions of this law, stated here together.
+\emph{Irreversible binding}: bound mass never returns to the unbound
+stock, so early allocations are not revised later; partial release and
+task decay are extensions noted in Section~\ref{sec:discussion}.
+\emph{Frozen readiness}: the fields $e_o$ are time-invariant absent
+births. This is a timescale separation, capability acquisition slower
+than both the shock and the absorption, and it is the mechanism of
+\textcite{adao2024fast}, where incumbents cannot acquire the frontier
+skill within the transition and adjustment waits for entry.
+\emph{Capacity scaling}: the linear law $c_o = M_o/\theta_{\text{abs}}$
+of eq.~\eqref{eq:cap}. Proposition~\ref{prop:slow} is proved for every
+exponent $p \in (0,1]$, and the sweep of Section~\ref{sec:destination}
+reports what the linear case owns quantitatively. One asymmetry holds
+across all three: bound mass already updates the size margin,
+$M_o = b_o^{\text{orig}} + r_o$ in eq.~\eqref{eq:cap}, but never the
+match margin. Size learns; match does not.
 
 \subsection{Limit allocations}
 \label{sec:limits}
@@ -556,28 +573,60 @@ limit, at $\theta_{\text{abs}} = 0.05$ the realised allocation matches
 $\int w_o\, s$ to machine precision (relative $L_1$ error below
 $10^{-15}$). The check verifies the implementation, not the model.
 
-\begin{proposition}[slow absorption]
+\begin{proposition}[slow absorption, general capacity scaling]
 \label{prop:slow}
-As $\theta_{\text{abs}}/T_{\text{shock}} \to \infty$ the final allocation
-converges to the initial size shares,
-$R_o \to S\, M_o(0)/M_{\text{tot}}$, with $S$ the total surviving seed
-mass.
+Let the capacity scale as $c_o = \kappa_t\,M_o^{\,p}$ with exponent
+$p \in (0,1]$ and a common rate factor
+$\kappa_t \propto 1/\theta_{\text{abs}}$. As
+$\theta_{\text{abs}}/T_{\text{shock}} \to \infty$ the final allocation
+converges to
+\begin{equation}
+R_o \;=\;
+\bigl[M_o(0)^{1-p} + (1-p)\,s^*\bigr]^{1/(1-p)} - M_o(0)
+\quad (p < 1),
+\qquad
+R_o \;=\; S\,\frac{M_o(0)}{M_{\text{tot}}}
+\quad (p = 1),
+\label{eq:slow-general}
+\end{equation}
+where $s^*$ is the unique scalar with $\sum_o R_o = S$ and $S$ the total
+surviving seed mass. The limit depends on the initial masses alone. As
+$p \to 1$ it approaches the size shares; as $p \to 0$ the uniform
+absolute allocation $S/n$.
 \end{proposition}
 
 \noindent\emph{Proof.} Every claim share is strictly positive, since the
 readiness is an exponential, so each occupation's desired intake is
 positive wherever unbound mass remains, while the capacities
-$M_o/\theta_{\text{abs}}$ shrink without bound; for
-$\theta_{\text{abs}}$ large enough every capacity binds throughout the
-drain. While they bind, absorption follows
-$\dot r_o = M_o(t)/\theta_{\text{abs}}$ with $M_o(t) = M_o(0) + r_o(t)$,
-whose solution $r_o(t) = M_o(0)\,(e^{t/\theta_{\text{abs}}} - 1)$ is a
-common exponential factor times the initial mass: endogenous task-mass
-growth preserves the proportions. The phases in which some capacity is slack, the extreme tails of the
-seeding pulse and the end of the drain where the remaining unbound mass
-falls below the largest capacity, carry a mass share that vanishes as
-$\theta_{\text{abs}}$ grows.
-\hfill$\square$
+$\kappa_t M_o^{\,p}$ shrink without bound as $\theta_{\text{abs}}$
+grows, uniformly across occupations; for $\theta_{\text{abs}}$ large
+enough every capacity binds throughout the drain, and the slack phases
+at the tails of the seeding pulse and the end of the drain carry a mass
+share that vanishes as $\theta_{\text{abs}}$ grows, exactly as at
+$p = 1$, since the argument uses only that all capacities go to zero.
+While all capacities bind, absorption follows
+$\dot M_o = \kappa_t M_o^{\,p}$ with $M_o(t) = M_o(0) + r_o(t)$. The
+time change $ds = \kappa_t\,dt$ makes the system autonomous,
+$dM_o/ds = M_o^{\,p}$, which is separable:
+$M_o(s)^{1-p} = M_o(0)^{1-p} + (1-p)\,s$ for $p < 1$, and
+$M_o(s) = M_o(0)\,e^{s}$ at $p = 1$, a common exponential factor that
+preserves the proportions. Evaluating at the $s^*$ where the cumulative
+absorption equals $S$ gives the statement; $R_o$ is continuous and
+strictly increasing in $s^*$, so $s^*$ is unique. \hfill$\square$
+
+For $p < 1$ the limit allocation is strictly increasing and strictly
+concave in $M_o(0)$: sublinear capacity relieves small occupations, and
+the slow endpoint compresses from the size shares toward the uniform
+allocation as $p$ falls. Generically both remain far from the match
+allocation of Proposition~\ref{prop:fast}, since that limit depends on
+the readiness geometry and this one on the initial masses alone. The
+divergence of the two limits therefore survives every
+$p \in (0,1]$; what the exponent changes is the character of the slow
+endpoint, not its existence. The rate factor $\kappa_t$ may carry any
+common time dependence, so the level-neutral normalisation used in the
+numerical sweep of Section~\ref{sec:destination}, which preserves the
+aggregate absorption rate for every $p$, is absorbed by the time change
+and leaves the limit unchanged.
 
 While all capacities bind, the aggregate obeys
 $\dot U_{\text{tot}} = \dot s_{\text{tot}}(t) - M_{\text{tot}}/\theta_{\text{abs}}$,
@@ -716,9 +765,9 @@ absolute mass; the relative-change measure is unbounded for small
 occupations and is not used. Rank agreement with size is not equality
 with global size shares: seeding is spatially local, so the congested
 allocation is an interior point between the limits, not the
-proportional allocation of Proposition~\ref{prop:slow}.
+slow limit of Proposition~\ref{prop:slow}.
 
-Three robustness checks bound the claim. Sweeping the sharpness
+Four robustness checks bound the claim. Sweeping the sharpness
 $\beta_m$ from $1$ to $8$ moves the cross-regime correlation from
 $+0.26$ to $+0.61$. The divergence of destinations survives the full
 range while its point size depends on the handle. Decomposing the
@@ -747,6 +796,26 @@ rather than food service. The comparative-advantage gate raises the
 mass-weighted gainer price with $\lambda_h$. The downgrading, congested
 gainers priced below gradual gainers, persists throughout.
 
+The fourth check generalises the capacity law itself, since linear
+scaling $c_o = M_o/\theta_{\text{abs}}$ is one of the structural
+assumptions of Section~\ref{sec:binding}. A level-neutral sublinear law,
+$c_o \propto M_o^{\,p}$ with the aggregate absorption rate preserved so
+that the exponent moves only the cross-sectional allocation of capacity
+and not the effective tempo, is run at $p \in \{0.5, 0.7\}$ against the
+linear baseline. The theorem survives and the point magnitude does not.
+At the deep endpoint the realised allocation matches the closed form of
+Proposition~\ref{prop:slow}, relative $L_1$ of $0.11$ and $0.16$ against
+$0.28$ for the size shares at $p = 1$, and stays uncorrelated with the
+fast endpoint ($+0.14$ and below), so the divergence of the limits holds
+at every exponent. At the reference tempos the cross-regime correlation
+rises from $+0.37$ to $+0.53$ at $p = 0.7$ and $+0.68$ at $p = 0.5$, the
+congested size-rank correlation falls from $+0.95$ to $+0.49$, and the
+top size-quartile share from $57$ to $35$ per cent: sublinear capacity
+relieves small occupations, the crossover moves out, and the downgrading
+at a given tempo weakens. The path-dependence of the destination is not
+a property of the linear law; the severity of the downgrading at a given
+tempo is.
+
 \subsection{The homotopy between the limits}
 \label{sec:homotopy}
 
@@ -757,8 +826,8 @@ the fixed five-year shock, with mobility held fast at $\theta_L = 1$,
 since the decomposition above shows the destination is carried by
 $\theta_{\text{abs}}$. Its correlation with the fast-limit allocation of
 Proposition~\ref{prop:fast} falls monotonically from $+1.00$ to $+0.07$,
-and its correlation with the size shares of
-Proposition~\ref{prop:slow} rises monotonically from $+0.03$ to $+0.94$
+and its correlation with the size shares, the slow limit of
+Proposition~\ref{prop:slow} at $p = 1$, rises monotonically from $+0.03$ to $+0.94$
 ($+0.996$ by rank) over the same sweep. The crossover, where the two
 associations are equal, sits between $\theta_{\text{abs}} = 10$ and
 $15$, two to three shock windows. The simulation's remaining role is to
@@ -770,7 +839,7 @@ locate the crossover, since the two endpoint allocations are derived.
 \caption{The destination as a homotopy between proved limits. Left: the
 correlation of the final allocation with the fast-limit claim allocation
 (Proposition~\ref{prop:fast}) and with the slow-limit size shares
-(Proposition~\ref{prop:slow}), across the absorption tempo at fixed
+(Proposition~\ref{prop:slow}, $p = 1$), across the absorption tempo at fixed
 mobility; the vertical line marks the shock window. Right: the capacity
 utilisation at the mismatch peak, the mass absorbed per step over the
 aggregate bound. The shortfall at intermediate tempos is the spatial

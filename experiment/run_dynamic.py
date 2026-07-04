@@ -161,7 +161,8 @@ def softmax_target(dyn, W, c, kappa):
 def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
          verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
-         survival_gate=True, ca_lambda=0.0, binding_law="match_allocated"):
+         survival_gate=True, ca_lambda=0.0, binding_law="match_allocated",
+         cap_exponent=1.0):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
     # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
@@ -171,6 +172,11 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
     # binding_law: "match_allocated" (eq. claim + size-rate cap, baseline) or
     #   "size_multiplies" (iota_o ~ M_o * FIT_o, the conflated alternative of
     #   manuscript sec. 3.3, kept for the d05 comparison).
+    # cap_exponent: capacity scaling exponent p (d10 sweep). Level-neutral
+    #   sublinear capacity c_o = (dt/theta_abs) * M_tot * M_o^p / sum(M^p):
+    #   the aggregate absorption rate (dt/theta_abs) M_tot is preserved for
+    #   every p, so the exponent moves only the cross-sectional allocation of
+    #   capacity, not the effective tempo. p = 1 is exactly the baseline law.
     # The static layer enters through experiment/_interface.py (frozen inputs,
     # calibrated technology, shared attachment primitive, mobility reference);
     # numbered d-scripts pass their cached layer, standalone use loads it here.
@@ -247,7 +253,11 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
                 claim = np.where(Wsum > 0, avail/Wsum, 0.0)       # available mass per unit match-weight
             t_o = Wb*claim[None, :]                               # match-share claim, per occ per cell (mass)
             des = t_o.sum(1)                                      # desired intake per occupation
-            capo = (dt/theta_abs)*M                               # size-limited capacity this step
+            if cap_exponent == 1.0:
+                capo = (dt/theta_abs)*M                           # size-limited capacity this step
+            else:
+                Mp = M**cap_exponent                              # level-neutral sublinear capacity:
+                capo = (dt/theta_abs)*Mp*(M.sum()/Mp.sum())       # aggregate rate preserved for all p
             with np.errstate(divide="ignore", invalid="ignore"):
                 f = np.where(des > 1e-15, np.minimum(1.0, capo/des), 0.0)  # absorbed fraction (rate cap)
             dyn.reinst[:] = dyn.reinst + des*f                    # absorb min(match-claim, size-cap)
