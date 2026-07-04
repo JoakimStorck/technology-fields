@@ -529,7 +529,10 @@ task decay are extensions noted in Section~\ref{sec:discussion}.
 births. This is a timescale separation, capability acquisition slower
 than both the shock and the absorption, and it is the mechanism of
 \textcite{adao2024fast}, where incumbents cannot acquire the frontier
-skill within the transition and adjustment waits for entry.
+skill within the transition and adjustment waits for entry. The
+assumption is released and tested in Section~\ref{sec:destination}: the
+update variant widens the divergence, so the frozen baseline is the
+conservative side of the ambiguity.
 \emph{Capacity scaling}: the linear law $c_o = M_o/\theta_{\text{abs}}$
 of eq.~\eqref{eq:cap}. Proposition~\ref{prop:slow} is proved for every
 exponent $p \in (0,1]$, and the sweep of Section~\ref{sec:destination}
@@ -852,7 +855,7 @@ with global size shares: seeding is spatially local, so the congested
 allocation is an interior point between the limits, not the
 slow limit of Proposition~\ref{prop:slow}.
 
-Four robustness checks bound the claim. Sweeping the sharpness
+Five robustness checks bound the claim. Sweeping the sharpness
 $\beta_m$ from $1$ to $8$ moves the cross-regime correlation from
 $+0.26$ to $+0.61$. The divergence of destinations survives the full
 range while its point size depends on the handle. Decomposing the
@@ -900,6 +903,27 @@ relieves small occupations, the crossover moves out, and the downgrading
 at a given tempo weakens. The path-dependence of the destination is not
 a property of the linear law; the severity of the downgrading at a given
 tempo is.
+
+The fifth check releases the second structural assumption, frozen
+readiness. In the update variant, bound mass updates the occupation's
+bundle by mass-as-relevance renormalisation,
+$b_o' = (M_o(0)\,b_o + \rho_o)/(M_o(0) + r_o)$ with $\rho_o$ the
+cumulative binding density, and the centroid, the capability levels, and
+the readiness re-integrate over the grown bundle each step; the
+wage-bearing bundle is untouched, since displacement takes the payment,
+not the capability. Occupations then move toward the work they take,
+and the movers are the gradual winners: the employment-weighted mean
+centroid drift is an order below the readiness scale $\ell$ in both
+regimes, but weighted by reinstated mass the gradual regime drifts
+$0.12$, comparable to $\ell$, and the drift follows the bound share
+$r_o/(M_o(0)+r_o)$ (rank $+0.91$). The congested regime is nearly
+unaffected, with the allocation displaced by $3$ per cent and its size
+rank intact at $+0.94$, while the gradual allocation displaces by $22$
+per cent toward the well matched. The cross-regime correlation falls
+from $+0.37$ to $+0.09$: updating widens the divergence. Frozen
+readiness is therefore the conservative choice, and the frozen headline
+numbers understate the path-dependence that learning from absorbed work
+would produce.
 
 \subsection{The homotopy between the limits}
 \label{sec:homotopy}
@@ -1107,9 +1131,13 @@ irreversible binding would carry a permanent imprint of the shock speed
 that this one does not. The imprint is empirically real and uneven,
 since \textcite{edin2023individual} find moderate mean earnings losses
 from occupational decline, concentrated on low earners. That extension
-is left for later work. New tasks enter as added
-weight on existing locations rather than as
-new points on the disk. And the relative-change measure of who gains is
+is left for later work. New tasks enter as added weight on existing
+locations rather than as new points on the disk; this is the model's
+micro-task ontology rather than a shortcut, since a location holds a
+continuum of micro-tasks and the discrete task statements are the
+measurement layer's aggregation, with condensation of bound mass into
+new task points deferred to the birth machinery. And the
+relative-change measure of who gains is
 unbounded for small occupations, so the destination results should be
 read in absolute and spatial terms.
 

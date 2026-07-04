@@ -77,16 +77,23 @@ class Dyn:
         # under-qualification PLUS lam_over * over-qualification, times locality.
         # lam_over=0 and rho->inf recover the one-sided, non-local readiness.
         cap, grid = inp.cap, inp.grid; keys = list(cap.v_gate.keys())
-        under = np.zeros((eq.n_occ, grid.xi.size)); over = np.zeros_like(under)
-        for k in keys:
-            oc = inp.occ[k].to_numpy()[:, None]; qk = cap.q(k, grid.xi, grid.chi)[None, :]
-            under += cap.v[k]*np.maximum(qk-oc, 0.0); over += cap.v[k]*np.maximum(oc-qk, 0.0)
+        self._keys = keys; self._cap = cap
+        self.q_levels = {k: inp.occ[k].to_numpy().copy() for k in keys}
+        self.qk_grid = {k: cap.q(k, grid.xi, grid.chi) for k in keys}
         self.lam_over = lam_over
-        self.E = np.exp(-(under + lam_over*over)/ell)   # match readiness (binds best where capability MATCHES)
+        self.E = self._match_E(self.q_levels)   # match readiness (binds best where capability MATCHES)
         # locality matrix LOC_o(r) = exp(-d(r,mu_o)/rho); FIT = E_match*LOC
         d = np.sqrt((self.gx[None,:]-self.mu[:,0:1])**2 + (self.gy[None,:]-self.mu[:,1:2])**2)
         self.LOC = np.exp(-d/rho)
         self.FIT = self.E*self.LOC
+        # d11 readiness-update state: exact running moments of the binding
+        # flow over the grid -- first moments of position and of each
+        # requirement field. Zero until enabled; dyn.grain is not touched.
+        self.readiness_update = False
+        self.mu0 = self.mu.copy()
+        self.q0 = {k: v.copy() for k, v in self.q_levels.items()}
+        self.Sx = np.zeros(eq.n_occ); self.Sy = np.zeros(eq.n_occ)
+        self.Sq = {k: np.zeros(eq.n_occ) for k in keys}
         self.L = L0.copy()
         self.reinst = np.zeros(eq.n_occ)
         self.sw = np.bincount(eq.row_of, weights=eq.b_w, minlength=eq.n_occ)
@@ -99,6 +106,45 @@ class Dyn:
 
     @property
     def n_occ(self): return self.L.size
+
+    def _match_E(self, q_levels):
+        """Symmetric capability match E for the original occupation rows,
+        from capability levels q_levels (dict cluster -> per-occupation
+        array). Identical to the static primitive at the measured levels."""
+        n = next(iter(q_levels.values())).size
+        under = np.zeros((n, self.qk_grid[self._keys[0]].size))
+        over = np.zeros_like(under)
+        for k in self._keys:
+            oc = q_levels[k][:, None]; qk = self.qk_grid[k][None, :]
+            under += self._cap.v[k]*np.maximum(qk-oc, 0.0)
+            over += self._cap.v[k]*np.maximum(oc-qk, 0.0)
+        return np.exp(-(under + self.lam_over*over)/self.ell)
+
+    def accumulate_binding(self, bound):
+        """d11: fold this step's binding flow (mass per occupation per cell,
+        original rows only) into the running moments of the mixed measure."""
+        self.Sx[:self.n0] += bound @ self.gx
+        self.Sy[:self.n0] += bound @ self.gy
+        for k in self._keys:
+            self.Sq[k][:self.n0] += bound @ self.qk_grid[k]
+
+    def update_readiness(self):
+        """d11: re-integrate mu_o, q_{o,k}, and FIT over the mixed measure --
+        original mass M_o(0) at the measured centroid and capability levels,
+        plus bound mass at its binding locations (mass-as-relevance
+        renormalisation, b_o' = (M_o(0) b_o + rho_o)/(M_o(0) + r_o))."""
+        n0 = self.n0
+        Mtot = self.original[:n0] + self.reinst[:n0]
+        M0 = self.original[:n0]
+        self.mu[:n0, 0] = (M0*self.mu0[:n0, 0] + self.Sx[:n0])/Mtot
+        self.mu[:n0, 1] = (M0*self.mu0[:n0, 1] + self.Sy[:n0])/Mtot
+        q_new = {k: (M0*self.q0[k][:n0] + self.Sq[k][:n0])/Mtot
+                 for k in self._keys}
+        self.E[:n0] = self._match_E(q_new)
+        d = np.sqrt((self.gx[None, :]-self.mu[:n0, 0:1])**2
+                    + (self.gy[None, :]-self.mu[:n0, 1:2])**2)
+        self.LOC[:n0] = np.exp(-d/self.rho)
+        self.FIT[:n0] = self.E[:n0]*self.LOC[:n0]
 
     def bundle_density(self):
         Lorig = self.L[:self.n0]
@@ -162,7 +208,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
          verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
          survival_gate=True, ca_lambda=0.0, binding_law="match_allocated",
-         cap_exponent=1.0):
+         cap_exponent=1.0, readiness_update=False):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
     # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
@@ -177,6 +223,16 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
     #   the aggregate absorption rate (dt/theta_abs) M_tot is preserved for
     #   every p, so the exponent moves only the cross-sectional allocation of
     #   capacity, not the effective tempo. p = 1 is exactly the baseline law.
+    # readiness_update: the d11 variant. Bound mass updates the occupation's
+    #   bundle by mass-as-relevance renormalisation: the bundle becomes a mixed
+    #   measure (original mass M_o(0) at the measured centroid/capability
+    #   levels, plus bound mass at its binding locations), and mu_o, q_{o,k},
+    #   and hence E, LOC, FIT re-integrate over it each step. Implemented as
+    #   exact running moments of the binding flow (no spatial density stored;
+    #   dyn.grain is untouched, so the values() channel is unchanged). The
+    #   drifted mu_o is THE centroid: locality, claims, and the mobility
+    #   distances all read it. Off (default) is bit-identical to baseline.
+    #   Only implemented for the match_allocated binding law.
     # The static layer enters through experiment/_interface.py (frozen inputs,
     # calibrated technology, shared attachment primitive, mobility reference);
     # numbered d-scripts pass their cached layer, standalone use loads it here.
@@ -197,7 +253,11 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
         h_grid = h_task = None
     set_AK(eq, 0.0, g0_grid, g0_task, h_grid, h_task)
     kappa, c = layer.kappa, layer.c
+    if readiness_update:
+        assert binding_law == "match_allocated", \
+            "readiness_update only implemented for the baseline binding law"
     dyn = Dyn(eq, inp, L0, ell, rho, lam_over=lam_over)
+    dyn.readiness_update = readiness_update
     # Technology maturation in CALENDAR time: a logistic (S-curve) diffusion that
     # rises 5%->95% over T_shock years, centred at T_shock/2. t is now in years, so
     # theta_L and theta_abs are calendar timescales and the outcome is governed by the
@@ -265,6 +325,9 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
             absorbed_tot = float((des*f).sum())
             dyn.U = dyn.U - absorbed/dyn.area                     # residual stays unbound -> cascades
             dyn.B = dyn.B + absorbed/dyn.area                     # bound density (feeds n)
+            if readiness_update:
+                dyn.accumulate_binding(t_o[:dyn.n0]*f[:dyn.n0, None])
+                dyn.update_readiness()
         for o in range(dyn.n0, dyn.n_occ):                       # grain for newborns (their own claim)
             dyn.grain[o] = dyn.grain.get(o, np.zeros(dyn.ncell)) + t_o[o]*f[o]/dyn.area
         # birth: fit-gap AND carrying capacity (value-weighted seeded mass)
