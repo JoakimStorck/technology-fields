@@ -143,15 +143,27 @@ def main():
             "    share of reinstated mass by size quartile  (low->top): "
             + "  ".join(f"{100*x:.0f}%" for x in m["q_size"]),
         ]
+    # gainer table (P5): top ten per regime by absolute reinstated mass,
+    # with shares of the regime total; top-three identities frozen.
+    TOP3_G = ("Preventive Medicine Physicians", "Physicists",
+              "Natural Sciences Managers")
+    TOP3_C = ("Fast Food and Counter Workers", "Preventive Medicine Physicians",
+              "Waiters and Waitresses")
+    ig = np.argsort(rg)[::-1][:10]
+    ic = np.argsort(rc)[::-1][:10]
+    assert tuple(occ["Title"].iloc[ig[:3]]) == TOP3_G, \
+        tuple(occ["Title"].iloc[ig[:3]])
+    assert tuple(occ["Title"].iloc[ic[:3]]) == TOP3_C, \
+        tuple(occ["Title"].iloc[ic[:3]])
     lines += [
         "",
-        "top gainers, gradual regime:",
+        "top gainers (share of regime total reinstated mass), gradual:",
     ]
-    for i in np.argsort(rg)[::-1][:8]:
-        lines.append(f"  {rg[i]:.5f}  {occ['Title'].iloc[i]}")
-    lines.append("top gainers, congested regime:")
-    for i in np.argsort(rc)[::-1][:8]:
-        lines.append(f"  {rc[i]:.5f}  {occ['Title'].iloc[i]}")
+    for i in ig:
+        lines.append(f"  {rg[i]/rg.sum():6.2%}  {occ['Title'].iloc[i]}")
+    lines.append("top gainers, congested:")
+    for i in ic:
+        lines.append(f"  {rc[i]/rc.sum():6.2%}  {occ['Title'].iloc[i]}")
 
     # ---- csv ----
     iface.RESULTS.mkdir(parents=True, exist_ok=True)
@@ -160,6 +172,12 @@ def main():
                   "L0": layer.L0, "reinst_gradual": rg, "reinst_congested": rc,
                   "claim_unconstrained": claim, "size_task_mass": size}
                  ).to_csv(iface.RESULTS / "tempo_regimes.csv", index=False)
+    pd.DataFrame({"rank": np.arange(1, 11),
+                  "gradual_title": occ["Title"].iloc[ig].to_numpy(),
+                  "gradual_share": (rg[ig]/rg.sum()).round(4),
+                  "congested_title": occ["Title"].iloc[ic].to_numpy(),
+                  "congested_share": (rc[ic]/rc.sum()).round(4)}
+                 ).to_csv(iface.RESULTS / "tempo_gainers.csv", index=False)
 
     # ---- figure: two disk panels ----
     grid = layer.inp.grid
