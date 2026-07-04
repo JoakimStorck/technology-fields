@@ -1007,28 +1007,36 @@ since automation dissipates rents and lowers wages.
 
 \paragraph{The static fixed point.}
 Iterating price and allocation to mutual consistency converges, and the
-convergence follows from a condition that can be evaluated at the
-calibration. Differentiating the gate~\eqref{eq:operated} gives
-$\partial \ln(1-a)/\partial \ln\Pi = -a\,(R/\Pi)/\tau$. A lower price
-closes the gate, and the closing gate raises the price back. The slope of the
-map~\eqref{eq:price-feedback} is therefore bounded by
+convergence has an interpretable dominant term and a measured
+certificate. Differentiating the gate~\eqref{eq:operated} gives
+$\partial \ln(1-a)/\partial \ln\Pi = -a\,(R/\Pi)/\tau$: a lower price
+closes the gate, and the closing gate raises the price back. The gate
+contribution to the slope of the map~\eqref{eq:price-feedback},
 \begin{equation}
-K \;\le\; \frac{1}{\sigma}\Bigl(\,\sup_{\rr}\,
-\frac{a(\rr)\,R}{\Pi(\rr)\,\tau} \;+\; \varepsilon_n\Bigr),
+K_{\text{gate}} \;=\; \frac{1}{\sigma}\,\sup_{\rr}\,
+\frac{a(\rr)\,R}{\Pi(\rr)\,\tau},
 \label{eq:contraction}
 \end{equation}
-where $\varepsilon_n$ is the crowding elasticity of the re-sorted
-density, and damped iteration with weight $d$ converges when the
-stabilising slope satisfies $K < 2/d - 1$. At $d = \tfrac12$ the
-threshold is $3$. Evaluated at the converged point, the gate term peaks
-at $1.64$ and the spectral radius of the full map, crowding included,
-is $1.59$ by power iteration. The condition holds with a factor-two
-margin, and the iteration converges in nine damped steps. The slope
+peaks at $1.64$ at the converged point. The crowding response of the
+re-sorted density adds a second term whose operator bound we do not
+derive; the convergence certificate is instead measured. The spectral
+radius of the full map at the fixed point, crowding included, is $1.59$
+by power iteration, and damped iteration with weight $d$ converges
+locally when the stabilising slope $K$ satisfies $K < 2/d - 1$, which at
+$d = \tfrac12$ is $3$, a factor-two margin. The certificate is local, a
+derivative at the point, and global uniqueness is not claimed. As
+evidence beyond the point, the iteration lands on the same fixed point
+from four starting fields, zeros, both one-pass extremes including the
+wrong-signed scarcity field, and a seeded random perturbation, and at
+every converging damping ($\tfrac14$, $\tfrac38$, $\tfrac12$), with the
+labour share agreeing to $3\times10^{-5}$. The slope
 scales as $1/\sigma$ ($\sigma K = 4.77$ at $\sigma = 0.5$ against
 $4.78$ at $\sigma = 3$), which places the failure boundary at
 $d = \tfrac12$ near $\sigma = 1.6$. At $\sigma = 1$ the iteration
-indeed fails at $d = \tfrac12$ and converges at $d = \tfrac14$. The fixed point itself
-does not depend on the damping; only the path to it does.
+indeed fails at $d = \tfrac12$ and converges at $d = \tfrac14$ and
+$\tfrac18$ to the same point. The fixed point does not depend on the
+damping; only the path to it does, and the baseline iteration converges
+in nine damped steps.
 
 The self-consistent state is an interior point rather than the
 one-pass extreme. The labour share settles at $0.73$ (against $0.58$ at

@@ -32,6 +32,18 @@ Pre-registered hypotheses (written before the migration run):
        spectral radius (power iteration on the full map, crowding included)
        from above; both sit below 3 with a factor-two margin.
 
+  (H4) Uniqueness and damping-independence (P7, added after the migration
+       run; pre-registered before the uniqueness runs). From four starting
+       points at sigma = 3 (zeros; the ar_level one-pass; the wrong-signed
+       scarcity one-pass; a seeded random field) and dampings 1/4 and 3/8
+       alongside the baseline 1/2, and from dampings 1/4 and 1/8 at
+       sigma = 1 (where 1/2 diverges), every converging iteration lands on
+       the same fixed point: max pairwise sup-distance of Delta ln Pi on
+       occupied cells of the order of the iteration tolerance, labour-share
+       spread below 0.001. The certificate remains local -- power iteration
+       at the fixed point -- and global uniqueness is not claimed;
+       multistart agreement is evidence, not proof.
+
 Every number writes to experiment/results/ and is asserted against the
 frozen baseline (0.02 for correlations, 5% relative for magnitudes).
 
@@ -65,6 +77,8 @@ iface = _load("_interface")
 
 SIGMA = 3.0
 DAMP, TOL, MAXIT = 0.5, 4e-3, 60
+H4_DMAX, H4_LS_SPREAD = 0.02, 0.001   # frozen from the first H4 run
+# (observed: sup-distance 0.0105/0.0166 at sigma 3/1, ls spread 3e-5)
 POWER_MAXIT, POWER_TOL, POWER_EPS = 40, 1e-3, 1e-3
 
 # Frozen baseline (this machine, this calibration; layer mobility reference).
@@ -113,14 +127,15 @@ def feedback_target(layer, ctx, d):
     return tgt, eqk
 
 
-def ge_fixed_point(layer, ctx, sigma, damp, tol=TOL, maxit=MAXIT):
+def ge_fixed_point(layer, ctx, sigma, damp, tol=TOL, maxit=MAXIT, start=None):
     """Damped iteration of the feedback map at this sigma. Returns the
     adjustment field d, convergence flag, and iteration count. Divergence
     (per H3, when the stabilising slope exceeds 2/damp - 1) is reported,
-    not raised: d07 uses the flag to locate the boundary."""
+    not raised: d07 uses the flag to locate the boundary. start (H4):
+    optional initial adjustment field; None starts from zeros."""
     global SIGMA
     sig_save, SIGMA = SIGMA, sigma
-    d = np.zeros(ctx["grid"].xi.size)
+    d = np.zeros(ctx["grid"].xi.size) if start is None else start.copy()
     oc = ctx["occ_cell"]
     converged, iters = False, maxit
     with np.errstate(over="ignore"):
@@ -246,6 +261,40 @@ def main():
     # ---- (H3) the contraction condition ----
     emit("(H3) contraction sufficient condition:")
     K_sup, K_mean, K_emp = contraction_diagnostics(layer, ctx, d_star, emit)
+    emit("")
+
+    # ---- (H4) uniqueness and damping-independence (P7) ----
+    rng = np.random.default_rng(1)
+    d_rand = np.zeros(grid.xi.size)
+    d_rand[oc] = 0.5 * rng.standard_normal(int(oc.sum()))
+    runs = [("zeros, damp 1/2", SIGMA, DAMP, None),
+            ("ar one-pass, damp 1/2", SIGMA, DAMP, d_ar),
+            ("scarcity one-pass, damp 1/2", SIGMA, DAMP, d_sc),
+            ("random field, damp 1/2", SIGMA, DAMP, d_rand),
+            ("zeros, damp 3/8", SIGMA, 0.375, None),
+            ("zeros, damp 1/4", SIGMA, 0.25, None),
+            ("sigma 1: zeros, damp 1/4", 1.0, 0.25, None),
+            ("sigma 1: zeros, damp 1/8", 1.0, 0.125, None)]
+    emit("(H4) uniqueness and damping-independence:")
+    points = {}
+    for name, sig, dmp, st in runs:
+        dk, conv, itk = ge_fixed_point(layer, ctx, sig, dmp, start=st)
+        assert conv, f"H4 run did not converge: {name}"
+        inp_k = replace(inp, field=iface.AdjustedField(inp.field, dk, grid))
+        lsk = LS(inp_k, L0)["labor_share"]
+        points.setdefault(sig, []).append((name, dk, lsk, itk))
+        emit(f"  {name:<30} {itk:>3} steps   labour share {lsk:.4f}")
+    for sig, pts in points.items():
+        dmax = max(float(np.max(np.abs((a[1] - b[1])[oc])))
+                   for i, a in enumerate(pts) for b in pts[i + 1:])
+        lspread = max(a[2] for a in pts) - min(a[2] for a in pts)
+        emit(f"  sigma {sig:g}: max pairwise sup-distance {dmax:.4f} "
+             f"(tol {TOL:g}), labour-share spread {lspread:.5f}")
+        assert dmax < H4_DMAX, f"fixed points disagree at sigma {sig:g}: {dmax:.4f}"
+        assert lspread < H4_LS_SPREAD, f"labour-share spread at sigma {sig:g}"
+    emit("  same fixed point from every start and every converging damping;")
+    emit("  certificate is local (power iteration at the point) -- multistart")
+    emit("  agreement is evidence, not a global uniqueness proof.")
 
     # ---- asserts against the frozen baseline ----
     got = {"ls_fix_L0": ls_fix_L0, "ls_fix_out": ls_fix_out,
