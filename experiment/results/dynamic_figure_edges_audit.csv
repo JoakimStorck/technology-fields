@@ -1,0 +1,14 @@
+source,target,sign,source_type,mechanism
+labour_reallocation,technology_transition,,ast,
+occupation_birth,occupational_absorption,,ast,
+occupation_birth,occupational_revaluation,,ast,
+occupational_absorption,occupation_birth,,ast,
+occupational_absorption,occupational_revaluation,+,ast+manual,Bound new work changes occupational value.
+occupational_absorption,reinstatement_pressure,-,ast+manual,Binding drains the unbound stock.
+occupational_revaluation,labour_reallocation,+,ast+manual,Occupational value redirects labour.
+price_feedback,occupational_revaluation,,ast,
+price_feedback,technology_transition,,ast,
+reinstatement_pressure,occupation_birth,,ast,
+reinstatement_pressure,occupational_absorption,+,ast+manual,Unbound task mass creates binding pressure.
+reinstatement_pressure,occupational_revaluation,,ast,
+technology_transition,reinstatement_pressure,+,ast+manual,Technology maturity governs the timing of displacement and the creation of surviving new task mass.

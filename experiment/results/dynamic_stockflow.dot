@@ -1,0 +1,33 @@
+digraph dynamic_stockflow {
+  graph [rankdir=LR, splines=true, overlap=false, nodesep=0.45, ranksep=0.55];
+  node [fontsize=11, fontname="Helvetica"];
+  edge [fontsize=10, fontname="Helvetica"];
+
+  tech [label="Technology maturation\nA_K(t)", shape=box, style="rounded,dashed"];
+  disp [label="Displacement\n∂tΓ^D", shape=ellipse];
+  seed [label="Survival-gated\nseeding s(r,t)", shape=ellipse];
+  U [label="Unbound task stock\nU(r,t)", shape=box, style="rounded,bold"];
+  bind [label="Binding\ni_o(r,t)", shape=ellipse];
+  B [label="Occupation-bound\nnew work r_o(t)", shape=box, style="rounded,bold"];
+  cap [label="Absorptive capacity\nc_o = M_o/theta_abs", shape=box, style="rounded"];
+  M0 [label="Pre-shock size\nM_o(0)", shape=box, style="rounded,dashed"];
+  match [label="Match readiness\ne_o(r), frozen", shape=box, style="rounded"];
+  value [label="Occupational value\nW_o(t)", shape=box, style="rounded"];
+  L [label="Population\nL_o(t)", shape=box, style="rounded"];
+
+  tech -> disp [label="+"];
+  disp -> seed [label="+"];
+  seed -> U [label="+"];
+  U -> bind [label="+"];
+  bind -> U [label="-", arrowhead="tee"];
+  bind -> B [label="+"];
+  M0 -> cap [label="+"];
+  B -> cap [label="+"];
+  cap -> bind [label="+"];
+  match -> bind [label="+"];
+  B -> value [label="+"];
+  value -> L [label="+"];
+  L -> value [label="-", arrowhead="tee"];
+
+  { rank=same; U; bind; B; }
+}

@@ -1,0 +1,17 @@
+digraph dynamic_cld {
+  graph [rankdir=LR, splines=true, overlap=false];
+  node [shape=box, style="rounded", fontsize=11];
+  edge [fontsize=10];
+
+  "labour_reallocation" [label="Labour reallocation"];
+  "occupational_absorption" [label="Occupational absorption"];
+  "occupational_revaluation" [label="Occupational revaluation"];
+  "reinstatement_pressure" [label="Reinstatement pressure"];
+  "technology_transition" [label="Technology transition"];
+
+  "occupational_absorption" -> "occupational_revaluation" [label="+"];
+  "occupational_absorption" -> "reinstatement_pressure" [label="-", arrowhead="tee"];
+  "occupational_revaluation" -> "labour_reallocation" [label="+"];
+  "reinstatement_pressure" -> "occupational_absorption" [label="+"];
+  "technology_transition" -> "reinstatement_pressure" [label="+"];
+}

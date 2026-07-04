@@ -16,9 +16,9 @@ static and dynamic layers share it verbatim, so an over-qualified generalist
 far from its core neither attaches in the static capacity nor binds, wins, or
 blocks a birth here.
 
-  binding capacity  C(r) = sum_o L_o FIT_o(r)        (poor fit binds weakly)
-  binding flow      iota = lambda_b Phi(C) U,  Phi=C/(1+C)
-  allocation        share_o = FIT_o / sum_active FIT  (best fit wins the mass)
+  binding claim     t_o = FIT_o^beta_m / sum FIT^beta_m * avail  (match allocates)
+  binding cap       c_o = (dt/theta_abs) M_o, M_o = M_o(0) + r_o  (size limits the rate)
+  binding flow      iota_o = min(t_o, c_o); the residue returns to U and cascades
   birth gap         max_o FIT_o(r) < e*               (no capable+near home)
 
 Birth needs BOTH a gap AND carrying capacity ("baerkraft"): a new occupation
@@ -272,7 +272,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
         print(f"  {'t':>5} {'A_K':>6} {'U_tot':>8} {'B_tot':>8} {'n_occ':>6} {'emp_new':>8} {'Lsum':>7}")
     for it, t in enumerate(ts):
         A_K = A_of(t); a_grid = set_AK(eq, A_K, g0_grid, g0_task, h_grid, h_task)
-        C = dyn.capacity(); n = dyn.density()
+        n = dyn.density()
         pv = dyn.place_value(n); W = dyn.values(n)       # value field + source values
         GammaD = float(np.sum(dyn.L[:dyn.n0]*eq.D_o))
         dGamma = 0.0 if GammaD_prev is None else max((GammaD-GammaD_prev)/dt, 0.0)

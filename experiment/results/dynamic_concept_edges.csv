@@ -1,0 +1,48 @@
+source,target,sign,source_type,mechanism
+absorptive_capacity,binding_flow,,ast,
+absorptive_capacity,occupation_bound_work,,ast,
+automation_intensity,displaced_old_work,,ast,
+automation_intensity,surviving_new_task_share,,ast,
+available_unbound_mass,binding_allocation,,ast,
+available_unbound_mass,binding_claim,,ast,
+binding_allocation,binding_flow,,ast,
+binding_allocation,desired_binding,,ast,
+binding_allocation,occupation_bound_work,,ast,
+binding_allocation,occupation_grain,,ast,
+binding_claim,binding_allocation,,ast,
+binding_flow,occupation_bound_work,,ast,
+binding_flow,unbound_task_stock,,ast,
+desired_binding,binding_flow,,ast,
+desired_binding,occupation_bound_work,,ast,
+displaced_old_work,seeding_flow,,ast,
+initial_task_mass,absorptive_capacity,,ast,
+occupation_birth,occupation_location,,ast,
+occupation_birth,occupational_absorption,+,manual,New occupations add fit and absorptive channels.
+occupation_birth,task_occupation_fit,,ast,
+occupation_bound_work,absorptive_capacity,,ast,
+occupation_bound_work,occupation_birth_potential,,ast,
+occupation_bound_work,occupational_value,,ast,
+occupation_location,task_occupation_fit,,ast,
+occupational_absorption,occupation_birth,+,manual,Unserved fit gaps and accumulated task mass can trigger occupation birth.
+occupational_absorption,occupational_revaluation,+,manual,Bound new work changes occupational value.
+occupational_absorption,reinstatement_pressure,-,manual,Binding drains the unbound stock.
+occupational_population,displaced_old_work,,ast,
+occupational_population,target_population,,ast,
+occupational_revaluation,labour_reallocation,+,manual,Occupational value redirects labour.
+occupational_value,target_population,,ast,
+price_feedback,technology_transition,+,manual,The price field affects adoption and subsequent displacement.
+price_field,automation_intensity,,ast,
+price_field,occupational_value,,ast,
+reinstatement_pressure,occupational_absorption,+,manual,Unbound task mass creates binding pressure.
+seeding_flow,unbound_task_stock,,ast,
+surviving_new_task_share,seeding_flow,,ast,
+target_population,occupational_population,,ast,
+task_density,occupational_value,,ast,
+task_occupation_fit,binding_claim,,ast,
+technology_maturity,automation_intensity,,ast,
+technology_transition,reinstatement_pressure,+,manual,Technology maturity governs the timing of displacement and the creation of surviving new task mass.
+unbound_task_stock,available_unbound_mass,,ast,
+unbound_task_stock,occupation_birth_potential,,ast,
+unbound_task_stock,occupational_value,,ast,
+unserved_fit_gap,occupation_birth_potential,,ast,
+unserved_fit_gap,occupational_value,,ast,

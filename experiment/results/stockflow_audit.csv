@@ -1,0 +1,14 @@
+edge,status,witnesses,mechanism
+tech->disp,ast,technology_maturity->automation_intensity; automation_intensity->displaced_old_work,Maturation opens the gate and displaces old work.
+disp->seed,ast,displaced_old_work->seeding_flow; surviving_new_task_share->seeding_flow,"Reinstatement seeds at the displacement rate, gated by survival."
+seed->U,ast,seeding_flow->unbound_task_stock,Seeded mass fills the unbound stock.
+U->bind,ast,unbound_task_stock->available_unbound_mass; available_unbound_mass->binding_claim; binding_claim->binding_allocation; binding_allocation->binding_flow,Unbound mass is offered and claimed.
+bind->U,ast,binding_flow->unbound_task_stock,Binding drains the stock; the residue cascades.
+bind->B,ast,binding_flow->occupation_bound_work; binding_allocation->occupation_bound_work,Bound mass accumulates as occupation-bound new work.
+M0->cap,ast,initial_task_mass->absorptive_capacity,Capacity is proportional to task mass.
+B->cap,ast,occupation_bound_work->absorptive_capacity,Bound mass grows the size margin: size learns.
+cap->bind,ast,absorptive_capacity->binding_flow,The size-limited rate cap; the saturated residue is re-offered.
+match->bind,ast,task_occupation_fit->binding_claim,Match allocates: claims are FIT^beta_m shares.
+B->value,ast,occupation_bound_work->occupational_value,Bound new work carries value.
+value->L,ast,occupational_value->target_population; target_population->occupational_population,The mobility re-sort follows value.
+L->value,identity,,Crowding by definition of the density: n = sum L_o b_o + B and marginal value beta Pi n^(beta-1).
