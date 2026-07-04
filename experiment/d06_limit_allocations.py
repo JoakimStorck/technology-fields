@@ -134,7 +134,7 @@ def main():
                  label="corr with fast endpoint (Prop. 1)")
     ax1.semilogx(tas, css_, "s--", color="#B5532A",
                  label="corr with size shares (Prop. 2)")
-    ax1.axvline(T_SHOCK, color="0.8", lw=1)
+    ax1.axvline(T_SHOCK, color="0.35", lw=1, ls="--")
     ax1.set_xlabel(r"$\theta_{\rm abs}$ (years, log scale)")
     ax1.set_ylabel("correlation of final allocation")
     ax1.set_title("The homotopy between the two limits")
