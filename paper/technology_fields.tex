@@ -294,7 +294,8 @@ service south'' to the service direction.
 \includegraphics[width=0.82\textwidth]{geometry_map.png}
 \caption{Occupational centroids on the task disk, with the four
 directional poles of \textcite{storck2026geometry} and nine example
-occupations. Grey points are the 878 O*NET occupations; the rim is the
+occupations. Grey points are the 878 occupations of the coordinate
+universe (Section~\ref{sec:frozen-inputs}); the rim is the
 task boundary $\chi=1$.}
 \label{fig:geometry-map}
 \end{figure}
@@ -450,8 +451,11 @@ or unrewarded toward the manual west and the service south.}
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{field_vs_sectoral_beta_chi.png}
-\caption{Directional return to depth, re-estimated on frozen inputs and
-compared to \textcite{storck2026geometry}.}
+\caption{Directional return to depth. The axis variable
+$\beta_\chi(\xi) = m_3 + m_4\cos\xi + m_5\sin\xi$ is the estimated
+return to depth in direction $\xi$, the depth bracket of
+eq.~\eqref{eq:price-field}, re-estimated on frozen inputs and compared
+to the sectoral estimates of \textcite{storck2026geometry}.}
 \label{fig:sectoral-beta}
 \end{figure}
 
@@ -960,7 +964,7 @@ and revenue scales as
 \]
 Define the demand multiplier
 \begin{equation}
-  D(\mathbf{r})
+  \mathcal{D}(\mathbf{r})
   =
   \left(
     \frac{c(\mathbf{r})}{\Pi(\mathbf{r})}
@@ -971,13 +975,13 @@ Place output is
 \begin{equation}
   V(\mathbf{r})
   =
-  D(\mathbf{r})
+  \mathcal{D}(\mathbf{r})
   \Pi(\mathbf{r})
   n(\mathbf{r})^\beta,
   \qquad \beta\in(0,1).
   \label{eq:place-output}
 \end{equation}
-At $\eta=1$, revenue is cost-invariant and $D\equiv1$. For
+At $\eta=1$, revenue is cost-invariant and $\mathcal{D}\equiv1$. For
 $\eta>1$, cost reductions expand revenue and draw labour into the
 cheapened direction. For $\eta<1$, cost reductions reduce revenue and
 release labour. The congestion exponent $\beta<1$ is local capacity;
@@ -994,7 +998,7 @@ The value of occupation $o$ is
   \beta
   \int
   h_o(\mathbf{r})
-  D(\mathbf{r})
+  \mathcal{D}(\mathbf{r})
   \Pi(\mathbf{r})
   n(\mathbf{r})^{\beta-1}
   d\mathbf{r}.
@@ -1072,14 +1076,14 @@ be human task-work. The labour share of variable task-work income is
   =
   \frac{
     \int
-    D(\mathbf{r})
+    \mathcal{D}(\mathbf{r})
     \Pi(\mathbf{r})
     H(\mathbf{r})
     n(\mathbf{r})^{\beta-1}
     d\mathbf{r}
   }{
     \int
-    D(\mathbf{r})
+    \mathcal{D}(\mathbf{r})
     \Pi(\mathbf{r})
     n(\mathbf{r})^\beta
     d\mathbf{r}
@@ -1196,8 +1200,10 @@ validated by bundle integration. The bundle-integrated wage
 \]
 predicts observed wages about as well as evaluating the price field at
 the centroid ($R^2=0.51$ against $0.52$ at the centroid; correlation
-$0.72$). The Jensen gap between the two is small (mean $+0.018$). This licenses the
-model's use of $\Pi$ at task locations.
+$0.72$). The centroid figure is the estimation's own in-sample fit,
+while the bundle predictor is out of specification, so parity is the
+informative outcome. The Jensen gap between the two is small (mean
+$+0.018$). This licenses the model's use of $\Pi$ at task locations.
 
 \begin{figure}[!htbp]
 \centering
@@ -1856,7 +1862,8 @@ $\widehat{\Delta\ln\Pi}_o=\Delta\mu_o\cdot\nabla\ln\Pi$ & predicted directional 
 \addlinespace
 $\mathcal{K}$, $k$ & set of capability clusters and a generic cluster \\
 $q_k(\mathbf{r})$, $q_{o,k}$ & level of capability $k$ at $\mathbf{r}$; occupation $o$'s content \\
-$v_k$ & weight of capability $k$ \\
+$v_k$ & weight of capability $k$ in the price functional (the gate weights, $v_k\geq 0$) \\
+$v_o$, $\bar v$, $\bar v_k$ & occupation $o$'s capability profile and the mean profile (eq.~\eqref{eq:capability-plane}); $\bar v_k$ the cluster plane mean (eq.~\eqref{eq:capability-field}). Unrelated to the gate weights $v_k$ despite the shared letter \\
 $p_k$, $\kappa$ & per-capability price and intercept in $\ln\Pi=\kappa+\sum_k p_k q_k$ \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Technology field and takeover}} \\
@@ -1869,7 +1876,13 @@ $R,\,\tau$ & automation cost threshold (takeover compares $\Pi$ to $R/(s_K\phi_K
 $D_o$ & displaced share of occupation $o$ \\
 $\iota_o(\mathbf{r})$, $B_o=\int\iota_o\,d\mathbf{r}$ & reinstatement inflow and reinstated mass \\
 $\gamma$ & reinstatement fraction ($=0.5$) \\
-$\beta$ & congestion exponent in $V(\mathbf{r})=D\,\Pi\,n^{\beta}$; human task-work is paid its marginal value product out of $\beta V$, capital is paid its cost, $(1-\beta)V$ is the congestion rent to the fixed factor \\
+$\hat g(\mathbf{r})$, $M$, $\zeta(\mathbf{r})=M\hat g(\mathbf{r})$ & normalized boundary density (eq.~\eqref{eq:gradient-phi}), seeded task mass $M=\gamma\Delta\Gamma^D$, and seeded density \\
+$\delta_o(\mathbf{r})$, $\bar\delta_o(\mathbf{r})$ & priced capability deficit (eq.~\eqref{eq:deficit}) and surplus of occupation $o$ at $\mathbf{r}$ \\
+$e_o(\mathbf{r})$ & readiness to attach (eq.~\eqref{eq:attachment}) \\
+$C(\mathbf{r})=\sum_o L_o e_o(\mathbf{r})$ & attachment capacity at $\mathbf{r}$ \\
+$u(\mathbf{r})$ & unbound task density (eq.~\eqref{eq:unbound}) \\
+$c(\mathbf{r})$ & blended unit cost after takeover (eq.~\eqref{eq:unit-cost}) \\
+$\beta$ & congestion exponent in $V(\mathbf{r})=\mathcal{D}\,\Pi\,n^{\beta}$; human task-work is paid its marginal value product out of $\beta V$, capital is paid its cost, $(1-\beta)V$ is the congestion rent to the fixed factor \\
 $\Phi(C)=C/(1+C)$ & bound fraction at congestion $C$ \\
 $\Delta w_o$ & bundle wage change of occupation $o$ (eq.~\eqref{eq:wage-change}) \\
 \addlinespace
@@ -1882,6 +1895,12 @@ $\eta$ & demand elasticity (Section~\ref{sec:case-demand}) \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Equilibrium and mobility}} \\
 \addlinespace
+$n(\mathbf{r})$ & total task-work density (eq.~\eqref{eq:taskwork-density}) \\
+$H(\mathbf{r})=\sum_o L_o h_o(\mathbf{r})$ & human task-work density \\
+$\mathcal{D}(\mathbf{r})=(c/\Pi)^{1-\eta}$ & demand multiplier (eq.~\eqref{eq:demand-multiplier}); distinct from the displaced share $D_o$ \\
+$V(\mathbf{r})$ & place output (eq.~\eqref{eq:place-output}) \\
+$W_o$ & occupation value (eq.~\eqref{eq:occ-value}); the object workers sort on \\
+$\Lambda$ & labour share of variable task-work income (eq.~\eqref{eq:labour-share}) \\
 $\ell$ & acquisition scale in the readiness $e_o$ (eq.~\eqref{eq:attachment}) \\
 $L_0,\,L$ & baseline and re-solved employment allocation \\
 $\lambda$ & cognitive demand-shifter exponent in the assignment closure (Appendix~\ref{app:assignment}) \\
