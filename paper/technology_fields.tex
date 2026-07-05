@@ -6,6 +6,7 @@
 \usepackage{amsmath, amssymb}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{array}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage[style=authoryear, backend=biber]{biblatex}
@@ -31,42 +32,23 @@
 
 \begin{abstract}
 \noindent
-This paper develops a spatial task-based model of automation and
-reinstatement. Building on the geometric task-space framework of
-\textcite{storck2026geometry}, occupations are represented as bundles
-of tasks in a two-dimensional space of work, and the price of skill is
-a directional field over that space. Depth is rewarded in
-socio-cognitive directions but not in service and manual directions.
-Technologies are represented as effectiveness fields with position,
-reach, and intensity. Automation occurs where capital is the cheaper
-producer, so, within the reach of a technology, capital first takes over
-the tasks whose human performance is most highly priced.
-
-Reinstatement is modeled as task creation at the boundary of a
-technology field. New tasks survive as human work only where labour
-retains a cost advantage, and they attach to existing occupations only
-where the priced capabilities they require are already held. The same
-operator therefore distinguishes three outcomes: occupational
-redefinition, capital capture of new tasks, and unbound tasks that mark
-where new occupations may emerge. Reinstatement is therefore not
-automatically wage-protective. It benefits workers only where new tasks
-bind to priced capabilities; otherwise it may restore employment while
-leaving wages depressed. The model therefore turns reinstatement from an
-aggregate labour-share mechanism into a spatial allocation problem.
-
-The model is closed with a partial demand channel. Automation lowers
-unit cost where capital replaces labour, and under competitive pricing
-the saving is passed to consumers. Demand elasticity then determines
-whether a cheapened direction draws labour in or releases it. Because
-the cost saving is second-order at the adoption margin, displacement
-dominates unless demand is elastic or infra-marginal savings are large.
-We illustrate the framework with two technologies: a broad cognitive
-field calibrated to task-level AI exposure, and a narrow manual field
-placed to represent industrial automation. The results show how the
-same reinstatement mechanism can have different employment and wage
-effects depending on where the technology acts in task space and how
-the output market responds.
+This paper introduces technology fields: effectiveness fields with
+position, reach, and amplitude over the two-dimensional task space of
+\textcite{storck2026geometry}. Capital bears a task where it is the
+cheaper producer, so adoption follows the price of work pointwise, and
+reinstatement is task creation at the field boundary, gated by price
+and by held capabilities. Calibrated, the
+model restores employment but not pay: most new tasks bind to no
+occupation, and the labour share barely moves against an automation
+drop of 23--52 points. A directional wage check on 2019--2025 data
+passes naively and is shown uninformative; placebo technologies pass
+it too.
 \end{abstract}
+
+\vspace{0.5em}
+\noindent\emph{JEL codes:} J23, J24, J31, O33.\\
+\emph{Keywords:} task-based model; automation; reinstatement;
+technology fields; occupational task bundles; wage structure.
 
 %% ============================================================
 \section{Introduction}
@@ -84,7 +66,8 @@ created, but where they appear, which workers can take them, and whether
 the tasks that return to labour carry the same priced content as the
 tasks that were displaced.
 
-The task-based literature provides the canonical mechanism. Automation
+The task-based literature provides the canonical mechanism
+\parencite{acemoglu2011skills}. Automation
 displaces labour from tasks that capital can perform, while
 reinstatement creates new tasks in which labour retains a role
 \parencite{acemoglu2018race,acemoglu2019automation}. In the
@@ -93,7 +76,9 @@ new tasks are placed where labour holds the comparative advantage. That
 is a powerful result, but it leaves an important question under-specified:
 which workers benefit? If labour enters as one factor, or as a small
 number of aggregate skill groups, reinstatement can be studied in
-aggregate but not located in the differentiated structure of work.
+aggregate --- and its wage-inequality footprint accounted for at the
+group level \parencite{acemoglu2022tasks} --- but not located in the
+differentiated structure of work.
 
 This paper introduces the concept of a technology field: a
 representation of a technology as an effectiveness field over a
@@ -491,7 +476,8 @@ negative once the others are held fixed, so they read as hedonic
 coefficients rather than prices of factors in fixed supply. Log price
 is, however, almost exactly linear in priced capability content
 ($R^2 = 0.96$). The field is therefore better read as an assignment
-price: the shadow price of matching heterogeneous capability bundles
+price in the sense of multidimensional sorting \parencite{lindenlaub2017}:
+the shadow price of matching heterogeneous capability bundles
 to heterogeneous task requirements under directionally biased demand.
 
 The numerical assignment closure makes this concrete. Occupations are
@@ -1261,7 +1247,10 @@ The main mechanism is reported with and without this wedge.
 
 The cognitive technology field is calibrated to task-level AI exposure:
 each task statement carries the exposure score
-$\beta_E = E1 + \tfrac12 E2$ of \textcite{eloundou2024}. The scores are
+$\beta_E = E1 + \tfrac12 E2$ of \textcite{eloundou2024}.
+Occupation-level exposure measures exist
+\parencite{webb2020,felten2021occupational}; the field is fitted at
+the task level because that is where the geometry lives. The scores are
 joined to the task coordinates on Task ID ($17{,}549$ of $17{,}606$
 statements, $99.7$~percent) and fitted with the Gaussian field in
 eq.~\eqref{eq:phi-K}. The fitted field lies in the
@@ -1317,7 +1306,7 @@ summing to one, so the attachment capacity $C$ in $\Phi(C)=C/(1+C)$ is
 of order one. Mobility values are evaluated at baseline employment
 under the calibrated technology.}
 \label{tab:economy-parameters}
-\begin{tabular}{llp{8.2cm}}
+\begin{tabular}{ll>{\raggedright\arraybackslash}p{8.2cm}}
 \toprule
 Parameter & Value & Rule \\
 \midrule
@@ -1622,7 +1611,8 @@ fixed there is no identifying variation left. The identifying variation
 the model calls for is within-occupation task recomposition over time:
 whether the paid content of exposed bundles is being redrawn in the
 direction the operator predicts. That test requires within-occupation
-microdata and is left to future empirical work. Second, the null in the
+microdata of the kind pioneered by \textcite{atalay2020evolution} and
+is left to future empirical work. Second, the null in the
 deployment window is not evidence against the model. The model does not
 predict that two years of diffusion should be visible in occupational
 median wages. A strong pass in this window would itself have been
@@ -1707,7 +1697,7 @@ on the endpoint. We regard a dynamic treatment built on these
 observations as interesting future work.
 
 The wage wedge also opens a connection to rent-based accounts of
-automation. If the residual wedge is interpreted as an occupation- or
+automation \parencite{acemoglu2024rents}. If the residual wedge is interpreted as an occupation- or
 family-level rent, the same price gate implies that high-wedge work is
 more likely to cross the adoption margin. The within-group compression
 implications of that extension require rent dispersion within exposed
@@ -1836,7 +1826,7 @@ closure delivers.
 
 Symbols are collected below, grouped by role.
 
-\begin{longtable}{@{}l p{0.76\textwidth}@{}}
+\begin{longtable}{@{}l >{\raggedright\arraybackslash}p{0.67\textwidth}@{}}
 \toprule
 Symbol & Meaning \\
 \midrule
@@ -1900,6 +1890,15 @@ $\rho,\,\lambda_{\mathrm{over}}$ & attachment locality scale and over-qualificat
 \end{longtable}
 
 %% ============================================================
+\section*{Data and code availability}
+
+All inputs, code, and frozen outputs are public at
+\url{https://github.com/JoakimStorck/technology-fields}. Every
+result-bearing number in the paper traces to a producing script in
+\texttt{scripts/}, with its output frozen in \texttt{results/}; the
+pre-registered placebo test records its hypotheses in the producing
+script's docstring.
+
 \printbibliography
 %% ============================================================
 
