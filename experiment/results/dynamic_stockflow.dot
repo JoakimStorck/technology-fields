@@ -4,7 +4,7 @@ digraph dynamic_stockflow {
   edge [fontsize=10, fontname="DejaVu Sans", arrowsize=0.7];
 
   old [label=<<font face="DejaVu Sans">displaced<br/>old work</font>>, shape=ellipse, style=dashed, margin=0.06];
-  seed [shape=none, margin=0, group="spine", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">seeding ṡ</font></td></tr></table>>];
+  seed [shape=none, margin=0, group="spine", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">seeding ζ̇</font></td></tr></table>>];
   U [label=<<font face="DejaVu Sans">Unbound task stock<br/>U(r,t)</font>>, shape=box, group="spine"];
   bind [shape=none, margin=0, group="spine", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">binding ι<sub>o</sub></font></td></tr></table>>];
   B [label=<<font face="DejaVu Sans">Occupation-bound<br/>new work r<sub>o</sub>(t)</font>>, shape=box, group="spine"];

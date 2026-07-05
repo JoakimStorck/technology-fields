@@ -256,7 +256,7 @@ label = "displaced\nold work"
 id = "seed"
 group = "spine"
 kind = "rate"
-label = "seeding ṡ"
+label = "seeding ζ̇"
 
 [[stockflow.nodes]]
 id = "U"

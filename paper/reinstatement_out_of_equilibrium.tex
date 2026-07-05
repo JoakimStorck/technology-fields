@@ -219,8 +219,9 @@ is a directional field
 \label{eq:price-field}
 \end{equation}
 high in the socio-cognitive directions and low in the service and manual
-ones \parencite{storck2026geometry}. The pattern is the observed wage
-structure read spatially. Estimated on the occupational wage
+ones: the wage structure of \textcite{storck2026geometry} read
+spatially, lifted from occupational centroids to task locations by
+\textcite{storck2026fields}. Estimated on the occupational wage
 cross-section ($N = 785$; HC3 standard errors in parentheses), the field
 is
 \begin{equation}
@@ -297,7 +298,7 @@ endpoint becomes the gradient ring, the ordering becomes the price
 field, and the guarantee becomes the gate, which prices survival region
 by region. The new tasks in which capital holds the advantage, noted
 and set aside in \textcite{acemoglu2019automation}, are the captured
-fate $s\cdot a$. The generalisation is what opens the destination question.
+fate $\zeta\cdot a$. The generalisation is what opens the destination question.
 On the line new work has one place to appear. On the ring it appears in
 every direction around the field, and which occupations end up holding
 it becomes an economic outcome rather than a location fixed by
@@ -368,19 +369,19 @@ which records new human work before any occupation has taken it on.
 \subsection{Transition accounting and the unbound stock}
 
 In the static model the seeded mass $M$ meets three fates. Capital
-captures a part $s\cdot a$, occupations bind a part
-$s\cdot(1-a)\,\Phi$, and a part $s\cdot(1-a)\,(1-\Phi)$ remains
-unbound, where $s = M\hat g$ is the seed density and $\Phi$ is the
-bound share; the three parts sum to $s$. The unbound part performs no work and does not enter the
+captures a part $\zeta\cdot a$, occupations bind a part
+$\zeta\cdot(1-a)\,\Phi$, and a part $\zeta\cdot(1-a)\,(1-\Phi)$ remains
+unbound, where $\zeta = M\hat g$ is the seed density and $\Phi$ is the
+bound share; the three parts sum to $\zeta$. The unbound part performs no work and does not enter the
 density; it is created and discarded at each evaluation. The dynamic
 model gives it a stock,
 \begin{equation}
-\partial_t U(\rr,t) = \dot s(\rr,t) - \sum_o \iota_o(\rr,t),
+\partial_t U(\rr,t) = \dot\zeta(\rr,t) - \sum_o \iota_o(\rr,t),
 \qquad
-\dot s(\rr,t) = \gamma\,[\partial_t\,\Delta\Gamma^D]_+\,\hat g(\rr)\,(1-a(\rr,t)),
+\dot\zeta(\rr,t) = \gamma\,[\partial_t\,\Delta\Gamma^D]_+\,\hat g(\rr)\,(1-a(\rr,t)),
 \label{eq:Ustock}
 \end{equation}
-where $\dot s$ is the seeding rate and $\iota_o$ the binding flow to
+where $\dot\zeta$ is the surviving seeding rate and $\iota_o$ the binding flow to
 occupation $o$ (\S\ref{sec:binding}). The seeding follows the
 \emph{rate} of displacement. New tasks enter while the technology
 matures. Seeding ceases once displacement plateaus. The unbound stock is
@@ -639,7 +640,7 @@ aggregate absorption rate for every $p$, is absorbed by the time change
 and leaves the limit unchanged.
 
 While all capacities bind, the aggregate obeys
-$\dot U_{\text{tot}} = \dot s_{\text{tot}}(t) - M_{\text{tot}}/\theta_{\text{abs}}$,
+$\dot U_{\text{tot}} = \dot\zeta_{\text{tot}}(t) - M_{\text{tot}}/\theta_{\text{abs}}$,
 so after seeding ends the stock drains linearly and empties in
 $\theta_{\text{abs}}\, S/M_{\text{tot}}$ years. The bound is saturated
 only in the deep limit. The capacity utilisation, the mass absorbed
@@ -1392,7 +1393,7 @@ are normalised, set, or swept, as stated.
 \begin{table}[tbp]
 \centering
 \small
-\caption{Parameter provenance. The wage wedge $\eta_g$ and the texture
+\caption{Parameter provenance. The wage wedge $\omega_g$ and the texture
 ledger of \textcite{storck2026fields} do not cross the interface and are
 not used by the dynamics.}
 \label{tab:provenance}
