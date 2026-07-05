@@ -334,6 +334,7 @@ def figure_fit(df, px, py, zK, A_K, cells, out):
         obs[m] = v
         res[m] = v - cell_pm[(a, r)]
 
+    plt.rcParams.update({"font.size": 13})
     fig, axes = plt.subplots(1, 3, figsize=(16.5, 5.6))
     panels = [
         (obs, "Observed exposure $\\phi(\\mathbf{r})$ (binned mean)", "viridis", None),
@@ -357,13 +358,9 @@ def figure_fit(df, px, py, zK, A_K, cells, out):
         ax.set_aspect("equal")
         ax.set_xlim(-1.05, 1.05); ax.set_ylim(-1.05, 1.05)
         ax.set_xticks([]); ax.set_yticks([])
-        ax.set_title(title, fontsize=11)
+        ax.set_title(title, fontsize=14)
         fig.colorbar(cf, ax=ax, shrink=0.8)
-    fig.suptitle("Technology calibration: AI exposure (Eloundou 2024) as a "
-                 "field $\\phi_K$ over the task disk\n"
-                 "dashed: seeding ring at $z_K$; dotted: occupational support",
-                 fontsize=11)
-    fig.tight_layout(rect=(0, 0, 1, 0.93))
+    fig.tight_layout()
     fig.savefig(out, dpi=150)
     plt.close(fig)
 

@@ -142,9 +142,9 @@ def main() -> None:
                 fmt="none", ecolor="k", elinewidth=0.8, capsize=2)
     ax.set_yticks(np.arange(len(wedge)))
     ax.set_yticklabels([f"{i} (n={n})" for i, n in
-                        zip(wedge.index, wedge["n"])], fontsize=8)
+                        zip(wedge.index, wedge["n"])], fontsize=9)
     ax.axvline(0, color="0.4", lw=0.8)
-    ax.set_xlabel(r"family wage wedge $\eta_g$ "
+    ax.set_xlabel(r"family wage wedge $\omega_g$ "
                   "(log points vs bundle-priced wage; bars: $\\pm$ s.e.)")
     fig.tight_layout()
     fig.savefig(RESULTS / "family_wedge.png", dpi=150)

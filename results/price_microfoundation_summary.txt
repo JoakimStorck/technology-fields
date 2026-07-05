@@ -4,7 +4,7 @@ Price-field microfoundation: assignment equilibrium with cognitive demand.
 T1 task scarcity (REJECTED):
    d lnPi / d ln n0 = -0.028  (implied sigma 35.5)
    Spearman(lnPi, ln n0) = -0.115
-   employment density north-south = +0.71  (dear north is the denser)
+   employment density directed gradient = +0.71  (dear north is the denser)
 
 T2 capability pricing (CONFIRMED):
    R^2 of lnPi ~ a + b*(sum_k v_k q_k) = 0.956
@@ -16,11 +16,11 @@ T3 capability scarcity (REJECTED):
 
 T4 assignment, uniform demand (SHAPE, wage-independent):
    Spearman(lnPi_eq, lnPi_paper1) = +0.915
-   north-south(eq) = +0.081  (Paper 1 target +0.39)
+   directed gradient(eq) = +0.081  (estimated-field target +0.39)
    kappa robustness (Spearman @ kf=0.2/0.5/1.0): +0.90/+0.92/+0.92
 
 T5 cognitive demand bias (CLOSURE):
-   lambda  Spearman  north-south(Pi)  emp north-south
+   lambda  Spearman  directed-grad(Pi)  emp directed-grad
      0.10    +0.959     +0.221          -0.073
      0.20    +0.968     +0.359          +0.018
      0.25    +0.969     +0.431          +0.047
@@ -29,7 +29,7 @@ T5 cognitive demand bias (CLOSURE):
    -> best lambda ~ 0.20 (gradient +0.36, Spearman +0.97)
 
 T6 productivity complementarity (REJECTED):
-   lambda gamma  Spearman(ln w_o, lnP_o)  wage north-south  emp north-south
+   lambda gamma  Spearman(ln w_o, lnP_o)  wage directed-grad  emp directed-grad
      0.25  0.0    +0.781                +0.559            +0.047
      0.00  1.0    -0.250                -0.764            +0.076
      0.00  2.0    -0.335                -1.986            +0.610

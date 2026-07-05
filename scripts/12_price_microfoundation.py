@@ -112,7 +112,7 @@ def test_task_scarcity(d, out):
     out += ["T1 task scarcity (REJECTED):",
             f"   d lnPi / d ln n0 = {slope:+.3f}  (implied sigma {(-1/slope if slope<0 else float('nan')):.1f})",
             f"   Spearman(lnPi, ln n0) = {spearmanr(lnP, ln_n0)[0]:+.3f}",
-            f"   employment density north-south = {nd:+.2f}  (dear north is the denser)"]
+            f"   employment density directed gradient = {nd:+.2f}  (dear north is the denser)"]
 
 
 # ---------------------------------------------------------------- T2
@@ -182,7 +182,7 @@ def test_assignment_uniform(d, out):
     lnE = np.log(np.maximum(Pi, 1e-12))
     out += ["", "T4 assignment, uniform demand (SHAPE, wage-independent):",
             f"   Spearman(lnPi_eq, lnPi_paper1) = {spearmanr(lnE, d['lnP'])[0]:+.3f}",
-            f"   north-south(eq) = {_ns(lnE, d['north'], d['south']):+.3f}  (Paper 1 target +0.39)"]
+            f"   directed gradient(eq) = {_ns(lnE, d['north'], d['south']):+.3f}  (estimated-field target +0.39)"]
     rob = []
     for kf in (0.2, 0.5, 1.0):
         P, _, _ = solve_assignment(d, kf=kf)
@@ -197,7 +197,7 @@ def test_demand_bias(d, out):
     directed gradient (+0.39) AND keeps the north abundant in sign, peaking the
     overall fit at Spearman ~0.97."""
     out += ["", "T5 cognitive demand bias (CLOSURE):",
-            "   lambda  Spearman  north-south(Pi)  emp north-south"]
+            "   lambda  Spearman  directed-grad(Pi)  emp directed-grad"]
     best = None
     for lam in (0.10, 0.20, 0.25, 0.30, 0.40):
         Pi, _, emp = solve_assignment(d, lam=lam, gamma=0.0)
@@ -219,7 +219,7 @@ def test_productivity_complementarity(d, out):
     (north-south wage < 0) via the CES output effect -> abundant-but-cheap north.
     REJECTED as the gradient mechanism; demand bias (gamma=0) is best."""
     out += ["", "T6 productivity complementarity (REJECTED):",
-            "   lambda gamma  Spearman(ln w_o, lnP_o)  wage north-south  emp north-south"]
+            "   lambda gamma  Spearman(ln w_o, lnP_o)  wage directed-grad  emp directed-grad"]
     for lam, gamma in [(0.25, 0.0), (0.0, 1.0), (0.0, 2.0), (0.10, 2.0)]:
         _, w_o, emp = solve_assignment(d, lam=lam, gamma=gamma)
         lw, lne = np.log(np.maximum(w_o, 1e-12)), np.log(np.maximum(emp, 1e-12))
@@ -246,10 +246,11 @@ def main():
     # figure: derived price (best lambda) vs Paper 1, coloured by depth
     Pi, _, _ = solve_assignment(d, lam=lam_star, gamma=0.0)
     lnE = np.log(np.maximum(Pi, 1e-12))
+    plt.rcParams.update({"font.size": 12})
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.6))
     sc = ax[0].scatter(lnE, d["lnP"], s=4, alpha=0.25, c=d["chi"], cmap="viridis")
     ax[0].set_xlabel(r"derived assignment price $\ln\Pi_{eq}(r)$")
-    ax[0].set_ylabel(r"Paper 1 price field $\ln\Pi(r)$")
+    ax[0].set_ylabel(r"estimated price field $\ln\Pi(r)$")
     ax[0].set_title(f"Microfounded vs reduced-form (Spearman {spearmanr(lnE, d['lnP'])[0]:+.2f}, $\\lambda$={lam_star:.2f})")
     fig.colorbar(sc, ax=ax[0], label=r"depth $\chi$")
     # decomposition: demand steepens, productivity crashes wages
@@ -258,10 +259,10 @@ def main():
     ns_prod = [_ns(np.log(np.maximum(solve_assignment(d, gamma=g)[1], 1e-12)), d["north_o"], d["south_o"]) for g in gams]
     ax[1].plot(lams, ns_dem, "-o", ms=3, label=r"price grad. vs demand $\lambda$")
     ax[1].plot(gams / 5, ns_prod, "-s", ms=3, label=r"wage grad. vs prod. $\gamma$ (x/5)")
-    ax[1].axhline(0.39, color="0.5", ls="--", lw=0.8, label="Paper 1 target")
+    ax[1].axhline(0.39, color="0.5", ls="--", lw=0.8, label="estimated-field target")
     ax[1].axhline(0, color="0.7", lw=0.8)
-    ax[1].set_xlabel("parameter"); ax[1].set_ylabel("north-south gradient")
-    ax[1].set_title("demand steepens the gradient; productivity crashes wages")
+    ax[1].set_xlabel("parameter"); ax[1].set_ylabel(r"directed gradient $\Delta_{\mathrm{dg}}$")
+    ax[1].set_title("gradient vs closure parameter")
     ax[1].legend(fontsize=8)
     fig.tight_layout(); fig.savefig(RESULTS / "price_microfoundation.png", dpi=150)
     plt.close(fig)

@@ -186,6 +186,7 @@ def _operated_regime_demo(inp, tech, R, TAU, lines, out_path):
     XI, CHI = np.arctan2(Y, X), np.hypot(X, Y)
     A = np.where(inside, tech.operated_share(XI, CHI, field, R, TAU), np.nan)
     G = np.where(inside, tech.grad_phi_norm(XI, CHI), np.nan)
+    plt.rcParams.update({"font.size": 13})
     fig, axes = plt.subplots(1, 2, figsize=(12.5, 5.8))
     cf0 = axes[0].contourf(X, Y, A, levels=24, cmap="magma")
     axes[0].set_title(r"Operated share $a(\mathbf{r})$ (calibrated technology)")
@@ -212,15 +213,13 @@ def _candidate_map(inp, u, tech, out_path):
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.6))
     # unbound density
     sc0 = axes[0].scatter(x, y, c=u, s=6, cmap="magma")
-    axes[0].set_title("Unbound task density $u(\\mathbf{r})$\n"
-                      "(new tasks no occupation can attach)")
+    axes[0].set_title(r"Unbound task density $u(\mathbf{r})$")
     fig.colorbar(sc0, ax=axes[0], shrink=0.8)
     # unbound mass weighted, colored by price (opportunity vs spillage)
     mask = u > u.max() * 0.05
     sc1 = axes[1].scatter(x[mask], y[mask], c=pi[mask], s=8 + 60 * u[mask] / u.max(),
                           cmap="viridis", alpha=0.7)
-    axes[1].set_title("Candidate regions colored by price $\\Pi$\n"
-                      "(skilled opportunity vs precarious friction)")
+    axes[1].set_title(r"Candidate regions colored by price $\Pi$")
     fig.colorbar(sc1, ax=axes[1], shrink=0.8, label="$\\Pi$")
     for ax in axes:
         px, py = tech.p_K

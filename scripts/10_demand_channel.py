@@ -165,7 +165,7 @@ def _figure(etas, curves, out_path):
     ax.set_xlabel(r"demand elasticity $\eta$  (log scale)")
     ax.set_ylabel("employment change in the automated region (%)")
     ax.set_title("Automation releases or grows employment by demand elasticity")
-    ax.annotate(r"$\eta=1$: cost-invariant" + "\n(reproduces script 09)",
+    ax.annotate(r"$\eta=1$: cost-invariant",
                 xy=(1.0, ax.get_ylim()[0]), xytext=(1.15, ax.get_ylim()[0] * 0.6),
                 fontsize=8, color="0.3")
     ax.legend(frameon=False, fontsize=8, loc="upper left")

@@ -128,7 +128,8 @@ def main() -> None:
     c2, _ = beta_chi_curve(s2, xi_g, second_harmonic=True)
 
     # ── figure A: the decision figure ─────────────────────────────
-    fig, ax = plt.subplots(figsize=(9, 5.2))
+    plt.rcParams.update({"font.size": 12})
+    fig, ax = plt.subplots(figsize=(8.4, 4.8))
     deg = np.degrees(xi_g)
     ax.axhline(0, color="0.6", lw=0.8)
     ax.fill_between(deg, c1 - 1.96 * se1, c1 + 1.96 * se1,
@@ -141,7 +142,7 @@ def main() -> None:
     ax.errorbar(sec["center"], sec["beta"],
                 yerr=[sec["beta"] - sec["lo"], sec["hi"] - sec["beta"]],
                 fmt="o", color="k", ms=5, capsize=3, lw=1.2,
-                label="sectoral slopes (Paper 1 spec., HC3 95% CI)")
+                label="sectoral slopes (Storck and Andersson 2026 spec., HC3 95% CI)")
     # The disk is closed: repeat the E point at 360 deg (open marker) so
     # the figure shows that the periodic curve is bound at both ends.
     e = sec.loc[sec["sector"] == "E"].iloc[0]
@@ -157,7 +158,7 @@ def main() -> None:
     ax.set_xticks(np.arange(0, 361, 45))
     ax.set_xlabel(r"task-space direction $\xi$ (deg)")
     ax.set_ylabel(r"return to depth $\beta_\chi$")
-    ax.legend(loc="lower left", fontsize=9, frameon=False)
+    ax.legend(loc="lower left", fontsize=10, frameon=False)
     fig.tight_layout()
     fig.savefig(RESULTS / "field_vs_sectoral_beta_chi.png", dpi=150)
     plt.close(fig)
@@ -177,7 +178,7 @@ def main() -> None:
 
     vmin, vmax = df["H_MEDIAN"].quantile([0.02, 0.98])
     norm = matplotlib.colors.LogNorm(vmin=vmin, vmax=vmax)
-    fig, axes = plt.subplots(1, 2, figsize=(13, 5.8))
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.2))
     axes[0].pcolormesh(X, Y, np.clip(PI, vmin, vmax), cmap="viridis",
                        norm=norm, shading="auto", rasterized=True)
     sc = axes[0].scatter(xs, ys, c=df["H_MEDIAN"], cmap="viridis", norm=norm,

@@ -243,21 +243,22 @@ occupational classifications; this paper takes it as given.
     (-1.65, -0.55) (-0.85, -0.65) (-0.55, -1.20) (-0.80, -1.65) 
     (-1.45, -1.60) (-1.80, -1.05)
   };
-  \node at (-1.25, -1.35) {\small $\mathcal{T}_k$};
+  \node at (-1.25, -1.35) {\small $b_{o''}$};
   \draw[thick, closed hobby] plot coordinates {
     (0.60, 0.60) (1.35, 0.70) (1.65, 1.30) (1.30, 1.75) 
     (0.60, 1.65) (0.35, 1.10)
   };
-  \node at (1.25, 1.35) {\small $\mathcal{T}_g$};
+  \node at (1.25, 1.35) {\small $b_{o}$};
   \filldraw (1.03, 1.24) circle (1.2pt);
   \draw[thick, closed hobby] plot coordinates {
     (-1.65, 0.55) (-0.85, 0.65) (-0.55, 1.20) (-0.80, 1.65) 
     (-1.45, 1.60) (-1.80, 1.05)
   };
-  \node at (-1.30, 0.80) {\small $\mathcal{T}_{g'}$};
+  \node at (-1.30, 0.80) {\small $b_{o'}$};
   \filldraw (-1.20, 1.15) circle (1.2pt);
   \draw[->, thin] (0,0) -- (1.00, 1.20);
-  \node at (0.60, 1.00) {\small $\chi$};
+  \node at (0.72, 0.50) {\small $\chi$};
+  \node at (0.72, 1.32) {\small $\mu_o$};
   \draw[thin, gray!60, dashed] (0,0) -- (-1.20, 1.15);
   \draw[->, thin] (0.65, 0) arc (0:50:0.65);
   \node at (0.95, 0.35) {\small $\xi$};
@@ -266,7 +267,12 @@ occupational classifications; this paper takes it as given.
   %\node[below=2.7cm] at (0,-0.3) {\textbf{(d)} Polar task geometry};
 \end{scope}
 \end{tikzpicture}
-\caption{The polar geometry represents occupations as bundles of tasks characterised by direction, specificity and reach~\parencite{storck2026geometry}.}
+\caption{The polar geometry of \textcite{storck2026geometry}. Occupations
+are bundles of tasks on the disk: $b_o$, $b_{o'}$, $b_{o''}$ are three
+bundles, the dots their centroids $\mu_o$, $\xi$ the angular coordinate
+of a centroid, and $\Delta\xi$ the angular separation between two
+occupations. The radial coordinate $\chi$ (distance from the centre)
+measures specificity.}
 \label{fig:polar-geometry}
 \end{figure}
 
