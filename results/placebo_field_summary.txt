@@ -1,0 +1,31 @@
+Placebo-field test (pre-registered; see module docstring).
+  operator at baseline L0; gamma 0.5, ell 0.1330
+
+[cognitive (calibrated, baseline)]  N=725
+  raw Spearman(proj, dlnw 2019-2025) = +0.340 (p=4.3e-21)
+  collinearity Spearman(proj, w0)    = -0.565
+  partial | rank(w0)                 = +0.021 (p=0.57)
+    [2019-2023]  raw +0.340 (p=4.0e-21)  partial|w0 +0.031 (p=0.40)
+    [2023-2025]  raw +0.040 (p=2.8e-01)  partial|w0 -0.026 (p=0.48)
+    [2019-2025]  raw +0.340 (p=4.3e-21)  partial|w0 +0.021 (p=0.57)
+  frozen baseline reproduced (raw, partial, N).
+
+[P1 manual (Table 3, hand-placed)]  N=725
+  raw Spearman(proj, dlnw 2019-2025) = -0.242 (p=3.7e-11)
+  collinearity Spearman(proj, w0)    = +0.437
+  partial | rank(w0)                 = +0.013 (p=0.73)
+    [2019-2023]  raw -0.262 (p=7.1e-13)  partial|w0 -0.021 (p=0.58)
+    [2023-2025]  raw -0.016 (p=6.7e-01)  partial|w0 +0.036 (p=0.34)
+    [2019-2025]  raw -0.242 (p=3.7e-11)  partial|w0 +0.013 (p=0.73)
+
+[P2 rotated cognitive clone (+180 deg)]  N=725
+  raw Spearman(proj, dlnw 2019-2025) = -0.131 (p=3.9e-04)
+  collinearity Spearman(proj, w0)    = +0.216
+  partial | rank(w0)                 = -0.009 (p=0.81)
+    [2019-2023]  raw -0.123 (p=8.9e-04)  partial|w0 -0.002 (p=0.96)
+    [2023-2025]  raw -0.007 (p=8.5e-01)  partial|w0 +0.016 (p=0.67)
+    [2019-2025]  raw -0.131 (p=3.9e-04)  partial|w0 -0.009 (p=0.81)
+
+Pre-registered hypothesis verdicts:
+  [P1] H1 PASS (|raw|=0.242)  H1b PASS  H2 PASS (|partial|=0.013)  H3 PASS (early -0.262, late -0.016)
+  [P2] H1 FAIL (|raw|=0.131)  H1b PASS  H2 PASS (|partial|=0.009)  H3 PASS (early -0.123, late -0.007)

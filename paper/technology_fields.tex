@@ -179,7 +179,8 @@ dominated by the pandemic-era compression of the US wage distribution
 \parencite{autor2023compression}, which makes the same cross-sectional
 prediction. Once baseline wage is held fixed, the mechanism adds
 nothing, and a vintage split shows that the entire raw correlation lies
-in the pre-deployment window. We report this as a finding about what the
+in the pre-deployment window; placebo technologies, including one that
+does not exist, clear the same check. We report this as a finding about what the
 cross-section can identify, not as support. The variation the model
 calls for is within-occupation task recomposition over time, left to
 future empirical work. The exercise doubles as a caution for the growing
@@ -1544,21 +1545,50 @@ Table~\ref{tab:window-split} reports the result: the entire raw
 correlation lives in the pre-deployment window, and in the deployment
 window it is absent, along with most of the compression gradient itself.
 
+A placebo makes the machinery explicit. We repeat the exercise with two
+technologies that carry no claim about the period: the hand-placed
+manual field of Table~\ref{tab:technology-calibration-new}, an
+industrial automation deployed decades before the window, and a rotated
+clone of the cognitive field, a technology that does not exist. The
+manual field passes the naive check at $-0.24$
+($p = 4\times10^{-11}$): its pressure loads on the wage level with the
+opposite sign (collinearity $+0.44$), so the compression hands it a
+significant correlation of the opposite direction, killed by the same
+conditioning (partial $+0.01$) and confined to the same window
+(Table~\ref{tab:window-split}). The rotated clone, sitting mostly in
+cheap territory where the gate barely opens, loads on the wage level
+more weakly ($+0.22$) and collects a correspondingly weaker but still
+significant correlation ($-0.13$, $p = 4\times10^{-4}$), null given
+baseline wage and confined to 2019--2023. The magnitude of the
+manufactured support thus scales with how strongly a mechanism's
+footprint loads on the wage level; even a nonexistent technology
+clears conventional significance.
+
 \begin{table}[!htbp]
 \centering
 \caption{Window split of the directional check. Spearman rank
 correlations between predicted directional wage pressure and observed
 wage change; the partial correlation controls for the rank of the wage
 level at the start of each window. The baseline gradient is the rank
-correlation between the starting wage level and wage growth ($N=725$).}
+correlation between the starting wage level and wage growth ($N=725$).
+The placebo panel repeats the exercise with the hand-placed manual
+field of Table~\ref{tab:technology-calibration-new}, a technology deployed
+decades before the window; its pressure loads on the wage level with
+the opposite sign, so its raw correlation is negative.}
 \label{tab:window-split}
 \begin{tabular}{lccc}
 \toprule
 Window & Raw & Partial $\mid$ baseline wage & Baseline gradient \\
 \midrule
+\multicolumn{4}{l}{\emph{Calibrated cognitive field}} \\
 2019--2023 (pre-deployment) & $+0.34$ & $+0.03$ & $-0.56$ \\
 2023--2025 (deployment) & $+0.04$ & $-0.03$ & $-0.11$ \\
 2019--2025 (full) & $+0.34$ & $+0.02$ & $-0.58$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Placebo: manual field}} \\
+2019--2023 & $-0.26$ & $-0.02$ & $-0.56$ \\
+2023--2025 & $-0.02$ & $+0.04$ & $-0.11$ \\
+2019--2025 & $-0.24$ & $+0.01$ & $-0.58$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1599,8 +1629,9 @@ it measures the pandemic compression. This is the exposure-versus-incidence
 distinction of Section~\ref{sec:operated-share} in empirical form.
 Technical exposure correlates with wage levels, wage levels drove
 relative wage growth in this period, and the chain of correlations
-manufactures apparent support for any mechanism whose cross-sectional
-footprint is a wage gradient.
+manufactures significant apparent support for any mechanism whose
+cross-sectional footprint is a wage gradient --- strongest, as the
+placebos show, where the footprint is steepest.
 
 %% ============================================================
 \section{Discussion}
