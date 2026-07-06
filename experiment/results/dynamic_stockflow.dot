@@ -3,46 +3,43 @@ digraph dynamic_stockflow {
   node [fontsize=11, fontname="DejaVu Sans"];
   edge [fontsize=10, fontname="DejaVu Sans", arrowsize=0.7];
 
-  old [label=<<font face="DejaVu Sans">displaced<br/>old work</font>>, shape=ellipse, style=dashed, margin=0.06];
-  seed [shape=none, margin=0, group="spine", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">seeding ζ̇</font></td></tr></table>>];
-  U [label=<<font face="DejaVu Sans">Unbound task stock<br/>U(r,t)</font>>, shape=box, group="spine"];
-  bind [shape=none, margin=0, group="spine", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">binding ι<sub>o</sub></font></td></tr></table>>];
-  B [label=<<font face="DejaVu Sans">Occupation-bound<br/>new work r<sub>o</sub>(t)</font>>, shape=box, group="spine"];
-  AK [label=<<font face="DejaVu Sans">A<sub>K</sub>(t)</font>>, shape=circle, fixedsize=false, margin=0.02];
-  disp [label=<<font face="DejaVu Sans">∂<sub>t</sub>ΔΓ<sup>D</sup></font>>, shape=circle, fixedsize=false, margin=0.02];
-  gate [label=<<font face="DejaVu Sans">1−a(r,t)</font>>, shape=circle, fixedsize=false, margin=0.02];
-  W [label=<<font face="DejaVu Sans">W<sub>o</sub>(t)</font>>, shape=circle, fixedsize=false, margin=0.02];
-  L [label=<<font face="DejaVu Sans">Population<br/>L<sub>o</sub>(t)</font>>, shape=box];
-  occ [label=<<font face="DejaVu Sans">other<br/>occupations</font>>, shape=ellipse, style=dashed, margin=0.06];
-  resort [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">re-sort</font></td></tr></table>>];
-  gamma [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">γ</font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
-  theta_abs [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">θ<sub>abs</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
-  M0 [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">M<sub>o</sub>(0)</font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
-  eo [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">e<sub>o</sub>(r), β<sub>m</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
-  theta_L [shape=none, margin=0, label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">θ<sub>L</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
+  "old" [label=<<font face="DejaVu Sans">displaced<br/>old work</font>>, shape=ellipse, style=dashed, margin=0.06, group="flow1", pos="422.0,474.4"];
+  "seed" [shape=none, margin=0, group="flow1", pos="422.0,386.4", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">seeding ζ̇</font></td></tr></table>>];
+  "U" [label=<<font face="DejaVu Sans">Unbound task stock<br/>U(r,t)</font>>, shape=box, group="flow1", pos="422.0,305.9"];
+  "bind" [shape=none, margin=0, group="flow1", pos="422.0,225.4", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">binding ι<sub>o</sub></font></td></tr></table>>];
+  "B" [label=<<font face="DejaVu Sans">Occupation-bound<br/>new work r<sub>o</sub>(t)</font>>, shape=box, group="flow1", pos="422.0,144.9"];
+  "AK" [label=<<font face="DejaVu Sans">A<sub>K</sub>(t)</font>>, shape=circle, fixedsize=false, margin=0.02, pos="315.1,418.3"];
+  "disp" [label=<<font face="DejaVu Sans">∂<sub>t</sub>ΔΓ<sup>D</sup></font>>, shape=circle, fixedsize=false, margin=0.02, pos="363.7,418.3"];
+  "gate" [label=<<font face="DejaVu Sans">1−a(r,t)</font>>, shape=circle, fixedsize=false, margin=0.02, pos="323.1,361.7"];
+  "W" [label=<<font face="DejaVu Sans">W<sub>o</sub>(t)</font>>, shape=circle, fixedsize=false, margin=0.02, pos="199.0,144.5"];
+  "L" [label=<<font face="DejaVu Sans">Population<br/>L<sub>o</sub>(t)</font>>, shape=box, group="flow2", pos="53.0,100.4"];
+  "occ" [label=<<font face="DejaVu Sans">other<br/>occupations</font>>, shape=ellipse, style=dashed, margin=0.06, group="flow2", pos="53.0,276.5"];
+  "resort" [shape=none, margin=0, group="flow2", pos="53.0,188.4", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans" point-size="24">&#8904;</font></td></tr><tr><td><font face="DejaVu Sans" point-size="10">re-sort</font></td></tr></table>>];
+  "gamma" [shape=none, margin=0, pos="489.0,387.6", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">γ</font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
+  "theta_abs" [shape=none, margin=0, pos="355.7,225.7", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">θ<sub>abs</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
+  "M0" [shape=none, margin=0, pos="489.0,224.0", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">M<sub>o</sub>(0)</font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
+  "eo" [shape=none, margin=0, pos="288.2,221.6", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">e<sub>o</sub>(r), β<sub>m</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
+  "theta_L" [shape=none, margin=0, pos="-14.0,188.3", label=<<table border="0" cellborder="0" cellspacing="0"><tr><td><font face="DejaVu Sans">θ<sub>L</sub></font></td></tr><tr><td port="c"><font face="DejaVu Sans">&#9472;&#8854;&#9472;</font></td></tr></table>>];
 
-  old -> seed [arrowhead=none];
-  seed -> U;
-  U -> bind [arrowhead=none];
-  bind -> B;
-  occ -> resort [color="black:invis:black", arrowhead=none];
-  resort -> L [color="black:invis:black"];
-  AK -> disp [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
-  AK -> gate [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
-  disp -> seed [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
-  gate -> seed [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
-  gamma:c -> seed [style=dashed, arrowhead=vee];
-  U -> bind [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false, tailport=e, headport=ne];
-  B -> bind [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false, tailport=e, headport=e];
-  M0:c -> bind [style=dashed, arrowhead=vee];
-  theta_abs:c -> bind [style=dashed, arrowhead=vee];
-  eo:c -> bind [style=dashed, arrowhead=vee];
-  B -> W [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
-  L -> W [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
-  W -> resort [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
-  theta_L:c -> resort [style=dashed, arrowhead=vee];
+  "old" -> "seed" [arrowhead=none];
+  "seed" -> "U";
+  "U" -> "bind" [arrowhead=none];
+  "bind" -> "B";
+  "occ" -> "resort" [color="black:invis:black", arrowhead=none];
+  "resort" -> "L" [color="black:invis:black"];
+  "AK" -> "disp" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
+  "AK" -> "gate" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
+  "disp" -> "seed" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
+  "gate" -> "seed" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
+  "gamma":c -> "seed" [style=dashed, arrowhead=vee];
+  "U" -> "bind" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
+  "B" -> "bind" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
+  "M0":c -> "bind" [style=dashed, arrowhead=vee];
+  "theta_abs":c -> "bind" [style=dashed, arrowhead=vee];
+  "eo":c -> "bind" [style=dashed, arrowhead=vee];
+  "B" -> "W" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
+  "L" -> "W" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee, constraint=false];
+  "W" -> "resort" [style=dashed, dir=both, arrowtail=odot, arrowhead=vee];
+  "theta_L":c -> "resort" [style=dashed, arrowhead=vee];
 
-  { rank=same; disp; gate; old; gamma; }
-  { rank=same; theta_abs; M0; eo; bind; occ; }
-  { rank=same; B; W; resort; theta_L; }
 }

@@ -1,6 +1,0 @@
-source,target,sign,source_type,mechanism
-occupational_absorption,occupational_revaluation,+,manual,Bound new work changes occupational value.
-occupational_absorption,reinstatement_pressure,-,manual,Binding drains the unbound stock.
-occupational_revaluation,labour_reallocation,+,manual,Occupational value redirects labour.
-reinstatement_pressure,occupational_absorption,+,manual,Unbound task mass creates binding pressure.
-technology_transition,reinstatement_pressure,+,manual,Technology maturity governs the timing of displacement and the creation of surviving new task mass.

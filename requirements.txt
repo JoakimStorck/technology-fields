@@ -7,3 +7,5 @@ matplotlib
 openai
 scikit-learn
 
+
+stocktake @ git+https://github.com/JoakimStorck/stocktake@v0.2.0

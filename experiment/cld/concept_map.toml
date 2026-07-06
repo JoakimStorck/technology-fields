@@ -1,3 +1,8 @@
+[extract]
+aliases = { "eq.D_o" = "D_o", "eq.a_task" = "a_task", np = "", math = "" }
+ignore = ["self", "dyn", "eq", "layer"]
+ignore_prefixes = ["np."]
+
 [variables]
 A_K = "technology_maturity"
 a_grid = "automation_intensity"
@@ -126,110 +131,6 @@ binding_claim = "Binding claim"
 available_unbound_mass = "Available unbound mass"
 unserved_fit_gap = "Unserved fit gap"
 
-[figure_nodes]
-technology_transition = "Technology transition"
-reinstatement_pressure = "Reinstatement pressure"
-occupational_absorption = "Occupational absorption"
-occupational_revaluation = "Occupational revaluation"
-labour_reallocation = "Labour reallocation"
-price_feedback = "Price feedback"
-occupation_birth = "Occupation birth"
-
-
-[aggregation]
-initial_task_mass = "occupational_absorption"
-seeded_fraction = "technology_transition"
-technology_maturity = "technology_transition"
-automation_intensity = "technology_transition"
-displaced_old_work = "technology_transition"
-
-surviving_new_task_share = "reinstatement_pressure"
-seeding_flow = "reinstatement_pressure"
-unbound_task_stock = "reinstatement_pressure"
-
-binding_flow = "occupational_absorption"
-occupation_bound_work = "occupational_absorption"
-absorptive_capacity = "occupational_absorption"
-task_occupation_fit = "occupational_absorption"
-
-occupational_value = "occupational_revaluation"
-task_density = "occupational_revaluation"
-
-occupational_population = "labour_reallocation"
-target_population = "labour_reallocation"
-
-price_field = "price_feedback"
-
-occupation_birth_potential = "occupation_birth"
-occupation_birth = "occupation_birth"
-occupation_grain = "occupation_birth"
-
-occupation_location = "occupational_absorption"
-desired_binding = "occupational_absorption"
-binding_allocation = "occupational_absorption"
-binding_claim = "occupational_absorption"
-available_unbound_mass = "reinstatement_pressure"
-unserved_fit_gap = "occupation_birth"
-
-# Manual edge rules override or supplement the AST graph.
-# sign: "+" or "-"
-# include_in_figure: true means the edge may enter the compact manuscript graph.
-[[manual_edges]]
-from = "technology_transition"
-to = "reinstatement_pressure"
-sign = "+"
-mechanism = "Technology maturity governs the timing of displacement and the creation of surviving new task mass."
-include_in_figure = true
-
-[[manual_edges]]
-from = "reinstatement_pressure"
-to = "occupational_absorption"
-sign = "+"
-mechanism = "Unbound task mass creates binding pressure."
-include_in_figure = true
-
-[[manual_edges]]
-from = "occupational_absorption"
-to = "reinstatement_pressure"
-sign = "-"
-mechanism = "Binding drains the unbound stock."
-include_in_figure = true
-
-[[manual_edges]]
-from = "occupational_absorption"
-to = "occupational_revaluation"
-sign = "+"
-mechanism = "Bound new work changes occupational value."
-include_in_figure = true
-
-[[manual_edges]]
-from = "occupational_revaluation"
-to = "labour_reallocation"
-sign = "+"
-mechanism = "Occupational value redirects labour."
-include_in_figure = true
-
-[[manual_edges]]
-from = "price_feedback"
-to = "technology_transition"
-sign = "+"
-mechanism = "The price field affects adoption and subsequent displacement."
-include_in_figure = false
-
-[[manual_edges]]
-from = "occupational_absorption"
-to = "occupation_birth"
-sign = "+"
-mechanism = "Unserved fit gaps and accumulated task mass can trigger occupation birth."
-include_in_figure = false
-
-[[manual_edges]]
-from = "occupation_birth"
-to = "occupational_absorption"
-sign = "+"
-mechanism = "New occupations add fit and absorptive channels."
-include_in_figure = false
-
 # ---------------------------------------------------------------------------
 # Stock-and-flow figure (manuscript Figure 2), in the notation of Forrester,
 # Industrial Dynamics (1961), ch. 8: levels are rectangles (integrations),
@@ -241,124 +142,116 @@ include_in_figure = false
 # its defining mechanism, or parameter = true (a constant is a declaration,
 # not a dataflow claim). The emitter fails loudly otherwise.
 # ---------------------------------------------------------------------------
-[stockflow]
+[[figures]]
 name = "dynamic_stockflow"
-ranks = [["disp", "gate", "old", "gamma"],
-         ["theta_abs", "M0", "eo", "bind", "occ"],
-         ["B", "W", "resort", "theta_L"]]
-
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "old"
 kind = "source"
 label = "displaced\nold work"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "seed"
-group = "spine"
 kind = "rate"
 label = "seeding ζ̇"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "U"
-group = "spine"
 kind = "level"
 label = "Unbound task stock\nU(r,t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "bind"
-group = "spine"
 kind = "rate"
 label = "binding ι_o"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "B"
-group = "spine"
 kind = "level"
 label = "Occupation-bound\nnew work r_o(t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "AK"
 kind = "aux"
 label = "A_K(t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "disp"
 kind = "aux"
 label = "∂_tΔΓ^D"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "gate"
 kind = "aux"
 label = "1−a(r,t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "W"
 kind = "aux"
 label = "W_o(t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "L"
 kind = "level"
 label = "Population\nL_o(t)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "occ"
 kind = "source"
 label = "other\noccupations"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "resort"
 kind = "rate"
 label = "re-sort"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "gamma"
 kind = "param"
 label = "γ"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "theta_abs"
 kind = "param"
 label = "θ_abs"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "M0"
 kind = "param"
 label = "M_o(0)"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "eo"
 kind = "param"
 label = "e_o(r), β_m"
 
-[[stockflow.nodes]]
+[[figures.nodes]]
 id = "theta_L"
 kind = "param"
 label = "θ_L"
 
 # -- material channel: old work -> seeding -> U -> binding -> B --
-[[stockflow.edges]]
+[[figures.edges]]
 from = "old"
 to = "seed"
 channel = "material"
 identity = true
 mechanism = "Source outside the accounting (Forrester 8.4); seeded mass is created."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "seed"
 to = "U"
 channel = "material"
 audit = ["seeding_flow->unbound_task_stock"]
 mechanism = "Seeded mass fills the unbound stock."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "U"
 to = "bind"
 channel = "material"
 audit = ["binding_flow->unbound_task_stock"]
 mechanism = "Binding drains the stock; the saturated residue stays and cascades."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "bind"
 to = "B"
 channel = "material"
@@ -366,14 +259,14 @@ audit = ["binding_flow->occupation_bound_work"]
 mechanism = "Bound mass accumulates as occupation-bound new work."
 
 # -- personnel channel: the conserved re-sort --
-[[stockflow.edges]]
+[[figures.edges]]
 from = "occ"
 to = "resort"
 channel = "personnel"
 identity = true
 mechanism = "Population is conserved; the flow is between occupations."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "resort"
 to = "L"
 channel = "personnel"
@@ -381,102 +274,98 @@ audit = ["target_population->occupational_population"]
 mechanism = "The population relaxes toward the value-sorted target at tempo theta_L."
 
 # -- information channel --
-[[stockflow.edges]]
+[[figures.edges]]
 from = "AK"
 to = "disp"
 channel = "information"
 audit = ["technology_maturity->automation_intensity", "automation_intensity->displaced_old_work"]
 mechanism = "Maturation displaces old work through the gate."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "AK"
 to = "gate"
 channel = "information"
-hints = "constraint=false"
 audit = ["technology_maturity->automation_intensity"]
 mechanism = "The takeover gate opens with maturity."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "disp"
 to = "seed"
 channel = "information"
 audit = ["displaced_old_work->seeding_flow"]
 mechanism = "Seeding follows the rate of displacement."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "gate"
 to = "seed"
 channel = "information"
 audit = ["surviving_new_task_share->seeding_flow"]
 mechanism = "Only the surviving share is seeded."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "gamma"
 to = "seed"
 channel = "information"
 audit = ["seeded_fraction->seeding_flow"]
 mechanism = "Seeded fraction of displaced mass."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "U"
 to = "bind"
 channel = "information"
-hints = "constraint=false, tailport=e, headport=ne"
 audit = ["unbound_task_stock->available_unbound_mass", "available_unbound_mass->binding_claim"]
 mechanism = "Claims are shares of the offered stock."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "B"
 to = "bind"
 channel = "information"
-hints = "constraint=false, tailport=e, headport=e"
 audit = ["occupation_bound_work->absorptive_capacity", "absorptive_capacity->binding_flow"]
 mechanism = "Bound mass grows the size margin: size learns."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "M0"
 to = "bind"
 channel = "information"
 parameter = true
 mechanism = "Pre-shock size in M_o = M_o(0) + r_o, eq. (cap)."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "theta_abs"
 to = "bind"
 channel = "information"
 parameter = true
 mechanism = "Absorption timescale of the capacity law."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "eo"
 to = "bind"
 channel = "information"
 audit = ["task_occupation_fit->binding_claim"]
 mechanism = "Frozen match readiness allocates: claims are FIT^beta_m shares."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "B"
 to = "W"
 channel = "information"
 audit = ["occupation_bound_work->occupational_value"]
 mechanism = "Bound new work carries value."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "L"
 to = "W"
 channel = "information"
-hints = "constraint=false"
 identity = true
 mechanism = "Crowding by the density definition n = sum L_o b_o + B."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "W"
 to = "resort"
 channel = "information"
 audit = ["occupational_value->target_population"]
 mechanism = "The mobility target follows value."
 
-[[stockflow.edges]]
+[[figures.edges]]
 from = "theta_L"
 to = "resort"
 channel = "information"

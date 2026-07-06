@@ -59,7 +59,7 @@ PIPELINE = [
     ("d10", "d10_capacity_exponent.py"),
     ("d11", "d11_readiness_update.py"),
     ("d12", "d12_baseline_economy.py"),
-    ("cld", "cld/extract_dynamic_cld.py"),
+    ("cld", "cld/build_figure.py"),
 ]
 
 
