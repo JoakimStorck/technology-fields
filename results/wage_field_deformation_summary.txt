@@ -1,0 +1,26 @@
+Occupation wage adjustment, exactly decomposed (pre-registered).
+  economy R 18.0, beta 0.5, gamma 0.5, ell 0.1330; occupations 849, grid 4800 cells
+  converged True; re-sorted mass 0.581
+  exactness: max |strip+cong+reinst - total| = 8.88e-16
+
+Employment-weighted mean wage adjustment (log points):
+  stripping     -0.4107   (capital removes priced content, via Pi)
+  congestion    -0.3827   (re-sorting bends the return, via n^(b-1))
+  reinstatement +0.0413   (new bound work added)
+  total         -0.7521
+
+Channel magnitudes and signature:
+  mean |stripping|  = 0.4107
+  mean |congestion| = 0.4556   (ratio 1.11 of stripping)
+  congestion adj, employment GAINERS = -0.4969 (crowd in)
+  congestion adj, employment LOSERS  = +0.1097 (thin out)
+  order-robustness (cong-first vs strip-first): 8% change
+
+Pre-registered hypothesis verdicts:
+  W1 (decomposition exact, resid<1e-6)     PASS  (resid 8.9e-16)
+  W2 (stripping mean cut < -0.02)          PASS  (mean -0.4107)
+  W3 (congestion >= 0.20 x stripping)      PASS  (ratio 1.11)
+  W4 (gainers crowd down, losers thin up)  PASS  (gain -0.4969, lose +0.1097)
+  W5 (order-robust, <25% swing)            PASS  (8%)
+
+Reading: automation adjusts wages through two channels of comparable size. Stripping removes priced task content from exposed bundles and cuts wages directly. Congestion is the re-sorting of freed labour into the least-damaged occupations, which bends the effective return down where labour concentrates and up where it thins -- a distributional channel invisible to the aggregate labour share (which cancels beta) but present in occupation wage adjustments. Reinstatement adds back only where new work binds.

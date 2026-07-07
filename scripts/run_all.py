@@ -54,11 +54,15 @@ from pathlib import Path
 
 SCRIPTS = Path(__file__).resolve().parent
 
+# Numbering is a stable identity, not a position. Retired steps leave gaps by
+# design: 04 (residual diagnostic, superseded by the assignment appendix),
+# 13 (occupation-rent extension, deferred to separate work), 18 (binding
+# counterfactual, an internal robustness check with no manuscript claim). See
+# git history to revive any of them.
 PIPELINE = [
     ("01", "01_wage_field.py"),
     ("02", "02_price_field.py"),
     ("03", "03_field_vs_paper1.py"),
-    ("04", "04_residual_structure.py"),
     ("05", "05_family_wedge.py"),
     ("06", "06_capability_fields.py"),
     ("07", "07_build_exposure.py"),
@@ -67,11 +71,16 @@ PIPELINE = [
     ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),
     ("12", "12_price_microfoundation.py"),
-    ("13", "13_occupation_rents.py"),
+    ("14", "14_sensitivity.py"),
+    ("15", "15_geometry_map.py"),
+    ("16", "16_placebo_field.py"),
+    ("17", "17_unbound_decomposition.py"),
+    ("19", "19_wage_field_deformation.py"),
+    ("20", "20_wage_object_consistency.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
-OEWS_DEPENDENT = {"11", "13"}
+OEWS_DEPENDENT = {"11", "16", "20"}
 
 
 def run(script: Path, args: list[str] | None = None) -> int:
@@ -120,7 +129,7 @@ def main() -> None:
     if any(k in OEWS_DEPENDENT for k, _ in steps):
         oews = SCRIPTS.parent / "data" / "national_M2019_dl.xlsx"
         if not oews.exists():
-            print(f"WARNING: {oews} not found; steps 11/13 need the BLS OEWS "
+            print(f"WARNING: {oews} not found; steps 11/16/20 need the BLS OEWS "
                   "national medians (2019, 2024, 2025) in data/.")
 
     results: list[tuple[str, str, int]] = []
