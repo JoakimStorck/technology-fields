@@ -1,0 +1,14 @@
+Startup field-enrichment (producer 22; positions from 21).
+  p_K: chi_K 0.463, xi_K 38.4 deg;  z_K 0.583;  a-core 0.392;  u-periphery 0.794
+  disk-mean nulls:  zeta 0.4540  u 0.0257  a 0.251
+
+  AI startups (n=809):
+    d_epi  median 0.447   d_ring  median 0.142   closer to ring: 88%
+    enrichment  zeta 1.30x  u 1.28x  a 0.92x   (u/zeta 0.99)
+    compass  E 32%  N 30%  W 15%  S 24%
+
+  robotics (n=37):
+    d_epi  median 0.617   d_ring  median 0.121   closer to ring: 100%
+    enrichment  zeta 1.33x  u 1.63x  a 0.04x   (u/zeta 1.23)
+    compass  E 3%  N 22%  W 62%  S 14%
+

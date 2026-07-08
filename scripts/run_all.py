@@ -37,6 +37,12 @@ Notes:
   - 07 and 08 require the Eloundou labelset data/full_labelset.tsv
     (github.com/openai/GPTs-are-GPTs). It is committed in data/ and calls no
     API, so 07 now runs anywhere as part of the pipeline.
+  - 21 and 22 place the AI startup ecosystem in the geometry. 21 needs
+    data/geometry_projection.npz (recover_projection.py) and
+    data/startups_ycombinator.csv (fetch_startups.py); its first run embeds via
+    OpenAI (OPENAI_API_KEY) and caches to results/, so later runs need no API.
+    22 reads 21's positions. The data-prep helpers (recover_projection.py,
+    fetch_startups.py) are run on their own, like 00.
 
 Usage:
     python scripts/run_all.py                          # 01..13
@@ -77,10 +83,13 @@ PIPELINE = [
     ("17", "17_unbound_decomposition.py"),
     ("19", "19_wage_field_deformation.py"),
     ("20", "20_wage_object_consistency.py"),
+    ("21", "21_startup_seeding.py"),
+    ("22", "22_startup_field_enrichment.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
 OEWS_DEPENDENT = {"11", "16", "20"}
+STARTUP_DEPENDENT = {"21", "22"}
 
 
 def run(script: Path, args: list[str] | None = None) -> int:
@@ -131,6 +140,16 @@ def main() -> None:
         if not oews.exists():
             print(f"WARNING: {oews} not found; steps 11/16/20 need the BLS OEWS "
                   "national medians (2019, 2024, 2025) in data/.")
+
+    if any(k in STARTUP_DEPENDENT for k, _ in steps):
+        proj = SCRIPTS.parent / "data" / "geometry_projection.npz"
+        corpus = SCRIPTS.parent / "data" / "startups_ycombinator.csv"
+        missing = [p.name for p in (proj, corpus) if not p.exists()]
+        if missing:
+            print(f"WARNING: {', '.join(missing)} not found; step 21 needs the "
+                  "projection basis (recover_projection.py) and the YC corpus "
+                  "(fetch_startups.py), and OPENAI_API_KEY for the first embed "
+                  "(cached thereafter). Step 22 reads 21's output.")
 
     results: list[tuple[str, str, int]] = []
     for key, name in steps:
