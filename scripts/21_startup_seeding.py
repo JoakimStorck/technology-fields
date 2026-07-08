@@ -341,7 +341,8 @@ def startup_side(model, smoke=False):
     else:
         W, b, pre = load_projection()
         corpus = pd.read_csv(CORPUS_FILE)
-        corpus = corpus[corpus.get("is_ai", 1) == 1].copy()
+        corpus = corpus[(corpus.get("is_ai", 0) == 1) |
+                        (corpus.get("is_robotics", 0) == 1)].copy()
         emb = _embed_cached(corpus["text"].astype(str).tolist())
         xi, chi = project_to_disk(emb, W, b, pre, k)
         corpus["xi"], corpus["chi"] = xi, chi
@@ -350,8 +351,10 @@ def startup_side(model, smoke=False):
         pos_cols = [c for c in corpus.columns if c != "text"]
         corpus[pos_cols].to_csv(RESULTS / "startup_seeding_startups.csv",
                                 index=False)
-        lines += [f"STARTUP SIDE: {len(corpus)} AI startups embedded and "
-                  f"projected into the frozen geometry."]
+        lines += [f"STARTUP SIDE: {len(corpus)} AI and robotics startups "
+                  f"embedded and projected into the frozen geometry "
+                  f"(AI {int((corpus.get('is_ai', 0) == 1).sum())}, "
+                  f"robotics {int((corpus.get('is_robotics', 0) == 1).sum())})."]
 
     text_field = density_on_grid(xi, chi, grid)
     a, u = model["a"], model["u"]

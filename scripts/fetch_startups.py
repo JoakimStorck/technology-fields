@@ -3,25 +3,29 @@ fetch_startups.py  (infrastructure; not an analysis producer)
 -------------------------------------------------------------
 Builds data/startups_ycombinator.csv for scripts/21_startup_seeding.py from the
 Y Combinator company directory, via the yc-oss daily mirror of YC's public
-Algolia index (no key, no HTML scraping). Each record already carries the same
-fields the AISE authors used: one_liner, long_description, tags, industries,
-batch.
+Algolia index (no key, no HTML scraping). Each record carries the same fields
+Fenoaltea et al. (2026) use to build AISE/RSE: one_liner, long_description,
+tags, batch.
 
-AI and robotics flags follow YC's own tags:
-  is_ai        the company carries the "AI" tag  (broaden with --ai-broad to the
-               union AI / Generative AI / Machine Learning / Conversational AI /
-               AIOps / ML / AI Assistant)
-  is_robotics  a robotics tag, or the "Manufacturing and Robotics" industry
+AI and robotics flags use the SAME YC tag sets as Fenoaltea et al. (2026), so
+the corpus is directly comparable to their AISE and RSE populations:
+  is_ai        any of the 13 AI tags: AI, Artificial Intelligence, AI Assistant,
+               AI-Powered Drug Discovery, AIOps, Conversational AI, ML, Machine
+               Learning, Deep Learning, Deepfake Detection, Generative AI,
+               AI-Enhanced Learning, Computer Vision.
+  is_robotics  any of the 5 robotics tags: Robotics, Robotic Process Automation,
+               Food Service Robots & Machines, Medical Robotics, Robotic Surgery.
+               Tags only, as in their RSE; the AI overlap is observed, not
+               imposed (they take all robotics-tagged and note most also carry an
+               AI tag). No industry filter.
 
-text = one_liner + ". " + long_description  (the same product text the AISE
-labeller saw). Whitespace collapsed; empty rows dropped.
+text = one_liner + ". " + long_description  (detailed descriptions, as in their
+main analysis). Whitespace collapsed; empty rows dropped.
 
-The corpus is a SUPERSET of the paper's March-2024 set because YC keeps adding
-companies (the 2024-2026 AI wave in particular). Exact replication of their ~958
-is neither possible nor needed -- the AISE OUTPUT is already vendored
-(AISE_occupations_v1.csv); this corpus supplies the descriptions to EMBED. Use
---max-year 2024 --drop-batches "Summer 2024,Fall 2024" to approximate their
-vintage.
+The corpus is a superset of their March-2024 population because YC keeps adding
+companies; the tag DEFINITIONS are identical, so the method section can state
+the population is constructed as in Fenoaltea et al. --max-year / --drop-batches
+reproduce their vintage if wanted; the default is the latest directory.
 
 Source: yc-oss/api (https://yc-oss.github.io/api/companies/all.json), a daily
 GitHub Actions mirror of YC's public ycdc_public Algolia data. --source accepts
@@ -33,8 +37,8 @@ and analyse, do not redistribute the raw corpus.
 Usage:
     python scripts/fetch_startups.py                       # live yc-oss mirror
     python scripts/fetch_startups.py --source path/all.json
-    python scripts/fetch_startups.py --ai-broad --max-year 2024 \
-        --drop-batches "Summer 2024,Fall 2024"
+    python scripts/fetch_startups.py --max-year 2024 \
+        --drop-batches "Summer 2024,Fall 2024"             # their vintage
 """
 
 from __future__ import annotations
@@ -52,13 +56,13 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 OUT = REPO_ROOT / "data" / "startups_ycombinator.csv"
 LIVE = "https://yc-oss.github.io/api/companies/all.json"
 
-AI_STRICT = {"ai"}
-AI_BROAD = {"ai", "generative ai", "machine learning", "conversational ai",
-            "aiops", "ml", "ai assistant", "swarm ai"}
-ROBO_TAGS = {"robotics", "medical robotics", "robotic surgery",
-             "swarm robotics", "robotic process automation",
-             "food service robots and machines"}
-ROBO_INDUSTRY = "Manufacturing and Robotics"
+AI_TAGS = {"ai", "artificial intelligence", "ai assistant",
+           "ai-powered drug discovery", "aiops", "conversational ai", "ml",
+           "machine learning", "deep learning", "deepfake detection",
+           "generative ai", "ai-enhanced learning", "computer vision"}
+ROBO_TAGS = {"robotics", "robotic process automation",
+             "food service robots & machines", "medical robotics",
+             "robotic surgery"}
 
 _WS = re.compile(r"\s+")
 
@@ -80,15 +84,12 @@ def _batch_year(batch: str):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", default=LIVE)
-    ap.add_argument("--ai-broad", action="store_true",
-                    help="use the union of AI-ish tags, not just the 'AI' tag")
     ap.add_argument("--max-year", type=int, default=None,
-                    help="keep only batches with year <= this (paper vintage)")
+                    help="keep only batches with year <= this (their vintage)")
     ap.add_argument("--drop-batches", default="",
                     help="comma-separated batch names to exclude")
     args = ap.parse_args()
 
-    ai_set = AI_BROAD if args.ai_broad else AI_STRICT
     drop = {b.strip() for b in args.drop_batches.split(",") if b.strip()}
 
     companies = _load(args.source)
@@ -97,9 +98,8 @@ def main():
     rows = []
     for c in companies:
         tags = {str(t).lower() for t in (c.get("tags") or [])}
-        inds = set(c.get("industries") or [])
-        is_ai = bool(tags & ai_set)
-        is_robo = bool(tags & ROBO_TAGS) or (ROBO_INDUSTRY in inds)
+        is_ai = bool(tags & AI_TAGS)
+        is_robo = bool(tags & ROBO_TAGS)       # tags only, as in Fenoaltea RSE
         if not (is_ai or is_robo):
             continue
         batch = c.get("batch") or ""
