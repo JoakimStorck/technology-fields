@@ -42,7 +42,8 @@ takes a task where it is cheaper, and new work becomes human only where
 labour stays competitive and some occupation can bind it. Calibrated,
 the model restores employment but not pay: most new tasks bind to no
 occupation, and freed labour re-sorts into other occupations, carrying
-wage pressure into work the technology never reaches.
+wage pressure into work the technology never reaches. New AI and
+robotics firms are founded where the model places new work.
 \end{abstract}
 
 \vspace{0.5em}
@@ -173,13 +174,16 @@ calls for is within-occupation task recomposition over time, left to
 future empirical work. The exercise doubles as a caution for the growing
 literature that correlates AI exposure with recent wage changes.
 
-The paper makes three contributions. The first is methodological: it
-represents a technology as a field over a two-dimensional task space,
-the first such representation in the task-based literature, turning
-automation and reinstatement from movements along a line into
-operations on a surface, where whether labour keeps a task is decided
-pointwise by the price of work and by the capabilities occupations
-already hold rather than fixed by construction. The second concerns the
+The paper makes three contributions. The first is a spatial model of
+technological change. It represents a technology as a field over a
+two-dimensional task space, the first such representation in the
+task-based literature. Automation and reinstatement become operations
+on a surface, no longer movements along a line. Whether labour keeps a
+task is decided pointwise by the price of work and by the capabilities
+an occupation already holds, rather than fixed by construction. The
+model turns qualitative claims about automation into spatial
+predictions, about where a technology strips paid work and where it
+seeds new work. The second concerns the
 worker consequences of reinstatement: task creation restores employment
 without restoring pay, and the paper traces why through a single spatial
 story. New tasks strip priced content from the bundles they touch; most
@@ -187,12 +191,15 @@ of the work they seed binds to no occupation and reaches no worker; and
 the labour freed by stripping re-sorts into other occupations, crowding
 them and carrying wage pressure into production and manual work the
 technology never reaches. Employment reinstatement and wage
-reinstatement come apart, and the geometry locates where. The third is
-about identification: in the 2019--2025 cross-section, technical
-exposure, the baseline wage, and the pandemic compression are collinear,
-so occupational wage-growth regressions manufacture support for any
-wage-gradient mechanism --- a claim we demonstrate with placebo
-technologies, including one that does not exist.
+reinstatement come apart, and the geometry locates where. The third is empirical.
+The model's central prediction is spatial: reinstatement seeds new work
+on the boundary of the technology field. Independent data on where AI
+and robotics firms are founded place those firms where the model seeds.
+The same data reach the model's wage prediction and cannot identify it.
+In the 2019--2025 cross-section, technical exposure, the baseline wage,
+and the pandemic compression are collinear, so occupational wage-growth
+regressions manufacture support for any wage-gradient mechanism, a point
+we make with placebo technologies, including one that does not exist.
 
 The paper proceeds as follows.
 Section~\ref{sec:geometry} introduces the spatial occupational geometry.
@@ -204,9 +211,9 @@ and the bundle operator. Section~\ref{sec:employment-demand} closes the
 model with employment sorting and the output-demand channel.
 Section~\ref{sec:implementation} describes the empirical implementation
 and calibration. Section~\ref{sec:cases} presents the illustrative
-cases. Section~\ref{sec:directional-check} confronts the model with
-observed occupational wage changes and shows what the 2019--2025
-cross-section can and cannot identify.
+cases. Section~\ref{sec:directional-check} confronts the model with data of
+two kinds, observed occupational wage changes and the founding locations
+of new firms, and shows what each can and cannot show.
 Section~\ref{sec:discuss} discusses implications and limitations.
 
 %% ============================================================
@@ -1543,18 +1550,26 @@ automation is conditional on the still uncertain elasticity of demand
 for cognitive output.
 
 %% ============================================================
-\section{Identification: what the wage cross-section can and cannot show}
+\section{Confronting the model with data}
 \label{sec:directional-check}
 %% ============================================================
 
-The model's empirical implication is directional. If automation and
+The model makes empirical claims of two kinds, and the available data
+speak to them unevenly. One claim is about incidence, about where
+automation strips paid content and pushes wages down. The other is about
+location, about where reinstatement seeds new work. Observed
+occupational wage changes bear on the first. The founding locations of
+new firms bear on the second. We take each in turn and then say what
+each can and cannot show.
+
+The wage claim is directional. If automation and
 reinstatement push an occupation's bundle down the price gradient, that
 occupation should experience weaker wage growth than occupations whose
-bundles move less or remain closer to high-priced work. This section
-confronts that implication with observed occupational wage changes, in
-two steps: a naive directional check, which the model passes, and a
-confound analysis, which shows that the pass is uninformative in this
-window. We report both. The second step matters beyond this paper.
+bundles move less or remain closer to high-priced work. We confront that
+implication with observed occupational wage changes in two steps, a
+naive directional check, which the model passes, and a confound
+analysis, which shows the pass is uninformative in this window. The
+second step matters beyond this paper.
 
 Using the calibrated cognitive field, each occupation's bundle is
 rewritten and its centroid shifts from $\mu_o$ to $\mu_o^{\text{post}}$. The
@@ -1683,34 +1698,108 @@ window it is absent.}
 \label{fig:centroid-shift-new}
 \end{figure}
 
-\subsection{What follows}
+\subsection{Where new work appears}
+\label{sec:check-newwork}
+
+The wage cross-section speaks to incidence, to where automation strips
+paid content. The model makes a second prediction, about location.
+Reinstatement seeds new tasks where the technology field changes most
+rapidly, on the ring at radius $z_K$ where $\|\nabla\phi_K\|$ peaks
+\eqref{eq:gradient-phi}. This is the two-dimensional form of an
+older claim. In the one-dimensional model, new tasks enter at the top of
+the task index, above the range capital has taken, where labour holds
+the comparative advantage
+\parencite{acemoglu2018race,acemoglu2019automation}. The field lifts
+that top to a boundary. New work should concentrate on the ring, away
+from the technology centre. A scalar exposure ranking has no boundary
+and no gradient, so it cannot place new work at all.
+
+The test needs firm locations fixed without reference to where the model
+seeds. We take the AI and robotics startups of
+\textcite{fenoaltea2026}, tagged from the Y~Combinator directory. Each
+firm's product text is embedded with the encoder of
+\textcite{storck2026geometry} and mapped through the frozen projection,
+which was calibrated to O*NET task statements and to wages and never to
+where firms are founded. The firms enter the disk as the occupations
+did. The seeding ring is a property of the calibrated field, and the
+firm positions are independent of it.
+
+The AI firms ($n=1885$) land on the ring
+(Figure~\ref{fig:startup-comparison}). Their median distance to the ring
+is $0.14$ in disk units, and $88$ percent sit closer to the ring than to
+the technology centre. Against a uniform-disk null, seeding density at
+the firm locations is enriched $1.30\times$, while the incidence field
+$a(\mathbf r)$ sits at the null ($0.92\times$). The firms cluster where
+the model seeds new work and away from where it strips paid content. The
+robotics firms ($n=153$) sit tighter still, with $99$ percent closer to
+the ring than to the centre. A cross-section of this kind can only fail
+to contradict the prediction, and it does not.
+
+Bound reinstatement does not spread evenly around the ring. It
+concentrates in two lobes, one near the technology centre and one in the
+technical-physical west, which appear as two peaks in the radial profile
+of $B_o$ (Figure~\ref{fig:startup-comparison}). The two technologies
+fill a lobe each, and the split follows from where each sits in the
+geometry rather than from a second mechanism. AI firms sit on the inner
+lobe, where existing occupations can bind the new work. Robotics firms
+sit on the outer lobe, off the incidence core entirely ($a$-enrichment
+$0.03\times$ against $0.92\times$ for AI), where the seeded work binds to
+no existing occupation. A scalar exposure ranking scores the two alike.
+Pooled, the firms trace both peaks of the model's bound reinstatement.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{startup_field_enrichment_comparison.png}
+\caption{The model's prediction beside the firm positions, on the same
+disk. Left: bound reinstatement $B_o$ over occupations, concentrated on
+the seeding ring at radius $z_K$ (dashed) around the technology centre
+$p_K$. Middle: AI firms (blue) and robotics firms (red) from
+\textcite{fenoaltea2026}, placed by their product text through the frozen
+projection. Right: radial density against distance from $p_K$; the
+seeding ring $\|\nabla\phi_K\|$, the unbound field $u(\mathbf r)$, the
+model's bound reinstatement, and the AI and robotics firms all peak near
+$z_K$. The unbound share of seeded mass is $68$ percent. The firm
+positions are calibrated to O*NET and wages, never to where firms are
+founded.}
+\label{fig:startup-comparison}
+\end{figure}
+
+\subsection{What the data show}
 \label{sec:check-reading}
 
-Two conclusions follow. First, the
-2019--2025 occupational cross-section cannot test the mechanism. Its
-observable prediction and the dominant wage shock of the period load on
-the same index --- the baseline wage --- and once that index is held
-fixed there is no identifying variation left. The identifying variation
-the model calls for is within-occupation task recomposition over time:
-whether the paid content of exposed bundles is being redrawn in the
-direction the operator predicts. That test requires within-occupation
-microdata of the kind pioneered by \textcite{atalay2020evolution} and
-is left to future empirical work. Second, the null in the
-deployment window is not evidence against the model. The model does not
-predict that two years of diffusion should be visible in occupational
-median wages. A strong pass in this window would itself have been
-suspect.
+The two confrontations are not symmetric. The wage cross-section cannot
+test the mechanism. The model's wage prediction and the dominant wage
+shock of the period load on the same index, the baseline wage, and once
+that index is held fixed no identifying variation is left. The
+cross-section fails to contradict the model because it cannot
+discriminate, not because it corroborates. The firm locations are
+different. They bear on a spatial prediction the wage cross-section
+cannot make, that new work concentrates on the ring, and they are
+consistent with it. Neither reading is proof. A single cross-section of
+firm positions cannot separate seeding on the ring from other processes
+that would also deposit new work there. It can only fail to contradict
+the model, and it does.
 
-The exercise carries a wider caution. A
-naive correlation between AI exposure and 2019--2025 occupational wage
-growth has the right sign, a small $p$-value, and nothing to do with AI:
-it measures the pandemic compression. This is the exposure-versus-incidence
-distinction of Section~\ref{sec:operated-share} in empirical form.
-Technical exposure correlates with wage levels, wage levels drove
-relative wage growth in this period, and the chain of correlations
-manufactures significant apparent support for any mechanism whose
-cross-sectional footprint is a wage gradient --- strongest, as the
-placebos show, where the footprint is steepest.
+The wage mechanism still has a proper test, and the cross-section is not
+it. The identifying variation the model calls for is within-occupation
+task recomposition over time, whether the paid content of exposed
+bundles is redrawn in the direction the operator predicts. That test
+needs within-occupation microdata of the kind pioneered by
+\textcite{atalay2020evolution}, and we leave it to future empirical
+work. The null in the deployment window is not evidence against the
+model either. The model does not predict that two years of diffusion
+should be visible in occupational median wages, and a strong pass there
+would itself have been suspect.
+
+The exercise carries a wider caution. A naive correlation between AI
+exposure and 2019--2025 occupational wage growth has the right sign, a
+small $p$-value, and nothing to do with AI. It measures the pandemic
+compression. This is the exposure-versus-incidence distinction of
+Section~\ref{sec:operated-share} in empirical form. Technical exposure
+correlates with wage levels, wage levels drove relative wage growth in
+this period, and the chain of correlations manufactures apparent support
+for any mechanism whose cross-sectional footprint is a wage gradient,
+strongest where that footprint is steepest.
 
 %% ============================================================
 \section{Discussion}
@@ -1777,7 +1866,15 @@ relative to the speed of absorption becomes an economic variable in
 its own right, and the destination of reinstated work --- which
 occupations end up holding it --- may depend on the path and not only
 on the endpoint. We regard a dynamic treatment built on these
-observations as interesting future work.
+observations as interesting future work. The firm positions make this
+concrete. AI and robotics firms occupy the bindable part of the seeded
+region, and the unbound field extends radially beyond them
+(Figure~\ref{fig:startup-comparison}). One reading is that the outer
+band holds seeded work not yet organised into occupations, latent room
+for new firms and new kinds of work. A cross-section cannot tell that
+apart from an outer band that stays sparse because its work resists
+binding, which is the distinction a stock-based dynamic treatment would
+draw.
 
 The wage wedge also opens a connection to rent-based accounts of
 automation \parencite{acemoglu2024rents}. If the residual wedge is interpreted as an occupation- or
