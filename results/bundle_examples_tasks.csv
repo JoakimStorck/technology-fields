@@ -1,0 +1,107 @@
+occupation,onet_code,number,direction,deg,chi,task
+Software Developers,15-1252.00,1,human-centered,33.6,0.558,"Consult with customers or other departments on project status, proposals, or technical issues, such as software system design or maintenance."
+Software Developers,15-1252.00,2,human-centered,42.0,0.442,"Prepare reports or correspondence concerning project specifications, activities, or status."
+Software Developers,15-1252.00,3,analytical,45.8,0.45,Confer with data processing or project managers to obtain information on limitations or capabilities for data processing projects.
+Software Developers,15-1252.00,4,analytical,57.7,0.553,"Confer with systems analysts, engineers, programmers and others to design systems and to obtain information on project limitations and capabilities, performance requirements and interfaces."
+Software Developers,15-1252.00,5,analytical,61.9,0.336,"Supervise and assign work to programmers, designers, technologists, technicians, or other engineering or scientific personnel."
+Software Developers,15-1252.00,6,analytical,65.9,0.443,"Supervise the work of programmers, technologists and technicians and other engineering and scientific personnel."
+Software Developers,15-1252.00,7,analytical,73.3,0.64,Analyze user needs and software requirements to determine feasibility of design within time and cost constraints.
+Software Developers,15-1252.00,8,analytical,75.5,0.509,"Obtain and evaluate information on factors such as reporting formats required, costs, or security needs to determine hardware configuration."
+Software Developers,15-1252.00,9,analytical,79.1,0.66,"Develop or direct software system testing or validation procedures, programming, or documentation."
+Software Developers,15-1252.00,10,analytical,80.7,0.67,"Analyze information to determine, recommend, and plan installation of a new system or modification of an existing system."
+Software Developers,15-1252.00,11,analytical,82.4,0.526,Determine system performance standards.
+Software Developers,15-1252.00,12,analytical,85.2,0.655,"Design, develop and modify software systems, using scientific analysis and mathematical models to predict and measure outcomes and consequences of design."
+Software Developers,15-1252.00,13,analytical,87.9,0.413,"Store, retrieve, and manipulate data for analysis of system capabilities and requirements."
+Software Developers,15-1252.00,14,analytical,106.3,0.125,Coordinate installation of software system.
+Software Developers,15-1252.00,15,analytical,119.5,0.38,"Modify existing software to correct errors, adapt it to new hardware, or upgrade interfaces and improve performance."
+Software Developers,15-1252.00,16,analytical,123.9,0.72,Monitor functioning of equipment to ensure system operates in conformance with specifications.
+Software Developers,15-1252.00,17,technical-physical,175.3,0.173,Train users to use new or modified equipment.
+Lawyers,23-1011.00,1,human-centered,0.3,0.503,"Advise clients concerning business transactions, claim liability, advisability of prosecuting or defending lawsuits, or legal rights and obligations."
+Lawyers,23-1011.00,2,human-centered,3.9,0.465,"Interpret laws, rulings and regulations for individuals and businesses."
+Lawyers,23-1011.00,3,human-centered,8.9,0.181,"Prepare, draft, and review legal documents, such as wills, deeds, patent applications, mortgages, leases, and contracts."
+Lawyers,23-1011.00,4,human-centered,20.2,0.511,Confer with colleagues with specialties in appropriate areas of legal issue to establish and verify bases for legal proceedings.
+Lawyers,23-1011.00,5,human-centered,21.3,0.423,Gather evidence to formulate defense or to initiate legal actions by such means as interviewing clients and witnesses to ascertain the facts of a case.
+Lawyers,23-1011.00,6,human-centered,27.5,0.5,Evaluate findings and develop strategies and arguments in preparation for presentation of cases.
+Lawyers,23-1011.00,7,human-centered,28.8,0.602,"Help develop federal and state programs, draft and interpret laws and legislation, and establish enforcement procedures."
+Lawyers,23-1011.00,8,human-centered,36.7,0.476,"Study Constitution, statutes, decisions, regulations, and ordinances of quasi-judicial bodies to determine ramifications for cases."
+Lawyers,23-1011.00,9,human-centered,41.2,0.474,"Analyze the probable outcomes of cases, using knowledge of legal precedents."
+Lawyers,23-1011.00,10,human-centered,43.7,0.546,Examine legal data to determine advisability of defending or prosecuting lawsuit.
+Lawyers,23-1011.00,11,analytical,50.9,0.323,Search for and examine public and other legal records to write opinions or establish ownership.
+Lawyers,23-1011.00,12,human-centered,322.2,0.424,"Act as agent, trustee, guardian, or executor for businesses or individuals."
+Lawyers,23-1011.00,13,human-centered,331.1,0.288,"Select jurors, argue motions, meet with judges, and question witnesses during the course of a trial."
+Lawyers,23-1011.00,14,human-centered,331.4,0.449,Present and summarize cases to judges and juries.
+Lawyers,23-1011.00,15,human-centered,333.5,0.456,Perform administrative and management functions related to the practice of law.
+Lawyers,23-1011.00,16,human-centered,334.9,0.457,Supervise legal assistants.
+Lawyers,23-1011.00,17,human-centered,335.1,0.388,Negotiate settlements of civil disputes.
+Lawyers,23-1011.00,18,human-centered,335.5,0.428,Probate wills and represent and advise executors and administrators of estates.
+Lawyers,23-1011.00,19,human-centered,343.8,0.339,Negotiate contractual agreements.
+Lawyers,23-1011.00,20,human-centered,344.7,0.431,"Prepare legal briefs and opinions, and file appeals in state and federal courts of appeal."
+Lawyers,23-1011.00,21,human-centered,355.2,0.413,Present evidence to defend clients or prosecute defendants in criminal or civil litigation.
+Lawyers,23-1011.00,22,human-centered,357.6,0.461,Represent clients in court or before government agencies.
+Machinists,51-4041.00,1,analytical,45.1,0.269,Advise clients about the materials being used for finished products.
+Machinists,51-4041.00,2,analytical,96.5,0.314,"Confer with engineering, supervisory, or manufacturing personnel to exchange technical information."
+Machinists,51-4041.00,3,analytical,105.3,0.742,"Test experimental models under simulated operating conditions, for purposes such as development, standardization, or feasibility of design."
+Machinists,51-4041.00,4,analytical,126.5,0.419,Confer with numerical control programmers to check and ensure that new programs or machinery will function properly and that output will meet specifications.
+Machinists,51-4041.00,5,analytical,131.3,0.544,Evaluate machining procedures and recommend changes or modifications for improved efficiency or adaptability.
+Machinists,51-4041.00,6,technical-physical,135.5,0.844,"Measure, examine, or test completed units to check for defects and ensure conformance to specifications, using precision instruments, such as micrometers."
+Machinists,51-4041.00,7,technical-physical,138.0,0.622,"Design fixtures, tooling, or experimental parts to meet special engineering needs."
+Machinists,51-4041.00,8,technical-physical,142.6,0.656,"Study sample parts, blueprints, drawings, or engineering information to determine methods or sequences of operations needed to fabricate products."
+Machinists,51-4041.00,9,technical-physical,149.5,0.731,"Calculate dimensions or tolerances, using instruments, such as micrometers or vernier calipers."
+Machinists,51-4041.00,10,technical-physical,151.9,0.406,"Program computers or electronic instruments, such as numerically controlled machine tools."
+Machinists,51-4041.00,11,technical-physical,153.5,0.78,Operate equipment to verify operational efficiency.
+Machinists,51-4041.00,12,technical-physical,154.3,0.717,Diagnose machine tool malfunctions to determine need for adjustments or repairs.
+Machinists,51-4041.00,13,technical-physical,156.2,0.682,"Support metalworking projects from planning and fabrication through assembly, inspection, and testing, using knowledge of machine functions, metal properties, and mathematics."
+Machinists,51-4041.00,14,technical-physical,166.8,0.962,"Dismantle machines or equipment, using hand tools or power tools to examine parts for defects and replace defective parts where needed."
+Machinists,51-4041.00,15,technical-physical,167.8,0.218,Prepare working sketches for the illustration of product appearance.
+Machinists,51-4041.00,16,technical-physical,168.0,0.572,Monitor the feed and speed of machines during the machining process.
+Machinists,51-4041.00,17,technical-physical,169.8,0.816,"Install experimental parts or assemblies, such as hydraulic systems, electrical wiring, lubricants, or batteries into machines or mechanisms."
+Machinists,51-4041.00,18,technical-physical,170.2,0.694,Check work pieces to ensure that they are properly lubricated or cooled.
+Machinists,51-4041.00,19,technical-physical,171.4,0.191,Dispose of scrap or waste material in accordance with company policies and environmental regulations.
+Machinists,51-4041.00,20,technical-physical,174.2,0.764,Install repaired parts into equipment or install new equipment.
+Machinists,51-4041.00,21,technical-physical,175.3,0.59,"Establish work procedures for fabricating new structural products, using a variety of metalworking machines."
+Machinists,51-4041.00,22,technical-physical,181.0,0.796,"Set up or operate metalworking, brazing, heat-treating, welding, or cutting equipment."
+Machinists,51-4041.00,23,technical-physical,181.9,0.83,"Set up, adjust, or operate basic or specialized machine tools used to perform precision machining operations."
+Machinists,51-4041.00,24,technical-physical,182.9,0.67,Maintain machine tools in proper operational condition.
+Machinists,51-4041.00,25,technical-physical,185.8,0.813,"Machine parts to specifications, using machine tools, such as lathes, milling machines, shapers, or grinders."
+Machinists,51-4041.00,26,technical-physical,186.4,0.894,Fit and assemble parts to make or repair machine tools.
+Machinists,51-4041.00,27,technical-physical,193.5,0.311,"Separate scrap waste and related materials for reuse, recycling, or disposal."
+Machinists,51-4041.00,28,technical-physical,198.2,0.613,"Lay out, measure, and mark metal stock to display placement of cuts."
+Machinists,51-4041.00,29,technical-physical,205.4,0.768,"Align and secure holding fixtures, cutting tools, attachments, accessories, or materials onto machines."
+Dishwashers,35-9021.00,1,technical-physical,214.4,0.373,Clean garbage cans with water or steam.
+Dishwashers,35-9021.00,2,technical-physical,220.6,0.506,"Wash dishes, glassware, flatware, pots, or pans, using dishwashers or by hand."
+Dishwashers,35-9021.00,3,service,226.6,0.752,"Transfer supplies or equipment between storage and work areas, by hand or using hand trucks."
+Dishwashers,35-9021.00,4,service,229.8,0.556,Clean or prepare various foods for cooking or serving.
+Dishwashers,35-9021.00,5,service,232.9,0.576,Sweep or scrub floors.
+Dishwashers,35-9021.00,6,service,234.3,0.489,"Place clean dishes, utensils, or cooking equipment in storage areas."
+Dishwashers,35-9021.00,7,service,234.5,0.405,"Maintain kitchen work areas, equipment, or utensils in clean and orderly condition."
+Dishwashers,35-9021.00,8,service,238.0,0.659,Load or unload trucks that deliver or pick up food or supplies.
+Dishwashers,35-9021.00,9,service,247.7,0.633,"Sort and remove trash, placing it in designated pickup areas."
+Dishwashers,35-9021.00,10,service,249.2,0.537,Prepare and package individual place settings.
+Dishwashers,35-9021.00,11,service,255.2,0.607,"Stock supplies, such as food or utensils, in serving stations, cupboards, refrigerators, or salad bars."
+Dishwashers,35-9021.00,12,service,257.0,0.595,Set up banquet tables.
+Dishwashers,35-9021.00,13,service,261.0,0.615,Receive and store supplies.
+Waiters and Waitresses,35-3031.00,1,technical-physical,219.2,0.093,Prepare checks that itemize and total meal costs and sales taxes.
+Waiters and Waitresses,35-3031.00,2,service,246.1,0.651,"Roll silverware, set up food stations, or set up dining areas to prepare for the next shift or for large parties."
+Waiters and Waitresses,35-3031.00,3,service,246.4,0.64,"Fill salt, pepper, sugar, cream, condiment, and napkin containers."
+Waiters and Waitresses,35-3031.00,4,service,247.5,0.572,"Remove dishes and glasses from tables or counters, and take them to kitchen for cleaning."
+Waiters and Waitresses,35-3031.00,5,service,248.8,0.601,"Perform cleaning duties, such as sweeping and mopping floors, vacuuming carpet, tidying up server station, taking out trash, or checking and cleaning bathroom."
+Waiters and Waitresses,35-3031.00,6,service,248.8,0.576,"Prepare tables for meals, including setting up items such as linens, silverware, and glassware."
+Waiters and Waitresses,35-3031.00,7,service,251.4,0.557,"Prepare hot, cold, and mixed drinks for patrons, and chill bottles of wine."
+Waiters and Waitresses,35-3031.00,8,service,255.9,0.554,Clean tables or counters after patrons have finished dining.
+Waiters and Waitresses,35-3031.00,9,service,259.1,0.577,"Perform food preparation duties, such as preparing salads, appetizers, and cold dishes, portioning desserts, and brewing coffee."
+Waiters and Waitresses,35-3031.00,10,service,259.8,0.57,Garnish and decorate dishes in preparation for serving.
+Waiters and Waitresses,35-3031.00,11,service,264.3,0.66,"Stock service areas with supplies such as coffee, food, tableware, and linens."
+Waiters and Waitresses,35-3031.00,12,service,271.7,0.463,"Bring wine selections to tables with appropriate glasses, and pour the wines for customers."
+Waiters and Waitresses,35-3031.00,13,service,272.4,0.542,"Write patrons' food orders on order slips, memorize orders, or enter orders into computers for transmittal to kitchen staff."
+Waiters and Waitresses,35-3031.00,14,service,272.5,0.524,"Serve food or beverages to patrons, and prepare or serve specialty dishes at tables as required."
+Waiters and Waitresses,35-3031.00,15,service,275.7,0.677,Take orders from patrons for food or beverages.
+Waiters and Waitresses,35-3031.00,16,service,281.6,0.743,Escort customers to their tables.
+Waiters and Waitresses,35-3031.00,17,service,282.2,0.633,"Assist host or hostess by answering phones to take reservations or to-go orders, and by greeting, seating, and thanking guests."
+Waiters and Waitresses,35-3031.00,18,service,287.4,0.453,Collect payments from customers.
+Waiters and Waitresses,35-3031.00,19,service,292.8,0.326,"Explain how various menu items are prepared, describing ingredients and cooking methods."
+Waiters and Waitresses,35-3031.00,20,service,295.7,0.678,Inform customers of daily specials.
+Waiters and Waitresses,35-3031.00,21,service,305.8,0.59,"Present menus to patrons and answer questions about menu items, making recommendations upon request."
+Waiters and Waitresses,35-3031.00,22,service,308.8,0.599,"Provide guests with information about local areas, including directions."
+Waiters and Waitresses,35-3031.00,23,service,309.4,0.213,"Check with customers to ensure that they are enjoying their meals, and take action to correct any problems."
+Waiters and Waitresses,35-3031.00,24,human-centered,318.6,0.37,Describe and recommend wines to customers.
+Waiters and Waitresses,35-3031.00,25,human-centered,320.3,0.131,Check patrons' identification to ensure that they meet minimum age requirements for consumption of alcoholic beverages.

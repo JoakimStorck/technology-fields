@@ -79,6 +79,7 @@ PIPELINE = [
     ("12", "12_price_microfoundation.py"),
     ("14", "14_sensitivity.py"),
     ("15", "15_geometry_map.py"),
+    ("24", "24_bundle_examples.py"),
     ("16", "16_placebo_field.py"),
     ("17", "17_unbound_decomposition.py"),
     ("19", "19_wage_field_deformation.py"),

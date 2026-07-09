@@ -1,0 +1,29 @@
+Bundle examples for Figure 2 (companion to geometry_map).
+Centroid mu_o and task radius r_o (RT-weighted RMS distance
+from the centroid, on the scaled disk).
+
+Software Developers
+  centroid  xi=75.0 deg  chi=0.4523  (x,y)=(0.1168,0.4369)
+  task radius r_o = 0.2614
+  tasks n = 17   RT sum = 1285.24
+
+Lawyers
+  centroid  xi=5.3 deg  chi=0.3851  (x,y)=(0.3835,0.0354)
+  task radius r_o = 0.2128
+  tasks n = 22   RT sum = 1652.41
+
+Machinists
+  centroid  xi=163.6 deg  chi=0.5707  (x,y)=(-0.5474,0.1614)
+  task radius r_o = 0.3417
+  tasks n = 29   RT sum = 2198.71
+
+Dishwashers
+  centroid  xi=238.5 deg  chi=0.5369  (x,y)=(-0.2804,-0.4579)
+  task radius r_o = 0.1618
+  tasks n = 13   RT sum = 1042.34
+
+Waiters and Waitresses
+  centroid  xi=271.6 deg  chi=0.4866  (x,y)=(0.0140,-0.4864)
+  task radius r_o = 0.2576
+  tasks n = 25   RT sum = 2187.96
+
