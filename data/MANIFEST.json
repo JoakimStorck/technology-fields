@@ -96,6 +96,13 @@
       "derived": false,
       "sha256_source": "852250997ceff9b721ff68f63e877d818f9c1ec8b1b69dd367958faedd5282b2",
       "note": "Primary endpoint for the 2019->2025 centroid-shift test (latest available vintage). UPPERCASE headers. 830 detailed SOC, 772 with numeric H_MEDIAN; 695 detailed SOC carry numeric H_MEDIAN in both 2019 and 2025."
+    },
+    "webb2020_exposure.csv": {
+      "recorded_utc": "2026-07-09T00:18:48+00:00",
+      "source": "Webb (2020), \"The Impact of Artificial Intelligence on the Labor Market\" (SSRN 3482150); occupational exposure to AI, software, and robots from patent-task text matching, keyed by occ1990dd (percentile columns).",
+      "measure": "occupational exposure percentile to robots / software / AI",
+      "derived": false,
+      "sha256_frozen": "c0e3c2ab5c595c5e2fffd2943a379b14255f9609af96dee1536073d7f64c33cc"
     }
   }
 }

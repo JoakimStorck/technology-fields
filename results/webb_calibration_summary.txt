@@ -1,0 +1,28 @@
+Webb (2020) field calibration on the occupation substrate.
+  provenance: Webb (2020), frozen in webb2020_exposure.dta
+  fit: unweighted Gaussian (scripts/08 model), centre constrained to the occupied disk; each surface scaled to [0,1] before the fit.
+  z_K is reach as a fraction of centre-to-rim (rim chi = 1); occupations reach chi = 0.75.
+
+  field                   n     xi_K   chi_K     z_K     A_K  R2_surf  note
+  -------------------------------------------------------------------------
+  Webb robots           719   206.9°   0.752   0.502   0.289    0.842  centre at the occupied edge
+  Webb software         719   145.8°   0.752   0.795   0.308    0.616  centre at the occupied edge
+  Webb AI               719   108.3°   0.752   0.696   0.572    0.697  centre at the occupied edge
+  Eloundou AI (occ.)    878    40.0°   0.485   0.571   0.578    0.832  localised
+
+Webb AI vs Eloundou AI (same substrate, like-for-like):
+  angular separation of centres  +68.3 deg
+  radial separation chi_K        +0.267
+  centre-to-centre distance      0.729 disk units
+  reach ratio z_K(Webb)/z_K(Elo) 1.22
+  The Webb AI centre pins at the occupied edge. The patent-based AI surface is a broad
+  gradient toward high-skill work with no interior peak, so the constrained fit sits it on the
+  rim of the occupied disk: the two measures place AI exposure differently. Eloundou gives a
+  localised north-east peak, Webb AI does not co-locate with it. This matches the known weak
+  correlation between Webb's patent measure and capability-based AI measures.
+
+Webb robots: centre xi_K = 206.9 deg, chi_K = 0.752, z_K = 0.502, R2_surf = 0.84 (centre at the occupied edge).
+Webb software: centre xi_K = 145.8 deg, chi_K = 0.752, z_K = 0.795, R2_surf = 0.62 (centre at the occupied edge).
+  The robot field is the data-calibrated location of the industrial-automation field used
+  as the placebo in the identification section, in place of the hand placement.
+
