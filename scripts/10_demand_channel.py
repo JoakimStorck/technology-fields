@@ -12,14 +12,15 @@ reproduces the cost-invariant equilibrium of script 09.
 
 Two fields are run through the same economy:
   - COGNITIVE: the calibrated AI technology (north, broad; script 08).
-  - MANUAL:    a hand-placed industrial/agricultural field (west, narrow),
-               illustrative, with an open path to historical calibration
-               (RTI / robot exposure for the field, Bessen elasticities for eta).
+  - ROBOT:     the industrial-robot field of Webb (2020), fitted to the disk
+               in script 23 (technical-physical west, z_K 0.50), with a modest
+               amplitude in the spirit of the moderate robot employment and wage
+               effects of Acemoglu & Restrepo (2020).
 
 For each field we sweep eta and read the employment change in the field's own
 automated region. The price gate makes the per-unit saving vanish at the
 adoption margin (Pi/c -> 1 as a -> 1/2), so the demand channel is weak there
-and displacement dominates for realistic eta; the Bessen growth regime (manual
+and displacement dominates for realistic eta; the Bessen growth regime (region
 employment rising with automation) appears only at high elasticity or large
 infra-marginal saving. This reproduces the second-order-at-the-margin property
 of Acemoglu & Restrepo (2018).
@@ -49,10 +50,12 @@ from model.technology import Technology
 RESULTS = REPO_ROOT / "results"
 R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5
 
-# manual field: hand-placed, illustrative (west / technical-physical pole,
-# narrow reach, high effectiveness so it clears the price gate against cheap
-# labour). See the historical-calibration note in the paper draft.
-MANUAL = dict(xi_K=np.radians(180), chi_K=0.45, z_K=0.30, A_K=1.2, s_K=1.0)
+# robot field: the industrial-robot field of Webb (2020), located from the raw
+# occupational robot exposure in script 23 (technical-physical west, at the
+# occupied edge). The amplitude is a modelling choice; A_K = 1.2 gives a modest
+# in-region release, in the spirit of the moderate robot effects of
+# Acemoglu & Restrepo (2020).
+ROBOT = dict(xi_K=np.radians(207), chi_K=0.75, z_K=0.50, A_K=1.2, s_K=1.0)
 
 ETAS = np.array([0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0, 8.0, 12.0])
 
@@ -91,7 +94,7 @@ def main() -> None:
     grid, field = inp.grid, inp.field
 
     techC = _setup.load_tech()
-    techW = Technology(**MANUAL)
+    techW = Technology(**ROBOT)
 
     # mobility reference from the baseline value (shared economy)
     eq0 = Equilibrium(inp, techC, R, TAU, GAMMA, ell, BETA, wedge=None)
@@ -101,7 +104,7 @@ def main() -> None:
 
     fields = {
         "cognitive": (techC, (xi_o < np.radians(90)) | (xi_o > np.radians(270))),
-        "manual":    (techW, (xi_o > np.radians(135)) & (xi_o < np.radians(225))),
+        "robot":     (techW, (xi_o > np.radians(135)) & (xi_o < np.radians(225))),
     }
 
     rows, curves, lines = [], {}, [
@@ -155,7 +158,7 @@ def _figure(etas, curves, out_path):
     ax.axhline(0, color="0.4", lw=0.8)
     ax.axvline(1.0, color="0.4", lw=0.8, ls=":")
     styles = {"cognitive": ("#1f3b6e", "o", "cognitive (north, broad)"),
-              "manual":    ("#8c2d04", "s", "manual (west, narrow)")}
+              "robot":     ("#d62728", "s", "robots (west)")}
     for name, pct in curves.items():
         col, mk, lab = styles[name]
         ax.plot(etas, pct, color=col, marker=mk, ms=4, lw=1.6, label=lab)

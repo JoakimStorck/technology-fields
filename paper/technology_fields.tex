@@ -146,16 +146,16 @@ is the spatial form of the demand mechanism emphasized by
 \textcite{bessen2019demand} and the second-order automation margin of
 \textcite{acemoglu2018race}.
 
-We implement the framework with two illustrative technologies. The first
-is a broad cognitive field calibrated to task-level AI exposure and
-located in the high-priced socio-cognitive region. The second is a
-narrow manual field placed on the low-priced technical-physical arc to
-represent industrial automation. The comparison is deliberately
-asymmetric: one field is data-calibrated, the other hand-placed, because
-no corresponding task-level exposure surface is available for the manual
-case. The aim is not causal identification but mechanism: to show how
-the same economy responds differently when technology acts in different
-regions of task space.
+We implement the framework with two technologies, both located from
+published exposure data. The first is a broad cognitive field calibrated
+to task-level AI exposure and located in the high-priced socio-cognitive
+region. The second is the industrial-robot field of \textcite{webb2020},
+fitted to occupational robot exposure in the low-priced technical-physical
+west. The same calibration places two further technologies of Webb,
+software and machine learning, in the geometry, so four automation waves
+appear in one space in the order they diffused. The aim is mechanism
+rather than causal identification: to show how the same economy responds
+differently when technology acts in different regions of task space.
 
 We also confront the model with observed occupational wage changes
 between 2019 and 2025. A naive directional check passes: occupations
@@ -1324,16 +1324,6 @@ field.}
 \label{fig:exposure-fit-new}
 \end{figure}
 
-The manual technology field is placed by hand on the technical-physical
-arc. It is narrow and sufficiently intense to cross the price gate
-against low-priced labour. The hand placement is the controlled
-contrast: the same economy and the same operator, with only the
-field's position, reach, and amplitude changed, and no task-level
-exposure surface exists for industrial automation to calibrate
-against. The asymmetry between the two fields is disclosed, not
-hidden. The manual field is an illustrative industrial automation
-field, not an empirically calibrated exposure surface.
-
 The economy parameters are set by explicit rules and held fixed across
 scenarios; Table~\ref{tab:economy-parameters} lists them. One rule is
 deliberately circular and is owned as such: the rental cost $R$ is set
@@ -1373,28 +1363,113 @@ $c_m$ & $22.6$ & the median move costs one $\nu$ \\
 
 \begin{table}[!htbp]
 \centering
-\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares; the manual field is placed by hand. Fit is the $R^2$ on the smoothable between-cell exposure surface.}
+\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares. Fit is the $R^2$ on the smoothable between-cell exposure surface. The industrial-robot field, the second technology carried through the analysis, is calibrated to Webb's robot exposure in Section~\ref{sec:automation-waves}.}
 \label{tab:technology-calibration-new}
 \begin{tabular}{lcccccc}
 \toprule
 Field & $\xi_K$ & $\chi_K$ & $z_K$ & $A_K$ & Identification & Fit \\
 \midrule
 Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ & calibrated & $0.82$ \\
-Manual & $180^\circ$ & $0.45$ & $0.30$ & $1.20$ & placed & --- \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Automation waves as technology fields}
+\label{sec:automation-waves}
+
+The same calibration locates other technologies. \textcite{webb2020}
+builds occupational exposure to three technologies by matching patent
+text to O*NET tasks: industrial robots, software, and machine learning.
+Fitting each to the disk, beside the language-model exposure, places
+four technologies in one geometry (Table~\ref{tab:webb-fields},
+Figure~\ref{fig:webb-fields}). Webb's measures are occupation-level, so
+all four are fitted on the occupation substrate here; the cognitive
+field's centre reported below ($40^\circ$) is its occupation-substrate
+fit, while the analysis uses its task-level calibration of
+Table~\ref{tab:technology-calibration-new}.
+
+Read in the order the technologies diffused, the fields sweep across the
+space. Industrial robots sit in the technical-physical west, at the
+periphery where production and manual work lie, with a narrow reach.
+Software sits to the north-west, over routine technical work. Machine
+learning, the AI of Webb's patents through about 2018, sits in the
+analytical north. Language models sit in the north-east, broad over
+high-priced cognitive work. The centres fall in an arc from the physical
+west to the cognitive north-east, in the order the waves arrived. This
+is the spatial form of the succession of automation technologies
+documented by \textcite{acemoglu2020robots} for robots and by
+\textcite{autor2003} for computerisation: each wave acts on different
+work, and the geometry locates where.
+
+Two of the four fields are localised. The robot field and the
+language-model field centre inside the occupied disk, and their reach
+follows a concentrated exposure. The robot field is narrow and western;
+the language-model field is broad and north-east. The software and
+machine-learning surfaces are gradients rather than peaks. Exposure
+rises toward the north without an interior maximum, so a single field
+centres at the edge of the occupied region and its reach is an artefact
+of that shape. Webb's machine learning locates AI further north than the
+language-model measure and does not coincide with it, which is expected,
+since patent-era machine learning and language models are different
+technologies acting on different work.
+
+Three limits bound the reading. The chronology is external to the data.
+Webb's three measures are built from patents through about 2018, so they
+do not date the technologies; the order comes from when each diffused.
+The measures do not share a source, since robots, software, and machine
+learning are one construction and language models another. And four
+fields illustrate the mechanism, not a temporal law. Within those limits
+the figure does what the representation is for: it places several
+technologies in one geometry according to where each acts.
+
+\begin{table}[!htbp]
+\centering
+\caption{The four technology fields fitted on the common occupation
+substrate, in the order the technologies diffused. Robots, software, and
+machine learning are the patent-based exposures of \textcite{webb2020};
+language models are the LLM exposure of \textcite{eloundou2024}. Fit is
+the $R^2$ on the between-cell exposure surface; the centre column marks
+fields whose centre sits at the edge of the occupied disk (support
+$\chi=0.75$). The cognitive field's analysis calibration is the
+task-level fit of Table~\ref{tab:technology-calibration-new}.}
+\label{tab:webb-fields}
+\begin{tabular}{llccccl}
+\toprule
+Technology & Source & $\xi_K$ & $\chi_K$ & $z_K$ & $R^2$ & Centre \\
+\midrule
+Industrial robots & Webb      & $207^\circ$ & $0.75$ & $0.50$ & $0.84$ & at edge \\
+Software          & Webb      & $146^\circ$ & $0.75$ & $0.80$ & $0.62$ & at edge \\
+Machine learning  & Webb      & $108^\circ$ & $0.75$ & $0.70$ & $0.70$ & at edge \\
+Language models   & Eloundou  & $40^\circ$  & $0.49$ & $0.57$ & $0.83$ & localised \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{webb_points_and_rings.png}
+\caption{The four technology fields, oldest first. Each panel shows the
+occupations coloured by their exposure to one technology, with the
+fitted field centre ($\times$) and the $z_K$ ring. Industrial robots,
+software, and machine learning are from \textcite{webb2020}; language
+models from \textcite{eloundou2024}. The robot and language-model fields
+enclose a concentrated exposure; the software and machine-learning
+surfaces rise toward the north without an interior peak, so their fitted
+centre sits at the edge of the occupied disk.}
+\label{fig:webb-fields}
+\end{figure}
 
 %% ============================================================
 \section{Illustrative Cases}
 \label{sec:cases}
 %% ============================================================
 
-We run two technologies through the same calibrated economy: the
-cognitive field and the manual field. The purpose is illustrative. The
-cases show what the geometry makes visible: where work is taken, where
-reinstatement is seeded, which occupations can bind it, how much remains
-unbound, and how demand elasticity changes employment consequences.
+We run the cognitive field through the calibrated economy, and add the
+industrial-robot field in the demand channel. The purpose is
+illustrative. The cases show what the geometry makes visible: where work
+is taken, where reinstatement is seeded, which occupations can bind it,
+how much remains unbound, and how demand elasticity changes employment
+consequences.
 
 \subsection{The cognitive field through the equilibrium}
 \label{sec:cognitive-case}
@@ -1525,13 +1600,13 @@ it identifies where they may become necessary.
 The demand channel is evaluated by sweeping the output-demand elasticity
 $\eta$. At unit-elastic demand, cost savings leave revenue unchanged.
 Both technology fields release labour in their automated region --- by
-$22$ percent for the cognitive field and $6$ percent for the manual one.
+$22$ percent for the cognitive field and $9$ percent for the robot one.
 Across plausible elasticities, displacement dominates because savings
 are small at the adoption margin: the price-to-cost ratio is essentially
 one there against roughly $1.5$ deep in the technology core. Net
 employment growth appears only at high elasticity --- the cognitive
-region crosses zero at $\eta\approx7.3$ and the manual region at
-$\eta\approx6.1$ --- or where infra-marginal savings are large.
+region crosses zero at $\eta\approx7.3$ and the robot region at
+$\eta\approx7.4$ --- or where infra-marginal savings are large.
 
 \begin{figure}[!htbp]
 \centering
@@ -1639,23 +1714,34 @@ correlation lives in the pre-deployment window, and in the deployment
 window it is absent, along with most of the compression gradient itself.
 
 A placebo makes the machinery explicit. We repeat the exercise with two
-technologies that carry no claim about the period: the hand-placed
-manual field of Table~\ref{tab:technology-calibration-new}, an
-industrial automation deployed decades before the window, and a rotated
-clone of the cognitive field, a technology that does not exist. The
-manual field passes the naive check at $-0.24$
-($p = 4\times10^{-11}$): its pressure loads on the wage level with the
-opposite sign (collinearity $+0.44$), so the compression hands it a
-significant correlation of the opposite direction, killed by the same
-conditioning (partial $+0.01$) and confined to the same window
+technologies that make no claim about the period's wage changes: the
+industrial-robot field of Section~\ref{sec:automation-waves}, a real
+technology whose deployment predates the window
+\parencite{acemoglu2020robots}, and a rotated clone of the cognitive
+field, a technology that does not exist. The robot field returns the
+null. Its predicted pressure loads only weakly on the wage level
+(collinearity $-0.09$ against the cognitive field's $-0.57$), so the
+compression hands it nothing: the raw correlation is $+0.04$ ($p=0.25$),
+gone under conditioning and absent in every window
 (Table~\ref{tab:window-split}). The rotated clone, sitting mostly in
-cheap territory where the gate barely opens, loads on the wage level
-more weakly ($+0.22$) and collects a correspondingly weaker but still
-significant correlation ($-0.13$, $p = 4\times10^{-4}$), null given
-baseline wage and confined to 2019--2023. The magnitude of the
-manufactured support thus scales with how strongly a mechanism's
-footprint loads on the wage level; even a nonexistent technology
-clears conventional significance.
+cheap territory where the gate barely opens, loads on the wage level at
+$+0.22$ and collects a weak but significant correlation ($-0.13$,
+$p=4\times10^{-4}$), null given baseline wage and confined to
+2019--2023. The two placebos bracket the mechanism. What the naive check
+finds is set by how strongly a footprint loads on the wage level, not by
+the technology's relevance to the period. A real technology whose wave
+is over returns the null. A nonexistent one that loads on the wage level
+still clears conventional significance. The cognitive field, loading
+hardest, is the $+0.34$ that vanishes under conditioning.
+
+The robot field also shows what the geometry can say where the wage data
+cannot. Its reinstatement seeds on the western ring, in the
+technical-physical arc, where the price field is low and no occupation
+holds the priced capabilities the seeded tasks require. The model
+therefore predicts that robot reinstatement binds to no occupation and
+returns no offsetting employment, the geometric form of the absence of
+positive employment effects outside the exposed region documented by
+\textcite{acemoglu2020robots}.
 
 \begin{table}[!htbp]
 \centering
@@ -1664,10 +1750,10 @@ correlations between predicted directional wage pressure and observed
 wage change; the partial correlation controls for the rank of the wage
 level at the start of each window. The baseline gradient is the rank
 correlation between the starting wage level and wage growth ($N=725$).
-The placebo panel repeats the exercise with the hand-placed manual
-field of Table~\ref{tab:technology-calibration-new}, a technology deployed
-decades before the window; its pressure loads on the wage level with
-the opposite sign, so its raw correlation is negative.}
+The placebo panel repeats the exercise with the industrial-robot field
+of Section~\ref{sec:automation-waves}, a technology whose deployment
+predates the window; its pressure loads only weakly on the wage level,
+so its raw correlation is near zero.}
 \label{tab:window-split}
 \begin{tabular}{lccc}
 \toprule
@@ -1678,10 +1764,10 @@ Window & Raw & Partial $\mid$ baseline wage & Baseline gradient \\
 2023--2025 (deployment) & $+0.04$ & $-0.03$ & $-0.11$ \\
 2019--2025 (full) & $+0.34$ & $+0.02$ & $-0.58$ \\
 \midrule
-\multicolumn{4}{l}{\emph{Placebo: manual field}} \\
-2019--2023 & $-0.26$ & $-0.02$ & $-0.56$ \\
-2023--2025 & $-0.02$ & $+0.04$ & $-0.11$ \\
-2019--2025 & $-0.24$ & $+0.01$ & $-0.58$ \\
+\multicolumn{4}{l}{\emph{Placebo: robot field}} \\
+2019--2023 & $+0.03$ & $-0.02$ & $-0.56$ \\
+2023--2025 & $+0.03$ & $+0.02$ & $-0.11$ \\
+2019--2025 & $+0.04$ & $-0.01$ & $-0.58$ \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -8,9 +8,9 @@ Demand channel (closure 1: revenue multiplier on W_o, survival gate on).
    employment in automated region at eta=1: -21.81%
    flip eta* (region employment crosses 0): 7.29
 
-[manual] tech xi_K=180deg chi_K=0.45 z_K=0.30 A_K=1.20
-   mean operated share (a>0.05): 0.438
-   Pi/c at margin (a~0.5): 1.001   deep core (a>0.9): 1.466
-   employment in automated region at eta=1: -5.98%
-   flip eta* (region employment crosses 0): 6.09
+[robot] tech xi_K=207deg chi_K=0.75 z_K=0.50 A_K=1.20
+   mean operated share (a>0.05): 0.294
+   Pi/c at margin (a~0.5): 1.001   deep core (a>0.9): 1.226
+   employment in automated region at eta=1: -9.27%
+   flip eta* (region employment crosses 0): 7.43
 

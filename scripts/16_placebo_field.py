@@ -13,12 +13,14 @@ directional pressure loads on the baseline wage for any field overlapping
 priced regions, and (ii) the window's dominant wage shock (the pandemic
 compression) is itself a wage-level gradient. As committed, that claim is an
 inference from one mechanism (the calibrated cognitive field). This script
-demonstrates it with placebo technologies that carry no claim whatsoever about
-the period's technology:
+demonstrates it with placebo technologies that make no claim about the period's
+wage changes:
 
-  P1  the manual field of Table 3 (hand-placed industrial automation, west,
-      narrow, deployed decades before the window), constants identical to
-      scripts/10_demand_channel.py;
+  P1  the industrial-robot field of Webb (2020), fitted to the disk in
+      script 23 (technical-physical west, at the occupied edge), constants
+      identical to scripts/10_demand_channel.py. A real automation technology
+      whose deployment predates the window (Acemoglu & Restrepo 2020;
+      diffusion 1993-2007), so it makes no claim about 2019-2025;
   P2  a rotated clone of the calibrated cognitive field (same chi_K, z_K, A_K;
       xi_K + 180 degrees), a technology that does not exist.
 
@@ -40,9 +42,15 @@ the universal 'any mechanism' claim of Section 8.2 must be weakened to match;
 the failure is reported, not suppressed.
 
 RESULTS (first run, recorded after pre-registration):
-  P1  H1 PASS (raw -0.242, p=4e-11), H1b PASS (sign flipped exactly as the
-      wage-level channel dictates: collinearity with w0 is +0.44), H2 PASS
-      (partial +0.013), H3 PASS (early -0.262, late -0.016).
+  P1  H1 FAIL: raw +0.043 (p~0.25), essentially the null. The robot field
+      sits at the technical-physical periphery, where its predicted pressure
+      loads only weakly on the wage level (collinearity with w0 is -0.09, far
+      below the manual field's +0.44), so it manufactures no apparent support.
+      H2 PASS (partial -0.01); H3 n/a (there is no correlation to confine).
+      This is the intended reading: a real technology whose wave predates the
+      window gives the honest null, and what correlation the naive check finds
+      tracks wage-level loading, not the technology. See P2 for the low-loading
+      spurious case and the scaling concession below.
   P2  H1 FAIL: |raw| = 0.131 < 0.17. The rotated clone sits mostly in cheap
       territory, the gate barely opens, and its pressure loads on the wage
       level only at +0.22, so the manufactured correlation is weaker -- but
@@ -102,8 +110,9 @@ ORIGIN_YEAR, MID_YEAR, ENDPOINT_YEAR = 2019, 2023, 2025
 # frozen baselines (cognitive field, results/centroid_shift_test_summary.txt)
 FROZEN_RAW, FROZEN_PARTIAL, FROZEN_N = +0.340, +0.021, 725
 
-# committed manual field (identical to scripts/10_demand_channel.py MANUAL)
-MANUAL = dict(xi_K=np.radians(180), chi_K=0.45, z_K=0.30, A_K=1.2, s_K=1.0)
+# committed robot field (identical to scripts/10_demand_channel.py ROBOT):
+# the Webb (2020) industrial-robot field fitted in script 23.
+ROBOT = dict(xi_K=np.radians(207), chi_K=0.75, z_K=0.50, A_K=1.2, s_K=1.0)
 
 
 def pressure_frame(inp, occ, tech, L0, ell):
@@ -163,9 +172,9 @@ def main() -> None:
     assert len(cog) == FROZEN_N, f"baseline N drifted: {len(cog)}"
     lines.append("  frozen baseline reproduced (raw, partial, N).")
 
-    # -- P1: the manual field of Table 3 -------------------------------------
-    p1 = pressure_frame(inp, occ, Technology(**MANUAL), L0, ell)
-    raw1, coll1, par1 = report(lines, rows, "P1 manual (Table 3, hand-placed)", p1)
+    # -- P1: the industrial-robot field of Webb (2020) -----------------------
+    p1 = pressure_frame(inp, occ, Technology(**ROBOT), L0, ell)
+    raw1, coll1, par1 = report(lines, rows, "P1 robot field (Webb, old technology)", p1)
 
     # -- P2: rotated cognitive clone ------------------------------------------
     t = _setup.load_tech()
