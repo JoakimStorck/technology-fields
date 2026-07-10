@@ -1,33 +1,33 @@
 Unbound-mass decomposition (pre-registered; see module docstring).
   calibrated: gamma 0.5, ell_0 0.1330, R 18.0, beta 0.5; grid 4800 cells
-  calibrated-corner unbound share 0.677 (frozen 0.68); reproduced.
+  calibrated-corner unbound share 0.676 (frozen 0.68); reproduced.
 
 Unbound SHARE across gamma at ell = ell_0 (seeding-level channel):
-    gamma 0.20   share 0.677   mass 0.0323   labour share 0.626
-    gamma 0.35   share 0.677   mass 0.0566   labour share 0.626
-    gamma 0.50   share 0.677   mass 0.0809   labour share 0.626
-    gamma 0.65   share 0.677   mass 0.1052   labour share 0.626
-    gamma 0.80   share 0.677   mass 0.1295   labour share 0.627
+    gamma 0.20   share 0.676   mass 0.0262   labour share 0.644
+    gamma 0.35   share 0.676   mass 0.0459   labour share 0.644
+    gamma 0.50   share 0.676   mass 0.0656   labour share 0.644
+    gamma 0.65   share 0.676   mass 0.0854   labour share 0.644
+    gamma 0.80   share 0.676   mass 0.1051   labour share 0.645
 
 Unbound SHARE across ell at gamma = 0.5 (binding channel):
-    ell x0.50  share 0.704   mass 0.0839   labour share 0.627
-    ell x0.75  share 0.689   mass 0.0823   labour share 0.626
-    ell x1.00  share 0.677   mass 0.0809   labour share 0.626
-    ell x1.50  share 0.657   mass 0.0786   labour share 0.626
-    ell x2.00  share 0.643   mass 0.0769   labour share 0.627
+    ell x0.50  share 0.703   mass 0.0682   labour share 0.645
+    ell x0.75  share 0.688   mass 0.0668   labour share 0.644
+    ell x1.00  share 0.676   mass 0.0656   labour share 0.644
+    ell x1.50  share 0.655   mass 0.0637   labour share 0.644
+    ell x2.00  share 0.641   mass 0.0624   labour share 0.645
 
 Decomposition:
   share swing over gamma (fixed ell)   = 0.000
-  share range over ell   (fixed gamma) = 0.061
+  share range over ell   (fixed gamma) = 0.062
   semi-elasticity of share to gamma    = +0.000
-  semi-elasticity of share to ell      = -0.046
-  ratio |d share/dln ell| / |d share/dln gamma| = 15830.7
+  semi-elasticity of share to ell      = -0.048
+  ratio |d share/dln ell| / |d share/dln gamma| = 21050.6
   unbound-MASS elasticity to gamma     = +1.002
 
 Pre-registered hypothesis verdicts:
   H1 (share flat in gamma, swing<0.05)      PASS  (swing 0.000)
-  H2 (share falls >=0.20 in ell, monotone)  FAIL  (range 0.061, monotone True)
-  H3 (ell semi-elast >= 5x gamma's)         PASS  (ratio 15830.7)
+  H2 (share falls >=0.20 in ell, monotone)  FAIL  (range 0.062, monotone True)
+  H3 (ell semi-elast >= 5x gamma's)         PASS  (ratio 21050.6)
   H4 (unbound mass ~ linear in gamma)       PASS  (elasticity +1.002)
 
 Reading: the unbound SHARE is governed by the binding channel (ell), not the seeding level (gamma); gamma sets the MASS. The unbound result is therefore a structural property of occupational binding, not a calibration artefact of the reinstatement fraction. Unbound mass is not unemployment; the labour-share column shows whether reinstatement restores the share at each corner (it does not), which is the worker-layer counterpart carried by scripts 09-10.

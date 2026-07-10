@@ -46,6 +46,23 @@ inconsistent and the decomposition or the projection is suspect. If K3 fails a
 model wage object contradicts the paper's own empirical direction and must be
 reconciled before either result is reported.
 
+ANCHORED RE-SPECIFICATION (this revision; pre-registered before the first
+certified anchored run). The value object and its congestion component are
+now evaluated at the anchored equilibrium (_setup.anchor_reference), where
+dL is the pure shock; proj and bundle are L0-anchored and unchanged.
+Expectations: K1 PASS (both members L0-anchored); K3 and K4 PASS. K2's
+UPPER bound (+0.9) is at risk in the uninformative direction: with the
+drift removed the congestion channel shrinks, value approaches bundle, and
+their Spearman may exceed 0.9. If K2 fails upward it is recorded as a
+consequence of the drift repair, not as an internal inconsistency.
+
+RESULTS (first certified anchored run): K1 PASS (+0.837, unchanged --
+L0-anchored). K2 FAIL upward exactly as pre-registered: +0.910 against the
+committed +0.670; the congestion channel's shrinkage pulls value onto
+bundle. K3 PASS (+0.34 / +0.43 / +0.37). K4 PASS (shift -0.056). The
+manuscript footnote's numbers (+0.84, +0.67) update to (+0.84, +0.91) in
+the Section 7 revision.
+
 Outputs:
     results/wage_object_consistency.csv
     results/wage_object_consistency_summary.txt
@@ -123,8 +140,7 @@ def main() -> None:
     eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                      survival=True)
     eq.L0 = L0
-    _, _, W0chk = eq.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0chk, eq.d)
+    c, kappa, _, eq.alpha = _setup.anchor_reference(eq, L0)
     out = eq.solve(c, kappa)
 
     codes = eq.codes

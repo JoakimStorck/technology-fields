@@ -94,14 +94,21 @@ ELL_MULT = [0.5, 0.75, 1.0, 1.5, 2.0]
 
 # frozen baseline from script 09 (results/equilibrium_regime_summary.txt):
 # calibrated corner gamma=0.5, ell=ell_0 gives unbound share 0.68 of seeded.
+# The unbound share reaches L only through Phi(C) and is expected to hold
+# under the anchored kernel within the 0.02 tolerance (smoke: 0.675 vs the
+# unanchored 0.677 on the same coarse grid); if the certified anchored run
+# breaks the guard, the machinery moved and the value is re-frozen.
 FROZEN_UNBOUND_SHARE = 0.68
 
 
-def solve_corner(inp, tech, L0, wedge, c, kappa, gamma, ell):
-    """Equilibrium employment at (gamma, ell), then task-layer diagnostics."""
+def solve_corner(inp, tech, L0, wedge, c, kappa, alpha, gamma, ell):
+    """Anchored equilibrium employment at (gamma, ell), then task-layer
+    diagnostics. (c, kappa, alpha) are the sweep-wide anchored reference;
+    neither gamma nor ell enters it."""
     eq = Equilibrium(inp, tech, R, TAU, gamma, ell, BETA, wedge=wedge,
                      survival=True)
     eq.L0 = L0
+    eq.alpha = alpha
     out = eq.solve(c, kappa)
     diag = regime(inp, tech, out.L, R, TAU, gamma, ell, BETA, wedge=wedge,
                   survival=True)
@@ -139,13 +146,12 @@ def main() -> None:
     eq0 = Equilibrium(inp, tech, R, TAU, GAMMA_0, ell0, BETA, wedge=None,
                       survival=True)
     eq0.L0 = L0
-    _, _, W0 = eq0.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0, eq0.d)
+    c, kappa, _, alpha = _setup.anchor_reference(eq0, L0)
 
     rows = []
     for g in GAMMAS:
         for m in ELL_MULT:
-            rows.append(solve_corner(inp, tech, L0, None, c, kappa,
+            rows.append(solve_corner(inp, tech, L0, None, c, kappa, alpha,
                                      g, ell0 * m))
     df = pd.DataFrame(rows)
     df["ell_mult"] = (df["ell"] / ell0).round(3)

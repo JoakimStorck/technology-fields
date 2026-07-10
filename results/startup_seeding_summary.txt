@@ -1,21 +1,21 @@
 Startup seeding experiment (see module docstring).
   calibrated field: xi_K 38.4 deg, chi_K 0.463, z_K 0.583, A_K 0.603
   economy R 18.0, tau 0.08, gamma 0.5, beta 0.5; grid 4800 cells
-  unbound share 0.677 (reproduces committed 0.68)
+  unbound share 0.676 (reproduces committed 0.68)
 
 MODEL FIELDS (frozen):
-  mass-weighted median dist-to-p_K:  phi 0.525  a(r) 0.392  ring 0.679  u(r) 0.794  (z_K 0.583)
-  radial separation u - a = +0.402 (~0.69 z_K)
-  area-weighted cosine  cos(a,u) 0.239  cos(a,phi) 0.858  cos(u,ring) 0.891
+  mass-weighted median dist-to-p_K:  phi 0.525  a(r) 0.392  ring 0.679  u(r) 0.792  (z_K 0.583)
+  radial separation u - a = +0.400 (~0.69 z_K)
+  area-weighted cosine  cos(a,u) 0.241  cos(a,phi) 0.858  cos(u,ring) 0.892
   a(r) is a core field on the technology; u(r) is peripheral, on/beyond the z_K ring.
   The startups' placement relative to these fields is quantified in producer 22.
 
 STARTUP SIDE: 1961 AI and robotics startups embedded and projected into the frozen geometry (AI 1885, robotics 153).
-  mass-weighted median dist-to-p_K:  text 0.457  a(r) 0.392  u(r) 0.794  (z_K 0.583)
-  area-weighted cosine:  cos(text,a) 0.166  cos(text,u) 0.203
+  mass-weighted median dist-to-p_K:  text 0.457  a(r) 0.392  u(r) 0.792  (z_K 0.583)
+  area-weighted cosine:  cos(text,a) 0.166  cos(text,u) 0.204
   text peak dist-to-p_K 0.446
   AISE median dist-to-p_K 0.417; Spearman(AISE, a at centroid) +0.344
   Q1 AISE-is-incidence: yes
   startup text vs AISE, radial offset +0.040 (z_K 0.583)
-  cos gap (u - a) +0.038;  text peak dist-to-p_K 0.446
+  cos gap (u - a) +0.039;  text peak dist-to-p_K 0.446
   Field enrichment at the startup locations is quantified in producer 22.

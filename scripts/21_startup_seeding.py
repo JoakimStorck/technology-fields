@@ -162,8 +162,7 @@ def model_side():
     eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                      survival=True)
     eq.L0 = L0
-    _, _, W0 = eq.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0, eq.d)
+    c, kappa, _, eq.alpha = _setup.anchor_reference(eq, L0)
     out = eq.solve(c, kappa)
     diag = regime(inp, tech, out.L, R, TAU, GAMMA, ell, BETA, wedge=None,
                   survival=True)
@@ -177,7 +176,10 @@ def model_side():
     u = diag["u"]
 
     unbound_share = float((u * g.area).sum() / diag["M"])
-    # frozen-baseline guard: must reproduce the committed candidate map (68%)
+    # frozen-baseline guard: must reproduce the committed candidate map (68%).
+    # Expected to hold under the anchored kernel (u reaches L only through
+    # Phi(C); smoke moved 0.677 -> 0.675); a break means the machinery moved
+    # and the value is re-frozen from the certified anchored run.
     assert abs(unbound_share - 0.68) < 0.01, (
         f"unbound share {unbound_share:.3f} != committed 0.68; machinery drifted")
 

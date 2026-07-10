@@ -7,9 +7,14 @@ cognitive case).
 
 Baseline: R 18, tau 0.08, beta 0.5, gamma 0.5, ell from the SD rule
 (scripts/_setup.interpretable_ell), attachment shape rho 0.5, lam_over 1,
-eta 1, survival gate on, no wedge. Mobility (c, kappa) from the reference
-rule per point (kappa = SD of baseline value, median move costs one kappa),
-matching scripts/09.
+eta 1, survival gate on, no wedge. Mobility and anchoring (c, kappa, alpha)
+from the zero-field rule (_setup.anchor_reference), computed ONCE for the
+sweep: none of the swept parameters (R, tau, gamma, ell, rho, lam_over)
+enters the zero-field value or the centroid distances, so every point is
+solved against the same anchored baseline and each difference in the table
+is a pure parameter effect. The pre-revision rule re-derived (c, kappa)
+from the technology-bearing value per point, which re-calibrated the
+baseline inside the sweep.
 
 Sweeps, one block per free parameter group:
   A  attachment scale and seeding: ell x {1/4, 1/2, 1, 2, 4}, gamma
@@ -24,8 +29,14 @@ converged L) and after reinstatement, displaced mass, seeded-mass fates
 (captured / bound / unbound, shares of seeded mass), re-sorted mass,
 share of occupations with negative bundle wage change.
 
-The baseline row must reproduce scripts/09 (0.6301 / 0.6259, unbound 68%
-of seeded, re-sorting 58%); asserted below.
+The baseline row must reproduce the anchored scripts/09. The pre-revision
+frozen values (0.6301 / 0.6259, unbound 68% of seeded, re-sorting 58%) are
+superseded: the 58 was mostly baseline drift (its near-invariance across a
+sixteenfold technology sweep was the drift's signature), and the labour
+share levels carried drifted density. FROZEN_BASELINE below holds the
+first certified anchored run (auto 0.6488, reinst 0.6439, unbound 0.676,
+resort 0.137); re-sorted mass now responds to the gate (9 to 19 percent
+across the R sweep), the parameter signal the drift constant had buried.
 
 Outputs:
     results/sensitivity_sweep.csv
@@ -59,14 +70,20 @@ RESULTS = REPO_ROOT / "results"
 R0, TAU0, BETA, GAMMA0 = 18.0, 0.08, 0.5, 0.5
 RHO0, LAMOVER0 = 0.5, 1.0
 
+# Frozen anchored baseline: first certified anchored run (full pipeline,
+# grid 4800, anchored kernel). Must reproduce scripts/09.
+FROZEN_BASELINE = dict(share_auto=0.6488, share_reinst=0.6439,
+                       unbound_of_seeded=0.676, resort_share=0.137)
 
-def run_point(inp, tech, L0, *, R, tau, gamma, ell, rho, lam_over) -> dict:
-    """Solve the sorting fixed point and evaluate the diagnostics at it."""
+
+def run_point(inp, tech, L0, c, kappa, alpha, *, R, tau, gamma, ell, rho,
+              lam_over) -> dict:
+    """Solve the anchored sorting fixed point and evaluate the diagnostics
+    at it. (c, kappa, alpha) are the sweep-wide anchored reference."""
     eq = Equilibrium(inp, tech, R, tau, gamma, ell, BETA, wedge=None,
                      survival=True, rho=rho, lam_over=lam_over)
     eq.L0 = L0
-    _, _, W0 = eq.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0, eq.d)
+    eq.alpha = alpha
     out = eq.solve(c, kappa)
 
     diag = regime(inp, tech, out.L, R, tau, gamma, ell, BETA,
@@ -98,6 +115,13 @@ def main() -> None:
     inp, L0, _ = _setup.build_inputs()
     tech = _setup.load_tech()
     ell0 = _setup.interpretable_ell(inp)
+
+    # one anchored reference for the whole sweep (zero-field rule; no swept
+    # parameter enters it)
+    eq0 = Equilibrium(inp, tech, R0, TAU0, GAMMA0, ell0, BETA, wedge=None,
+                      survival=True, rho=RHO0, lam_over=LAMOVER0)
+    eq0.L0 = L0
+    c, kappa, _, alpha = _setup.anchor_reference(eq0, L0)
 
     points, tags = [], []
 
@@ -131,7 +155,7 @@ def main() -> None:
 
     rows = []
     for tag, kw in zip(tags, points):
-        r = run_point(inp, tech, L0, **kw)
+        r = run_point(inp, tech, L0, c, kappa, alpha, **kw)
         r["block"] = tag
         rows.append(r)
         print(f"{tag:10s} R={kw['R']:4.0f} tau={kw['tau']:.2f} "
@@ -143,10 +167,22 @@ def main() -> None:
 
     df = pd.DataFrame(rows)
     base = df[df["block"] == "baseline"].iloc[0]
-    assert abs(base["share_auto"] - 0.6301) < 5e-4, base["share_auto"]
-    assert abs(base["share_reinst"] - 0.6259) < 5e-4, base["share_reinst"]
-    assert abs(base["unbound_of_seeded"] - 0.68) < 0.01
-    assert abs(base["resort_share"] - 0.58) < 0.01
+    if FROZEN_BASELINE is None:
+        print("WARNING: anchored baseline not frozen. Record and freeze in "
+              "FROZEN_BASELINE:\n"
+              f"  share_auto        {base['share_auto']:.4f}\n"
+              f"  share_reinst      {base['share_reinst']:.4f}\n"
+              f"  unbound_of_seeded {base['unbound_of_seeded']:.3f}\n"
+              f"  resort_share      {base['resort_share']:.3f}")
+    else:
+        assert abs(base["share_auto"] - FROZEN_BASELINE["share_auto"]) \
+            < 5e-4, base["share_auto"]
+        assert abs(base["share_reinst"] - FROZEN_BASELINE["share_reinst"]) \
+            < 5e-4, base["share_reinst"]
+        assert abs(base["unbound_of_seeded"]
+                   - FROZEN_BASELINE["unbound_of_seeded"]) < 0.01
+        assert abs(base["resort_share"]
+                   - FROZEN_BASELINE["resort_share"]) < 0.01
 
     df.to_csv(RESULTS / "sensitivity_sweep.csv", index=False)
 

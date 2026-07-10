@@ -2,28 +2,28 @@ Sensitivity sweep (script 14). Baseline reproduces script 09.
   ell* = 0.1330 (SD rule); all points converged: True
 
 A: attachment ell x gamma  (n=15)
-  labour share, automation     0.630 .. 0.631
-  labour share, reinstatement  0.625 .. 0.635
-  unbound / seeded             0.613 .. 0.718
+  labour share, automation     0.648 .. 0.649
+  labour share, reinstatement  0.643 .. 0.652
+  unbound / seeded             0.610 .. 0.718
   captured / seeded            0.274 .. 0.274
-  re-sorted mass               0.581 .. 0.582
-  reinstatement gap (auto-reinst) -0.0038 .. +0.0050
+  re-sorted mass               0.136 .. 0.138
+  reinstatement gap (auto-reinst) -0.0037 .. +0.0059
 
 B: adoption gate R x tau  (n=9)
-  labour share, automation     0.483 .. 0.771
-  labour share, reinstatement  0.483 .. 0.764
-  unbound / seeded             0.528 .. 0.793
+  labour share, automation     0.506 .. 0.782
+  labour share, reinstatement  0.507 .. 0.774
+  unbound / seeded             0.526 .. 0.793
   captured / seeded            0.150 .. 0.431
-  re-sorted mass               0.574 .. 0.587
-  reinstatement gap (auto-reinst) +0.0001 .. +0.0072
+  re-sorted mass               0.086 .. 0.187
+  reinstatement gap (auto-reinst) -0.0005 .. +0.0080
 
 C: attachment shape  (n=4)
-  labour share, automation     0.630 .. 0.630
-  labour share, reinstatement  0.626 .. 0.629
-  unbound / seeded             0.617 .. 0.700
+  labour share, automation     0.648 .. 0.649
+  labour share, reinstatement  0.644 .. 0.646
+  unbound / seeded             0.625 .. 0.699
   captured / seeded            0.274 .. 0.274
-  re-sorted mass               0.581 .. 0.581
-  reinstatement gap (auto-reinst) +0.0011 .. +0.0042
+  re-sorted mass               0.135 .. 0.138
+  reinstatement gap (auto-reinst) +0.0019 .. +0.0049
 
 Reinstatement raises the labour share at no point in the sweep: False
 Unbound share of seeded mass across all points: 53% .. 79%

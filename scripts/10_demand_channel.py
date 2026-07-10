@@ -24,6 +24,15 @@ and displacement dominates for realistic eta; the Bessen growth regime (region
 employment rising with automation) appears only at high elasticity or large
 infra-marginal saving. This reproduces the second-order-at-the-margin property
 of Acemoglu & Restrepo (2018).
+
+ANCHORED RE-SPECIFICATION (this revision). The kernel now carries the
+anchoring constants alpha_o (_setup.anchor_reference), so region dL is the
+technology's own employment response. The committed curve was offset by the
+region's baseline drift, and the offset was CONSTANT in eta (at zero field
+a = 0 makes the demand multiplier D = 1 for every eta), so both the eta = 1
+levels (-22 / -9 percent) and the flip thresholds (eta* ~ 7.3 / 7.4) move
+under the repair; the direction of each flip's movement is set by the sign
+of its region's drift. Recorded, not asserted.
 """
 from __future__ import annotations
 
@@ -96,11 +105,11 @@ def main() -> None:
     techC = _setup.load_tech()
     techW = Technology(**ROBOT)
 
-    # mobility reference from the baseline value (shared economy)
+    # anchored mobility and alpha (zero-field rule; shared by both fields
+    # and every eta, since neither enters the zero-field value)
     eq0 = Equilibrium(inp, techC, R, TAU, GAMMA, ell, BETA, wedge=None)
     eq0.L0 = L0
-    _, _, W0 = eq0.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0, eq0.d)
+    c, kappa, _, alpha = _setup.anchor_reference(eq0, L0)
 
     fields = {
         "cognitive": (techC, (xi_o < np.radians(90)) | (xi_o > np.radians(270))),
@@ -123,6 +132,7 @@ def main() -> None:
             eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=wedge,
                              eta=float(eta), survival=True)
             eq.L0 = L0
+            eq.alpha = alpha
             out = eq.solve(c, kappa)
             dL = out.L - L0
             pct[j] = 100.0 * dL[region].sum() / L0reg

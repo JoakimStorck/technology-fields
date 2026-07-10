@@ -1,16 +1,16 @@
 Demand channel (closure 1: revenue multiplier on W_o, survival gate on).
   economy: R 18.0, tau 0.08, beta 0.5, gamma 0.5
-  mobility: c 22.428, kappa 11.536
+  mobility: c 31.832, kappa 16.373
 
 [cognitive] tech xi_K=38deg chi_K=0.46 z_K=0.58 A_K=0.60
    mean operated share (a>0.05): 0.527
    Pi/c at margin (a~0.5): 1.002   deep core (a>0.9): 1.545
-   employment in automated region at eta=1: -21.81%
-   flip eta* (region employment crosses 0): 7.29
+   employment in automated region at eta=1: -12.07%
+   flip eta* (region employment crosses 0): 7.95
 
 [robot] tech xi_K=207deg chi_K=0.75 z_K=0.50 A_K=1.20
    mean operated share (a>0.05): 0.294
    Pi/c at margin (a~0.5): 1.001   deep core (a>0.9): 1.226
-   employment in automated region at eta=1: -9.27%
-   flip eta* (region employment crosses 0): 7.43
+   employment in automated region at eta=1: -21.72%
+   flip eta* (region employment crosses 0): none in [0.25,12]
 

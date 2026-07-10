@@ -3,19 +3,19 @@ Wage-object consistency check (pre-registered; see docstring).
 
 Internal agreement (Spearman):
   proj  vs bundle = +0.837   (both stripping-driven)
-  value vs bundle = +0.670   (adds congestion)
-  value vs proj   = +0.439
+  value vs bundle = +0.910   (adds congestion)
+  value vs proj   = +0.812
 
 Against observed OEWS wage growth (raw Spearman):
   proj   vs dlnw = +0.340   (Figure 12's object; ~+0.34 committed)
-  bundle vs dlnw = +0.425
-  value  vs dlnw = +0.353
-  congestion's data shift (value - bundle) = -0.072
+  bundle vs dlnw = +0.426
+  value  vs dlnw = +0.370
+  congestion's data shift (value - bundle) = -0.056
 
 Pre-registered hypothesis verdicts:
   K1 (proj~bundle >= +0.8)                   PASS  (+0.837)
-  K2 (value~bundle in [+0.3,+0.9])           PASS  (+0.670)
-  K3 (all same positive sign vs data)        PASS  (proj +0.34, bundle +0.43, value +0.35)
-  K4 (congestion barely moves data corr)     PASS  (shift -0.072)
+  K2 (value~bundle in [+0.3,+0.9])           FAIL  (+0.910)
+  K3 (all same positive sign vs data)        PASS  (proj +0.34, bundle +0.43, value +0.37)
+  K4 (congestion barely moves data corr)     PASS  (shift -0.056)
 
 Reading: the three wage objects form a chain proj -> bundle -> value. proj and bundle are stripping-driven and should agree (K1); value adds the congestion channel and re-ranks occupations (K2) without reversing the stripping order or contradicting the paper's empirical direction (K3). Whether congestion moves the ordering toward the data (K4) speaks to Section 8: in this confounded window it should not, and a large shift would be suspect rather than confirmatory.

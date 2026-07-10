@@ -54,6 +54,52 @@ PRE-REGISTERED HYPOTHESES (before first run):
 Adverse outcomes are reported. If W3 fails, congestion is a minor refinement and
 is reported as such, not as a headline second channel.
 
+ANCHORED RE-SPECIFICATION (this revision; pre-registered before the first
+certified anchored run). The committed run measured congestion on the
+density move n0(L0) -> n(L*), where L* - L0 was ~58 percent mass relocation
+of which ~20 points were the technology (script 28's audit): the committed
+-0.38 carried drift-induced density changes. The kernel is now anchored
+(alpha_o; _setup.anchor_reference), L0 is the zero-field fixed point, and
+the density move is the shock's own. The per-occupation strip adjustments
+are unchanged by construction (density held at n0(L0) in the strip step);
+the employment-weighted MEANS move, because the weights are the repaired
+L*. Expectations, verdicts recorded as they fall:
+  W1  expected PASS (exactness is a property of the path decomposition).
+  W2  expected PASS (stripping does not touch the sorting layer).
+  W3  expected FAIL: with the drift removed, smoke mechanics put the
+      congestion channel near an order of magnitude below stripping. If it
+      fails, congestion is reported as a real but second-order channel and
+      the manuscript's "splits almost evenly" sentence is withdrawn.
+  W4  the sorting signature (gainers crowd down, losers thin up) is
+      expected to survive in sign.
+  W5  no strong prior; recorded as it falls.
+
+RESULTS (first certified anchored run, grid 4800):
+  W1  PASS (residual 2.2e-16).
+  W2  PASS. Stripping -0.3483 employment-weighted (per-occupation values
+      unchanged by construction; the level moved from the committed
+      -0.4107 through the repaired weights alone).
+  W3  PASS, ratio 0.29 -- the pre-registered expectation of FAIL was
+      wrong, and the error is instructive: the expectation was formed on
+      the SIGNED mean (smoke -0.04), while W3 tests the mean ABSOLUTE
+      ratio. The signed congestion mean fell an order of magnitude,
+      -0.3827 -> -0.0298: congestion's aggregate wage effect was almost
+      entirely drift. Its distributional magnitude (mean |adj| 0.1007,
+      29 percent of stripping) survives. The channel is real and
+      redistributive, not a second headline cut.
+  W4  PASS in sign; the asymmetry reversed. Committed: gainers -0.4969,
+      losers +0.1097 (the crowding side dominated). Anchored: gainers
+      -0.0626, losers +0.2243 (the recovery of thinned-out exposed
+      occupations dominates). The drift was the crowding.
+  W5  FAIL (54 percent). Largely mechanical: the swing is measured
+      relative to the signed congestion mean, whose magnitude collapsed;
+      the order-dependence of a small residual is large in relative
+      terms. Reported as a caveat on the SIGNED congestion mean, not on
+      the decomposition (W1) or the distributional signature (W4).
+  Reinstatement +0.0539; total -0.3241. The manuscript's "splits almost
+  evenly" characterisation does not survive and is withdrawn in the
+  Section 7 revision.
+
 Outputs:
     results/wage_field_deformation.csv
     results/wage_field_deformation_summary.txt
@@ -173,8 +219,7 @@ def main() -> None:
     eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                      survival=True)
     eq.L0 = L0
-    _, _, W0chk = eq.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0chk, eq.d)
+    c, kappa, _, eq.alpha = _setup.anchor_reference(eq, L0)
     out = eq.solve(c, kappa)
     Lstar = out.L
 
@@ -232,7 +277,8 @@ def main() -> None:
     W5 = order_change < 0.25
 
     lines = [
-        "Occupation wage adjustment, exactly decomposed (pre-registered).",
+        "Occupation wage adjustment, exactly decomposed (pre-registered; "
+        "anchored kernel, dL is the pure shock).",
         f"  economy R {R}, beta {BETA}, gamma {GAMMA}, ell {ell:.4f}; "
         f"occupations {eq.n_occ}, grid {eq.area.size} cells",
         f"  converged {out.converged}; re-sorted mass {np.abs(dL).sum()/2:.3f}",
@@ -263,13 +309,12 @@ def main() -> None:
         f"  W5 (order-robust, <25% swing)            {'PASS' if W5 else 'FAIL'}"
         f"  ({100*order_change:.0f}%)",
         "",
-        "Reading: automation adjusts wages through two channels of comparable "
-        "size. Stripping removes priced task content from exposed bundles and "
-        "cuts wages directly. Congestion is the re-sorting of freed labour into "
-        "the least-damaged occupations, which bends the effective return down "
-        "where labour concentrates and up where it thins -- a distributional "
-        "channel invisible to the aggregate labour share (which cancels beta) "
-        "but present in occupation wage adjustments. Reinstatement adds back "
+        "Reading: stripping carries the mean wage adjustment. Congestion "
+        "has a near-zero employment-weighted mean but material dispersion: "
+        "it is a distributional channel that moves the burden between the "
+        "occupations that absorb freed labour and those that shed it, "
+        "invisible to the aggregate labour share (which cancels beta) but "
+        "present in occupation wage adjustments. Reinstatement adds back "
         "only where new work binds.",
     ]
 

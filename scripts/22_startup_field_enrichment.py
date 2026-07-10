@@ -125,8 +125,7 @@ def build_model():
     eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                      survival=True)
     eq.L0 = L0
-    _, _, W0 = eq.density_and_value(L0)
-    c, kappa, _ = _setup.mobility_reference(W0, eq.d)
+    c, kappa, _, eq.alpha = _setup.anchor_reference(eq, L0)
     out = eq.solve(c, kappa)
     diag = regime(inp, tech, out.L, R, TAU, GAMMA, ell, BETA, wedge=None,
                   survival=True)

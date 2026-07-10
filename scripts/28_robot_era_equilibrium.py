@@ -99,6 +99,42 @@ RESULTS (first run, recorded after pre-registration):
   09 and 19 (re-sorting and congestion measured L0 -> L*) is opened as
   its own task; no manuscript numbers are changed by this script.
 
+ANCHORED RE-SPECIFICATION (this revision; pre-registered before the first
+certified anchored run). The zero-field reference above did its job: the
+drift it exposed is now removed at the source. The kernel carries the
+anchoring constants alpha_o (_setup.anchor_reference, zero-field rule),
+each era anchored on its own L0 and Pi, so dL = L* - L0 IS the technology's
+employment response and the internal drift/shock split is superseded (the
+reference block and the dL_shock/drift columns are removed). The RESULTS
+record above is the frozen first-run record of the unanchored script and
+stands as documentation of the discovery. Expectations for the anchored
+run, verdicts recorded as they fall:
+  A1  H1-H4 verdicts unchanged (PASS): the calibration, the unbound
+      shares (93 at L*, 92.8 at L0), and the collinearity pre-check are
+      all L0-anchored or Phi(C)-weak in L.
+  A2  Robot anchored re-sort is small (the unanchored shock component
+      L* - L*0 was 0.13 percent; same order expected, not asserted).
+  A3  Cognitive reproduction guard holds (unbound 0.68 +/- 0.02).
+  A4  corr(dL, D_o) strongly negative for the robot configuration (the
+      unanchored shock component gave -0.95; the anchored response is a
+      different object and the smoke run suggests weaker but same-signed
+      alignment for the cognitive case).
+
+RESULTS (first certified anchored run, grid 4800):
+  A1  PASS. H1-H4 all PASS unchanged: A_K 1.477, unbound 93 percent
+      (92.9 / 92.4 at half / double moment, 92.8 at observed L0),
+      collinearity -0.148.
+  A2  PASS. Robot anchored re-sort 0.11 percent (unanchored shock
+      component was 0.13).
+  A3  PASS. Cognitive guard 0.676.
+  A4  Same-signed, weaker, as caveated: robot corr(dL, D_o) -0.48
+      (against the unanchored component's -0.95), cognitive -0.45; the
+      B_o pull is +0.49 / +0.72. Robot losers are the western operatives
+      (maintenance and repair, construction laborers, welders, press
+      machine setters); the manual-arc change is -0.0010, matching the
+      unanchored technology component's sign and size. Absorption is
+      diffuse into large service occupations.
+
 Reads:
     results/price_field_history.csv      Pi_1999 coefficients (script 27)
     data/oews_history_wages.csv          1999 wages and employment (26)
@@ -257,15 +293,14 @@ def calibrate_A(inp, L0, target: float, lo=0.02, hi=50.0):
 # ─────────────────────────────────────────────────────────────────────
 
 def run_config(name, inp, L0, tech, ell, lines):
-    eq0 = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
-                      survival=True)
-    eq0.L0 = L0
-    _, _, W0 = eq0.density_and_value(L0)
-    c, kappa, dmed = _setup.mobility_reference(W0, eq0.d)
-
+    # anchored kernel: each era anchored on its own L0 and Pi (zero-field
+    # rule), so L0 is the zero-field fixed point and dL is the shock. The
+    # unanchored revision's internal zero-field reference is superseded.
     eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                      survival=True)
     eq.L0 = L0
+    c, kappa, dmed, alpha = _setup.anchor_reference(eq, L0)
+    eq.alpha = alpha
     if SMOKE:
         out = eq.solve(c, kappa)
         spread, allconv = np.nan, out.converged
@@ -278,19 +313,6 @@ def run_config(name, inp, L0, tech, ell, lines):
     diag0 = regime(inp, tech, out.L, R, TAU, 0.0, ell, BETA,
                    survival=True)
     dL = out.L - L0
-
-    # zero-field reference: the same worker layer with no technology.
-    # The observed L0 need not be a fixed point of the sorting model, so
-    # the equilibrium drifts even with no shock; the technology's own
-    # employment effect is the difference between the two equilibria.
-    tech0 = Technology(xi_K=tech.xi_K, chi_K=tech.chi_K, z_K=tech.z_K,
-                       A_K=1e-9, s_K=tech.s_K)
-    eq_ref = Equilibrium(inp, tech0, R, TAU, GAMMA, ell, BETA, wedge=None,
-                         survival=True)
-    eq_ref.L0 = L0
-    ref = eq_ref.solve(c, kappa)
-    drift = ref.L - L0
-    dL_shock = out.L - ref.L
     xi_o = inp.occ["xi"].to_numpy()
     manual = (xi_o > np.radians(135)) & (xi_o < np.radians(225))
     titles = inp.occ["Title"].to_numpy()
@@ -305,6 +327,8 @@ def run_config(name, inp, L0, tech, ell, lines):
         f"  occupations {len(L0)}, tasks {len(inp.bundles)}, grid "
         f"{inp.grid.xi.size} cells; ell {ell:.4f}; "
         f"kappa {kappa:.3f}, c {c:.3f}, median move {dmed:.3f}",
+        f"  anchoring: alpha in [{alpha.min():+.2f}, {alpha.max():+.2f}]; "
+        f"L0 is the zero-field fixed point, dL is the shock",
         f"  converged {out.converged} in {out.iters} iters (residual "
         f"{out.residual:.1e}); multistart spread {spread:.1e}, all "
         f"converged {allconv}",
@@ -314,29 +338,22 @@ def run_config(name, inp, L0, tech, ell, lines):
         f" -> reinstatement {diag['labor_share']:.4f}",
         f"  unbound share of seeded mass: {100 * unbound_share:.0f}%  "
         f"(bound {100 * refill_per_seed:.0f}%)",
-        f"  re-sorting vs L0: sum|dL| {np.abs(dL).sum():.4f} "
-        f"({100 * np.abs(dL).sum() / 2:.1f}% of mass relocated)",
-        f"  zero-field reference (converged {ref.converged}): baseline "
-        f"drift sum|L*0 - L0| {np.abs(drift).sum():.4f} "
-        f"({100 * np.abs(drift).sum() / 2:.1f}%); technology component "
-        f"sum|L* - L*0| {np.abs(dL_shock).sum():.4f} "
-        f"({100 * np.abs(dL_shock).sum() / 2:.2f}%)",
-        f"  shock-component alignment: corr(dL_shock, D_o) "
-        f"{np.corrcoef(dL_shock, diag['D_o'])[0, 1]:+.2f}, "
-        f"corr(dL_shock, B_o) "
-        f"{np.corrcoef(dL_shock, diag['B_o'])[0, 1]:+.2f}",
-        f"  manual-arc (135-225 deg): total dL {dL[manual].sum():+.5f}, "
-        f"technology component {dL_shock[manual].sum():+.5f}",
-        "  top gainers (technology component L* - L*0):",
+        f"  re-sorting (pure shock): sum|dL| {np.abs(dL).sum():.4f} "
+        f"({100 * np.abs(dL).sum() / 2:.2f}% of mass relocated)",
+        f"  shock alignment: corr(dL, D_o) "
+        f"{np.corrcoef(dL, diag['D_o'])[0, 1]:+.2f}, "
+        f"corr(dL, B_o) "
+        f"{np.corrcoef(dL, diag['B_o'])[0, 1]:+.2f}",
+        f"  manual-arc (135-225 deg): dL {dL[manual].sum():+.5f}",
+        "  top gainers (dL = L* - L0, anchored):",
     ]
-    for i in np.argsort(dL_shock)[::-1][:5]:
-        lines.append(f"    {titles[i][:44]:44s} dL {dL_shock[i]:+.4e}")
-    lines.append("  top losers (technology component):")
-    for i in np.argsort(dL_shock)[:5]:
-        lines.append(f"    {titles[i][:44]:44s} dL {dL_shock[i]:+.4e}")
+    for i in np.argsort(dL)[::-1][:5]:
+        lines.append(f"    {titles[i][:44]:44s} dL {dL[i]:+.4e}")
+    lines.append("  top losers:")
+    for i in np.argsort(dL)[:5]:
+        lines.append(f"    {titles[i][:44]:44s} dL {dL[i]:+.4e}")
     lines.append("")
     return dict(out=out, diag=diag, diag0=diag0, dL=dL,
-                dL_shock=dL_shock, drift=drift,
                 unbound_share=float(unbound_share),
                 refill_value=refill_value)
 
@@ -439,8 +456,7 @@ def main() -> None:
     out = pd.DataFrame({
         "onet_code": occ99.index, "Title": occ99["Title"].to_numpy(),
         "xi": xi_o, "chi": chi_o, "L0": L0_99, "L_eq": rob["out"].L,
-        "dL": rob["dL"], "dL_shock": rob["dL_shock"],
-        "drift": rob["drift"], "D_o": rob["diag"]["D_o"],
+        "dL": rob["dL"], "D_o": rob["diag"]["D_o"],
         "B_o": rob["diag"]["B_o"],
         "dW_bundle": rob["diag"]["dW_bundle"], "W_o": rob["out"].W,
         "proj": proj, "ln_w_era": lnw99,

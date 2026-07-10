@@ -54,7 +54,7 @@
   },
   "external_inputs": {
     "onet_task_exposure.csv": {
-      "recorded_utc": "2026-07-10T12:15:17+00:00",
+      "recorded_utc": "2026-07-10T20:40:08+00:00",
       "source": "Eloundou, Manning, Mishkin & Rock (2024), \"GPTs are GPTs: Labor market impact potential of LLMs\", Science 384(6702):1306-1308",
       "source_repository": "https://github.com/openai/GPTs-are-GPTs",
       "source_file": "full_labelset.tsv",
@@ -98,14 +98,14 @@
       "note": "Primary endpoint for the 2019->2025 centroid-shift test (latest available vintage). UPPERCASE headers. 830 detailed SOC, 772 with numeric H_MEDIAN; 695 detailed SOC carry numeric H_MEDIAN in both 2019 and 2025."
     },
     "webb2020_exposure.csv": {
-      "recorded_utc": "2026-07-10T12:15:19+00:00",
+      "recorded_utc": "2026-07-10T20:40:10+00:00",
       "source": "Webb (2020), \"The Impact of Artificial Intelligence on the Labor Market\" (SSRN 3482150); occupational exposure to AI, software, and robots from patent-task text matching, keyed by occ1990dd (percentile columns).",
       "measure": "occupational exposure percentile to robots / software / AI",
       "derived": false,
       "sha256_frozen": "c0e3c2ab5c595c5e2fffd2943a379b14255f9609af96dee1536073d7f64c33cc"
     },
     "oews_history_1999_2007": {
-      "recorded_utc": "2026-07-10T12:57:05+00:00",
+      "recorded_utc": "2026-07-10T20:40:11+00:00",
       "source": "BLS Occupational Employment and Wage Statistics, national files 1999/2003/2007 (SOC-2000), bls.gov/oes/tables.htm; SOC 2000->2010 and 2010->2018 crosswalks, bls.gov/soc",
       "files": {
         "wages_1999": {

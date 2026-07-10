@@ -18,8 +18,19 @@ Default order:
   23  webb fields           Webb (2020) robot/software/ML fields fitted on the
                             occupation substrate beside Eloundou; carries the
                             robot-field centre and reach (the paper's Webb table and figure)
+  26  freeze OEWS history   freezes the 1999/2003/2007 national wage window
+                            (SOC-2000 through composed crosswalks) to
+                            data/oews_history_wages.csv; inputs committed
+  27  price field history   per-vintage price-field estimates Pi_1999..Pi_2007
+                            beside the committed Pi_2023; the balanced-
+                            composition shape-stability result
   09  equilibrium regime    worker-layer equilibrium: re-sorting, labour
                             share, candidate map, operated-regime illustration
+  28  robot era equilibrium the Webb-located robot field through the full
+                            equilibrium at Pi_1999 with 1999 employment,
+                            gate scale on the A&R displacement moment; the
+                            93-percent unbound result and the script-29
+                            collinearity gate
   10  demand channel        two fields through the economy; the eta sweep
                             and the second-order automation margin (Bessen)
   11  centroid-shift test   displacement-channel consistency vs OEWS 2019-2025
@@ -63,6 +74,11 @@ Notes:
   - 23 requires Webb's exposure file (data/webb2020_exposure.csv or a Stata
     file such as data/final_df_out.dta); without it the Webb side is skipped
     and only the Eloundou occupation-substrate fit is produced.
+  - 26 rebuilds data/oews_history_wages.csv from the committed OEWS national
+    files (1999, May 2003, May 2007) and SOC crosswalks in data/; like 07 it
+    writes into data/ and the output is committed. 27 reads it; 28 reads 27
+    and 23 and runs the anchored equilibrium in both eras (SMOKE=1 gives a
+    coarse-grid mechanics check, never a result).
   - 21 and 22 place the AI startup ecosystem in the geometry. 21 needs
     data/geometry_projection.npz (recover_projection.py) and
     data/startups_ycombinator.csv (fetch_startups.py); its first run embeds via
@@ -100,7 +116,10 @@ PIPELINE = [
     ("07", "07_build_exposure.py"),
     ("08", "08_calibrate_technology.py"),
     ("23", "23_webb_fields.py"),
+    ("26", "26_freeze_oews_history.py"),
+    ("27", "27_price_field_history.py"),
     ("09", "09_equilibrium_regime.py"),
+    ("28", "28_robot_era_equilibrium.py"),
     ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),
     ("12", "12_price_microfoundation.py"),
@@ -119,6 +138,7 @@ PIPELINE = [
 LABELSET_DEPENDENT = {"07", "08"}
 WEBB_DEPENDENT = {"23"}
 OEWS_DEPENDENT = {"11", "16", "20"}
+HISTORY_DEPENDENT = {"26"}
 STARTUP_DEPENDENT = {"21", "22"}
 
 
@@ -181,6 +201,18 @@ def main() -> None:
         if not oews.exists():
             print(f"WARNING: {oews} not found; steps 11/16/20 need the BLS OEWS "
                   "national medians (2019, 2024, 2025) in data/.")
+
+    if any(k in HISTORY_DEPENDENT for k, _ in steps):
+        data_dir = SCRIPTS.parent / "data"
+        needed = ["national_1999_dl.xls", "national_may2003_dl.xls",
+                  "national_May2007_dl.xls", "soc_2000_to_2010_crosswalk.xls",
+                  "soc_2010_to_2018_crosswalk.xlsx"]
+        missing = [n for n in needed if not (data_dir / n).exists()]
+        if missing:
+            print(f"WARNING: {', '.join(missing)} not found; step 26 needs "
+                  "the historical OEWS national files and SOC crosswalks in "
+                  "data/ (see its docstring for sources). Steps 27 and 28 "
+                  "read 26's frozen output.")
 
     if any(k in STARTUP_DEPENDENT for k, _ in steps):
         proj = SCRIPTS.parent / "data" / "geometry_projection.npz"

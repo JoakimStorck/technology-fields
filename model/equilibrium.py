@@ -11,8 +11,21 @@ Re-sorting kernel (reading A, origin-destination; under test, not asserted as
 the correct reading of eq. equilibrium). A worker at origin o' chooses a
 destination o by a logit over value net of the mobility cost c d(o, o'):
 
-    P(o | o') = softmax_o( (W_o - c d(o, o')) / kappa ),     d(o, o') = ||mu_o^0 - mu_{o'}^0||
+    P(o | o') = softmax_o( (W_o + alpha_o - c d(o, o')) / kappa ),
+    d(o, o') = ||mu_o^0 - mu_{o'}^0||,
     L_o = sum_{o'} L_{o'}^0 P(o | o').
+
+The occupation constants alpha_o absorb unmodelled amenities and rationalize
+the observed employment L0 as the fixed point of the ZERO-FIELD sorting map
+(no technology: a = 0, M = 0). Without them the observed allocation is not a
+rest point of the logit, and every solved equilibrium carries a baseline
+drift that is not the technology's (the script-28 discovery: ~58 percent of
+mass relocated under a 0.3 percent shock). With them, dL = L* - L0 is the
+technology's own employment response. The constants are exactly identified
+(n_occ - 1 free constants against n_occ - 1 marginal conditions; alpha is
+defined up to an additive constant that cancels in the logit) and are
+recovered by destination balancing of the kernel, `anchor_alpha` below.
+alpha = 0 reproduces the unanchored pre-revision kernel.
 
 Three modelling choices, settled with the author:
   - self-selection: the choice set includes o = o' (cost zero), so stickiness
@@ -135,6 +148,8 @@ class Equilibrium:
         self.strip_wD = self.strip_w * self.D_task
 
         self.L0 = None     # set by caller (employment shares)
+        self.alpha = np.zeros(self.n_occ)   # anchoring constants; zero =
+                                            # unanchored kernel (anchor_alpha)
 
     # ── value at a given employment ──────────────────────────────────
     def density_and_value(self, L):
@@ -162,9 +177,10 @@ class Equilibrium:
         W = strip_val + beta * (self.e @ gvec)
         return n, C, W
 
-    # ── re-sorting kernel (reading A) ────────────────────────────────
+    # ── re-sorting kernel (reading A, anchored) ──────────────────────
     def resort(self, W, c, kappa):
-        U = (W[None, :] - c * self.d) / kappa          # origins x destinations
+        U = (W[None, :] + self.alpha[None, :]
+             - c * self.d) / kappa                     # origins x destinations
         U -= U.max(axis=1, keepdims=True)
         P = np.exp(U)
         P /= P.sum(axis=1, keepdims=True)
@@ -239,6 +255,69 @@ class Equilibrium:
         return beta * np.bincount(
             self.row_of, weights=self.b_w * self.pi_task * nb1[self.cell_of],
             minlength=self.n_occ)
+
+    def zero_field_value(self, L):
+        """W_o of the zero-field economy at employment L: the exact a = 0,
+        M = 0 limit of density_and_value, WITH its NMIN density floor. This
+        is the value the sorting map iterates on when the technology is
+        switched off, and therefore the anchoring reference for alpha_o.
+        It is technology-free (no field object is read) and differs from
+        pretech_value only in the floor, which pretech_value omits."""
+        beta = self.beta
+        n0 = (np.bincount(self.cell_of, weights=L[self.row_of] * self.b_w,
+                          minlength=self.area.size) / self.area)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            nb1 = np.maximum(n0, NMIN) ** (beta - 1.0)
+        return beta * np.bincount(
+            self.row_of, weights=self.b_w * self.pi_task * nb1[self.cell_of],
+            minlength=self.n_occ)
+
+
+def anchor_alpha(W0, d, L0, c, kappa, tol=1e-13, maxit=10000):
+    """Occupation constants alpha_o that make the observed L0 the fixed
+    point of the zero-field sorting map at value W0 = zero_field_value(L0).
+
+    Write v_o = exp(alpha_o / kappa) and K[o', o] = exp((W0_o - c d)/kappa).
+    The requirement is that the destination marginals of diag(L0) P(v),
+    with P the row-normalisation of K diag(v), equal L0. That is the
+    destination-constrained gravity calibration -- a one-sided Sinkhorn
+    balancing:
+
+        v  <-  v * L0 / (L0^T P(v)),
+
+    normalised to geometric mean one (alpha up to an additive constant,
+    which cancels in the logit). For strictly positive K, which the
+    exponential guarantees, the balanced v exists and is unique up to
+    scale (Sinkhorn's theorem, one-sided case), and the iteration
+    converges globally. The convergence criterion IS the fixed-point
+    property: the L1 gap between the implied marginals and L0.
+
+    Exactly identified: n_occ - 1 free constants against n_occ - 1
+    marginal conditions (shares sum to one on both sides).
+
+    Raises RuntimeError if the tolerance is not reached; certified runs
+    must not proceed on a broken anchor."""
+    W0 = np.asarray(W0, float)
+    L0 = np.asarray(L0, float)
+    U = (W0[None, :] - c * d) / kappa
+    U -= U.max(axis=1, keepdims=True)
+    K = np.exp(U)
+    v = np.ones_like(L0)
+    err = np.inf
+    for _ in range(maxit):
+        P = K * v[None, :]
+        P /= P.sum(axis=1, keepdims=True)
+        m = L0 @ P
+        err = float(np.abs(m - L0).sum())
+        if err < tol:
+            break
+        v *= L0 / np.maximum(m, 1e-300)
+        v /= np.exp(np.mean(np.log(v)))
+    if err >= tol:
+        raise RuntimeError(
+            f"anchor_alpha: balancing did not converge (L1 marginal gap "
+            f"{err:.2e} after {maxit} iterations, tol {tol:.0e})")
+    return kappa * np.log(v)
 
 
 def _cell_index(grid, xi, chi) -> np.ndarray:

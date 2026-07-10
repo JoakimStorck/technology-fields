@@ -1,53 +1,54 @@
-Equilibrium regime under the calibrated AI technology (reading A).
+Equilibrium regime under the calibrated AI technology (reading A, anchored kernel).
   occupations 849, tasks 17050, grid 4800 cells
   economy: R 18.0, tau 0.08, beta 0.5, gamma 0.5, ell 0.1330
-  mobility reference: kappa 11.613 (= SD of baseline value), c 22.577, median move 0.514
+  mobility reference: kappa 16.373 (= SD of zero-field value), c 31.832, median move 0.514
+  anchoring: alpha in [-109.25, +93.66] (-6.7 to +5.7 kappa units); L0 is the zero-field fixed point
 
 === no wedge ===
-  converged True in 32 iters (residual 7.6e-11); multistart spread 5.1e-11, all converged True  -> unique fixed point
-  equilibrium-vs-task-layer W_o agreement: max gap 7.11e-15
-  re-sorting: sum|dL| 1.1615 (58% of mass relocated), max|dL| 0.0190
-  labor share: pre 1.000 -> automation 0.6301 -> reinstatement 0.6259
-  bundle wage change dW: mean -12.454, share dW<0 88%
-  unbound (candidate) mass 0.0809 of seeded 0.1195 (68%)
-  manual-arc (135-225 deg) employment change sum dL = +0.1498
+  converged True in 29 iters (residual 8.2e-11); multistart spread 5.5e-11, all converged True  -> unique fixed point
+  equilibrium-vs-task-layer W_o agreement: max gap 1.07e-14
+  re-sorting (pure shock; anchored L0): sum|dL| 0.2745 (13.7% of mass relocated), max|dL| 0.0070
+  labor share: pre 1.000 -> automation 0.6488 -> reinstatement 0.6439
+  bundle wage change dW: mean -12.483, share dW<0 89%
+  unbound (candidate) mass 0.0656 of seeded 0.0971 (68%)
+  manual-arc (135-225 deg) employment change sum dL = +0.0425
   top employment gainers:
-    Mechanical Engineering Technologists and dL +2.7380e-03
-    Electro-Mechanical and Mechatronics Tech dL +2.6249e-03
-    Electrical and Electronics Repairers, Co dL +2.5358e-03
-    Aerospace Engineering and Operations Tec dL +2.4618e-03
-    Automotive Engineering Technicians       dL +2.2231e-03
-    Camera and Photographic Equipment Repair dL +2.1715e-03
+    Retail Salespersons                      dL +6.9703e-03
+    Baristas                                 dL +6.5627e-03
+    Fast Food and Counter Workers            dL +6.5154e-03
+    Cashiers                                 dL +5.9615e-03
+    Laborers and Freight, Stock, and Materia dL +5.1027e-03
+    Recycling and Reclamation Workers        dL +5.0540e-03
   top employment losers:
-    Fast Food and Counter Workers            dL -1.9002e-02
-    Retail Salespersons                      dL -1.8958e-02
-    Baristas                                 dL -1.8765e-02
-    General and Operations Managers          dL -1.8204e-02
-    Advanced Practice Psychiatric Nurses     dL -1.6623e-02
-    Cashiers                                 dL -1.6595e-02
+    Clinical Nurse Specialists               dL -4.3345e-03
+    Sustainability Specialists               dL -3.8369e-03
+    Software Developers                      dL -3.7817e-03
+    Business Continuity Planners             dL -3.3841e-03
+    Security Management Specialists          dL -2.8018e-03
+    Advanced Practice Psychiatric Nurses     dL -2.6398e-03
 
 === with wedge ===
-  converged True in 33 iters (residual 5.4e-11); multistart spread 4.9e-11, all converged True  -> unique fixed point
-  equilibrium-vs-task-layer W_o agreement: max gap 7.11e-15
-  re-sorting: sum|dL| 1.1863 (59% of mass relocated), max|dL| 0.0190
-  labor share: pre 1.000 -> automation 0.6467 -> reinstatement 0.6421
-  bundle wage change dW: mean -12.359, share dW<0 86%
-  unbound (candidate) mass 0.0769 of seeded 0.1137 (68%)
-  manual-arc (135-225 deg) employment change sum dL = +0.1487
+  converged True in 30 iters (residual 8.2e-11); multistart spread 5.6e-11, all converged True  -> unique fixed point
+  equilibrium-vs-task-layer W_o agreement: max gap 1.42e-14
+  re-sorting (pure shock; anchored L0): sum|dL| 0.3065 (15.3% of mass relocated), max|dL| 0.0072
+  labor share: pre 1.000 -> automation 0.6481 -> reinstatement 0.6432
+  bundle wage change dW: mean -12.379, share dW<0 87%
+  unbound (candidate) mass 0.0660 of seeded 0.0977 (68%)
+  manual-arc (135-225 deg) employment change sum dL = +0.0451
   top employment gainers:
-    Mechanical Engineering Technologists and dL +2.8311e-03
-    Electro-Mechanical and Mechatronics Tech dL +2.6659e-03
-    Electrical and Electronics Repairers, Co dL +2.5564e-03
-    Aerospace Engineering and Operations Tec dL +2.5170e-03
-    Automotive Engineering Technicians       dL +2.2982e-03
-    Materials Scientists                     dL +2.2561e-03
+    Retail Salespersons                      dL +7.2322e-03
+    Baristas                                 dL +6.8198e-03
+    Fast Food and Counter Workers            dL +6.7549e-03
+    Cashiers                                 dL +6.1979e-03
+    Laborers and Freight, Stock, and Materia dL +5.2776e-03
+    Recycling and Reclamation Workers        dL +5.2073e-03
   top employment losers:
-    Fast Food and Counter Workers            dL -1.9021e-02
-    Retail Salespersons                      dL -1.8974e-02
-    Baristas                                 dL -1.8777e-02
-    General and Operations Managers          dL -1.8509e-02
-    Advanced Practice Psychiatric Nurses     dL -1.6883e-02
-    Clinical Nurse Specialists               dL -1.6811e-02
+    Clinical Nurse Specialists               dL -6.4746e-03
+    Advanced Practice Psychiatric Nurses     dL -4.2095e-03
+    Software Developers                      dL -4.0918e-03
+    Sustainability Specialists               dL -3.6198e-03
+    Critical Care Nurses                     dL -3.5147e-03
+    Business Continuity Planners             dL -3.0861e-03
 
 
 Operated regime of the calibrated technology (bare a, no wedge):

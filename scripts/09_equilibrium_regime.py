@@ -7,6 +7,61 @@ employment vector L_o is the fixed point of the logit re-sorting (reading A,
 model.equilibrium); the value W_o it sorts on comes from the task layer
 (model.regime), so the two must agree at the solution -- checked here.
 
+ANCHORED RE-SPECIFICATION (this revision). Script 28 discovered that the
+observed L0 was not a fixed point of the unanchored sorting map: with no
+technology the logit relocated ~58 percent of mass, so the committed dL
+conflated a baseline drift with the shock (cognitive technology component
+~20 of the 58; drift-carried gainer/loser identities). The kernel now
+carries occupation constants alpha_o (model.equilibrium.anchor_alpha),
+anchored by the zero-field rule of _setup.anchor_reference, so that L0 IS
+the zero-field fixed point and dL = L* - L0 is the technology's own
+employment response. alpha is wedge-invariant (the wedge enters only the
+takeover margin, not the zero-field value), so one anchor serves both
+configurations below. The committed numbers this changes are quantified
+against the frozen record in the summary; the manuscript is revised only
+after the certified run.
+
+PRE-REGISTERED EXPECTATIONS (anchored re-run; recorded before the first
+certified run, verdicts to the summary as they fall):
+  E1  Pure-shock re-sorted mass falls an order of magnitude below the
+      committed 58 percent; smoke mechanics suggest the 15-25 band, not
+      asserted.
+  E2  Loser identities move from the drift-carried large service
+      occupations (fast food, retail, baristas) to exposed analytical
+      occupations; gainers to low-exposure interpersonal and manual work
+      (the script-28 audit found exactly this for the L*(tech) - L*(0)
+      component; the anchored response is a different object and need not
+      reproduce it exactly).
+  E3  Manual-arc employment change stays positive at roughly two thirds
+      of the committed +0.150 (the audit's technology component was
+      +0.104).
+  E4  The unbound share of seeded mass stays at the committed 0.68 within
+      +/- 0.02 (it reaches L only through Phi(C); the robot case moved
+      93.0 -> 92.8 between L* and L0).
+
+RESULTS (first certified anchored run, grid 4800):
+  E1  PASS. 13.7 percent (no wedge; 15.3 with wedge), slightly below the
+      smoke band. Unique fixed point (multistart spread 5.5e-11);
+      W-agreement with the task layer 1.1e-14.
+  E2  HALF. Losers as expected: exposed analytical occupations (clinical
+      nurse specialists, sustainability specialists, software developers,
+      business continuity planners). Gainers NOT the audit's maintenance/
+      teachers/clergy but the large low-priced service occupations
+      (retail salespersons, baristas, fast food, cashiers) -- the same
+      occupations the unanchored drift shrank. The anchored response
+      concentrates absorption in large low-barrier occupations; the
+      audit's L*(tech) - L*(0) object measured a different comparison
+      around a drifted baseline. Recorded, both halves.
+  E3  FAIL on magnitude, PASS on sign. Manual arc +0.0425 (+0.0451
+      wedged): positive, but 28 percent of the committed +0.150 rather
+      than the expected two thirds. The audit's +0.104 was the shock
+      around the drifted baseline; the observed economy absorbs more of
+      the freed labour in the southern service arc instead.
+  E4  PASS. 0.676, wedge variant 0.676.
+  Labour share: automation 0.6488, reinstatement 0.6439 (wedge 0.6481 /
+  0.6432); levels supersede the drift-carried 0.63 / 0.626, the
+  reinstatement gap survives at half a point.
+
 Reports:
   - convergence and a multi-start uniqueness check (the basis for stating
     uniqueness as a proposition);
@@ -69,21 +124,25 @@ def main() -> None:
     xi_o = occ["xi"].to_numpy()
     manual = (xi_o > np.radians(135)) & (xi_o < np.radians(225))   # west arc
 
-    # mobility reference from baseline value (gated model, matching the runs)
+    # anchored mobility and alpha: zero-field rule, one anchor for the era
+    # (alpha is wedge-invariant; the wedge enters only the takeover margin)
     eq0 = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=None,
                       survival=True)
     eq0.L0 = L0
-    _, _, W0 = eq0.density_and_value(L0)
-    c, kappa, dmed = _setup.mobility_reference(W0, eq0.d)
+    c, kappa, dmed, alpha = _setup.anchor_reference(eq0, L0)
 
     lines = [
-        "Equilibrium regime under the calibrated AI technology (reading A).",
+        "Equilibrium regime under the calibrated AI technology "
+        "(reading A, anchored kernel).",
         f"  occupations {len(L0)}, tasks {len(inp.bundles)}, grid "
         f"{inp.grid.xi.size} cells",
         f"  economy: R {R}, tau {TAU}, beta {BETA}, gamma {GAMMA}, "
         f"ell {ell:.4f}",
-        f"  mobility reference: kappa {kappa:.3f} (= SD of baseline value), "
-        f"c {c:.3f}, median move {dmed:.3f}",
+        f"  mobility reference: kappa {kappa:.3f} (= SD of zero-field "
+        f"value), c {c:.3f}, median move {dmed:.3f}",
+        f"  anchoring: alpha in [{alpha.min():+.2f}, {alpha.max():+.2f}] "
+        f"({alpha.min() / kappa:+.1f} to {alpha.max() / kappa:+.1f} kappa "
+        f"units); L0 is the zero-field fixed point",
         "",
     ]
 
@@ -92,6 +151,7 @@ def main() -> None:
         eq = Equilibrium(inp, tech, R, TAU, GAMMA, ell, BETA, wedge=w,
                          survival=True)
         eq.L0 = L0
+        eq.alpha = alpha
         Lstar, spread, allconv = eq.multistart(c, kappa, n_random=3)
         out = eq.solve(c, kappa)
 
@@ -114,8 +174,9 @@ def main() -> None:
             f"(residual {out.residual:.1e}); multistart spread {spread:.1e}, "
             f"all converged {allconv}  -> unique fixed point",
             f"  equilibrium-vs-task-layer W_o agreement: max gap {w_gap:.2e}",
-            f"  re-sorting: sum|dL| {np.abs(dL).sum():.4f} "
-            f"({100*np.abs(dL).sum()/2:.0f}% of mass relocated), "
+            f"  re-sorting (pure shock; anchored L0): sum|dL| "
+            f"{np.abs(dL).sum():.4f} "
+            f"({100*np.abs(dL).sum()/2:.1f}% of mass relocated), "
             f"max|dL| {np.abs(dL).max():.4f}",
             f"  labor share: pre 1.000 -> automation {diag0['labor_share']:.4f} "
             f"-> reinstatement {diag['labor_share']:.4f}",

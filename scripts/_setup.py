@@ -102,3 +102,30 @@ def mobility_reference(W0: np.ndarray, d: np.ndarray):
     dmed = float(np.median(d[d > 0]))
     c = kappa / dmed
     return c, kappa, dmed
+
+
+def anchor_reference(eq, L0):
+    """The anchored mobility-and-alpha rule: one call per era.
+
+    The ZERO-FIELD value W^0 at observed L0 (Equilibrium.zero_field_value)
+    sets (c, kappa) by the committed SD rule; the occupation constants
+    alpha_o then balance the logit kernel so that L0 is the fixed point of
+    the zero-field sorting map (model.equilibrium.anchor_alpha). The
+    pre-revision rule took kappa from the value WITH the technology at L0,
+    which made the baseline economy's mobility scale depend on which field
+    was being studied; the zero-field rule removes that dependence.
+
+    W^0 and the centroid distance d are free of the technology, the wedge
+    (which enters only the takeover margin), and every sweep parameter
+    (R, tau, gamma, ell, rho, lam_over, eta). One (c, kappa, alpha)
+    therefore serves every configuration of an era, and sensitivity sweeps
+    vary their parameters against a fixed baseline. The eq argument may be
+    built with any technology of the era; only its geometry is read.
+
+    Returns (c, kappa, dmed, alpha). Callers set eq.alpha = alpha before
+    solving."""
+    from model.equilibrium import anchor_alpha
+    W0 = eq.zero_field_value(np.asarray(L0, float))
+    c, kappa, dmed = mobility_reference(W0, eq.d)
+    alpha = anchor_alpha(W0, eq.d, L0, c, kappa)
+    return c, kappa, dmed, alpha
