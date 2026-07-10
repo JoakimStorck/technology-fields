@@ -5,38 +5,64 @@ Run the analysis pipeline end to end. Every script reads exclusively from
 data/ (frozen by scripts/00_freeze_inputs.py; provenance in data/MANIFEST.json),
 so the pipeline is self-contained once the inputs are frozen.
 
-Default order (01..13):
+Default order:
   01  wage field            estimate the price-field coefficients ln Pi
                             (replicates Paper 1, Table 3)
   02  price field           bundle pricing, support diagnostics, regime demo
   03  field vs Paper 1      directional-return cross-check
-  04  residual structure    spatial structure above the field (wedge motivation)
   05  family wedge          measured family wage wedge eta_g
   06  capability fields     rank-2 plane test and the q_k coefficients
   07  build exposure        freeze Eloundou beta -> data/onet_task_exposure.csv
-  08  calibrate technology  phi_K against the exposure surface; records the
-                            exposure provenance in data/MANIFEST.json
-  09  equilibrium regime    worker-layer equilibrium: re-sorting, labor
+  08  calibrate technology  phi_K against the task-level exposure surface;
+                            records the exposure provenance in data/MANIFEST.json
+  23  webb fields           Webb (2020) robot/software/ML fields fitted on the
+                            occupation substrate beside Eloundou; carries the
+                            robot-field centre and reach (the paper's Webb table and figure)
+  09  equilibrium regime    worker-layer equilibrium: re-sorting, labour
                             share, candidate map, operated-regime illustration
   10  demand channel        two fields through the economy; the eta sweep
                             and the second-order automation margin (Bessen)
   11  centroid-shift test   displacement-channel consistency vs OEWS 2019-2025
-                            wage changes (needs OEWS medians in data/)
+                            wage changes, confound analysis, window split
+                            (needs OEWS medians in data/)
   12  price microfoundation derive Pi as a capability-assignment equilibrium;
                             selects the demand closure (rejects the scarcity and
                             productivity-complementarity accounts)
-  13  occupation rents      occupation-level rents and within-group wage
-                            compression; the AR (w32536) Prop 4 extension
-                            (needs OEWS medians in data/)
+  14  sensitivity           attachment/gate/shape sweeps behind the headline
+                            robustness ranges (labour share, unbound, re-sort)
+  15  geometry map          occupational centroid map with poles and examples
+                            (the geometry-map panel of the paper's first figure)
+  24  bundle examples       five occupations opened as task bundles
+                            (the bundle panel of the paper's first figure)
+  25  bundle examples num.  numbered variant of 24 plus the task longtable
+                            (paper appendix figure and table)
+  16  placebo fields        pre-registered placebo test: robot field and the
+                            rotated cognitive clone vs OEWS wage changes
+  17  unbound decomposition pre-registered gamma-vs-ell decomposition: the
+                            unbound share is a binding property, not seeding
+  19  wage deformation      exact stripping/congestion/reinstatement
+                            decomposition of occupation wage adjustments
+  20  wage objects          consistency chain proj -> bundle -> value against
+                            OEWS wage growth
+  21  startup seeding       embeds the YC AI/robotics startups through the
+                            frozen projection into the geometry
+  22  startup enrichment    seeding-ring enrichment statistics and the
+                            comparison figure of the startup section
 
 Notes:
   - 00 (freeze inputs) is NOT in the default run. It vendors the Paper 1
     exports from a local geometry-of-work checkout and needs --geometry-root,
     so it is run on its own when refreshing the frozen inputs (or here via
     --freeze --geometry-root PATH, which runs 00 first).
+  - Retired steps leave numbering gaps: 04 (residual diagnostic), 13
+    (occupation-rent extension), 18 (binding counterfactual). See the
+    PIPELINE comment and git history.
   - 07 and 08 require the Eloundou labelset data/full_labelset.tsv
     (github.com/openai/GPTs-are-GPTs). It is committed in data/ and calls no
     API, so 07 now runs anywhere as part of the pipeline.
+  - 23 requires Webb's exposure file (data/webb2020_exposure.csv or a Stata
+    file such as data/final_df_out.dta); without it the Webb side is skipped
+    and only the Eloundou occupation-substrate fit is produced.
   - 21 and 22 place the AI startup ecosystem in the geometry. 21 needs
     data/geometry_projection.npz (recover_projection.py) and
     data/startups_ycombinator.csv (fetch_startups.py); its first run embeds via
@@ -45,7 +71,7 @@ Notes:
     fetch_startups.py) are run on their own, like 00.
 
 Usage:
-    python scripts/run_all.py                          # 01..13
+    python scripts/run_all.py                          # full pipeline
     python scripts/run_all.py --only 08                # one script
     python scripts/run_all.py --from 07                # 07 onward
     python scripts/run_all.py --freeze --geometry-root PATH   # prepend 00
@@ -73,6 +99,7 @@ PIPELINE = [
     ("06", "06_capability_fields.py"),
     ("07", "07_build_exposure.py"),
     ("08", "08_calibrate_technology.py"),
+    ("23", "23_webb_fields.py"),
     ("09", "09_equilibrium_regime.py"),
     ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),
@@ -80,6 +107,7 @@ PIPELINE = [
     ("14", "14_sensitivity.py"),
     ("15", "15_geometry_map.py"),
     ("24", "24_bundle_examples.py"),
+    ("25", "25_bundle_examples_numbered.py"),
     ("16", "16_placebo_field.py"),
     ("17", "17_unbound_decomposition.py"),
     ("19", "19_wage_field_deformation.py"),
@@ -89,6 +117,7 @@ PIPELINE = [
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
+WEBB_DEPENDENT = {"23"}
 OEWS_DEPENDENT = {"11", "16", "20"}
 STARTUP_DEPENDENT = {"21", "22"}
 
@@ -135,6 +164,17 @@ def main() -> None:
         if not labelset.exists():
             print(f"WARNING: {labelset} not found; steps 07/08 need the "
                   "Eloundou labelset (github.com/openai/GPTs-are-GPTs).")
+
+    if any(k in WEBB_DEPENDENT for k, _ in steps):
+        data_dir = SCRIPTS.parent / "data"
+        candidates = [data_dir / "webb2020_exposure.csv",
+                      data_dir / "webb2020_exposure.dta",
+                      data_dir / "final_df_out.dta"]
+        if not any(p.exists() for p in candidates):
+            print("WARNING: no Webb exposure file found in data/ "
+                  "(webb2020_exposure.csv/.dta or final_df_out.dta); "
+                  "step 23 will skip the Webb side and fit only the "
+                  "Eloundou occupation-substrate field.")
 
     if any(k in OEWS_DEPENDENT for k, _ in steps):
         oews = SCRIPTS.parent / "data" / "national_M2019_dl.xlsx"

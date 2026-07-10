@@ -601,10 +601,13 @@ def main() -> None:
         ]
     lines.append("")
 
+    elo_tag = (tag if tag.startswith("SMOKE")
+               else "Eloundou et al. (2024), frozen in onet_task_exposure.csv"
+                    " (occupation substrate)")
     rows = [{"field": n, **{k: fits[n][k] for k in
              ("n", "xi_K_deg", "chi_K", "z_K", "A_K", "px", "py",
               "r2_task", "r2_surface", "eta2_between_cell", "at_bound")},
-             "provenance": tag}
+             "provenance": tag if n.startswith("webb_") else elo_tag}
             for n in FIELD_ORDER if n in fits]
     pd.DataFrame(rows).to_csv(RESULTS / "webb_calibration.csv", index=False)
 
