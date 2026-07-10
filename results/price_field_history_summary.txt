@@ -1,0 +1,18 @@
+Historical price fields Pi_t on frozen coordinates (script 27; pre-registered, see docstring).
+  committed reference: N = 785, A = 0.891 (se 0.134), direction 89.5 deg (se 7.2), R2 = 0.523
+  [1999] N = 774: A = 0.683 (se 0.112), direction 67.1 deg (se 8.2), m3 t = +4.05, R2 = 0.509
+  [1999 one_to_one] N = 682: A = 0.712 (se 0.121), direction 63.3 deg (crosswalk robustness)
+  [2003] N = 776: A = 0.732 (se 0.113), direction 69.2 deg (se 7.7), m3 t = +2.97, R2 = 0.520
+  [2007] N = 878: A = 0.942 (se 0.135), direction 72.8 deg (se 6.8), m3 t = +0.88, R2 = 0.507
+Pre-registered hypothesis verdicts:
+  H1 (first harmonic, within 20 deg of committed)  FAIL  (z_A 6.1, delta-dir 22.3 deg)
+  H2 (isotropic m3 ~ 0 in 1999)                    FAIL  (t +4.05)
+  H3 (committed amplitude >= 1999)                 PASS  (z +1.2; 0.891 vs 0.683)
+  H4 (committed field ranks 1999 wages, rho>=0.5)  PASS  (Spearman +0.720, p=1.4e-124)
+Depth-return amplitude trajectory: 1999 0.683 -> 2003 0.732 -> 2007 0.942 -> 2023 (committed) 0.891
+Composition robustness, balanced code set (N_codes = 620; occupation-level fits):
+  [2023 (committed) balanced] N = 694: A = 0.828, direction 93.2 deg, m3 t = -0.73
+  [1999 balanced] N = 694: A = 0.908, direction 96.1 deg, m3 t = +0.40
+  [2003 balanced] N = 694: A = 0.931, direction 95.6 deg, m3 t = -0.33
+  [2007 balanced] N = 694: A = 0.960, direction 93.1 deg, m3 t = -0.84
+  [1999] outside the balanced set: 80 occupations, circular-mean direction 343 deg, mean chi 0.44

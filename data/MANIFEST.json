@@ -103,6 +103,34 @@
       "measure": "occupational exposure percentile to robots / software / AI",
       "derived": false,
       "sha256_frozen": "c0e3c2ab5c595c5e2fffd2943a379b14255f9609af96dee1536073d7f64c33cc"
+    },
+    "oews_history_1999_2007": {
+      "recorded_utc": "2026-07-10T12:57:05+00:00",
+      "source": "BLS Occupational Employment and Wage Statistics, national files 1999/2003/2007 (SOC-2000), bls.gov/oes/tables.htm; SOC 2000->2010 and 2010->2018 crosswalks, bls.gov/soc",
+      "files": {
+        "wages_1999": {
+          "name": "national_1999_dl.xls",
+          "sha256": "8e4c39498bc905c4da167e9b4f57fea4f8d96cdc5c3d8e6654db4ee2f77e7b14"
+        },
+        "wages_2003": {
+          "name": "national_may2003_dl.xls",
+          "sha256": "03e83e40f5b4cadae10a4436583e28ea0e3b1f62d2697476a2590bfd4094014b"
+        },
+        "wages_2007": {
+          "name": "national_May2007_dl.xls",
+          "sha256": "7166f537d777e814cfb9c4831f13502411ed8b2ba0a9b0f7951f8132b2d70653"
+        },
+        "xwalk_2000_2010": {
+          "name": "soc_2000_to_2010_crosswalk.xls",
+          "sha256": "44d6770e833b7cb7a920e43fc8546d7ed511de350d6e7e6c1ae5191e79638e42"
+        },
+        "xwalk_2010_2018": {
+          "name": "soc_2010_to_2018_crosswalk.xlsx",
+          "sha256": "f3a847561562d3e5a30eb848f2902a5f7b02e9c48b3d7f2cc8879899fbc242a7"
+        }
+      },
+      "derived": true,
+      "recipe": "Detailed SOC-2000 rows; hourly wage by preference H_MEDIAN > A_MEDIAN/2080 > H_MEAN > A_MEAN/2080; mapped to SOC-2018 by composing the two crosswalks; per SOC-2018 code the employment-weighted mean of log wages across SOC-2000 sources (weights: same-year TOT_EMP). Written by scripts/26_freeze_oews_history.py to data/oews_history_wages.csv."
     }
   }
 }
