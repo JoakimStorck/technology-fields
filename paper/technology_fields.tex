@@ -44,7 +44,9 @@ labour stays competitive and some occupation can bind it. Calibrated,
 the model restores work but not pay: most new tasks bind to no
 occupation, and freed labour re-sorts into other occupations, carrying
 wage pressure into work the technology never reaches. New AI and
-robotics firms are founded where the model places new work.
+robotics firms are founded where the model places new work, and in the
+industrial-robot wave's own window the predicted wage pressure tracks
+observed occupational wage growth independently of the wage level.
 \end{abstract}
 
 \vspace{0.5em}
@@ -189,9 +191,9 @@ worker consequences of reinstatement: task creation restores work
 without restoring pay, and the paper traces why through a single spatial
 story. Automation strips priced content from the bundles it touches;
 most of the work it seeds binds to no occupation and reaches no worker;
-and the labour freed by stripping re-sorts into other occupations,
-crowding them and carrying wage pressure into production and manual
-work the technology never reaches. Reinstatement of work and
+and the labour freed by stripping re-sorts into large low-priced
+service and manual occupations, where employment recovers and pay does
+not. Reinstatement of work and
 reinstatement of pay come apart, and the geometry locates where.
 
 The third is empirical.
@@ -204,6 +206,13 @@ In the 2019--2025 cross-section, technical exposure, the baseline wage,
 and the pandemic compression are collinear, so occupational wage-growth
 regressions manufacture support for any wage-gradient mechanism, a point
 we make with placebo technologies, including one that does not exist.
+The industrial-robot wave supplies the window the cognitive wave lacks.
+Re-estimated in its own era, the robot field's predicted wage pressure
+is nearly orthogonal to the wage level, and it tracks occupational wage
+growth over 1999--2007 while three counterfactual fields carry the
+opposite sign. The window supports the spatial mechanism without
+separating robots from the import competition in the same occupations,
+so the causal test remains within-occupation.
 
 The paper proceeds as follows.
 Section~\ref{sec:geometry} introduces the spatial occupational geometry.
@@ -1124,14 +1133,17 @@ occupation $o$ is
   P_{j\to o}
   =
   \frac{
-    \exp[(W_o-c_m\,d(j,o))/\nu]
+    \exp[(W_o+\alpha_o-c_m\,d(j,o))/\nu]
   }{
     \sum_{o'}
-    \exp[(W_{o'}-c_m\,d(j,o'))/\nu]
+    \exp[(W_{o'}+\alpha_{o'}-c_m\,d(j,o'))/\nu]
   },
   \label{eq:transition-probability}
 \end{equation}
-where $c_m$ governs mobility cost and $\nu$ logit smoothness. Employment
+where $c_m$ governs mobility cost, $\nu$ logit smoothness, and the
+constants $\alpha_o$ absorb occupational attributes the value $W_o$
+does not carry: amenities, institutional wage setting, entry
+requirements. Employment
 in occupation $o$ is then
 \begin{equation}
   L_o
@@ -1142,6 +1154,21 @@ in occupation $o$ is then
 This is a fixed point because $W_o$ depends on $n(\mathbf{r})$, which
 depends on the employment vector $L$. Total labour is fixed; allowing
 aggregate labour supply to respond to total value is a later extension.
+
+The constants anchor the model to the data. They are set once, by
+requiring that observed employment $L^0$ be the fixed point of the
+sorting map with no technology present. Writing
+$v_o=\exp(\alpha_o/\nu)$, the requirement is that the destination
+marginals of the zero-technology transition matrix reproduce $L^0$, a
+balancing problem with a unique solution up to the additive constant
+that cancels in the logit; a Sinkhorn iteration recovers it. Without
+the constants the observed allocation is not a rest point of the
+logit, and a solved equilibrium mixes the technology's effect with a
+baseline relocation that has nothing to do with the technology. With
+them, $L-L^0$ is the technology's own employment response. The
+mobility scales come from the same baseline: $\nu$ is one standard
+deviation of the zero-technology occupation value, and a median-length
+move costs one logit unit.
 The sorting layer is reduced-form by design: a static allocation rule,
 rather than a search or matching model, that makes mobility costly in
 task-space distance and lets congestion close the equilibrium.
@@ -1402,8 +1429,8 @@ Section~\ref{sec:cognitive-case}.
 \centering
 \caption{Economy parameters. Employment $L$ is normalized to shares
 summing to one, so the attachment capacity $C$ in $\Phi(C)=C/(1+C)$ is
-of order one. Mobility values are evaluated at baseline employment
-under the calibrated technology.}
+of order one. Mobility and anchoring values are set at the
+zero-technology baseline.}
 \label{tab:economy-parameters}
 \begin{tabular}{ll>{\raggedright\arraybackslash}p{8.2cm}}
 \toprule
@@ -1419,8 +1446,10 @@ $\ell$ & $0.133$ & one within-direction SD of the priced-capability
 index gives readiness $e^{-1}$ \\
 $\rho,\ \lambda_{\mathrm{over}}$ & $0.5,\ 1$ & attachment locality and
 over-qualification weight, eq.~\eqref{eq:attachment} \\
-$\nu$ & $11.6$ & one SD of baseline occupation value per logit unit \\
-$c_m$ & $22.6$ & the median move costs one $\nu$ \\
+$\nu$ & $16.4$ & one SD of zero-technology occupation value per logit unit \\
+$c_m$ & $31.8$ & the median move costs one $\nu$ \\
+$\alpha_o$ & balanced & occupation constants; observed employment is the
+zero-technology rest point of the sorting map \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1562,8 +1591,8 @@ cognitive field.}
 
 Solving the worker layer before and after bundle rewriting gives the
 comparative static. The labour share falls substantially under pure
-automation, from a pre-technology normalization of one to $0.63$,
-and reinstatement does not restore it, leaving it at $0.626$ in the main
+automation, from a pre-technology normalization of one to $0.65$,
+and reinstatement does not restore it, leaving it at $0.644$ in the main
 calibration. Task creation is not absent; much of the seeded mass
 either fails to attach or attaches in lower priced regions. The
 geometry withholds the aggregate recovery that a one-dimensional model
@@ -1571,33 +1600,36 @@ would assign to labour by construction. Aggregate employment does not
 fall, because total labour is fixed and re-sorts; the comparison is
 carried by pay and by who performs which work. The
 result is robust to the family wage wedge: with the wedge in the
-adoption gate, the share falls to $0.647$ under automation and $0.642$
+adoption gate, the share falls to $0.648$ under automation and $0.643$
 after reinstatement, the unbound share of seeded mass is unchanged at
 $68$ percent, and the ordering of gaining and losing occupations is
 preserved.
 
 The level of the automation drop is set by the gate. Sweeping $R$ from
-$12$ to $24$ moves the post-automation share from $0.48$ to $0.77$,
+$12$ to $24$ moves the post-automation share from $0.51$ to $0.78$,
 because $R$ fixes how deep the technology cuts. The structure of the
 result is not. Across a sixteenfold range of the attachment scale,
 $\gamma$ from $0.25$ to $0.75$, both margin widths, and the attachment
 shape, reinstatement moves the share by less than one percentage point
-in either direction, against an automation drop of $23$ to $52$ points;
+in either direction, against an automation drop of $22$ to $49$ points;
 at the most generous corner it adds $0.4$ points. The unbound share of
 seeded mass stays between $53$ and $79$ percent over the full sweep,
-$61$ to $72$ within the attachment sweep. Re-sorted mass stays at $58$
-percent throughout. The claim the paper rests on is the gap between
+$61$ to $72$ within the attachment sweep. Re-sorted mass runs from $9$
+to $19$ percent, set by the depth of the cut: cheap capital cuts deeper
+and frees more labour. The claim the paper rests on is the gap between
 task creation and wage recovery, not the level of the drop.
 
-Re-sorting is substantial: $58$ percent of employment mass relocates.
-Gainers are occupations whose existing capabilities let them bind the
-seeded tasks: engineering and mechatronics technologists. Losers
-include large low-priced service occupations (fast-food and retail
-workers, baristas, cashiers) and occupations in the technology core
-whose high-priced bundle content is stripped (general managers,
-advanced-practice nurses). The manual arc can gain
-employment as displaced labour re-sorts there, but that does not imply
-a corresponding wage recovery because depth is weakly priced in that
+The shock relocates $14$ percent of employment mass. Losers are
+exposed occupations whose high-priced bundle content is stripped:
+clinical nurse specialists, sustainability specialists, software
+developers. Gainers are the large low-priced service occupations that
+absorb the freed labour: retail salespersons, baristas, fast-food
+workers, cashiers. Binding also pulls employment toward occupations
+able to perform the seeded tasks (the employment response correlates
+with bound reinstatement at $+0.72$), but the absorption in levels
+sits in low-barrier service work. The manual arc gains $0.04$ of
+employment mass as displaced labour re-sorts there, without a
+corresponding wage recovery because depth is weakly priced in that
 direction.
 
 The re-sorting that absorbs the freed labour has a wage consequence of
@@ -1606,20 +1638,22 @@ occupations take in the displaced mass by growing, and because local
 capacity is congested ($\beta<1$), growth lowers the marginal return in
 the receiving occupations. Decomposing each occupation's wage change
 exactly into the content stripped from its bundle and the congestion
-induced by inflow, the two are of comparable size: an
-employment-weighted mean of $-0.41$ log points from stripping and
-$-0.38$ from congestion. The signature is the sorting one: occupations
-that gain employment crowd themselves ($-0.50$ on average), those that
-lose thin out and recover ($+0.11$). The direction matters more than the
-level, which is a full-maturity re-pricing rather than a forecast: the
-burden of automation is carried in part by occupations the technology
-never touches. Figure~\ref{fig:wage-deformation} maps it. The cognitive
-field sits in the north, but the freed labour re-sorts toward the
+induced by inflow, stripping carries the mean: an employment-weighted
+$-0.35$ log points, against a congestion mean near zero ($-0.03$).
+Congestion is a distributional channel. It moves a mean absolute
+$0.10$ log points across occupations, twenty-nine percent of
+stripping's magnitude, with the sorting signature: occupations that
+gain employment crowd themselves ($-0.06$ on average), and the
+thinned-out exposed occupations recover part of their loss ($+0.22$).
+The level is a full-maturity re-pricing rather than a forecast.
+Figure~\ref{fig:wage-deformation} maps the channel. The cognitive
+field sits in the north, the freed labour re-sorts toward the
 least-damaged parts of the structure, which are largely manual and
-production directions, and the effective wage field is bent down there.
-The model predicts that automation concentrated in cognitive work
-transmits wage pressure into production and manual occupations through
-re-sorting, not through the reach of the technology itself. This
+production directions, and the effective wage field is bent down where
+it lands. The model predicts that cognitive automation transmits a
+modest wage pressure into the production and manual occupations that
+absorb the freed labour, through re-sorting rather than through the
+technology's reach. This
 prediction is directional; the cross-section of
 Section~\ref{sec:directional-check} cannot identify it, and the
 channel is consistent with the paper's other occupation wage
@@ -1627,8 +1661,9 @@ objects.\footnote{The stripping-only bundle wage change, the
 first-order directional pressure of
 Section~\ref{sec:directional-check}, and the congestion-inclusive value
 change agree in sign against observed wage growth and rank occupations
-consistently (Spearman $+0.84$ between the two stripping measures,
-$+0.67$ once congestion is added); adding congestion does not move the
+consistently (Spearman $+0.84$ between the two stripping measures and
+$+0.91$ once congestion is added, the congestion channel being small);
+adding congestion does not move the
 correlation with the confounded 2019--2025 cross-section, as it should
 not.}
 
@@ -1674,14 +1709,15 @@ where they may become necessary.
 The demand channel is evaluated by sweeping the output-demand elasticity
 $\eta$. At unit-elastic demand, cost savings leave revenue unchanged.
 Both technology fields release labour in their automated region, by
-$22$ percent for the cognitive field and $9$ percent for the robot one.
+$12$ percent for the cognitive field and $22$ percent for the robot one.
 Across plausible elasticities, displacement dominates because savings
 are small at the adoption margin: the price-to-cost ratio is essentially
 one there against roughly $1.5$ deep in the cognitive core and $1.2$ in
 the robot core. Net
-employment growth appears only at high elasticity (the cognitive
-region crosses zero at $\eta\approx7.3$, the robot region at
-$\eta\approx7.4$) or where infra-marginal savings are large.
+employment growth requires elasticity beyond the plausible range: the
+cognitive region crosses zero at $\eta\approx8$, and the robot region
+does not cross below $\eta=12$, because its core saving is smaller and
+the demand channel has less to hand back.
 
 \begin{figure}[!htbp]
 \centering
@@ -1869,6 +1905,89 @@ window it is absent.}
 \label{fig:centroid-shift-new}
 \end{figure}
 
+\subsection{The robot wave's own window}
+\label{sec:check-robot-wage}
+
+The industrial-robot wave supplies what the cognitive window lacks. Its
+diffusion years are covered by a classification-consistent wage window,
+1999 to 2007 with 2003 as midpoint, frozen onto the geometry through
+composed SOC crosswalks, and the confound of
+Section~\ref{sec:check-confound} is absent by measurement: the robot
+field's predicted bundle wage pressure at $\Pi_{1999}$ loads on the
+1999 wage level at $+0.03$, so the wage level explains none of whatever
+correlation appears.
+
+The instrument is the bundle wage pressure $\Delta w_o$ rather than the
+directional projection, and the geometry forces the choice. The
+projection records the direction a residual centroid moves. A field in
+the dear region strips dear content and points residuals down the
+gradient; a field in the cheap region strips cheap content and points
+residuals up the gradient; and for any single-peaked field the
+projection is monotone in position along the gradient axis. In a window
+whose wage growth carries a positional trend, the projection therefore
+correlates for every field, real or fictitious, with the sign set by
+orientation alone. The bundle pressure has no such degeneracy: more
+stripped value predicts lower relative wage growth wherever the field
+sits.
+
+Table~\ref{tab:wave-window} reports the result. Occupations under
+deeper predicted robot pressure saw lower wage growth over 1999--2007
+(Spearman $+0.22$, unchanged at $+0.22$ given the baseline wage, and
+$+0.21$ on the stable-crosswalk subsample), in both halves of the
+window (Figure~\ref{fig:robot-window}). Three counterfactual fields,
+each calibrated to the same aggregate displaced mass so that the
+comparison is between locations rather than scales, carry the opposite
+sign: the cognitive field evaluated before the technology existed
+($-0.29$ given the wage level), a rotated robot clone ($-0.22$), and
+the software field ($-0.12$). Their correlations are the period's
+positional growth trend, the cognitive north-east pulling ahead of the
+wage level, and their sign is mechanism-inconsistent: their nominally
+pressed occupations grew faster. The robot field alone carries the
+mechanism's sign.
+
+Running both waves through both windows closes the design. In
+2019--2025 the objects behave as Section~\ref{sec:check-confound}
+found: the cognitive raw correlation ($+0.42$) collapses given the
+baseline wage ($+0.03$), and the robot raw ($-0.20$) is manufactured by
+a $+0.31$ loading on the wage level and collapses the same way
+($-0.02$). One cell of the four survives conditioning with the
+mechanism's sign, the robot in its own window. The scope is that of any
+occupational cross-section: robots and import competition pressed the
+same western manufacturing arc over these years
+\parencite{autor2013china}, so the window supports the spatial
+mechanism without attributing it to robots against the trade shock.
+
+\begin{table}[!htbp]
+\centering
+\caption{Each wave in each window. Spearman rank correlations between
+predicted bundle wage pressure and observed occupational wage growth;
+the partial correlation conditions on the rank of the start-of-window
+wage level. Within each window both fields are calibrated to the same
+aggregate displaced task mass, set by the window's own wave ($N=774$ in
+1999--2007, $725$ in 2019--2025).}
+\label{tab:wave-window}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{1999--2007} & \multicolumn{2}{c}{2019--2025} \\
+Field & Raw & Partial & Raw & Partial \\
+\midrule
+Industrial robots & $+0.22$ & $+0.22$ & $-0.20$ & $-0.02$ \\
+Cognitive & $-0.38$ & $-0.29$ & $+0.42$ & $+0.03$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{robot_era_directional.png}
+\caption{Predicted bundle wage pressure of the calibrated robot field
+at $\Pi_{1999}$ against observed occupational wage growth, in the two
+halves of the robot window. Marker size is 1999 employment. The
+pressure measure is nearly orthogonal to the wage level, so the raw and
+conditioned correlations coincide.}
+\label{fig:robot-window}
+\end{figure}
+
 \subsection{Where new work appears}
 \label{sec:check-newwork}
 
@@ -1938,18 +2057,23 @@ founded.}
 \subsection{What the data show}
 \label{sec:check-reading}
 
-The two confrontations are not symmetric. The wage cross-section cannot
-test the mechanism. The model's wage prediction and the dominant wage
-shock of the period load on the same index, the baseline wage, and once
-that index is held fixed no identifying variation is left. The
+The confrontations are not symmetric. The 2019--2025 wage cross-section
+cannot test the mechanism: the model's wage prediction and the dominant
+wage shock of the period load on the same index, the baseline wage, and
+once that index is held fixed no identifying variation is left. That
 cross-section fails to contradict the model because it cannot
-discriminate, not because it corroborates. The firm locations are
-different. They bear on a spatial prediction the wage cross-section
-cannot make, that new work concentrates on the ring, and they are
-consistent with it. Neither reading is proof. A single cross-section of
-firm positions cannot separate seeding on the ring from other processes
-that would also deposit new work there. It can only fail to contradict
-the model, and it does.
+discriminate. The robot window can discriminate, and it reads in the
+model's favour: the pressure measure is orthogonal to the wage level
+there, the correlation survives conditioning, and the counterfactual
+fields carry the opposite sign. What it cannot do is attribute, since
+robots and import competition pressed the same occupations. The firm
+locations are different again. They bear on a spatial prediction the
+wage data cannot make, that new work concentrates on the ring, and they
+are consistent with it. None of the three readings is proof. A single
+cross-section of firm positions cannot separate seeding on the ring
+from other processes that would deposit new work there, and an
+occupational wage window cannot separate contemporaneous pressures on
+the same arc.
 
 The wage mechanism still has a proper test, and the cross-section is not
 it. The identifying variation the model calls for is within-occupation
@@ -1993,14 +2117,17 @@ restoring pay.
 
 Calibrated to task-level AI exposure, the mechanism gives the paper's
 quantitative answer. Automation cuts the labour share from one to
-$0.63$, and reinstatement leaves it at $0.626$, because $68$ percent of
-the seeded mass binds to no occupation. The wage burden splits almost
-evenly between stripped bundle content ($-0.41$ log points,
-employment-weighted) and the congestion that re-sorting induces
-($-0.38$). The inference is bounded: the firm foundings are consistent
-with the seeding prediction, the wage cross-section cannot identify the
-wage prediction, and the results stand as a model-internal account the
-data fail to contradict. The causal test remains within-occupation:
+$0.65$, and reinstatement leaves it at $0.644$, because $68$ percent of
+the seeded mass binds to no occupation. The wage burden is carried by
+stripped bundle content ($-0.35$ log points, employment-weighted); the
+congestion that re-sorting induces nets to almost nothing in the mean
+and redistributes a tenth of a log point across occupations. The
+inference is bounded: the firm foundings are consistent
+with the seeding prediction, the 2019--2025 wage cross-section cannot
+identify the wage prediction, and the robot wave's own window supports
+it without separating robots from the import competition pressing the
+same occupations. The results stand as a model-internal account that
+the data are consistent with. The causal test remains within-occupation:
 whether exposed bundles shed and gain paid content along the directions
 the operator predicts, measured in microdata of the kind pioneered by
 \textcite{atalay2020evolution}.
@@ -2263,6 +2390,7 @@ $\ell$ & acquisition scale in the readiness $e_o$ (eq.~\eqref{eq:attachment}) \\
 $L_0,\,L$ & baseline and re-solved employment allocation \\
 $\lambda$ & cognitive demand-shifter exponent in the assignment closure (Appendix~\ref{app:assignment}) \\
 $c_m,\,\nu$ & mobility cost and logit smoothness in the re-sorting map \\
+$\alpha_o$ & anchoring constants in the re-sorting map; observed employment is the zero-technology fixed point \\
 $\rho,\,\lambda_{\mathrm{over}}$ & attachment locality scale and over-qualification weight (eq.~\eqref{eq:attachment}) \\
 \end{longtable}
 

@@ -1,0 +1,66 @@
+Wage test in the robot's own window (script 29; design and history in the docstring).
+Window A: Pi_1999, L0 from 1999 employment; occupations 774, tasks 15508, grid 4800 cells; ell 0.1294
+  equal-moment calibration: displaced share 0.003 (the script-28 A&R moment) for all four fields
+
+  [robot   ] xi_K 206.9 deg, chi_K 0.752, z_K 0.502  ->  A_K 1.4769
+  [software] xi_K 145.8 deg, chi_K 0.752, z_K 0.795  ->  A_K 0.5229
+  [clone   ] xi_K  26.9 deg, chi_K 0.752, z_K 0.502  ->  A_K 0.4305
+  [llm     ] xi_K  38.4 deg, chi_K 0.463, z_K 0.583  ->  A_K 0.3726
+
+Sample: 774 occupations with 1999 and 2007 wages (774 with 2003; one_to_one stable 682)
+
+Baseline wage-growth gradient rho(w_start, dlnw): 1999-2003 +0.140, 2003-2007 +0.274, 1999-2007 +0.253  (2019-2025's was -0.58, the compression)
+
+PRIMARY: bundle wage pressure dW (mechanism-consistent sign is POSITIVE for every field):
+[robot]  N=774  (A_K 1.477, equal-moment)
+  loading rho(dW, ln w_1999) = +0.029
+  raw  +0.219 (p=7.9e-10)   partial|w_1999  +0.219 (p=0.00)
+    [1999-2003]  raw +0.105 (p=3.4e-03)  partial|w0 +0.102 (p=0.00)
+    [2003-2007]  raw +0.202 (p=1.5e-08)  partial|w0 +0.198 (p=0.00)
+    [1999-2007]  raw +0.219 (p=7.9e-10)  partial|w0 +0.219 (p=0.00)
+
+[llm]  N=774  (A_K 0.373, equal-moment)
+  loading rho(dW, ln w_1999) = -0.667
+  raw  -0.380 (p=6.2e-28)   partial|w_1999  -0.293 (p=0.00)
+    [1999-2003]  raw -0.214 (p=1.7e-09)  partial|w0 -0.164 (p=0.00)
+    [2003-2007]  raw -0.352 (p=4.9e-24)  partial|w0 -0.235 (p=0.00)
+    [1999-2007]  raw -0.380 (p=6.2e-28)  partial|w0 -0.293 (p=0.00)
+
+[clone]  N=774  (A_K 0.430, equal-moment)
+  loading rho(dW, ln w_1999) = -0.631
+  raw  -0.324 (p=2.5e-20)   partial|w_1999  -0.219 (p=0.00)
+    [1999-2003]  raw -0.169 (p=2.4e-06)  partial|w0 -0.104 (p=0.00)
+    [2003-2007]  raw -0.316 (p=1.9e-19)  partial|w0 -0.191 (p=0.00)
+    [1999-2007]  raw -0.324 (p=2.5e-20)  partial|w0 -0.219 (p=0.00)
+
+[software]  N=774  (A_K 0.523, equal-moment)
+  loading rho(dW, ln w_1999) = -0.588
+  raw  -0.244 (p=6.5e-12)   partial|w_1999  -0.121 (p=0.00)
+    [1999-2003]  raw -0.172 (p=1.5e-06)  partial|w0 -0.112 (p=0.00)
+    [2003-2007]  raw -0.200 (p=2.0e-08)  partial|w0 -0.047 (p=0.19)
+    [1999-2007]  raw -0.244 (p=6.5e-12)  partial|w0 -0.121 (p=0.00)
+
+Crosswalk robustness (one_to_one, N=682): robot dW raw +0.208 (p=4.1e-08), partial +0.208 (p=0.00)
+
+DIAGNOSTIC: direction measure proj (sign flips with field position; monotone in position for any field, so it correlates for every field in a window with a positional growth trend -- not an identification instrument):
+  [robot   ] corr(proj, D_o) +0.45; raw -0.165, partial -0.134, loading -0.148
+  [llm     ] corr(proj, D_o) -0.77; raw -0.378, partial -0.291, loading -0.650
+  [clone   ] corr(proj, D_o) -0.82; raw -0.340, partial -0.240, loading -0.628
+  [software] corr(proj, D_o) -0.80; raw -0.189, partial -0.067, loading -0.526
+
+Horse race: rho(dW_robot, dW_software) = +0.313. The robot and import competition press the same western arc over 1999-2007; the window supports the spatial mechanism but cannot attribute it against the China shock.
+
+Window B: committed Pi_2023, 2023 employment; moment = the committed cognitive displaced share 0.2786; robot recalibrated to it (A_K 1.623)
+  [robot   ] N=725  loading +0.310  raw -0.197 (p=9.1e-08)  partial|w_2019 -0.023 (p=0.53)
+  [llm     ] N=725  loading -0.708  raw +0.424 (p=4.6e-33)  partial|w_2019 +0.028 (p=0.45)
+
+Four-cell table, dW raw (partial | start-of-window wage):
+                 1999-2007            2019-2025
+  robot        +0.219 (+0.219)       -0.197 (-0.023)
+  cognitive    -0.380 (-0.293)       +0.424 (+0.028)
+
+Expectations (working notes; see design history):
+  D1 (robot own window: mechanism sign, survives conditioning)  HOLDS  (+0.219 / +0.219)
+  D2 (no mechanism-signed false positive: llm, clone)       HOLDS  (-0.293, -0.219)
+  D3 (software recorded)                                   (-0.121)
+  D4 (window B reproduces Section 8; robot null after conditioning)  HOLDS  (cog +0.424 -> +0.028; robot -0.197 -> -0.023)
