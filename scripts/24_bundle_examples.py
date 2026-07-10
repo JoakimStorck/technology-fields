@@ -88,6 +88,18 @@ POLES = [(90, "analytical"), (0, "human-centered"),
 
 ARC_R = 0.11        # radius of the xi angle arc (about a third of the former 0.32)
 
+# --- fonts --------------------------------------------------------------
+# One dial scales every text element of this panel. scripts/25 passes its
+# own scale to build_panel(), so the numbered appendix figure sizes its
+# text independently of the small panel (b) in the paper.
+FONT_SCALE = 1.5
+_FS_MARK = 12       # chi and xi marks
+_FS_RO = 10         # r_o tick label
+_FS_NUM = 6         # per-task numbers (numbered variant)
+_FS_LABEL = 10      # occupation labels
+_FS_POLE = 11       # directional pole labels
+_FS_LEGEND = 8.5    # legend
+
 
 def band(deg: float) -> str:
     """Compass direction of a task angle, matching the paper's poles."""
@@ -128,13 +140,13 @@ def bundle(tasks: pd.DataFrame, occ: pd.Series) -> dict:
             "title": occ["Title"], "onet_code": occ["onet_code"]}
 
 
-def mark_coordinates(ax, b: dict, colour: str) -> None:
+def mark_coordinates(ax, b: dict, colour: str, scale: float) -> None:
     """Draw the chi line, the xi arc and the r_o tick on one bundle."""
     # radial coordinate chi: dashed line from the origin to the centroid
     ax.plot([0, b["cx"]], [0, b["cy"]], color="0.30", lw=1.0,
             ls=(0, (4, 3)), zorder=5)
     ax.annotate(r"$\chi$", (0.5 * b["cx"], 0.5 * b["cy"]),
-                textcoords="offset points", xytext=(-12, 3), fontsize=12,
+                textcoords="offset points", xytext=(-12, 3), fontsize=_FS_MARK * scale,
                 color="0.30", ha="right", va="center", zorder=7)
     # angular coordinate xi: small arc from the east axis to the centroid ray
     ax.add_patch(Arc((0, 0), 2 * ARC_R, 2 * ARC_R, angle=0.0,
@@ -143,18 +155,18 @@ def mark_coordinates(ax, b: dict, colour: str) -> None:
     mid = np.radians(b["deg"] / 2)
     ax.annotate(r"$\xi$", ((ARC_R + 0.055) * np.cos(mid),
                            (ARC_R + 0.055) * np.sin(mid)),
-                fontsize=12, color="0.30", ha="center", va="center", zorder=7)
+                fontsize=_FS_MARK * scale, color="0.30", ha="center", va="center", zorder=7)
     # task radius r_o: a tick along the radius circle
     th = np.radians(45)
     ex, ey = b["cx"] + b["r_o"] * np.cos(th), b["cy"] + b["r_o"] * np.sin(th)
     ax.plot([b["cx"], ex], [b["cy"], ey], color=colour, lw=1.1, zorder=5)
     ax.annotate(r"$r_o$", (b["cx"] + 0.55 * b["r_o"] * np.cos(th),
                            b["cy"] + 0.55 * b["r_o"] * np.sin(th)),
-                textcoords="offset points", xytext=(6, -8), fontsize=10,
+                textcoords="offset points", xytext=(6, -8), fontsize=_FS_RO * scale,
                 color=colour, zorder=7)
 
 
-def number_tasks(ax, b: dict, colour: str) -> None:
+def number_tasks(ax, b: dict, colour: str, scale: float) -> None:
     """Place a fine number beside each task point, fanned outward from the
     centroid to reduce overlap, with a light halo for legibility."""
     for _, r in b["tasks"].iterrows():
@@ -163,16 +175,18 @@ def number_tasks(ax, b: dict, colour: str) -> None:
         ox, oy = (6 * vx / nrm, 6 * vy / nrm) if nrm > 1e-6 else (4, 3)
         ax.annotate(str(int(r["num"])), (r["x"], r["y"]),
                     textcoords="offset points", xytext=(ox, oy),
-                    fontsize=6, color=colour, ha="center", va="center",
+                    fontsize=_FS_NUM * scale, color=colour, ha="center", va="center",
                     zorder=8,
                     bbox=dict(boxstyle="round,pad=0.04", fc="white",
                               ec="none", alpha=0.65))
 
 
-def build_panel(numbered: bool = False):
+def build_panel(numbered: bool = False, font_scale: float | None = None):
     """Draw the bundle panel and return (fig, bundles). Does not save.
     With numbered=True a fine number is placed beside each task, keyed to
-    the supplementary table of scripts/25_bundle_examples_numbered.py."""
+    the supplementary table of scripts/25_bundle_examples_numbered.py.
+    font_scale overrides the module FONT_SCALE for this call."""
+    scale = FONT_SCALE if font_scale is None else font_scale
     tasks = pd.read_csv(DATA / "task_embeddings_polar_scaled.csv")
     occs = pd.read_csv(DATA / "occupation_embeddings_polar_scaled.csv")
 
@@ -203,19 +217,19 @@ def build_panel(numbered: bool = False):
         ax.scatter(b["cx"], b["cy"], s=185, marker="*", facecolor=colour,
                    edgecolors="black", linewidths=0.9, zorder=6)
         ax.annotate(b["title"].split(",")[0], (b["cx"], b["cy"]),
-                    textcoords="offset points", xytext=(dx, dy), fontsize=10,
+                    textcoords="offset points", xytext=(dx, dy), fontsize=_FS_LABEL * scale,
                     ha=ha, color=colour, zorder=7)
 
         if i == 0:
-            mark_coordinates(ax, b, colour)
+            mark_coordinates(ax, b, colour, scale)
         if numbered:
-            number_tasks(ax, b, colour)
+            number_tasks(ax, b, colour, scale)
 
         bundles.append(b)
 
     for ang, lab in POLES:
         a = np.radians(ang)
-        ax.text(1.13 * np.cos(a), 1.13 * np.sin(a), lab, fontsize=11,
+        ax.text(1.13 * np.cos(a), 1.13 * np.sin(a), lab, fontsize=_FS_POLE * scale,
                 ha="center", va="center", style="italic", color="0.25")
 
     handles = [
@@ -225,7 +239,7 @@ def build_panel(numbered: bool = False):
                markeredgecolor="black", markersize=13, label="centroid $\\mu_o$"),
         Line2D([0], [0], color="0.45", lw=1.5, ls=(0, (5, 3)), label="$r_o$"),
     ]
-    ax.legend(handles=handles, loc="lower left", fontsize=8.5, frameon=False,
+    ax.legend(handles=handles, loc="lower left", fontsize=_FS_LEGEND * scale, frameon=False,
               handletextpad=0.6, borderpad=0.2, labelspacing=0.5)
 
     ax.set_xlim(-1.32, 1.32); ax.set_ylim(-1.32, 1.32)

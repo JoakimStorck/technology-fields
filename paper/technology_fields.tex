@@ -9,6 +9,7 @@
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage{caption}
+\usepackage{subcaption}
 \usepackage[style=authoryear, backend=biber]{biblatex}
 \addbibresource{references.bib}
 \usepackage[margin=2.5cm]{geometry}
@@ -245,30 +246,27 @@ occupational classifications; this paper takes it as given.
 
 \begin{figure}[!htbp]
 \centering
+\begin{subfigure}[b]{0.25\textwidth}
+\centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[scale=1.0]
-%% ============================================================
-%% The polar geometry
-%% ============================================================
 \begin{scope}[shift={(7.5,-5)}]
   \draw[thin, gray!50] (0,0) circle (2.4);
   \draw[thin, gray!50, dashed] (-2.4,0) -- (2.4,0);
   \draw[thin, gray!50, dashed] (0,-2.4) -- (0,2.4);
   \filldraw (0,0) circle (1.8pt);
   \draw[thick, closed hobby] plot coordinates {
-    (-1.65, -0.55) (-0.85, -0.65) (-0.55, -1.20) (-0.80, -1.65) 
-    (-1.45, -1.60) (-1.80, -1.05)
-  };
+    (-1.65, -0.55) (-0.85, -0.65) (-0.55, -1.20) (-0.80, -1.65)
+    (-1.45, -1.60) (-1.80, -1.05)};
   \node at (-1.25, -1.35) {\small $b_{o''}$};
   \draw[thick, closed hobby] plot coordinates {
-    (0.60, 0.60) (1.35, 0.70) (1.65, 1.30) (1.30, 1.75) 
-    (0.60, 1.65) (0.35, 1.10)
-  };
+    (0.60, 0.60) (1.35, 0.70) (1.65, 1.30) (1.30, 1.75)
+    (0.60, 1.65) (0.35, 1.10)};
   \node at (1.25, 1.35) {\small $b_{o}$};
   \filldraw (1.03, 1.24) circle (1.2pt);
   \draw[thick, closed hobby] plot coordinates {
-    (-1.65, 0.55) (-0.85, 0.65) (-0.55, 1.20) (-0.80, 1.65) 
-    (-1.45, 1.60) (-1.80, 1.05)
-  };
+    (-1.65, 0.55) (-0.85, 0.65) (-0.55, 1.20) (-0.80, 1.65)
+    (-1.45, 1.60) (-1.80, 1.05)};
   \node at (-1.30, 0.80) {\small $b_{o'}$};
   \filldraw (-1.20, 1.15) circle (1.2pt);
   \draw[->, thin] (0,0) -- (1.00, 1.20);
@@ -279,16 +277,41 @@ occupational classifications; this paper takes it as given.
   \node at (0.95, 0.35) {\small $\xi$};
   \draw[thin, dashed] (0,0) ++(50:0.45) arc (50:136:0.45);
   \node at (0, 0.65) {\small $\Delta \xi$};
-  %\node[below=2.7cm] at (0,-0.3) {\textbf{(d)} Polar task geometry};
 \end{scope}
-\end{tikzpicture}
-\caption{The polar geometry of \textcite{storck2026geometry}. Occupations
-are bundles of tasks on the disk: $b_o$, $b_{o'}$, $b_{o''}$ are three
-bundles, the dots their centroids $\mu_o$, $\xi$ the angular coordinate
-of a centroid, and $\Delta\xi$ the angular separation between two
-occupations. The radial coordinate $\chi$ (distance from the centre)
-measures specificity.}
-\label{fig:polar-geometry}
+\end{tikzpicture}%
+}
+\par\vspace{9mm}
+\caption{}
+\label{fig:geo-schematic}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.36\textwidth}
+\centering
+\includegraphics[width=\textwidth]{bundle_examples.png}
+\caption{}
+\label{fig:geo-bundles}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.36\textwidth}
+\centering
+\includegraphics[width=\textwidth]{geometry_map.png}
+\caption{}
+\label{fig:geo-map}
+\end{subfigure}
+\caption{The geometry of work. (a) The abstract model of
+\textcite{storck2026geometry}: occupations are bundles of tasks on the
+polar disk, $b_o$, $b_{o'}$, $b_{o''}$ three bundles with centroids
+$\mu_o$; $\xi$ is the angular domain of a centroid, $\Delta\xi$ the
+angular separation of two occupations, and $\chi$ the radial specificity.
+(b) Five occupations opened as bundles of their tasks: each point is a
+task, the star the bundle centroid $\mu_o$, and the dashed circle the
+task radius $r_o$, the root-mean-square spread of the bundle around its
+centroid rather than an enclosing boundary; Software Developers carries
+the coordinate marks $\chi$, $\xi$ and $r_o$. (c) The occupational
+centroids of the coordinate universe (grey, 878 occupations;
+Section~\ref{sec:frozen-inputs}) with the four directional poles and nine
+example occupations; the rim is the task boundary $\chi=1$.}
+\label{fig:geometry-map}
 \end{figure}
 
 The geometry matters because technologies act on tasks rather than on
@@ -307,8 +330,8 @@ documenting; tasks near the rim are domain-specific. The radial
 coordinate $\chi$ measures this specificity, and an occupation deep in
 a direction is one whose tasks are both specific and aligned.
 
-Figure~\ref{fig:geometry-map} places nine familiar occupations on the
-disk. Lawyers ($5^\circ$) and Pathologists ($44^\circ$) sit in the
+Panel~(c) of Figure~\ref{fig:geometry-map} places nine familiar
+occupations on the disk. Lawyers ($5^\circ$) and Pathologists ($44^\circ$) sit in the
 interpersonal-analytical east and northeast. Software Developers
 ($75^\circ$) and Chemical Engineers ($109^\circ$) lie in the analytical
 north. Machinists ($164^\circ$) and Carpenters ($196^\circ$) occupy
@@ -319,16 +342,31 @@ north'' refers to the analytical-interpersonal arc from east to north,
 ``the manual west'' to the technical-physical direction, and ``the
 service south'' to the service direction.
 
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.82\textwidth]{geometry_map.png}
-\caption{Occupational centroids on the task disk, with the four
-directional poles of \textcite{storck2026geometry} and nine example
-occupations. Grey points are the 878 occupations of the coordinate
-universe (Section~\ref{sec:frozen-inputs}); the rim is the
-task boundary $\chi=1$.}
-\label{fig:geometry-map}
-\end{figure}
+Panel~(b) of Figure~\ref{fig:geometry-map} opens five of these
+occupations and shows the tasks behind each centroid. Within a bundle the
+angle sorts tasks by kind. The Software Developers bundle runs from
+consulting clients and conferring with managers on its human-centered
+edge, through the analysis and system design that form its deep core, to
+the shallow installation and user-training work that reaches toward the
+manual west. The Lawyers bundle splits in two. An advisory arc that
+interprets law, weighs precedent and counsels clients leans toward the
+analytical north, and a representation arc that argues motions, presents
+cases and negotiates settlements leans toward the service side. Both are
+human-centered and neither is radially deep, so legal work reads as broad
+judgment applied to varying cases rather than narrow specialization.
+Machinists span the widest arc, and their bundle is the deepest and most
+varied. It reaches from the supporting setup work on its service-leaning
+edge to the conferring, testing and evaluating on its analytical edge.
+Its technical core sets up and operates machine tools, measures and
+diagnoses, machines and assembles parts, and in depth the bundle runs
+from generic support to highly specific hands-on work. Dishwashers occupy
+a short arc of a single kind, washing and cleaning, moving and stocking,
+with no client contact and no analysis. Every task is a self-contained
+manual operation and none is generic, bounded work whose depth the
+service direction does not reward. Waiters combine two kinds in one job,
+the preparation and clearing that leans toward the service-technical side
+and the customer interaction that leans toward the human-centered side,
+with the interaction tasks the more specific of the two.
 
 The geometry also matters because the labour market does not price the
 space uniformly. The return to depth is directional. Depth in the
@@ -338,6 +376,18 @@ structure is estimated in \textcite{storck2026geometry}; Section~\ref{sec:price-
 recasts it as a price field over the space. It is what allows the model to
 distinguish between reinstatement that restores high-priced work and
 reinstatement that restores low-priced work.
+
+Because direction sorts tasks by kind, the same kind of work recurs
+across occupations at the same place on the disk. Conferring, analyzing
+and drafting sit in the core of Software Developers, in the advisory arc
+of Lawyers and at the coordinating edge of Machinists. Cleaning, moving
+and stocking sit in both service occupations. A technology defined by
+where it acts cuts across occupations at a location rather than along the
+occupational boundary, and the same technology lands in the deep core of
+one bundle and on the shallow edge of another. Where a task sits on the
+disk shapes how the market prices it. Whether a technology reaches it is a
+separate question, one that turns on the centre and reach of the
+technology, and Section~\ref{sec:technology-model} makes it precise.
 
 
 %% ============================================================
@@ -2183,6 +2233,19 @@ script's docstring.
 
 \clearpage
 \section*{Appendix 1: Bundle examples with tasks}
+
+Figure~\ref{fig:bundle-numbered} reproduces panel~(b) of
+Figure~\ref{fig:geometry-map} with every task numbered, and
+Table~\ref{tab:bundle-tasks} lists the tasks behind the numbers.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{bundle_examples_numbered.png}
+\caption{Panel~(b) of Figure~\ref{fig:geometry-map} with each task
+numbered. Within each occupation the numbers run from one around the disk
+in order of angle and key into Table~\ref{tab:bundle-tasks}.}
+\label{fig:bundle-numbered}
+\end{figure}
 
 \input{bundle_examples_tasks.tex}
 

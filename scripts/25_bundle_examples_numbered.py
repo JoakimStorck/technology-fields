@@ -36,6 +36,11 @@ import matplotlib.pyplot as plt
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RESULTS = REPO_ROOT / "results"
 
+# One dial for this figure, independent of scripts/24. The numbered panel
+# renders large in the appendix, so its text is sized on its own here and
+# passed to build_panel().
+FONT_SCALE = 1.0
+
 
 def load_producer():
     """Import scripts/24_bundle_examples.py (its name starts with a digit,
@@ -104,7 +109,7 @@ def write_table(bundles) -> None:
 
 def main() -> None:
     mod = load_producer()
-    fig, bundles = mod.build_panel(numbered=True)
+    fig, bundles = mod.build_panel(numbered=True, font_scale=FONT_SCALE)
     fig.savefig(RESULTS / "bundle_examples_numbered.png", dpi=200)
     plt.close(fig)
 
