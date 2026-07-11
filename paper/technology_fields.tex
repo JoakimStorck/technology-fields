@@ -82,8 +82,7 @@ new tasks are placed where labour holds the comparative advantage. That
 is a powerful result, but it leaves an important question under-specified:
 which workers benefit? If labour enters as one factor, or as a small
 number of aggregate skill groups, reinstatement can be studied in
-aggregate --- and its wage-inequality footprint accounted for at the
-group level \parencite{acemoglu2022tasks} --- but not located in the
+aggregate \parencite{acemoglu2022tasks}, but not located in the
 differentiated structure of work.
 
 This paper introduces the concept of a technology field: a
@@ -92,14 +91,13 @@ two-dimensional task space, with a position, a reach, and an
 amplitude. The task space is the polar geometry of
 \textcite{storck2026geometry}, in which occupations are bundles of
 tasks calibrated from semantic embeddings of O*NET task statements;
-the angular coordinate captures domain orientation and the radial
-coordinate specialization depth. That paper establishes the geometry
-and a directional wage structure over it: depth is rewarded in
-socio-cognitive directions and weakly or not at all in service and
-manual directions. The present paper is the central extension of that
-framework to technological change. It recasts the wage structure as a
-price of work, a field over the space, and gives technologies a
-location in the same space as the work they act on; the consequences
+the angular coordinate captures domain orientation, the radial
+coordinate specialization depth, and depth is rewarded in
+socio-cognitive directions and weakly elsewhere. The present paper
+extends that framework to technological change. It recasts the wage
+structure as a price of work, a field over the space, and gives
+technologies a location in the same space as the work they act on; the
+consequences
 of a technology then depend jointly on where it acts and on how the
 price field values the work it touches. The
 representation separates technical exposure from economic incidence by
@@ -124,10 +122,10 @@ The model therefore distinguishes occupational redefinition from the
 birth of new occupations. If the task can be absorbed by an existing
 bundle, the occupation is redrawn. If no occupation can bind it, the task
 remains unbound; where such unbound tasks concentrate, the model marks a
-candidate region for occupational emergence. The empirical counterpart
---- where new work has emerged and which workers captured it --- is
-studied by \textcite{autor2024newwork}; the geometry recasts it as a
-question of location relative to priced capabilities.
+candidate region for occupational emergence.
+\textcite{autor2024newwork} study the empirical counterpart, where new
+work has emerged and who captured it; the geometry recasts it as
+location relative to priced capabilities.
 
 This changes the meaning of reinstatement. Task creation is not
 automatically worker-benefiting. Reinstatement in a low-priced manual
@@ -140,13 +138,11 @@ cost where capital replaces labour. Under competitive pricing, the cost
 saving is passed to consumers, and demand elasticity determines whether
 the cheapened direction expands or contracts employment. Elastic demand
 draws labour into the automated direction; inelastic demand releases it.
-But the saving is second-order at the adoption margin: the marginal task
-that capital just takes is produced at approximately the same cost as
-labour. Large employment gains therefore require either elastic demand
-or large infra-marginal savings deep inside the technology's core. This
-is the spatial form of the demand mechanism emphasized by
-\textcite{bessen2019demand} and the second-order automation margin of
-\textcite{acemoglu2018race}.
+But at the adoption margin the saving is second-order, so large
+employment gains require elastic demand or large infra-marginal savings
+deep inside the technology's core. This is the spatial form of the
+demand mechanism of \textcite{bessen2019demand} and the second-order
+margin of \textcite{acemoglu2018race}.
 
 We implement the framework with two technologies, both located from
 published exposure data. The first is a broad cognitive field calibrated
@@ -160,21 +156,16 @@ rather than causal identification: to show how the same economy responds
 differently when technology acts in different regions of task space.
 
 We also confront the model with observed occupational wage changes
-between 2019 and 2025. A naive directional check passes: occupations
-whose bundles are pushed further down the price gradient exhibit weaker
-wage growth. We then show that the pass is uninformative. Because the
-price gate targets dear work, the model's predicted wage pressure is
-nearly collinear with the baseline wage level, and the window is
-dominated by the pandemic-era compression of the US wage distribution
+between 2019 and 2025. A naive directional check passes, and we show
+the pass is uninformative: the model's predicted wage pressure is
+nearly collinear with the baseline wage level, the window is dominated
+by the pandemic-era compression of the US wage distribution
 \parencite{autor2023compression}, which makes the same cross-sectional
-prediction. Once baseline wage is held fixed, the mechanism adds
-nothing, and a vintage split shows that the entire raw correlation lies
-in the pre-deployment window; placebo technologies, including one that
-does not exist, clear the same check. We report this as a finding about what the
-cross-section can identify, not as support. The variation the model
-calls for is within-occupation task recomposition over time, left to
-future empirical work. The exercise doubles as a caution for the growing
-literature that correlates AI exposure with recent wage changes.
+prediction, and placebo technologies, including one that does not
+exist, clear the same check. We report this as a finding about what the
+cross-section can identify, not as support, and it doubles as a caution
+for the growing literature that correlates AI exposure with recent wage
+changes.
 
 The paper makes three contributions. The first is a spatial model of
 technological change. It represents a technology as a field over a
@@ -218,19 +209,19 @@ manufacturing arc remains unseparated, and the causal test remains
 within-occupation.
 
 The paper proceeds as follows.
-Section~\ref{sec:geometry} introduces the spatial occupational geometry.
-Section~\ref{sec:price-field} defines the price field and shows how it
-can be interpreted as an assignment-equilibrium object rather than a
-mere fitted wage surface. Section~\ref{sec:technology-model} develops
-the technology field, the adoption margin, displacement, reinstatement,
-and the bundle operator. Section~\ref{sec:employment-demand} closes the
-model with employment sorting and the output-demand channel.
-Section~\ref{sec:implementation} describes the empirical implementation
-and calibration. Section~\ref{sec:cases} presents the illustrative
-cases. Section~\ref{sec:directional-check} confronts the model with data of
-two kinds, observed occupational wage changes and the founding locations
-of new firms, and shows what each can and cannot show.
-Section~\ref{sec:discuss} discusses implications and limitations.
+Section~\ref{sec:geometry} introduces the spatial occupational
+geometry. Section~\ref{sec:price-field} defines the price field.
+Section~\ref{sec:technology-model} develops the technology field, the
+adoption margin, displacement, reinstatement, and the bundle operator.
+Section~\ref{sec:employment-demand} closes the model with employment
+sorting and the output-demand channel.
+Section~\ref{sec:implementation} describes the implementation and
+calibration and validates the seeding prediction against firm
+locations. Section~\ref{sec:cases} presents the illustrative cases.
+Section~\ref{sec:directional-check} confronts the wage mechanism with
+observed occupational wage changes in two windows and shows what each
+can and cannot identify. Section~\ref{sec:discuss} discusses
+implications and limitations.
 
 %% ============================================================
 \section{The Spatial Occupational Geometry}
@@ -358,30 +349,19 @@ north'' refers to the analytical-interpersonal arc from east to north,
 service south'' to the service direction.
 
 Panel~(b) of Figure~\ref{fig:geometry-map} opens five of these
-occupations and shows the tasks behind each centroid. Within a bundle the
-angle sorts tasks by kind. The Software Developers bundle runs from
-consulting clients and conferring with managers on its human-centered
-edge, through the analysis and system design that form its deep core, to
-the shallow installation and user-training work that reaches toward the
-manual west. The Lawyers bundle splits in two. An advisory arc that
-interprets law, weighs precedent and counsels clients leans toward the
-analytical north, and a representation arc that argues motions, presents
-cases and negotiates settlements leans toward the service side. Both are
-human-centered and neither is radially deep, so legal work reads as broad
-judgment applied to varying cases rather than narrow specialization.
-Machinists span the widest arc, and their bundle is the deepest and most
-varied. It reaches from the supporting setup work on its service-leaning
-edge to the conferring, testing and evaluating on its analytical edge.
-Its technical core sets up and operates machine tools, measures and
-diagnoses, machines and assembles parts, and in depth the bundle runs
-from generic support to highly specific hands-on work. Dishwashers occupy
-a short arc of a single kind, washing and cleaning, moving and stocking,
-with no client contact and no analysis. Every task is a self-contained
-manual operation and none is generic, bounded work whose depth the
-service direction does not reward. Waiters combine two kinds in one job,
-the preparation and clearing that leans toward the service-technical side
-and the customer interaction that leans toward the human-centered side,
-with the interaction tasks the more specific of the two.
+occupations and shows the tasks behind each centroid. Within a bundle
+the angle sorts tasks by kind. The Software Developers bundle runs from
+client consultation on its human-centered edge, through the analysis
+and system design that form its deep core, to shallow installation work
+reaching toward the manual west. Lawyers split into an advisory arc
+leaning north and a representation arc leaning toward the service side,
+neither radially deep: broad judgment rather than narrow
+specialization. Machinists span the widest and deepest arc, from
+service-leaning setup through a technical core of machining and
+diagnosis to an analytical testing edge. Dishwashers occupy a short arc
+of one kind, self-contained manual operations whose depth the service
+direction does not reward, and Waiters combine service-technical
+preparation with the more specific customer interaction.
 
 The geometry also matters because the labour market does not price the
 space uniformly. The return to depth is directional. Depth in the
@@ -1771,13 +1751,12 @@ for cognitive output.
 \label{sec:directional-check}
 %% ============================================================
 
-The model makes empirical claims of two kinds, and the available data
-speak to them unevenly. One claim is about incidence, about where
-automation strips paid content and pushes wages down. The other is about
-location, about where reinstatement seeds new work. Observed
-occupational wage changes bear on the first. The founding locations of
-new firms bear on the second. We take each in turn and then say what
-each can and cannot show.
+The model's wage claim is about incidence, about where automation
+strips paid content and pushes wages down. Observed occupational wage
+changes bear on it in two windows, the cognitive wave's own and the
+industrial-robot wave's own, and the two speak with different
+authority. We take each in turn and then say what each can and cannot
+show, beside the location validation of Section~\ref{sec:check-newwork}.
 
 \subsection{The naive directional check}
 \label{sec:check-naive}
@@ -1838,17 +1817,13 @@ for the baseline-wage rank, the partial rank correlation between
 predicted pressure and wage growth is $+0.02$ ($p=0.57$); the bundle
 wage change performs no better ($+0.03$). Adding the mechanism raises
 the rank-$R^2$ already achieved by baseline wage alone by $0.0003$. The
-fine structure points the same way. The wage-growth gradient is steepest
-among the occupations the technology field barely reaches (rank
-correlation $-0.64$ in the least exposed tercile of $\phi_K$) and nearly
-flat where the field is strongest ($-0.14$ in the most exposed tercile);
-in a rank regression the wage--exposure interaction is positive and
-significant, so exposure attenuates the gradient rather than creating
-it. Among above-median-wage occupations --- where the mechanism strips
-the most and the compression matters least --- the raw correlation
-vanishes entirely ($-0.03$). This is the footprint of compression at the
-bottom of the distribution, not of high-priced content being stripped in
-the exposed region.
+fine structure points the same way: the wage-growth gradient is
+steepest where the field barely reaches and nearly flat where it is
+strongest, and among above-median-wage occupations, where the mechanism
+strips the most and the compression matters least, the raw correlation
+vanishes entirely ($-0.03$). This is compression at the bottom of the
+distribution, not high-priced content stripped in the exposed
+region.
 
 A window split settles the matter. The OEWS 2023 vintage divides the
 period into 2019--2023, which contains the peak of the compression and
