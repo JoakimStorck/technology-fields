@@ -31,6 +31,10 @@ Default order:
                             gate scale on the A&R displacement moment; the
                             93-percent unbound result and the script-29
                             collinearity gate
+  31  manufacturing share  occupation-level manufacturing employment share
+                            (May 2003 primary, 2002 robustness) for the robot
+                            window's trade-confound control; needs the BLS
+                            industry files in data/oesm03in4/ and data/oes02in4/
   29  robot era directional bundle wage pressure vs observed wage growth
                             in each wave's own window; the four-cell
                             {robot, cognitive} x {1999-2007, 2019-2025}
@@ -129,6 +133,7 @@ PIPELINE = [
     ("27", "27_price_field_history.py"),
     ("09", "09_equilibrium_regime.py"),
     ("28", "28_robot_era_equilibrium.py"),
+    ("31", "31_freeze_manufacturing_share.py"),
     ("29", "29_robot_era_directional.py"),
     ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),

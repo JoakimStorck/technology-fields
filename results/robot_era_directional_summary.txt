@@ -42,6 +42,11 @@ PRIMARY: bundle wage pressure dW (mechanism-consistent sign is POSITIVE for ever
 
 Crosswalk robustness (one_to_one, N=682): robot dW raw +0.208 (p=4.1e-08), partial +0.208 (p=0.00)
 
+Trade-confound control (D5; manufacturing share, May 2003; coverage 774/774):
+  collinearity rho(dW_robot, mfg) -0.630; rho(mfg, ln w_1999) -0.055; rho(mfg, dlnw) -0.115
+  [robot   ] partial|w_1999 +0.219 (p=0.00)  ->  partial|w_1999,mfg +0.198 (p=0.00)
+  [software] partial|w_1999 -0.121 (p=0.00)  ->  partial|w_1999,mfg -0.174 (p=0.00)
+
 DIAGNOSTIC: direction measure proj (sign flips with field position; monotone in position for any field, so it correlates for every field in a window with a positional growth trend -- not an identification instrument):
   [robot   ] corr(proj, D_o) +0.45; raw -0.165, partial -0.134, loading -0.148
   [llm     ] corr(proj, D_o) -0.77; raw -0.378, partial -0.291, loading -0.650

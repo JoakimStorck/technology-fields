@@ -88,6 +88,12 @@ def main():
                     help="keep only batches with year <= this (their vintage)")
     ap.add_argument("--drop-batches", default="",
                     help="comma-separated batch names to exclude")
+    ap.add_argument("--control-n", type=int, default=0,
+                    help="also write data/startups_control.csv with this many "
+                         "companies carrying NEITHER tag set (seeded sample); "
+                         "the empirical null for producer 22")
+    ap.add_argument("--seed", type=int, default=22,
+                    help="sampling seed for --control-n")
     args = ap.parse_args()
 
     drop = {b.strip() for b in args.drop_batches.split(",") if b.strip()}
@@ -95,13 +101,11 @@ def main():
     companies = _load(args.source)
     print(f"loaded {len(companies)} companies from {args.source}")
 
-    rows = []
+    rows, ctrl_rows = [], []
     for c in companies:
         tags = {str(t).lower() for t in (c.get("tags") or [])}
         is_ai = bool(tags & AI_TAGS)
         is_robo = bool(tags & ROBO_TAGS)       # tags only, as in Fenoaltea RSE
-        if not (is_ai or is_robo):
-            continue
         batch = c.get("batch") or ""
         if batch in drop:
             continue
@@ -118,11 +122,15 @@ def main():
                              f"{c.get('long_description') or ''}").strip(" .")
         if len(text) < 20:
             continue
-        rows.append({
+        rec = {
             "id": c.get("id"), "name": c.get("name"), "batch": batch,
             "status": c.get("status"), "text": text,
             "is_ai": int(is_ai), "is_robotics": int(is_robo),
-        })
+        }
+        if is_ai or is_robo:
+            rows.append(rec)
+        else:
+            ctrl_rows.append(rec)
 
     df = pd.DataFrame(rows).drop_duplicates(subset="id")
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -135,6 +143,15 @@ def main():
           f"batch year range "
           f"{min(filter(None,(_batch_year(b) for b in df['batch'])), default='?')}"
           f"-{max(filter(None,(_batch_year(b) for b in df['batch'])), default='?')}")
+
+    if args.control_n > 0:
+        ctrl = pd.DataFrame(ctrl_rows).drop_duplicates(subset="id")
+        if len(ctrl) > args.control_n:
+            ctrl = ctrl.sample(args.control_n, random_state=args.seed)
+        ctrl_out = OUT.parent / "startups_control.csv"
+        ctrl.to_csv(ctrl_out, index=False)
+        print(f"wrote {ctrl_out}  ({len(ctrl)} control rows, neither tag "
+              f"set; seed {args.seed})")
 
 
 if __name__ == "__main__":

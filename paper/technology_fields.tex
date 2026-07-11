@@ -46,7 +46,8 @@ occupation, and freed labour re-sorts into other occupations, carrying
 wage pressure into work the technology never reaches. New AI and
 robotics firms are founded where the model places new work, and in the
 industrial-robot wave's own window the predicted wage pressure tracks
-observed occupational wage growth independently of the wage level.
+observed occupational wage growth independently of the wage level and
+of the occupation's manufacturing share.
 \end{abstract}
 
 \vspace{0.5em}
@@ -210,9 +211,11 @@ The industrial-robot wave supplies the window the cognitive wave lacks.
 Re-estimated in its own era, the robot field's predicted wage pressure
 is nearly orthogonal to the wage level, and it tracks occupational wage
 growth over 1999--2007 while three counterfactual fields carry the
-opposite sign. The window supports the spatial mechanism without
-separating robots from the import competition in the same occupations,
-so the causal test remains within-occupation.
+opposite sign. The correlation survives conditioning on the
+occupation's manufacturing share beside the wage level, so it is not
+the manufacturing-wide decline; import exposure varying within the
+manufacturing arc remains unseparated, and the causal test remains
+within-occupation.
 
 The paper proceeds as follows.
 Section~\ref{sec:geometry} introduces the spatial occupational geometry.
@@ -1959,8 +1962,19 @@ a $+0.31$ loading on the wage level and collapses the same way
 mechanism's sign, the robot in its own window. The scope is that of any
 occupational cross-section: robots and import competition pressed the
 same western manufacturing arc over these years
-\parencite{autor2013china}, so the window supports the spatial
-mechanism without attributing it to robots against the trade shock.
+\parencite{autor2013china}. A manufacturing-share control meets the
+confound directly. Each occupation's manufacturing employment share is
+strongly collinear with the predicted pressure (rank correlation
+$-0.63$), and the robot correlation survives conditioning on it beside
+the wage level, at $+0.20$.\footnote{The share is built from the BLS
+industry-specific occupational employment files: employment in NAICS
+31--33 over employment across all industries, per SOC-2000 occupation,
+May 2003 (the window midpoint), mapped onto the frozen geometry through
+the composed crosswalks. The 2002 vintage gives a rank correlation of
+$0.98$ with the 2003 shares.} The correlation is therefore not the
+manufacturing-wide decline. What the window still cannot separate is
+import exposure varying across industries within the manufacturing arc,
+so the attribution caveat narrows without closing.
 
 \begin{table}[!htbp]
 \centering
@@ -2069,7 +2083,8 @@ once that index is held fixed no identifying variation is left. That
 cross-section fails to contradict the model because it cannot
 discriminate. The robot window can discriminate, and it reads in the
 model's favour: the pressure measure is orthogonal to the wage level
-there, the correlation survives conditioning, and the counterfactual
+there, the correlation survives conditioning on the wage level and on
+the manufacturing share, and the counterfactual
 fields carry the opposite sign. What it cannot do is attribute, since
 robots and import competition pressed the same occupations. The firm
 locations are different again. They bear on a spatial prediction the
@@ -2130,8 +2145,8 @@ and redistributes a tenth of a log point across occupations. The
 inference is bounded: the firm foundings are consistent
 with the seeding prediction, the 2019--2025 wage cross-section cannot
 identify the wage prediction, and the robot wave's own window supports
-it without separating robots from the import competition pressing the
-same occupations. The results stand as a model-internal account that
+it, surviving a manufacturing-share control, without separating import
+exposure within the manufacturing arc. The results stand as a model-internal account that
 the data are consistent with. The causal test remains within-occupation:
 whether exposed bundles shed and gain paid content along the directions
 the operator predicts, measured in microdata of the kind pioneered by

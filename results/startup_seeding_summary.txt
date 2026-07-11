@@ -10,13 +10,14 @@ MODEL FIELDS (frozen):
   a(r) is a core field on the technology; u(r) is peripheral, on/beyond the z_K ring.
   The startups' placement relative to these fields is quantified in producer 22.
 
-STARTUP SIDE: 1961 AI and robotics startups embedded and projected into the frozen geometry (AI 1885, robotics 153).
+STARTUP SIDE: 1971 AI and robotics startups embedded and projected into the frozen geometry (AI 1894, robotics 155).
   measurement note: document embeddings shrink norms toward the corpus mean (max startup chi 0.58 vs occupational support 0.75); radial positions are conservative, angular placement is unaffected.
-  mass-weighted median dist-to-p_K:  text 0.457  a(r) 0.392  u(r) 0.792  (z_K 0.583)
-  area-weighted cosine:  cos(text,a) 0.166  cos(text,u) 0.204
-  text peak dist-to-p_K 0.446
+  CONTROL: 1500 non-AI, non-robotics YC companies embedded and projected (empirical null for producer 22; max chi 0.54).
+  mass-weighted median dist-to-p_K:  text 0.458  a(r) 0.392  u(r) 0.792  (z_K 0.583)
+  area-weighted cosine:  cos(text,a) 0.165  cos(text,u) 0.205
+  text peak dist-to-p_K 0.442
   AISE median dist-to-p_K 0.417; Spearman(AISE, a at centroid) +0.344
   Q1 AISE-is-incidence: yes
   startup text vs AISE, radial offset +0.040 (z_K 0.583)
-  cos gap (u - a) +0.039;  text peak dist-to-p_K 0.446
+  cos gap (u - a) +0.040;  text peak dist-to-p_K 0.442
   Field enrichment at the startup locations is quantified in producer 22.

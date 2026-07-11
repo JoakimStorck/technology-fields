@@ -32,6 +32,27 @@ RSE; committed anchored equilibrium R=18, tau=0.08, gamma=0.5, beta=0.5):
   radial positions are conservative; angular placement, which carries
   the group separation, is unaffected by the shrinkage.
 
+EMPIRICAL NULL (control corpus; expectations written before its first
+run). fetch_startups --control-n samples YC companies carrying NEITHER
+tag set; producer 21 embeds and projects them identically; this
+producer reports them beside AI and robotics with bootstrap intervals
+and the median-zeta contrast. Read with the shrinkage note in mind: any
+document corpus shrinks toward the origin, and the origin sits at
+0.79 z_K from p_K where zeta is ~0.95 of peak, so a centre blob scores
+mechanically elevated radial and field statistics. The discriminating
+comparison is ANGULAR.
+  C1  The control sits centre-shrunken with a diffuse or east-south
+      compass (general product language), against AI's ring-arc spread
+      and robotics' western concentration; its zeta enrichment may be
+      high for the mechanical reason above and is not read as ring
+      placement.
+  C2  The robotics-control separation is sharp: the western compass
+      concentration and the a-enrichment gap have no counterpart in a
+      centre blob.
+  C3  Recorded either way: if the control reproduces the full pattern
+      including the western arc, position is a corpus artifact and the
+      validation section's claims are scoped down accordingly.
+
 Figures:
   results/startup_field_enrichment_map.png     disk: occupations, startups,
       p_K, the z_K ring, and the a-core / u-periphery radii
@@ -148,7 +169,7 @@ def build_model():
                 med_u=mw_median_dist(diag["u"], d, g.area))
 
 
-def enrichment_block(su, M):
+def enrichment_block(su, M, ctrl=None):
     g, d, px, py, z_K = M["g"], M["d"], M["px"], M["py"], M["z_K"]
     tech, inp = M["tech"], M["inp"]
     A = g.area.sum()
@@ -166,36 +187,78 @@ def enrichment_block(su, M):
         "",
     ]
     enr = {}
-    for tag, mask in [("AI startups", su.get("is_ai", 1) == 1),
-                      ("robotics", su.get("is_robotics", 0) == 1)]:
-        dd = su[mask]
-        if not len(dd):
-            continue
+    rng = np.random.default_rng(22)
+    N_BOOT = 2000
+
+    def _stats(dd):
         xi, chi = dd["xi"].to_numpy(), dd["chi"].to_numpy()
         cx, cy = chi * np.cos(xi), chi * np.sin(xi)
         d_epi = np.hypot(cx - px, cy - py)
-        d_ring = np.abs(d_epi - z_K)
         ze = tech.grad_phi_norm(xi, chi)
         ap = tech.operated_share(xi, chi, inp.field, R, TAU)
         # u exists only on the grid (nearest cell); zeta and a are analytic.
         # At 4,800 cells the mixed evaluation is a negligible error source.
         up = M["fields"]["u"][_cell_index(g, xi, chi)]
+        return d_epi, ze, ap, up
+
+    def _ci(vals, stat):
+        n = len(vals[0])
+        idx = rng.integers(0, n, size=(N_BOOT, n))
+        draws = stat(*[v[idx] for v in vals])
+        lo, hi = np.percentile(draws, [2.5, 97.5])
+        return float(lo), float(hi)
+
+    ctrl_stats = None
+    groups = [("AI startups", su[su.get("is_ai", 1) == 1]),
+              ("robotics", su[su.get("is_robotics", 0) == 1])]
+    if ctrl is not None and len(ctrl):
+        groups.append(("control (non-AI/robotics)", ctrl))
+    for tag, dd in groups:
+        if not len(dd):
+            continue
+        d_epi, ze, ap, up = _stats(dd)
         e = {"zeta": float(np.median(ze) / null["zeta"]),
              "u": float(np.median(up) / null["u"]),
              "a": float(np.median(ap) / null["a"])}
         enr[tag] = e
+        z_lo, z_hi = _ci([ze], lambda z: np.median(z, axis=1) / null["zeta"])
+        d_lo, d_hi = _ci([d_epi], lambda d_: np.median(d_, axis=1))
+        if tag.startswith("control"):
+            ctrl_stats = dict(ze=ze, d_epi=d_epi)
+        xi = dd["xi"].to_numpy()
+        d_ring = np.abs(d_epi - z_K)
         sec = pd.Series(_sector(np.degrees(xi) % 360)).value_counts(normalize=True)
         secs = "  ".join(f"{s} {sec.get(s, 0.0):.0%}" for s in "ENWS")
         lines += [
             f"  {tag} (n={len(dd)}):",
-            f"    d_epi  median {np.median(d_epi):.3f}   d_ring  median "
+            f"    d_epi  median {np.median(d_epi):.3f} "
+            f"[{d_lo:.3f}, {d_hi:.3f}]   d_ring  median "
             f"{np.median(d_ring):.3f}   beyond z_K/2, i.e. d_ring < d_epi: "
             f"{float((d_ring < d_epi).mean()):.0%}",
-            f"    enrichment  zeta {e['zeta']:.2f}x  u {e['u']:.2f}x  "
+            f"    enrichment  zeta {e['zeta']:.2f}x "
+            f"[{z_lo:.2f}, {z_hi:.2f}]  u {e['u']:.2f}x  "
             f"a {e['a']:.2f}x   (u/zeta {e['u'] / e['zeta']:.2f})",
             f"    compass  {secs}",
             "",
         ]
+
+    if ctrl_stats is not None:
+        # the empirical-null contrast. Radial and field statistics are weak
+        # against a centre-shrunken control (the origin sits at 0.79 z_K
+        # from p_K, where zeta is ~0.95 of peak); the angular structure --
+        # the compass rows above -- carries the discrimination.
+        for tag, dd in groups[:2]:
+            d_epi, ze, ap, up = _stats(dd)
+            ratio = float(np.median(ze) / np.median(ctrl_stats["ze"]))
+            n1, n2 = len(ze), len(ctrl_stats["ze"])
+            idx1 = rng.integers(0, n1, size=(N_BOOT, n1))
+            idx2 = rng.integers(0, n2, size=(N_BOOT, n2))
+            draws = (np.median(ze[idx1], axis=1)
+                     / np.median(ctrl_stats["ze"][idx2], axis=1))
+            lo, hi = np.percentile(draws, [2.5, 97.5])
+            lines += [f"  {tag} vs control: median-zeta ratio "
+                      f"{ratio:.2f} [{lo:.2f}, {hi:.2f}]"]
+        lines.append("")
     return lines, enr
 
 
@@ -347,7 +410,7 @@ def figure_radial(su, M, enr):
     plt.close(fig)
 
 
-def figure_comparison(su, M):
+def figure_comparison(su, M, ctrl=None):
     """Model bound reinstatement (B_o over occupations) beside the empirical
     startup positions, with unbound shown as a field and a share, never as
     points (unbound work has no occupations to place)."""
@@ -376,6 +439,12 @@ def figure_comparison(su, M):
 
     # Middle: empirical AI (blue) and robotics (red) contour lines + points
     _disk(axM)
+    if ctrl is not None and len(ctrl):
+        axM.scatter(ctrl["chi"] * np.cos(ctrl["xi"]),
+                    ctrl["chi"] * np.sin(ctrl["xi"]),
+                    s=4, color="0.6", alpha=0.25, zorder=1)
+        axM.plot([], [], color="0.6", lw=1.5,
+                 label=f"control (n={len(ctrl)})")
     _contours_and_points(axM, ai, ro, g)
     axM.add_patch(plt.Circle((px, py), M["z_K"], fill=False, color="0.25",
                              ls="--", lw=1.2, zorder=6))
@@ -471,10 +540,12 @@ def main():
     if "xi" not in su.columns or "chi" not in su.columns:
         sys.exit("startup file has no xi/chi columns; re-run producer 21.")
     M = build_model()
-    lines, enr = enrichment_block(su, M)
+    ctrl_file = RESULTS / "startup_control_positions.csv"
+    ctrl = pd.read_csv(ctrl_file) if ctrl_file.exists() else None
+    lines, enr = enrichment_block(su, M, ctrl)
     figure_map(su, M)
     figure_radial(su, M, enr)
-    figure_comparison(su, M)
+    figure_comparison(su, M, ctrl)
     figure_points(su, M)
     txt = "\n".join(lines) + "\n"
     (RESULTS / "startup_field_enrichment_summary.txt").write_text(txt)

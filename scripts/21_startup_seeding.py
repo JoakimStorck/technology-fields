@@ -112,6 +112,7 @@ R, TAU, BETA, GAMMA = 18.0, 0.08, 0.5, 0.5
 
 PROJ_FILE = DATA / "geometry_projection.npz"
 CORPUS_FILE = DATA / "startups_ycombinator.csv"
+CONTROL_FILE = DATA / "startups_control.csv"
 AISE_FILE = DATA / "aise_by_onet.csv"
 
 
@@ -267,11 +268,11 @@ def embed_openai(texts, model_name="text-embedding-3-large"):
     return np.asarray(out, float)
 
 
-def _embed_cached(texts):
+def _embed_cached(texts, cache_name="startup_embeddings.npz"):
     """Embed, caching to results/ keyed by a hash of the corpus so run_all
     re-runs need no API call. Delete the cache to force a fresh embed."""
     import hashlib
-    cache = RESULTS / "startup_embeddings.npz"
+    cache = RESULTS / cache_name
     h = hashlib.sha256("\x1f".join(texts).encode("utf-8")).hexdigest()
     if cache.exists():
         try:
@@ -362,6 +363,27 @@ def startup_side(model, smoke=False):
                   f"{float(corpus['chi'].max()):.2f} vs occupational "
                   f"support 0.75); radial positions are conservative, "
                   f"angular placement is unaffected."]
+
+        # empirical null: YC companies carrying neither tag set, embedded
+        # and projected identically (fetch_startups --control-n). The
+        # discriminating comparison against a control is ANGULAR: any
+        # document corpus shrinks toward the origin, which sits at
+        # 0.79 z_K from p_K, so radial and field-level statistics are
+        # mechanically inflated for a centre blob; producer 22 reads the
+        # control accordingly.
+        if CONTROL_FILE.exists():
+            ctrl = pd.read_csv(CONTROL_FILE)
+            embC = _embed_cached(ctrl["text"].astype(str).tolist(),
+                                 cache_name="control_embeddings.npz")
+            xiC, chiC = project_to_disk(embC, W, b, pre, k)
+            ctrl["xi"], ctrl["chi"] = xiC, chiC
+            cols = [c for c in ctrl.columns if c != "text"]
+            ctrl[cols].to_csv(RESULTS / "startup_control_positions.csv",
+                              index=False)
+            lines += [f"  CONTROL: {len(ctrl)} non-AI, non-robotics YC "
+                      f"companies embedded and projected (empirical null "
+                      f"for producer 22; max chi "
+                      f"{float(ctrl['chi'].max()):.2f})."]
 
     text_field = density_on_grid(xi, chi, grid)
     a, u = model["a"], model["u"]

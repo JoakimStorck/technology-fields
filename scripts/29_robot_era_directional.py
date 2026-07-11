@@ -101,6 +101,45 @@ history -- the certified run confirms on the full grid):
   western manufacturing arc over 1999-2007, so the window supports the
   spatial mechanism but cannot attribute it to robots against the China
   shock; the causal endpoint remains within-occupation microdata.
+  D5  Trade-confound control (added with producer 31; runs only if
+      data/occ_manufacturing_share.csv exists, else the registered
+      scope statement stands). The robot dW correlation is
+      re-conditioned on the occupation's manufacturing employment
+      share (May 2003, the window midpoint) beside the wage level.
+      Open prior, both readings pre-stated: if the partial keeps the
+      mechanism sign and significance, the correlation is not just
+      "manufacturing declined" -- within-manufacturing-share variation
+      in robot pressure predicts wage growth, and the attribution
+      caveat narrows to trade exposure varying WITHIN the
+      manufacturing arc. If it dies, the window cannot separate robot
+      pressure from manufacturing-wide forces including import
+      competition, which is the already-registered scope; the
+      manuscript sentence adapts and nothing is softened. The
+      collinearity rho(dW_robot, mfg_share) is reported first: it is
+      expected high, which is the confound made explicit, and the
+      question is what survives it.
+
+RESULTS (certified full-grid run, all four D-expectations HOLD):
+  D1  +0.219 raw = +0.219 partial (loading +0.03); both window halves;
+      crosswalk-stable at +0.208. D2: llm -0.293, clone -0.219, both
+      anti-mechanism (the era's positional premium). D3: software
+      -0.121. D4: window B reproduces Section 8 -- cognitive +0.424
+      collapsing to +0.028; the robot's -0.197 is loading-carried
+      (+0.31) and collapses to -0.023. One cell of four carries the
+      mechanism sign through conditioning: the robot in its own window.
+  D5  Favourable branch. Coverage 774/774 occupations (711 SOC-2000
+      sources; producer 31). Collinearity rho(dW_robot, mfg) = -0.63,
+      the confound explicit and large; rho(mfg, ln w_1999) = -0.055,
+      the share is nearly orthogonal to the wage level; rho(mfg, dlnw)
+      = -0.115, the manufacturing decline visible directly. The robot
+      partial survives the double conditioning at +0.198 (from +0.219),
+      so the correlation is not the manufacturing-wide decline;
+      software strengthens its anti-mechanism sign (-0.121 -> -0.174).
+      Scope after D5: the control absorbs manufacturing-wide forces,
+      including the average trade effect; it does not absorb import
+      exposure varying across industries WITHIN manufacturing, so the
+      attribution caveat narrows without closing. The manuscript
+      sentence carries exactly that.
 
 Reproduction guards:
   - robot A_K (window A) within 0.01 of script 28's 1.4769 (grid-free);
@@ -350,6 +389,53 @@ def main() -> None:
     lines += [f"Crosswalk robustness (one_to_one, N={len(s)}): robot dW "
               f"raw {c_raw:+.3f} (p={c_rawp:.1e}), partial {c_par:+.3f} "
               f"(p={c_parp:.2f})", ""]
+
+    # trade-confound control (D5; producer 31): double rank-conditioning
+    mfg_file = REPO_ROOT / "data" / "occ_manufacturing_share.csv"
+    if mfg_file.exists():
+        mfg = pd.read_csv(mfg_file).set_index("soc2018")["mfg_share"]
+        m["mfg_share"] = m["OCC_CODE"].map(mfg)
+        mm = m.dropna(subset=["mfg_share"])
+        cov = len(mm)
+        if cov < 100:
+            lines += [f"Trade-confound control (D5): only {cov}/{len(m)} "
+                      f"occupations matched data/occ_manufacturing_share.csv; "
+                      "coverage insufficient, control skipped. The "
+                      "registered scope statement stands.", ""]
+        else:
+            c_dw = spearmanr(mm["dW_robot"], mm["mfg_share"])[0]
+            c_w = spearmanr(mm["mfg_share"], np.log(mm["w1999"]))[0]
+            c_g = spearmanr(mm["mfg_share"], mm["dlnw_full"])[0]
+            lines += [f"Trade-confound control (D5; manufacturing share, "
+                      f"May 2003; coverage {cov}/{len(m)}):",
+                      f"  collinearity rho(dW_robot, mfg) {c_dw:+.3f}; "
+                      f"rho(mfg, ln w_1999) {c_w:+.3f}; "
+                      f"rho(mfg, dlnw) {c_g:+.3f}"]
+
+            def _partial2(x, y, z1, z2):
+                rx = cst._rank01(x)
+                ry = cst._rank01(y)
+                X = np.column_stack([np.ones(len(rx)), cst._rank01(z1),
+                                     cst._rank01(z2)])
+                bx, *_ = np.linalg.lstsq(X, rx, rcond=None)
+                by, *_ = np.linalg.lstsq(X, ry, rcond=None)
+                from scipy.stats import pearsonr
+                return pearsonr(rx - X @ bx, ry - X @ by)
+
+            for name in ("robot", "software"):
+                p1, pp1 = cst._partial_rank(mm[f"dW_{name}"],
+                                            mm["dlnw_full"], mm["w1999"])
+                p2, pp2 = _partial2(mm[f"dW_{name}"], mm["dlnw_full"],
+                                    mm["w1999"], mm["mfg_share"])
+                lines.append(f"  [{name:8s}] partial|w_1999 {p1:+.3f} "
+                             f"(p={pp1:.2f})  ->  partial|w_1999,mfg "
+                             f"{p2:+.3f} (p={pp2:.2f})")
+            lines.append("")
+    else:
+        lines += ["Trade-confound control (D5): "
+                  "data/occ_manufacturing_share.csv not found; run "
+                  "scripts/31_freeze_manufacturing_share.py to build it. "
+                  "The registered scope statement stands.", ""]
 
     # diagnostic panel: proj, the orientation degeneracy made explicit
     lines.append("DIAGNOSTIC: direction measure proj (sign flips with "

@@ -131,6 +131,22 @@
       },
       "derived": true,
       "recipe": "Detailed SOC-2000 rows; hourly wage by preference H_MEDIAN > A_MEDIAN/2080 > H_MEAN > A_MEAN/2080; mapped to SOC-2018 by composing the two crosswalks; per SOC-2018 code the employment-weighted mean of log wages across SOC-2000 sources (weights: same-year TOT_EMP). Written by scripts/26_freeze_oews_history.py to data/oews_history_wages.csv."
+    },
+    "occ_manufacturing_share": {
+      "recorded_utc": "2026-07-11T12:17:46+00:00",
+      "source": "BLS OES industry-specific occupational employment, national, May 2003 3-digit NAICS (primary) and 2002 4-digit NAICS (robustness), bls.gov/oes",
+      "files": {
+        "nat3d_may2003": {
+          "name": "nat3d_may2003_dl.xls",
+          "sha256": "e0ac87bb61ef869f409c2198813ab3d437a008a15712975c5d4900d01ec02714"
+        },
+        "nat4d_2002": {
+          "name": "nat4d_2002_dl.xls",
+          "sha256": "d3eab593eee6f529e8a33b16821053652679381d4ded8a4fc0931fa1356e30c9"
+        }
+      },
+      "derived": true,
+      "recipe": "Per SOC-2000: TOT_EMP summed over NAICS 31-33 over TOT_EMP summed over all industries in the same file (shared suppression regime); mapped to SOC-2018 by the composed crosswalks, employment-weighted. Written by scripts/31_freeze_manufacturing_share.py to data/occ_manufacturing_share.csv."
     }
   }
 }
