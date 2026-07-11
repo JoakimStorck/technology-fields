@@ -86,12 +86,48 @@ class RegimeInputs:
         return self.occ.index.to_numpy()
 
 
-def _ring_density(tech: Technology, grid: DiskGrid) -> np.ndarray:
-    """Normalized gradient-ring density g_hat(r) = |grad phi_K| / int|grad phi_K|,
-    peaking on the ring at distance z_K from p_K (the seeding locus)."""
-    g = tech.grad_phi_norm(grid.xi, grid.chi)
+def seeding_density(tech: Technology, grid: DiskGrid, rule: str = "gradient",
+                    field=None, R: float | None = None,
+                    tau: float | None = None) -> np.ndarray:
+    """Normalized seeding density zeta_hat(r) under a named rule; every
+    rule integrates to one, so the rules move the SAME seeded mass M to
+    different locations.
+
+    gradient   |grad phi_K|(r)      the benchmark: new work at the
+                                    technology's boundary (the ring at z_K)
+    level      phi_K(r)             new work where the technology is
+                                    most effective (the core)
+    incidence  a(r)(1 - a(r))       new work on the adoption margin
+                                    (the a = 1/2 contour; needs field, R, tau)
+    mixture    phi_K |grad phi_K|   boundary-weighted core (peaks at
+                                    z_K / sqrt(2))
+
+    The alternatives are the review's candidate rules; script 30 runs
+    them through the full machinery and scores them against the startup
+    positions."""
+    if rule == "gradient":
+        g = tech.grad_phi_norm(grid.xi, grid.chi)
+    elif rule == "level":
+        g = tech.phi(grid.xi, grid.chi)
+    elif rule == "incidence":
+        if field is None or R is None or tau is None:
+            raise ValueError("incidence rule needs field, R, tau")
+        a = tech.operated_share(grid.xi, grid.chi, field, R, tau)
+        g = a * (1.0 - a)
+    elif rule == "mixture":
+        g = (tech.phi(grid.xi, grid.chi)
+             * tech.grad_phi_norm(grid.xi, grid.chi))
+    else:
+        raise ValueError(f"unknown seeding rule: {rule}")
     Z = np.sum(g * grid.area)
     return g / Z if Z > 0 else g
+
+
+def _ring_density(tech: Technology, grid: DiskGrid) -> np.ndarray:
+    """Normalized gradient-ring density g_hat(r) = |grad phi_K| / int|grad phi_K|,
+    peaking on the ring at distance z_K from p_K (the seeding locus).
+    The gradient case of seeding_density, kept as the committed name."""
+    return seeding_density(tech, grid, "gradient")
 
 
 def _readiness(inp: RegimeInputs, ell: float, priced_only: bool = True):
@@ -147,7 +183,8 @@ def regime(inp: RegimeInputs, tech: Technology, L: np.ndarray,
            R: float, tau: float, gamma: float, ell: float, beta: float,
            wedge: np.ndarray | None = None,
            eta: float = 1.0, survival: bool = False,
-           rho: float = 0.5, lam_over: float = 1.0) -> dict:
+           rho: float = 0.5, lam_over: float = 1.0,
+           seeding: str = "gradient") -> dict:
     """Post-technology comparative static at employment L (aligned to
     inp.occ_codes()). Returns displacement, reinstatement, the bundle-operator
     wage change, the labor share, occupation value W_o, and densities, with the
@@ -199,7 +236,7 @@ def regime(inp: RegimeInputs, tech: Technology, L: np.ndarray,
     M = gamma * Delta_Gamma_D                                   # seeded mass
 
     # ── reinstatement on the grid ──
-    g_hat = _ring_density(tech, grid)
+    g_hat = seeding_density(tech, grid, seeding, field, R, tau)
     s = M * g_hat                                              # seeded density
     e = _fit(inp, ell, rho, lam_over)                        # (n_occ, n_cells)
     C = (L[:, None] * e).sum(axis=0)                          # capacity (n_cells)

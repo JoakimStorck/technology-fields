@@ -1,14 +1,15 @@
 Startup field-enrichment (producer 22; positions from 21).
   p_K: chi_K 0.463, xi_K 38.4 deg;  z_K 0.583;  a-core 0.392;  u-periphery 0.792
   disk-mean nulls:  zeta 0.4540  u 0.0209  a 0.251
+  groups overlap: 77 firms carry both tags (as in Fenoaltea's RSE); each group is reported inclusively
 
   AI startups (n=1885):
-    d_epi  median 0.447   d_ring  median 0.143   closer to ring: 88%
+    d_epi  median 0.447   d_ring  median 0.143   beyond z_K/2, i.e. d_ring < d_epi: 88%
     enrichment  zeta 1.30x  u 1.31x  a 0.92x   (u/zeta 1.01)
     compass  E 32%  N 30%  W 14%  S 24%
 
   robotics (n=153):
-    d_epi  median 0.635   d_ring  median 0.109   closer to ring: 99%
+    d_epi  median 0.635   d_ring  median 0.109   beyond z_K/2, i.e. d_ring < d_epi: 99%
     enrichment  zeta 1.34x  u 1.69x  a 0.03x   (u/zeta 1.26)
     compass  E 3%  N 16%  W 65%  S 16%
 

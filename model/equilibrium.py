@@ -53,7 +53,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from .regime import RegimeInputs, _ring_density, _readiness, _fit, NMIN
+from .regime import (RegimeInputs, _ring_density, seeding_density,
+                     _readiness, _fit, NMIN)
 
 
 @dataclass
@@ -75,7 +76,8 @@ class Equilibrium:
                  gamma: float, ell: float, beta: float,
                  wedge: np.ndarray | None = None,
                  eta: float = 1.0, survival: bool = False,
-                 rho: float = 0.5, lam_over: float = 1.0):
+                 rho: float = 0.5, lam_over: float = 1.0,
+                 seeding: str = "gradient"):
         # eta: demand elasticity. Competitive pricing passes the automation cost
         #   saving to consumers; isoelastic demand scales place revenue by the
         #   multiplier D(r) = (c(r)/Pi)^(1-eta) on the price field, where the unit
@@ -116,7 +118,8 @@ class Equilibrium:
         # grid pieces
         self.area = grid.area
         self.pi_cell = field.pi(grid.xi, grid.chi)
-        self.g_hat = _ring_density(tech, grid)                  # ring shape
+        self.g_hat = seeding_density(tech, grid, seeding,
+                                     inp.field, R, tau)   # seeding rule
         self.e = _fit(inp, ell, rho, lam_over)                  # (n_occ, n_cells)
         self.cell_of = _cell_index(grid, self.b_xi, self.b_chi)
 

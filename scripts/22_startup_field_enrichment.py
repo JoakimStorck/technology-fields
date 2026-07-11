@@ -15,15 +15,22 @@ measures, for AI and robotics separately:
     a     operated share                           (incidence / displacement)
   reported as median(field at points) / disk-mean, so > 1 = over-represented.
 
-FINDINGS (809 AI, 37 robotics; committed equilibrium R=18, tau=0.08, gamma=0.5,
-beta=0.5):
-  AI startups sit on the seeding ring (zeta ~1.30x) and out of the incidence
-  core (a ~0.92x, at the disk null); their unbound enrichment (u ~1.28x) equals
-  their ring enrichment (u/zeta ~0.99), i.e. they lie on the ring, not
+FINDINGS (1,885 AI, 153 robotics, 77 carrying both tags as in Fenoaltea's
+RSE; committed anchored equilibrium R=18, tau=0.08, gamma=0.5, beta=0.5):
+  AI startups sit on the seeding ring's inner flank (zeta ~1.30x at the
+  disk null; d_epi median 0.447 against z_K 0.583) and at the incidence
+  core's edge (a ~0.92x); their unbound enrichment (u ~1.31x) equals
+  their ring enrichment (u/zeta ~1.01), i.e. they lie on the ring, not
   specifically on its unbound arc. Robotics startups are out of the core
-  entirely (a ~0.04x) and on the unbound arc (u/zeta ~1.23), in the
-  technical-physical west; n is small. The startups sit on the gradient field's
-  rim, away from the technology centre.
+  entirely (a ~0.03x) and on the unbound arc (u/zeta ~1.26), in the
+  technical-physical west; n is small. The startups sit on the gradient
+  field's rim, away from the technology centre. Producer 30 adds that
+  the bound-work densities (iota, B_o) fit both groups better than any
+  raw seeding curve: the occupation layer carries the fit.
+  Measurement note: document embeddings shrink norms toward the corpus
+  mean (max startup chi 0.58 against the occupational support 0.75), so
+  radial positions are conservative; angular placement, which carries
+  the group separation, is unaffected by the shrinkage.
 
 Figures:
   results/startup_field_enrichment_map.png     disk: occupations, startups,
@@ -146,12 +153,16 @@ def enrichment_block(su, M):
     tech, inp = M["tech"], M["inp"]
     A = g.area.sum()
     null = {kk: float((vv * g.area).sum() / A) for kk, vv in M["fields"].items()}
+    dual = int(((su.get("is_ai", 0) == 1)
+                & (su.get("is_robotics", 0) == 1)).sum())
     lines = [
         "Startup field-enrichment (producer 22; positions from 21).",
         f"  p_K: chi_K {tech.chi_K:.3f}, xi_K {np.degrees(tech.xi_K):.1f} deg;  "
         f"z_K {z_K:.3f};  a-core {M['med_a']:.3f};  u-periphery {M['med_u']:.3f}",
         f"  disk-mean nulls:  zeta {null['zeta']:.4f}  u {null['u']:.4f}  "
         f"a {null['a']:.3f}",
+        f"  groups overlap: {dual} firms carry both tags (as in Fenoaltea's "
+        f"RSE); each group is reported inclusively",
         "",
     ]
     enr = {}
@@ -166,6 +177,8 @@ def enrichment_block(su, M):
         d_ring = np.abs(d_epi - z_K)
         ze = tech.grad_phi_norm(xi, chi)
         ap = tech.operated_share(xi, chi, inp.field, R, TAU)
+        # u exists only on the grid (nearest cell); zeta and a are analytic.
+        # At 4,800 cells the mixed evaluation is a negligible error source.
         up = M["fields"]["u"][_cell_index(g, xi, chi)]
         e = {"zeta": float(np.median(ze) / null["zeta"]),
              "u": float(np.median(up) / null["u"]),
@@ -176,7 +189,7 @@ def enrichment_block(su, M):
         lines += [
             f"  {tag} (n={len(dd)}):",
             f"    d_epi  median {np.median(d_epi):.3f}   d_ring  median "
-            f"{np.median(d_ring):.3f}   closer to ring: "
+            f"{np.median(d_ring):.3f}   beyond z_K/2, i.e. d_ring < d_epi: "
             f"{float((d_ring < d_epi).mean()):.0%}",
             f"    enrichment  zeta {e['zeta']:.2f}x  u {e['u']:.2f}x  "
             f"a {e['a']:.2f}x   (u/zeta {e['u'] / e['zeta']:.2f})",

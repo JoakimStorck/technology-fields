@@ -356,7 +356,12 @@ def startup_side(model, smoke=False):
         lines += [f"STARTUP SIDE: {len(corpus)} AI and robotics startups "
                   f"embedded and projected into the frozen geometry "
                   f"(AI {int((corpus.get('is_ai', 0) == 1).sum())}, "
-                  f"robotics {int((corpus.get('is_robotics', 0) == 1).sum())})."]
+                  f"robotics {int((corpus.get('is_robotics', 0) == 1).sum())}).",
+                  f"  measurement note: document embeddings shrink norms "
+                  f"toward the corpus mean (max startup chi "
+                  f"{float(corpus['chi'].max()):.2f} vs occupational "
+                  f"support 0.75); radial positions are conservative, "
+                  f"angular placement is unaffected."]
 
     text_field = density_on_grid(xi, chi, grid)
     a, u = model["a"], model["u"]

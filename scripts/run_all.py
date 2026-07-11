@@ -64,6 +64,10 @@ Default order:
                             frozen projection into the geometry
   22  startup enrichment    seeding-ring enrichment statistics and the
                             comparison figure of the startup section
+  30  seeding rules         the gradient benchmark against level, adoption-
+                            margin, and boundary-weighted alternatives:
+                            anchored equilibrium and startup score per rule
+                            (needs 21's positions)
 
 Notes:
   - 00 (freeze inputs) is NOT in the default run. It vendors the Paper 1
@@ -139,6 +143,7 @@ PIPELINE = [
     ("20", "20_wage_object_consistency.py"),
     ("21", "21_startup_seeding.py"),
     ("22", "22_startup_field_enrichment.py"),
+    ("30", "30_seeding_rule_robustness.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
@@ -157,7 +162,9 @@ def run(script: Path, args: list[str] | None = None) -> int:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--only", help="run a single step, e.g. 08")
+    ap.add_argument("--only", nargs="+",
+                    help="run these steps, e.g. --only 08 or --only 21 22 30 "
+                         "(comma-separated also accepted); pipeline order")
     ap.add_argument("--from", dest="from_", help="run from this step onward, e.g. 07")
     ap.add_argument("--freeze", action="store_true",
                     help="run 00_freeze_inputs.py first (needs --geometry-root)")
@@ -167,9 +174,11 @@ def main() -> None:
 
     steps = PIPELINE
     if args.only:
-        steps = [s for s in PIPELINE if s[0] == args.only.zfill(2)]
-        if not steps:
-            ap.error(f"--only {args.only}: no such step")
+        wanted = {w.zfill(2) for tok in args.only for w in tok.split(",") if w}
+        unknown = wanted - {s[0] for s in PIPELINE}
+        if unknown:
+            ap.error(f"--only {' '.join(sorted(unknown))}: no such step(s)")
+        steps = [s for s in PIPELINE if s[0] in wanted]
     elif args.from_:
         keys = [s[0] for s in PIPELINE]
         start = args.from_.zfill(2)
