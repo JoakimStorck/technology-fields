@@ -1,35 +1,35 @@
 d08: GE price feedback -- sign, one-pass extremes, fixed point, contraction
-sigma 3, damp 0.5; mobility reference kappa 11.839, c 23.018 (layer rule, A_K = 0)
-fixed-Pi baseline: labour share L0 0.5822 | out.L 0.6254; D_o mean 0.2786
+sigma 3, damp 0.5; anchored mobility reference kappa 16.373, c 31.832 (zero-field rule + alpha_o)
+fixed-Pi baseline: labour share L0 0.5822 | out.L 0.6439; D_o mean 0.2786
 
 (H1) one-pass extremes, L0 basis:
-  scarcity (supply reading, destabilising)   labour share 0.3330
-  ar_level (demand reading, level falls)     labour share 0.8279
+  scarcity (supply reading, destabilising)   labour share 0.3367
+  ar_level (demand reading, level falls)     labour share 0.8127
   fixed price                                labour share 0.5822
 
-(H2) fixed point at sigma 3: converged in 9 damped steps
-  Delta ln Pi: level -0.2607, sd 0.3417; corr with operated share a +0.263
-  labour share  L0 basis   0.5822 -> 0.7334
-  labour share  out basis  0.6254 -> 0.7785   (price and allocation both equilibrate; the paper basis)
-  D_o mean      0.2786 -> 0.1561  (-44%)
+(H2) fixed point at sigma 3: converged in 6 damped steps
+  Delta ln Pi: level -0.0621, sd 0.1039; corr with operated share a -0.317
+  labour share  L0 basis   0.5822 -> 0.6810
+  labour share  out basis  0.6439 -> 0.7306   (price and allocation both equilibrate; the paper basis)
+  D_o mean      0.2786 -> 0.2230  (-20%)
 
 (H3) contraction sufficient condition:
   gate slope K_gate = (1/sigma) a R/(Pi tau) at the fixed point:
-    sup 1.644, mass-weighted mean 0.457, 99th pct 1.558
-  power iteration on the full map (37 its): spectral radius K = 1.594
+    sup 1.639, mass-weighted mean 0.440, 99th pct 1.595
+  power iteration on the full map (31 its): spectral radius K = 1.590
   sufficient condition at damp 0.5: K < 2/damp - 1 = 3  ->  satisfied  (margin x1.9; implied max damp 0.77)
 
 (H4) uniqueness and damping-independence:
-  zeros, damp 1/2                  9 steps   labour share 0.7334
-  ar one-pass, damp 1/2            8 steps   labour share 0.7335
-  scarcity one-pass, damp 1/2      8 steps   labour share 0.7335
-  random field, damp 1/2           9 steps   labour share 0.7334
-  zeros, damp 3/8                 12 steps   labour share 0.7334
-  zeros, damp 1/4                 18 steps   labour share 0.7334
-  sigma 1: zeros, damp 1/4        22 steps   labour share 0.7770
-  sigma 1: zeros, damp 1/8        40 steps   labour share 0.7770
-  sigma 3: max pairwise sup-distance 0.0105 (tol 0.004), labour-share spread 0.00003
-  sigma 1: max pairwise sup-distance 0.0166 (tol 0.004), labour-share spread 0.00000
+  zeros, damp 1/2                  6 steps   labour share 0.6810
+  ar one-pass, damp 1/2            5 steps   labour share 0.6810
+  scarcity one-pass, damp 1/2      7 steps   labour share 0.6809
+  random field, damp 1/2           9 steps   labour share 0.6810
+  zeros, damp 3/8                  7 steps   labour share 0.6810
+  zeros, damp 1/4                 10 steps   labour share 0.6809
+  sigma 1: zeros, damp 1/4        10 steps   labour share 0.7426
+  sigma 1: zeros, damp 1/8        16 steps   labour share 0.7425
+  sigma 3: max pairwise sup-distance 0.0086 (tol 0.004), labour-share spread 0.00010
+  sigma 1: max pairwise sup-distance 0.0108 (tol 0.004), labour-share spread 0.00008
   same fixed point from every start and every converging damping;
   certificate is local (power iteration at the point) -- multistart
   agreement is evidence, not a global uniqueness proof.

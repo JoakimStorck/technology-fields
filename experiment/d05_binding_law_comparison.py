@@ -18,6 +18,12 @@ Births are disabled (see d02). All numbers write to experiment/results/ and
 are asserted against the frozen baseline.
 
 Usage: python experiment/d05_binding_law_comparison.py
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -46,7 +52,7 @@ BETA_M = 3.0
 # Frozen baseline (this machine, this calibration), tolerance 0.02.
 BASELINE = {  # (corr size, corr claim), Pearson
     "size_multiplies": (0.995, 0.074),
-    "match_allocated": (0.125, 0.731),
+    "match_allocated": (0.107, 0.750),
 }
 
 

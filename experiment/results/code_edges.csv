@@ -3,6 +3,7 @@ A_K,a_grid
 A_K,a_task
 A_final,A_of
 A_of,A_K
+A_scale,A_of
 BETA,W
 BETA,nb1
 D_o,GammaD
@@ -26,6 +27,7 @@ Mp,capo
 Mp.sum,capo
 Mtot,q_new
 Mtot,self.mu
+NMIN,nb1
 NMIN,neff
 P.sum,P
 Path,REPO
@@ -63,6 +65,7 @@ __file__,REPO
 _iface,layer
 _iface.load_static_layer,layer
 _ispec,_iface
+a,Um
 a_grid,eq.a_grid
 a_grid,surv
 a_task,D_o
@@ -71,6 +74,11 @@ absorbed,absorbed_tot
 absorbed,dyn.B
 absorbed,dyn.U
 absorbed.sum,absorbed_tot
+al,Um
+alpha,Tgt
+alpha,a
+alpha,al
+anchored,alpha
 astype,gap
 avail,claim
 avail,t_o
@@ -115,6 +123,8 @@ dyn,W
 dyn,W_new_prosp
 dyn,Wb
 dyn,Wm
+dyn,a
+dyn,al
 dyn,avail
 dyn,carry
 dyn,d
@@ -166,6 +176,8 @@ dyn.n0,T_new
 dyn.n0,d_all
 dyn.n0,dj
 dyn.n0,emp_new
+dyn.n_occ,a
+dyn.n_occ,al
 dyn.n_occ,emp_new
 dyn.n_occ,f
 dyn.ncell,dyn.grain
@@ -302,6 +314,7 @@ keys,self.qk_grid
 lam_over,dyn
 lam_over,self.lam_over
 layer,L0
+layer,alpha
 layer,c
 layer,ell
 layer,eq
@@ -314,6 +327,7 @@ layer,tech
 layer.L0,L0
 layer.L0,inp
 layer.L0,occ
+layer.alpha,alpha
 layer.c,c
 layer.c,kappa
 layer.ell,ell
@@ -389,6 +403,7 @@ np.full,f
 np.hypot,d
 np.hypot,dj
 np.hypot,local
+np.maximum,nb1
 np.maximum,neff
 np.maximum,over
 np.maximum,under
@@ -408,9 +423,10 @@ np.vstack,self.LOC
 np.vstack,self.mu
 np.where,claim
 np.where,f
-np.where,nb1
 np.where,share
 np.zeros,W
+np.zeros,a
+np.zeros,al
 np.zeros,dyn.grain
 np.zeros,self.B
 np.zeros,self.Sq

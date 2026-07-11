@@ -73,6 +73,12 @@ pooled tempo), theta_L = 1 in the deep-limit runs (the d03/d06 convention:
 the destination is carried by theta_abs alone).
 
 Usage: python experiment/d10_capacity_exponent.py   (about 7 minutes)
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -105,14 +111,14 @@ T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
 THETA_DEEP, T_MAX_DEEP = 120.0, 120.0
 
 # Frozen d02 tie-in (tolerance 0.02).
-D02_PEARSON, D02_SIZE_RANK = 0.371, 0.950
+D02_PEARSON, D02_SIZE_RANK = 0.391, 0.941
 
-# Frozen d10 baselines (first accepted run, tolerance 0.02).
-BASE_CROSS = {0.5: 0.684, 0.7: 0.530, 1.0: 0.371}
-BASE_SIZE_RANK = {0.5: 0.491, 0.7: 0.784, 1.0: 0.950}
-BASE_TOPQ = {0.5: 0.353, 0.7: 0.426, 1.0: 0.572}
-BASE_DEEP_L1 = {0.5: 0.108, 0.7: 0.156, 1.0: 0.279}
-BASE_FAST_CORR = {0.5: 0.140, 0.7: 0.103, 1.0: 0.070}
+# Frozen d10 baselines (tolerance 0.02).
+BASE_CROSS = {0.5: 0.716, 0.7: 0.563, 1.0: 0.391}
+BASE_SIZE_RANK = {0.5: 0.437, 0.7: 0.749, 1.0: 0.941}
+BASE_TOPQ = {0.5: 0.345, 0.7: 0.413, 1.0: 0.559}
+BASE_DEEP_L1 = {0.5: 0.121, 0.7: 0.176, 1.0: 0.309}
+BASE_FAST_CORR = {0.5: 0.162, 0.7: 0.122, 1.0: 0.086}
 
 
 def closed_form_slow(M0, S, p):

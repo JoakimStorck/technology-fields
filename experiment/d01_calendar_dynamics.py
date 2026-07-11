@@ -19,6 +19,12 @@ extension (probe_allocation.py) and would confound the tempo comparison by
 changing the occupation set across regimes.
 
 Usage: python experiment/d01_calendar_dynamics.py
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -48,8 +54,8 @@ T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
 
 # Frozen baseline (this machine, this calibration). Asserted with 5 percent
 # relative tolerance so a drifted calibration fails loudly.
-BASELINE_PEAKS = {1.0: 0.000306, 3.0: 0.004358, 8.0: 0.013881, 15.0: 0.024563}
-BASELINE_RATIO = 80.2
+BASELINE_PEAKS = {1.0: 0.000179, 3.0: 0.002674, 8.0: 0.010648, 15.0: 0.020985}
+BASELINE_RATIO = 117.0
 
 
 def main():

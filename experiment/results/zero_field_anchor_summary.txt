@@ -1,0 +1,16 @@
+d00: zero-field anchoring guard (the dynamic mirror of the static anchoring requirement)
+anchored mobility reference kappa 16.373, c 31.832; alpha in [-109.25, +93.66]
+
+(K) kernel one-step gap |L0 P - L0|_1 = 3.177e-14  (tol 1e-09)
+(G) anchored zero-shock run, 20 y at reference tempos:
+      drift |L - L0|_1 = 0.00488  (0.244 percent of mass relocated; tol 0.01)
+      residual source: the adoption sigmoid keeps a > 0 at A_K = 0, while the anchor is exact at a = 0
+(C) unanchored contrast (pre-revision kernel), same run:
+      drift |L - L0|_1 = 1.1649  (58.2 percent of mass relocated)
+      unanchored / anchored drift ratio = 239  (min 50)
+      this baseline relocation, unrelated to any technology, is what
+      the anchoring removes from every shocked run.
+      spurious zero-technology seeding under the unanchored kernel: peak U_tot = 6.75e-07
+
+all anchoring guards hold: L0 is a rest point of the zero-field
+sorting map in the kernel and, up to the gate tail, in the engine.

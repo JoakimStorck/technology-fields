@@ -29,6 +29,12 @@ Births are disabled throughout (see d02). All numbers write to
 experiment/results/ and are asserted against the frozen baseline below.
 
 Usage: python experiment/d03_binding_sensitivity.py
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -59,9 +65,9 @@ T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
 BETAS = (1.0, 2.0, 3.0, 5.0, 8.0)
 
 # Frozen baseline (this machine, this calibration), absolute tolerance 0.02.
-BASELINE_PEARSON = {1.0: 0.255, 2.0: 0.304, 3.0: 0.371, 5.0: 0.503, 8.0: 0.612}
-BASELINE_ABSORB_ONLY = 0.385
-BASELINE_MOBILITY_ONLY = 0.996
+BASELINE_PEARSON = {1.0: 0.260, 2.0: 0.322, 3.0: 0.391, 5.0: 0.518, 8.0: 0.619}
+BASELINE_ABSORB_ONLY = 0.452
+BASELINE_MOBILITY_ONLY = 0.998
 
 
 def main():

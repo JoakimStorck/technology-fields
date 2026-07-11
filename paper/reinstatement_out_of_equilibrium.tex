@@ -40,8 +40,8 @@ exponent, and the crossover is derived in closed form in a
 two-occupation economy. Between the limits the destination moves
 monotonically with the tempo: a gradual shock matches the reinstated
 work to well-suited specialists, a congested one forces it onto large,
-lower-paid occupations, and the two allocations correlate at $+0.37$
-under the linear reference capacity law ($+0.68$ weighted by
+lower-paid occupations, and the two allocations correlate at $+0.39$
+under the linear reference capacity law ($+0.72$ weighted by
 employment). A general-equilibrium price close is stabilising and
 raises the labour share. The realisation is a calibrated illustration
 and carries no causal claim.
@@ -151,8 +151,8 @@ reinstated work. A shock that outruns redistribution forces the work
 onto the large, lower-skilled occupations that can absorb it fastest, a
 downgrading that the gradual transition avoids. The two regimes run
 through the same technology and the same field, and their final
-allocations of reinstated work correlate at $+0.37$ under the linear
-reference capacity law, unweighted, and $+0.68$ weighted by employment. Both endpoints are
+allocations of reinstated work correlate at $+0.39$ under the linear
+reference capacity law, unweighted, and $+0.72$ weighted by employment. Both endpoints are
 proved as limits of the binding law: absorption faster than the shock
 converges to the match-weighted allocation
 (Proposition~\ref{prop:fast}), absorption slower than the shock to an
@@ -331,13 +331,20 @@ layers of the implementation.
 All parameters of this foundation are inherited unchanged from the
 economy table of \textcite{storck2026fields}: $R=18$, $\tau=0.08$, $\beta=0.5$
 (congestion), $\gamma=0.5$, $\ell=0.133$, $\rho=0.5$,
-$\lambda_{\mathrm{over}}=1$. The mobility scale $\nu$ (one standard
-deviation of baseline occupation value per logit unit) and the move cost
-$c_m$ (the median move costs one $\nu$) follow the same rules, evaluated
-here at the pre-shock baseline $A_K = 0$, the state the dynamics start
-from, giving $\nu = 11.8$ and $c_m = 23.0$. That table evaluates the
-same rules at the calibrated technology and reports $11.6$ and $22.6$.
-The two per cent difference moves no result at its reported precision.
+$\lambda_{\mathrm{over}}=1$. The sorting layer is anchored as in that
+table. The mobility scale $\nu = 16.4$ is one standard deviation of the
+zero-technology occupation value per logit unit, the move cost
+$c_m = 31.8$ makes the median move cost one $\nu$, and the occupation
+constants $\alpha_o$ balance the logit kernel so that observed
+employment is the fixed point of the zero-technology sorting map. The
+rule reads no technology object, so the reference coincides with the
+pre-shock state the dynamics start from, and the dynamic layer consumes
+it verbatim. The constants are load-bearing here as well: without them
+the observed allocation is not a rest point of the logit, and the
+solved path mixes the technology's effect with a baseline relocation
+that has nothing to do with the technology. A zero-technology guard run
+in the pipeline verifies that the anchored population stays at the
+baseline.
 Table~\ref{tab:provenance} in Appendix~\ref{app:inherited} consolidates
 every parameter of the economy with its provenance: estimated,
 calibrated, rule-derived, normalised, or swept.
@@ -436,8 +443,10 @@ The population moves toward the static reallocation target, but from the
 T_o(L,t) = \sum_{o'} L_{o'}(t)\,P\big(o\mid o';\,W(L,t)\big),
 \label{eq:pop}
 \end{equation}
-with $P$ a row-stochastic origin--destination logit, so $\sum_o\dot L_o=0$
-exactly. The timescale $\theta_L$ is a calibrated speed in interpretable
+with $P$ a row-stochastic origin--destination logit in the anchored
+payoff $W_o + \alpha_o - c_m\,\lVert\mu_{o'}-\mu_o\rVert$, so
+$\sum_o\dot L_o=0$ exactly; the constants $\alpha_o$ are those of
+Section~\ref{sec:foundation}. The timescale $\theta_L$ is a calibrated speed in interpretable
 units. It replaces the static solver's damping and inherits nothing
 from it. First order is deliberate because it yields lags and gaps but
 no overshoot.
@@ -507,7 +516,7 @@ absolute absorption correlates with occupation size at $+0.99$ and with
 the unconstrained claim at $+0.07$ at the reference tempo, so size
 decides the destination and match governs only the relative growth. The
 match-allocated form with a size cap inverts this. Absorption tracks
-the claim at $+0.73$, and the size correlation falls to $+0.13$ at the
+the claim at $+0.75$, and the size correlation falls to $+0.11$ at the
 reference tempo and to $+0.04$ in the gradual regime, with size demoted
 from setting \emph{where} the work goes to \emph{how fast} it binds,
 which is its proper role. The sharpness $\beta_m$ and the absorption
@@ -646,8 +655,8 @@ $\theta_{\text{abs}}\, S/M_{\text{tot}}$ years. The bound is saturated
 only in the deep limit. The capacity utilisation, the mass absorbed
 per step over the aggregate bound
 $(\Delta t/\theta_{\text{abs}})\,M_{\text{tot}}$ read at the peak of
-the mismatch, rises from $0.11$ at $\theta_{\text{abs}} = 2$ to $0.56$
-at $15$ and $0.99$ at $120$. The shortfall is the spatial locality of
+the mismatch, rises from $0.08$ at $\theta_{\text{abs}} = 2$ to $0.47$
+at $15$ and $0.97$ at $120$. The shortfall is the spatial locality of
 binding: claims are proportional to $e_o^{\beta_m}$, so the mass on the
 seeding crescent is in practice drained by the occupations near it, and
 the aggregate task mass overstates the absorbing mass at intermediate
@@ -771,7 +780,7 @@ for four redistribution tempos, $\theta \in \{1, 3, 8, 15\}$ years. When
 redistribution is faster than the shock, the mismatch is barely
 visible, since the market binds the displaced work as fast as it is
 seeded. As redistribution slows, the mismatch hump grows by a factor of
-eighty from the fastest to the slowest tempo shown, and peaks later,
+$117$ from the fastest to the slowest tempo shown, and peaks later,
 moving
 from $t \approx 2.6$ to $t \approx 3.6$ years within the adoption
 window. In every
@@ -826,12 +835,12 @@ occupation's unconstrained claim as the seed-weighted share the claim
 law \eqref{eq:claim} would allocate with no size cap, and its size as
 the pre-shock task mass that caps the rate. In the gradual regime the
 top claim quartile takes $49$ percent of the reinstated mass; in the
-congested regime the top size quartile takes $57$ percent, and the
+congested regime the top size quartile takes $56$ percent, and the
 bottom size quartile is squeezed from $22$ to $4$ percent. The correlations
 summarise the same reallocation. The final allocations of reinstated
-mass in the two regimes correlate at $+0.37$ (Pearson, unweighted
-across the $849$ pre-existing occupations, $+0.31$ by rank), and
-weighting by baseline employment raises the correlation to $+0.68$,
+mass in the two regimes correlate at $+0.39$ (Pearson, unweighted
+across the $849$ pre-existing occupations, $+0.32$ by rank), and
+weighting by baseline employment raises the correlation to $+0.72$,
 because the largest occupations gain in both regimes. The divergence is
 concentrated in whether specialist best matches or large absorbers take
 the frontier work, which is the margin the result is about. One
@@ -852,7 +861,7 @@ for the same five-year shock. Left, a gradual transition: the best
 matches keep pace and high-skill specialists at the frontier absorb the
 work. Right, a congested transition: small best-matched occupations
 cannot keep up and the work is forced onto large, lower-skilled
-occupations. The two final allocations correlate at $+0.37$.}
+occupations. The two final allocations correlate at $+0.39$.}
 \label{fig:tempo}
 \end{figure}
 
@@ -861,33 +870,33 @@ occupations. The two final allocations correlate at $+0.37$.}
 \small
 \caption{Leading gainers of reinstated mass, top ten per regime, share
 of the regime's total in parentheses. The heads of the two lists
-overlap, which is the employment-weighted correlation of $+0.68$ read
+overlap, which is the employment-weighted correlation of $+0.72$ read
 occupation by occupation; the reshuffling below them is the unweighted
-$+0.37$. Both lists mix skill levels; the claim is the shift in
+$+0.39$. Both lists mix skill levels; the claim is the shift in
 composition, not a clean partition.}
 \label{tab:gainers}
 \begin{tabular}{rp{7.1cm}p{7.1cm}}
 \toprule
  & Gradual ($\theta = 1$) & Congested ($\theta = 15$) \\
 \midrule
-1 & Preventive medicine physicians (1.4\%) & Fast food and counter workers (0.7\%) \\
-2 & Physicists (1.3\%) & Preventive medicine physicians (0.7\%) \\
-3 & Natural sciences managers (1.0\%) & Waiters and waitresses (0.7\%) \\
-4 & Chief executives (0.8\%) & Dishwashers (0.6\%) \\
-5 & Dishwashers (0.6\%) & Solar energy installation managers (0.6\%) \\
-6 & Mechanical engineering technologists and technicians (0.6\%) & Receptionists and information clerks (0.6\%) \\
-7 & Aerospace engineering and operations technologists and technicians (0.6\%) & Food preparation workers (0.6\%) \\
-8 & Epidemiologists (0.6\%) & Electricians (0.6\%) \\
-9 & Bioengineers and biomedical engineers (0.5\%) & Dining room and cafeteria attendants and bartender helpers (0.5\%) \\
+1 & Preventive medicine physicians (1.4\%) & Preventive medicine physicians (0.7\%) \\
+2 & Physicists (1.3\%) & Fast food and counter workers (0.7\%) \\
+3 & Natural sciences managers (0.9\%) & Dishwashers (0.7\%) \\
+4 & Chief executives (0.8\%) & Waiters and waitresses (0.6\%) \\
+5 & Dishwashers (0.6\%) & Receptionists and information clerks (0.6\%) \\
+6 & Aerospace engineering and operations technologists and technicians (0.6\%) & Solar energy installation managers (0.6\%) \\
+7 & Epidemiologists (0.6\%) & Dining room and cafeteria attendants and bartender helpers (0.6\%) \\
+8 & Mechanical engineering technologists and technicians (0.6\%) & Food preparation workers (0.6\%) \\
+9 & Bioengineers and biomedical engineers (0.5\%) & Education administrators, kindergarten through secondary (0.6\%) \\
 10 & Mechanical engineers (0.5\%) & Medical and health services managers (0.5\%) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The mechanism reads off the per-occupation correlations. In the gradual regime absorption tracks the claim, with Pearson
-$+0.83$ and rank $+0.92$, and is uncorrelated with size ($+0.04$). In the
-congested regime the claim decouples ($+0.37$, rank $+0.21$) and size
-takes over (rank $+0.95$). All rankings are in
+$+0.85$ and rank $+0.92$, and is uncorrelated with size ($+0.04$). In the
+congested regime the claim decouples ($+0.39$, rank $+0.23$) and size
+takes over (rank $+0.94$). All rankings are in
 absolute mass; the relative-change measure is unbounded for small
 occupations and is not used. Rank agreement with size is not equality
 with global size shares: seeding is spatially local, so the congested
@@ -896,13 +905,14 @@ slow limit of Proposition~\ref{prop:slow}.
 
 Five robustness checks bound the claim. Sweeping the sharpness
 $\beta_m$ from $1$ to $8$ moves the cross-regime correlation from
-$+0.26$ to $+0.61$. The divergence of destinations survives the full
+$+0.26$ to $+0.62$. The divergence of destinations survives the full
 range while its point size depends on the handle. Decomposing the
 pooled tempo into its two timescales shows which one binds. Slowing only absorption
 ($\theta_L = 1$, $\theta_{\text{abs}} = 15$) reproduces the congested
-allocation (correlation $+0.39$ with the gradual run), while slowing
+allocation (correlation $+0.45$ with the gradual run, against $+0.39$
+when both are slowed), while slowing
 only mobility ($\theta_L = 15$, $\theta_{\text{abs}} = 1$) leaves the
-destination essentially unchanged ($+0.996$). The forced downgrading is a
+destination essentially unchanged ($+0.998$). The forced downgrading is a
 statement about how fast occupations can take on new work, not about how
 fast workers move.
 
@@ -914,8 +924,8 @@ unit-amplitude technology shape, so labour is more productive where the
 machine is weak and capital operates where $s_K\phi_K > h R/\Pi$. The
 sweep takes $\lambda_h$ up to $2$, and $\lambda_h = 0$ recovers the
 uniform-$R$ gate. The divergence is intact in every variant. The
-cross-regime correlation stays between $+0.35$ and $+0.46$, and the
-congested size rank correlation between $+0.91$ and $+0.96$. What the
+cross-regime correlation stays between $+0.36$ and $+0.47$, and the
+congested size rank correlation between $+0.90$ and $+0.96$. What the
 gate moves is the gainers' price level rather than the tempo
 dependence. Without the gate the capital-dominated core seeds, and the
 congested absorbers become large health and administrative occupations
@@ -931,13 +941,13 @@ that the exponent moves only the cross-sectional allocation of capacity
 and not the effective tempo, is run at $p \in \{0.5, 0.7\}$ against the
 linear baseline. The theorem survives and the point magnitude does not.
 At the deep endpoint the realised allocation approaches the closed form
-of Proposition~\ref{prop:slow}, relative $L_1$ of $0.11$ and $0.16$
-against $0.28$ for the size shares at $p = 1$, and stays uncorrelated with the
-fast endpoint ($+0.14$ and below), so the divergence of the limits holds
+of Proposition~\ref{prop:slow}, relative $L_1$ of $0.12$ and $0.18$
+against $0.31$ for the size shares at $p = 1$, and stays uncorrelated with the
+fast endpoint ($+0.16$ and below), so the divergence of the limits holds
 at every exponent. At the reference tempos the cross-regime correlation
-rises from $+0.37$ to $+0.53$ at $p = 0.7$ and $+0.68$ at $p = 0.5$, the
-congested size-rank correlation falls from $+0.95$ to $+0.49$, and the
-top size-quartile share from $57$ to $35$ per cent: sublinear capacity
+rises from $+0.39$ to $+0.56$ at $p = 0.7$ and $+0.72$ at $p = 0.5$, the
+congested size-rank correlation falls from $+0.94$ to $+0.44$, and the
+top size-quartile share from $56$ to $34$ per cent: sublinear capacity
 relieves small occupations, the crossover moves out, and the downgrading
 at a given tempo weakens. The path-dependence of the destination is not
 a property of the linear law; the severity of the downgrading at a given
@@ -953,14 +963,14 @@ wage-bearing bundle is untouched, since displacement takes the payment,
 not the capability. Occupations then move toward the work they take,
 and the movers are the gradual winners: the employment-weighted mean
 centroid drift is well below the readiness scale $\ell$ in both
-regimes ($0.012$ and $0.024$ against $\ell = 0.133$), but weighted by reinstated mass the gradual regime drifts
-$0.12$, comparable to $\ell$, and the drift follows the bound share
-$r_o/(M_o(0)+r_o)$ (rank $+0.91$ in the gradual regime, $+0.55$ in the
+regimes ($0.010$ and $0.022$ against $\ell = 0.133$), but weighted by reinstated mass the gradual regime drifts
+$0.11$, comparable to $\ell$, and the drift follows the bound share
+$r_o/(M_o(0)+r_o)$ (rank $+0.91$ in the gradual regime, $+0.57$ in the
 congested, where capacity rather than match governs what binds). The congested regime is nearly
 unaffected, with the allocation displaced by $3$ per cent and its size
-rank intact at $+0.94$, while the gradual allocation displaces by $22$
+rank intact at $+0.93$, while the gradual allocation displaces by $21$
 per cent toward the well matched. The cross-regime correlation falls
-from $+0.37$ to $+0.09$: updating widens the divergence. Frozen
+from $+0.39$ to $+0.12$: updating widens the divergence. Frozen
 readiness is therefore the conservative choice, and the frozen headline
 numbers understate the path-dependence that learning from absorbed work
 would produce.
@@ -974,10 +984,10 @@ allocation across $\theta_{\text{abs}}$ from $0.5$ to $120$ years against
 the fixed five-year shock, with mobility held fast at $\theta_L = 1$,
 since the decomposition above shows the destination is carried by
 $\theta_{\text{abs}}$. Its correlation with the fast-limit allocation of
-Proposition~\ref{prop:fast} falls monotonically from $+1.00$ to $+0.07$,
+Proposition~\ref{prop:fast} falls monotonically from $+1.00$ to $+0.09$,
 and its correlation with the size shares, the slow limit of
-Proposition~\ref{prop:slow} at $p = 1$, rises monotonically from $+0.03$ to $+0.94$
-($+0.996$ by rank) over the same sweep. The crossover, where the two
+Proposition~\ref{prop:slow} at $p = 1$, rises monotonically from $+0.04$ to $+0.92$
+($+0.995$ by rank) over the same sweep. The crossover, where the two
 associations are equal, sits between $\theta_{\text{abs}} = 10$ and
 $15$, two to three shock windows. The simulation's remaining role is to
 locate the crossover, since the two endpoint allocations are derived.
@@ -1036,13 +1046,14 @@ opposite reading, automation as a \emph{supply} shock that makes scarce
 human work dearer, inverts equation~\eqref{eq:price-feedback} and is
 destabilising, since a dearer wage opens the takeover gate. Run as a
 single pass at $\sigma = 3$, the scarcity reading collapses the labour
-share to $0.33$ (capital chases the work it has just made dear), while
-the demand reading lifts it to $0.83$. The fixed-price value $0.58$
+share to $0.34$ (capital chases the work it has just made dear), while
+the demand reading lifts it to $0.81$. The fixed-price value $0.58$
 sits between. Labour shares in this section hold the allocation at
 its baseline, which isolates the price channel. The headline shares of
 \textcite{storck2026fields} re-solve the allocation as well and are
-correspondingly higher, $0.626$ at fixed prices and $0.78$ at the fixed
-point below. The headline depends on the sign, which therefore must be
+correspondingly higher, $0.644$ at fixed prices, the static paper's
+headline reproduced through the shared anchored sorting kernel, and
+$0.73$ at the fixed point below. The headline depends on the sign, which therefore must be
 chosen on economic grounds, and it stands on the model's own ground
 before any external authority. The estimated field is an assignment
 price rather than a scarcity price: the socio-cognitive north is both
@@ -1053,9 +1064,10 @@ closure, the demand reading is the self-correcting one, and
 self-correction is what lets a fixed point exist at all; the scarcity
 collapse above is the self-amplification of the alternative. Nor is the
 choice delicate in the elasticity: across $\sigma$ from $0.5$ to $5$
-the fixed-point lift of the labour share stays positive throughout and
-the log price level scales as $1/\sigma$, from $-1.30$ to $-0.17$, so the
-sign-dependent quantities change magnitude but never direction.
+the fixed-point lift of the labour share stays positive throughout,
+from $+0.17$ to $+0.06$, and the log price level runs from $-0.16$ to
+$-0.04$, so the sign-dependent quantities change magnitude but never
+direction.
 \textcite{acemoglu2024rents} corroborate the choice from outside the
 model, since automation dissipates rents and lowers wages.
 
@@ -1087,22 +1099,22 @@ evidence beyond the point, the iteration lands on the same fixed point
 from four starting fields, zeros, both one-pass extremes including the
 wrong-signed scarcity field, and a seeded random perturbation, and at
 every converging damping ($\tfrac14$, $\tfrac38$, $\tfrac12$), with the
-labour share agreeing to $3\times10^{-5}$. The slope
-scales as $1/\sigma$ ($\sigma K = 4.77$ at $\sigma = 0.5$ against
-$4.78$ at $\sigma = 3$), which places the failure boundary at
-$d = \tfrac12$ near $\sigma = 1.6$. At $\sigma = 1$ the iteration
+labour share agreeing to $10^{-4}$. The slope
+scales approximately as $1/\sigma$ ($\sigma K = 4.44$ at $\sigma = 0.5$
+against $4.77$ at $\sigma = 3$), which places the failure boundary at
+$d = \tfrac12$ near $\sigma = 1.5$. At $\sigma = 1$ the iteration
 indeed fails at $d = \tfrac12$ and converges at $d = \tfrac14$ and
 $\tfrac18$ to the same point. The fixed point does not depend on the
 damping; only the path to it does, and the baseline iteration converges
-in nine damped steps.
+in six damped steps.
 
 The self-consistent state is an interior point rather than the
-one-pass extreme. The labour share settles at $0.73$ (against $0.58$ at
-fixed prices), the log price level falls $0.26$, and displacement is
-cut by roughly $44$ percent ($D_o$ from $0.28$ to $0.16$). The wage
-adjustment absorbs most of the shock. Human work becomes about a
-quarter cheaper, capital adopts far less, and the labour share stays
-high, but the harm now sits in the wage \emph{level} rather than in
+one-pass extreme. The labour share settles at $0.68$ (against $0.58$ at
+fixed prices), the log price level falls $0.06$, and displacement is
+cut by roughly $20$ percent ($D_o$ from $0.28$ to $0.22$). The wage
+adjustment absorbs part of the shock. Human work becomes about six
+percent cheaper, capital adopts less, and the labour share rises, with
+part of the harm moved into the wage \emph{level} rather than
 employment, the rent- and wage-dissipation of
 \textcite{acemoglu2024rents}.
 
@@ -1111,19 +1123,21 @@ Wired into the transition, with the price responding to the current
 adoption and allocation at every step through
 equation~\eqref{eq:price-feedback} with a one-step lag, the feedback
 shapes the whole path. The wage level falls monotonically as adoption
-rises, from $-0.09$ early to a plateau at $-0.29$, and the displacement
-wave is markedly gentler. The unbound-mass peak falls by about $63$
-percent (from $0.44$ to $0.16$ percent of the workforce) at the same
+rises, from $-0.01$ early to a plateau at $-0.13$, and the displacement
+wave is markedly gentler. The unbound-mass peak falls by about $41$
+percent (from $0.27$ to $0.16$ percent of the workforce) at the same
 timing, and the reinstated stock ends lower, because the falling wage
 deters the automation that would have produced the mismatch. The
-transition lands where the static fixed point says it should. The
-dynamic end-state labour share ($0.739$) matches the static fixed point
-($0.73$); the log price levels ($-0.285$ against $-0.26$) differ by about
-ten per cent of the value. Two independent constructions, static
-fixed-point iteration and dynamic time-stepping, land within this gap
-of the same equilibrium, so the price feedback is a property of the
-model rather than of either method, and the static and dynamic accounts
-cohere.
+transition lands on the static fixed point in the labour share and near
+it in the price level. The dynamic end-state share ($0.688$) lands
+within $0.007$ of the static fixed point ($0.681$); the log price
+levels ($-0.129$ against $-0.062$) agree in sign and order of magnitude
+and no further. The residual gap has an identified structural source:
+the dynamic crowding density includes the accumulated bound stock,
+which the static re-solve's density does not, so the dynamic close
+prices a congestion the static close never sees. Harmonising the two
+densities is deferred; the labour share, which both closes deliver from
+their own allocations, is the object on which the constructions meet.
 
 \paragraph{What this does and does not establish.}
 The feedback is first-order. At fixed prices both layers overstate the
@@ -1135,12 +1149,13 @@ equation~\eqref{eq:price-feedback} is the AR wage law applied
 region-wise rather than a full re-solve of the assignment programme of
 \textcite{storck2026fields}. The AI field remains one illustrative
 instance of a technology field rather than a measurement. Across $\sigma$ from
-$5$ to $0.5$ the fixed-point lift of the labour share runs from $+0.11$
-to a peak of $+0.20$ at $\sigma = 1$, and the damping of the mismatch
-hump rises from $46$ to $89$ per cent. We therefore read the result
+$5$ to $0.5$ the fixed-point lift of the labour share rises from $+0.06$
+to $+0.17$, and the damping of the mismatch
+hump rises from $28$ to $88$ per cent. We therefore read the result
 as establishing the \emph{direction and order of magnitude} of the price
-feedback, and the mutual consistency of the static and dynamic closes, rather
-than a calibrated forecast of the labour share.
+feedback, and the agreement of the static and dynamic closes on the
+share, rather
+than a calibrated forecast of its level.
 
 %% ============================================================
 \section{Discussion}
@@ -1269,8 +1284,8 @@ capacity-scaling exponent, the crossover between them is derived in
 closed form in a two-occupation economy, and the realised destination
 moves monotonically between the limits with the tempo. The
 general-equilibrium close leaves both results standing: the price
-feedback is stabilising, and the static and dynamic accounts land on
-the same fixed point. The same technology yields a different
+feedback is stabilising, and the static and dynamic closes agree on the
+labour share. The same technology yields a different
 distribution of work depending only on how fast it arrives. The cost
 and the outcome of automation are, in this sense, properties of the
 path and not only of the endpoint.
@@ -1311,7 +1326,7 @@ external validity of the coordinates are established in
 
 The price of skill is the reduced form of eq.~\eqref{eq:price-field},
 estimated once on the occupational wage cross-section ($785$
-occupations with observed mean wages) and held fixed under the shock.
+occupations with observed median wages) and held fixed under the shock.
 The coefficients and their HC3 standard errors are those of
 eq.~\eqref{eq:price-estimates}, with $R^2 = 0.523$. Two structural
 checks discipline the form. The isotropic depth term is
@@ -1418,9 +1433,11 @@ eq.~\eqref{eq:operated} \\
 $\beta$ & $0.5$ & normalised: congestion benchmark \\
 $\gamma$ & $0.5$ & set: seeded fraction of displaced mass; swept in the
 static companion \\
-$\nu$ & $11.8$ & rule: one SD of baseline occupation value per logit
-unit, evaluated at $A_K = 0$ \\
-$c_m$ & $23.0$ & rule: the median move costs one $\nu$ \\
+$\nu$ & $16.4$ & rule: one SD of the zero-technology occupation value
+per logit unit \\
+$c_m$ & $31.8$ & rule: the median move costs one $\nu$ \\
+$\alpha_o$ & balanced & rule: destination balancing of the logit
+kernel; observed employment is the zero-technology rest point \\
 $\xi_K,\ \chi_K$ & $38.4^\circ,\ 0.463$ & calibrated: least-squares fit
 to the exposure surface \\
 $z_K$ & $0.583$ & calibrated: same fit \\

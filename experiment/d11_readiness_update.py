@@ -72,6 +72,12 @@ Regimes theta = 1 / 15 (pooled theta_L = theta_abs), T_shock = 5,
 T_max = 60, births off, baseline binding law, p = 1.
 
 Usage: python experiment/d11_readiness_update.py   (about 5 minutes)
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -102,12 +108,12 @@ T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
 ELL, RHO = 0.133, 0.5
 
 # Frozen d02 tie-in (tolerance 0.02).
-D02_PEARSON, D02_SIZE_RANK = 0.371, 0.950
+D02_PEARSON, D02_SIZE_RANK = 0.391, 0.941
 
-# Frozen d11 baselines (first accepted run, tolerance 0.02).
-BASE = {"gradual":   dict(h1=0.909, l1=0.218, corr=0.883, drift_rw=0.120),
-        "congested": dict(h1=0.551, l1=0.034, corr=0.998, drift_rw=0.045)}
-BASE_CROSS_ON = 0.092
+# Frozen d11 baselines (tolerance 0.02).
+BASE = {"gradual":   dict(h1=0.914, l1=0.205, corr=0.889, drift_rw=0.108),
+        "congested": dict(h1=0.571, l1=0.033, corr=0.998, drift_rw=0.043)}
+BASE_CROSS_ON = 0.120
 
 
 def main():
@@ -188,7 +194,7 @@ def main():
     assert abs(pear_on - BASE_CROSS_ON) < 0.02, f"cross-regime on drifted: {pear_on:.3f}" 
     lines += [
         f"cross-regime Pearson: frozen {pear_off:+.3f}  ->  updating {pear_on:+.3f}"
-        f"   (H3: falls below +0.371)",
+        f"   (H3: falls below the frozen d02 value +0.391)",
     ]
 
     # ---- figure ----

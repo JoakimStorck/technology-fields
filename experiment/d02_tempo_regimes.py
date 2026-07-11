@@ -28,6 +28,12 @@ regimes and the correlation is well defined; the birth layer belongs to the
 birth extension (probe_allocation.py).
 
 Usage: python experiment/d02_tempo_regimes.py
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -57,8 +63,8 @@ THETA_GRADUAL, THETA_CONGESTED = 1.0, 15.0
 T_SHOCK, T_MAX, DT = 5.0, 60.0, 0.2
 
 # Frozen baseline (this machine, this calibration), absolute tolerance 0.02.
-BASELINE_PEARSON = 0.371
-BASELINE_SPEARMAN = 0.308
+BASELINE_PEARSON = 0.391
+BASELINE_SPEARMAN = 0.317
 
 
 def weighted_pearson(x, y, w):
@@ -112,8 +118,8 @@ def main():
             claim_p=float(pearsonr(r, claim)[0]), claim_s=float(spearmanr(r, claim)[0]),
             size_p=float(pearsonr(r, size)[0]), size_s=float(spearmanr(r, size)[0]),
             q_claim=quartile_shares(r, claim), q_size=quartile_shares(r, size))
-    assert abs(mech["gradual"]["claim_p"] - 0.833) < 0.02
-    assert abs(mech["congested"]["size_s"] - 0.950) < 0.02
+    assert abs(mech["gradual"]["claim_p"] - 0.845) < 0.02
+    assert abs(mech["congested"]["size_s"] - 0.941) < 0.02
 
     occ = layer.occ
     lines = [
@@ -147,8 +153,8 @@ def main():
     # with shares of the regime total; top-three identities frozen.
     TOP3_G = ("Preventive Medicine Physicians", "Physicists",
               "Natural Sciences Managers")
-    TOP3_C = ("Fast Food and Counter Workers", "Preventive Medicine Physicians",
-              "Waiters and Waitresses")
+    TOP3_C = ("Preventive Medicine Physicians", "Fast Food and Counter Workers",
+              "Dishwashers")
     ig = np.argsort(rg)[::-1][:10]
     ic = np.argsort(rc)[::-1][:10]
     assert tuple(occ["Title"].iloc[ig[:3]]) == TOP3_G, \

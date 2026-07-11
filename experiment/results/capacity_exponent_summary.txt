@@ -3,12 +3,12 @@ c_o = (dt/theta_abs) M_tot M_o^p / sum M^p, p in (0.5, 0.7, 1.0);
 regimes theta = 1 / 15 (pooled), T_shock = 5, births off.
 
    p  cross Pearson  cross rank  size rank (cong)  top size Q  bottom Q
- 0.5         +0.684      +0.839            +0.491       35.3%     15.7%
- 0.7         +0.530      +0.567            +0.784       42.6%     10.0%
- 1.0         +0.371      +0.308            +0.950       57.2%      3.8%
+ 0.5         +0.716      +0.869            +0.437       34.5%     16.2%
+ 0.7         +0.563      +0.601            +0.749       41.3%     10.4%
+ 1.0         +0.391      +0.317            +0.941       55.9%      3.9%
 
 deep limit (theta_L = 1, theta_abs = 120): realised allocation vs the
 generalised Prop 2 closed form R_o = [M0^(1-p) + (1-p)s*]^(1/(1-p)) - M0:
-   p = 0.5:  rel L1 = 0.108   corr = +0.9753   corr with fast endpoint = +0.140
-   p = 0.7:  rel L1 = 0.156   corr = +0.9698   corr with fast endpoint = +0.103
-   p = 1.0:  rel L1 = 0.279   corr = +0.9391   corr with fast endpoint = +0.070
+   p = 0.5:  rel L1 = 0.121   corr = +0.9666   corr with fast endpoint = +0.162
+   p = 0.7:  rel L1 = 0.176   corr = +0.9553   corr with fast endpoint = +0.122
+   p = 1.0:  rel L1 = 0.309   corr = +0.9178   corr with fast endpoint = +0.086

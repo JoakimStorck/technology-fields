@@ -2,42 +2,42 @@ tempo_regimes -- the destination of reinstated work depends on the tempo
 gradual theta = 1, congested theta = 15 (theta_L = theta_abs = theta), T_shock = 5 years, births off
 final reinstated mass per occupation, n = 849 pre-existing occupations
 
-corr(gradual, congested), Pearson, unweighted:      +0.371   (the headline)
-corr(gradual, congested), Spearman rank:            +0.308
-corr(gradual, congested), Pearson, L0-weighted:     +0.680
-reinstated mass totals: gradual 0.1046, congested 0.1182
+corr(gradual, congested), Pearson, unweighted:      +0.391   (the headline)
+corr(gradual, congested), Spearman rank:            +0.317
+corr(gradual, congested), Pearson, L0-weighted:     +0.715
+reinstated mass totals: gradual 0.0777, congested 0.1074
 
 mechanism evidence (claim = unconstrained seed-weighted claim share at beta_m = 3; size = pre-shock task mass):
   gradual:
-    corr(absorption, claim): pearson +0.833  spearman +0.916
-    corr(absorption, size):  pearson +0.039  spearman +0.104
+    corr(absorption, claim): pearson +0.845  spearman +0.923
+    corr(absorption, size):  pearson +0.039  spearman +0.097
     share of reinstated mass by claim quartile (low->top): 11%  16%  23%  49%
     share of reinstated mass by size quartile  (low->top): 22%  24%  25%  28%
   congested:
-    corr(absorption, claim): pearson +0.370  spearman +0.213
-    corr(absorption, size):  pearson +0.518  spearman +0.950
-    share of reinstated mass by claim quartile (low->top): 19%  18%  26%  37%
-    share of reinstated mass by size quartile  (low->top): 4%  11%  28%  57%
+    corr(absorption, claim): pearson +0.389  spearman +0.229
+    corr(absorption, size):  pearson +0.493  spearman +0.941
+    share of reinstated mass by claim quartile (low->top): 18%  18%  26%  37%
+    share of reinstated mass by size quartile  (low->top): 4%  12%  28%  56%
 
 top gainers (share of regime total reinstated mass), gradual:
-   1.44%  Preventive Medicine Physicians
-   1.29%  Physicists
-   0.98%  Natural Sciences Managers
-   0.77%  Chief Executives
+   1.39%  Preventive Medicine Physicians
+   1.28%  Physicists
+   0.94%  Natural Sciences Managers
+   0.75%  Chief Executives
    0.63%  Dishwashers
+   0.62%  Aerospace Engineering and Operations Technologists and Technicians
+   0.60%  Epidemiologists
    0.59%  Mechanical Engineering Technologists and Technicians
-   0.59%  Aerospace Engineering and Operations Technologists and Technicians
-   0.59%  Epidemiologists
-   0.51%  Bioengineers and Biomedical Engineers
-   0.49%  Mechanical Engineers
+   0.50%  Bioengineers and Biomedical Engineers
+   0.48%  Mechanical Engineers
 top gainers, congested:
-   0.70%  Fast Food and Counter Workers
-   0.68%  Preventive Medicine Physicians
-   0.66%  Waiters and Waitresses
-   0.63%  Dishwashers
-   0.60%  Solar Energy Installation Managers
-   0.59%  Receptionists and Information Clerks
-   0.58%  Food Preparation Workers
-   0.57%  Electricians
-   0.54%  Dining Room and Cafeteria Attendants and Bartender Helpers
+   0.70%  Preventive Medicine Physicians
+   0.67%  Fast Food and Counter Workers
+   0.66%  Dishwashers
+   0.64%  Waiters and Waitresses
+   0.56%  Receptionists and Information Clerks
+   0.56%  Solar Energy Installation Managers
+   0.56%  Dining Room and Cafeteria Attendants and Bartender Helpers
+   0.55%  Food Preparation Workers
+   0.55%  Education Administrators, Kindergarten through Secondary
    0.54%  Medical and Health Services Managers

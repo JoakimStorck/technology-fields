@@ -34,6 +34,12 @@ Births are disabled (see d02). All numbers write to experiment/results/ and
 are asserted against the frozen baseline.
 
 Usage: python experiment/d04_survival_gate_robustness.py
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 import importlib.util
 import sys
@@ -72,11 +78,11 @@ VARIANTS = {
 
 # Frozen baseline (this machine, this calibration), tolerance 0.02.
 BASELINE = {                # corr(grad, cong), congested size-Spearman
-    "baseline": (0.371, 0.950),
-    "gate_off": (0.347, 0.961),
-    "ca_0.5": (0.394, 0.942),
-    "ca_1": (0.417, 0.932),
-    "ca_2": (0.457, 0.907),
+    "baseline": (0.391, 0.941),
+    "gate_off": (0.360, 0.956),
+    "ca_0.5": (0.410, 0.933),
+    "ca_1": (0.430, 0.922),
+    "ca_2": (0.466, 0.895),
 }
 
 

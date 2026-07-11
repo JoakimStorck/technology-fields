@@ -2,10 +2,10 @@ variable,count
 d,14
 under,13
 f,12
+Um,11
 inp,11
 k,10
 self.qk_grid,10
-Um,9
 over,9
 q_new,9
 self.Sq,9
@@ -22,6 +22,7 @@ self.gx,7
 self.gy,7
 self.q0,7
 Mtot,6
+alpha,6
 c,6
 dt,6
 dyn.area,6
@@ -34,6 +35,8 @@ Wm,5
 Z,5
 _iface,5
 _ispec,5
+a,5
+al,5
 dyn.n0,5
 ell,5
 g0_grid,5
@@ -46,6 +49,7 @@ self.n0,5
 self.ncell,5
 strip_wD,5
 d_all,4
+dyn.n_occ,4
 fit_best,4
 grid,4
 inp.grid,4
@@ -83,6 +87,7 @@ t_o.sum,3
 ts,3
 BETA,2
 GammaD_prev,2
+NMIN,2
 R,2
 TAU,2
 T_shock,2
@@ -92,7 +97,6 @@ dyn.density,2
 dyn.distances,2
 dyn.gx,2
 dyn.gy,2
-dyn.n_occ,2
 eq.area,2
 eq.pi_cell,2
 importlib,2
@@ -114,12 +118,12 @@ rec,2
 self._cap.v,2
 self.ell,2
 t,2
+A_scale,1
 Dyn,1
 ESTAR,1
 L0.copy,1
 M.sum,1
 Mp.sum,1
-NMIN,1
 P.sum,1
 Path,1
 Path.resolve,1
@@ -130,6 +134,7 @@ Wm.sum,1
 __file__,1
 _iface.load_static_layer,1
 absorbed.sum,1
+anchored,1
 astype,1
 cap.q,1
 cap.v_gate,1
@@ -157,6 +162,7 @@ inp.occ,1
 inp.occ.to_numpy,1
 inp.occ.to_numpy.copy,1
 iter,1
+layer.alpha,1
 layer.eq,1
 match_beta,1
 next,1

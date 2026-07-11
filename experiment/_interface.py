@@ -15,21 +15,25 @@ object, StaticLayer, holding
     rho, lam_over -- Table `economy-parameters` of the static manuscript),
   - a survival-gated Equilibrium with the shared attachment primitive
     (eq.e = model.regime._fit = the companion's eq. `attachment`),
-  - the mobility reference (kappa, c) computed by the companion's rule
-    (kappa = one SD of baseline occupation value; the median move costs
-    one kappa), evaluated at A_K = 0.
+  - the anchored mobility reference (kappa, c, alpha), the committed
+    static rule scripts/_setup.anchor_reference shared verbatim with the
+    static pipeline: kappa = one SD of the ZERO-FIELD occupation value
+    (technology-free), the median move costs one kappa, and the occupation
+    constants alpha_o balance the logit kernel so that the observed L0 is
+    the fixed point of the zero-field sorting map
+    (model.equilibrium.anchor_alpha). eq.alpha is set, so every solve or
+    resort on the layer's Equilibrium runs the anchored kernel.
 
-Mobility-reference evaluation state. The companion's scripts evaluate the
-same rule with the Equilibrium constructed at the CALIBRATED technology
-(a > 0 enters the strip value), giving kappa 11.61, c 22.58 (the static
-table's 11.6/22.6). This layer evaluates it at the pre-shock baseline
-A_K = 0 -- the state the dynamics start from -- giving kappa 11.84,
-c 23.02 (the dynamic manuscript's 11.8/23.0). Same rule, different
-evaluation state; the difference is two per cent and moves no reported
-number at its stated precision (checked for the d08 fixed point). Every
-dynamic-paper script consumes THIS reference, so the dynamic layer is
-internally consistent; the static scripts are untouched, since changing
-their kappa would perturb every static re-sort result.
+Anchoring. The static manuscript states the requirement the constants
+meet: without alpha_o the observed allocation is not a rest point of the
+logit, and a solved path mixes the technology's effect with a baseline
+relocation that has nothing to do with the technology. The pre-revision
+layer carried no alpha and computed kappa from density_and_value after
+set_maturity(0.0) -- a mixed state, since set_maturity did not refresh the
+strip weights baked at the calibrated technology -- giving kappa 11.84,
+c 23.02 against the anchored zero-field 16.37, 31.83 (the static table's
+16.4/31.8). d00_zero_field_anchor.py guards the anchor and documents the
+drift the pre-revision kernel produced.
 
 If the dynamic layer moves to a dedicated repository, this module is the cut
 line: load_static_layer() is reimplemented as a reader of a serialized
@@ -82,23 +86,31 @@ class StaticLayer:
     """Plain container (not a dataclass: this module is loaded via importlib
     spec by scripts, where dataclass machinery breaks)."""
 
-    def __init__(self, inp, L0, occ, tech, ell, eq, g0_grid, g0_task, kappa, c):
+    def __init__(self, inp, L0, occ, tech, ell, eq, g0_grid, g0_task, kappa, c,
+                 alpha=None):
         self.inp, self.L0, self.occ = inp, L0, occ
         self.tech, self.ell, self.eq = tech, ell, eq
         self.g0_grid, self.g0_task = g0_grid, g0_task
-        self.kappa, self.c = kappa, c
+        self.kappa, self.c, self.alpha = kappa, c, alpha
         self.R, self.tau, self.beta, self.gamma = R, TAU, BETA, GAMMA
         self.rho, self.lam_over = RHO, LAM_OVER
 
     def set_maturity(self, A_K: float) -> np.ndarray:
         """Update the A_K-dependent arrays of eq in place (s_K = 1, eta = 1)
-        and return the operated share on the grid."""
+        and return the operated share on the grid. The strip weights are
+        refreshed with the takeover, so density_and_value is internally
+        consistent at every maturity (the pre-revision version left strip_wD
+        baked at the calibrated technology; at the layer's eta = 1 the demand
+        multiplier D_task is identically one, so strip_wD = strip_w * D_task
+        is exact)."""
         eq = self.eq
         a_grid = 1.0 / (1.0 + np.exp(-(A_K * self.g0_grid - self.R / eq.pi_cell) / self.tau))
         a_task = 1.0 / (1.0 + np.exp(-(A_K * self.g0_task - self.R / eq.pi_task) / self.tau))
         eq.a_grid = a_grid
         eq.a_task = a_task
         eq.D_o = np.bincount(eq.row_of, weights=eq.b_w * a_task, minlength=eq.n_occ)
+        eq.strip_w = eq.b_w * (1.0 - a_task) * eq.pi_task
+        eq.strip_wD = eq.strip_w * eq.D_task
         return a_grid
 
 
@@ -125,13 +137,17 @@ def load_static_layer(cached: bool = True) -> StaticLayer:
 
     layer = StaticLayer(inp=inp, L0=L0, occ=occ, tech=tech, ell=ell, eq=eq,
                         g0_grid=g0_grid, g0_task=g0_task, kappa=0.0, c=0.0)
-    # Mobility reference at the pre-technology baseline (A_K = 0), by the
-    # companion's rule: kappa = SD of baseline occupation value W0; the median
-    # move costs one kappa.
-    layer.set_maturity(0.0)
-    _, _, W0 = eq.density_and_value(L0)
-    layer.kappa = float(np.std(W0))
-    layer.c = layer.kappa / float(np.median(eq.d[eq.d > 0]))
+    # Anchored mobility-and-alpha reference: the committed static rule,
+    # shared verbatim with the static pipeline (scripts/_setup). kappa = one
+    # SD of the zero-field occupation value; the median move costs one kappa;
+    # alpha_o makes the observed L0 the fixed point of the zero-field sorting
+    # map. The rule is technology-free (eq.zero_field_value reads no field
+    # object), so the reference coincides with the pre-shock state A_K = 0
+    # that the dynamics start from, and one (c, kappa, alpha) serves the era.
+    c, kappa, _, alpha = _setup.anchor_reference(eq, L0)
+    layer.kappa, layer.c, layer.alpha = kappa, c, alpha
+    eq.alpha = alpha
+    layer.set_maturity(0.0)          # leave eq in the pre-shock state
 
     if cached:
         _CACHE["layer"] = layer

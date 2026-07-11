@@ -36,6 +36,13 @@ bump not a full q-vector; (S2) W is one bundle-value integral (presence x place
 value); (S3) birth = fit-gap + carrying-capacity threshold, periodic check, capped.
 The capacity C(r) = sum_o L_o FIT_o(r) is the static paper's attachment capacity
 (same primitive, same parameters). eta=1, survival on. No committed code touched.
+
+The population re-sort runs the ANCHORED kernel of the static paper's
+eq. `transition-probability`: P(o | o') = softmax((W_o + alpha_o - c d)/kappa),
+with alpha_o from scripts/_setup.anchor_reference through the interface, so the
+observed L0 is a rest point of the zero-field sorting map and L - L0 is the
+technology's own response (d00 guards this; anchored=False keeps the
+pre-revision kernel for the d00 contrast only).
 """
 import importlib.util, sys
 from pathlib import Path
@@ -168,8 +175,13 @@ class Dyn:
         # as in equilibrium.py; reinstated term = value of accumulated grain. Earlier
         # this multiplied a density by cell area and mis-scaled W ~871x, leaving the
         # re-sort distance/noise-driven; this restores value to the mobility logit.
-        with np.errstate(divide="ignore", invalid="ignore"):
-            nb1 = np.where(n > 0, n**(BETA-1.0), 0.0)
+        # The density floor NMIN matches the static value convention
+        # (Equilibrium.density_and_value and zero_field_value both floor at
+        # NMIN, and zero_field_value is the anchoring reference), and it caps
+        # the marginal value at near-empty cells exactly as place_value does;
+        # the pre-revision where(n > 0, ...) let tiny positive densities carry
+        # diverging value into W.
+        nb1 = np.maximum(n, NMIN)**(BETA-1.0)
         a_task = self.eq.a_task; pi_task = self.eq.pi_task
         strip_wD = self.b_w*(1.0-a_task)*pi_task
         W = np.zeros(self.n_occ)
@@ -197,9 +209,18 @@ class Dyn:
         return self.n_occ-1
 
 
-def softmax_target(dyn, W, c, kappa):
+def softmax_target(dyn, W, c, kappa, alpha=None):
+    """Sorting target L @ P with the anchored logit kernel
+    P(o | o') = softmax((W_o + alpha_o - c d)/kappa), the static paper's
+    eq. `transition-probability`. alpha carries the static anchoring
+    constants for the original occupations; newborns get alpha = 0, the
+    kernel's normalised mean. alpha = None runs the unanchored
+    pre-revision kernel and is kept only for the d00 contrast."""
     d = dyn.distances()
-    Um = (W[None,:]-c*d)/kappa; Um -= Um.max(1, keepdims=True)
+    a = np.zeros(dyn.n_occ)
+    if alpha is not None:
+        a[:alpha.size] = alpha
+    Um = (W[None,:]+a[None,:]-c*d)/kappa; Um -= Um.max(1, keepdims=True)
     P = np.exp(Um); P /= P.sum(1, keepdims=True)
     return dyn.L @ P
 
@@ -208,7 +229,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
          verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
          survival_gate=True, ca_lambda=0.0, binding_law="match_allocated",
-         cap_exponent=1.0, readiness_update=False):
+         cap_exponent=1.0, readiness_update=False, anchored=True, A_scale=1.0):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
     # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
@@ -223,6 +244,13 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
     #   the aggregate absorption rate (dt/theta_abs) M_tot is preserved for
     #   every p, so the exponent moves only the cross-sectional allocation of
     #   capacity, not the effective tempo. p = 1 is exactly the baseline law.
+    # anchored: run the sorting with the static anchoring constants alpha_o
+    #   (layer.alpha), so the observed L0 is a rest point of the zero-field
+    #   sorting map and L - L0 is the technology's own response. False runs
+    #   the unanchored pre-revision kernel; kept only for the d00 contrast.
+    # A_scale: multiplies the maturation trajectory A_K(t). 1.0 is the shock;
+    #   0.0 is the zero-technology guard run of d00 (no seeding, no births,
+    #   the population should stay at L0 up to the gate tail).
     # readiness_update: the d11 variant. Bound mass updates the occupation's
     #   bundle by mass-as-relevance renormalisation: the bundle becomes a mixed
     #   measure (original mass M_o(0) at the measured centroid/capability
@@ -253,6 +281,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
         h_grid = h_task = None
     set_AK(eq, 0.0, g0_grid, g0_task, h_grid, h_task)
     kappa, c = layer.kappa, layer.c
+    alpha = layer.alpha if anchored else None
     if readiness_update:
         assert binding_law == "match_allocated", \
             "readiness_update only implemented for the baseline binding law"
@@ -263,7 +292,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
     # theta_L and theta_abs are calendar timescales and the outcome is governed by the
     # ratio of the shock tempo (T_shock) to the redistribution tempo (theta_abs/theta_L).
     k_shock = 5.88/T_shock                                        # 5%->95% spans T_shock years
-    A_of = lambda t: A_final/(1.0+np.exp(-k_shock*(t-0.5*T_shock)))
+    A_of = lambda t: A_scale*A_final/(1.0+np.exp(-k_shock*(t-0.5*T_shock)))
     ts = np.arange(0.0, T_max+dt, dt); GammaD_prev = None
     rec = {k: [] for k in ("t","A_K","U_tot","B_tot","n_occ","emp_newborn","Lsum",
                            "cap_util")}
@@ -352,7 +381,10 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
                 W_new_prosp = float(np.sum((dyn.B+dyn.U)*gap*pv*local*dyn.area))
                 dj = np.hypot(dyn.mu[:dyn.n0,0]-dyn.gx[j], dyn.mu[:dyn.n0,1]-dyn.gy[j])
                 d_all = dyn.distances()[:dyn.n0,:]
-                Um = (W[None,:]-c*d_all)/kappa; m = Um.max(1, keepdims=True)
+                al = np.zeros(dyn.n_occ)
+                if alpha is not None:
+                    al[:alpha.size] = alpha                  # newborn alpha = 0
+                Um = (W[None,:]+al[None,:]-c*d_all)/kappa; m = Um.max(1, keepdims=True)
                 Z = np.exp(Um-m).sum(1)
                 w_new = np.exp((W_new_prosp-c*dj)/kappa - m[:,0])
                 T_new = float(np.sum(dyn.L[:dyn.n0]*w_new/(Z+w_new)))
@@ -360,7 +392,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
                     dyn.add_occupation(np.array([dyn.gx[j], dyn.gy[j]]), t)
         # re-sort population (moving origin), incl. newborns (W after any birth)
         W = dyn.values(dyn.density())
-        Tgt = softmax_target(dyn, W, c, kappa)
+        Tgt = softmax_target(dyn, W, c, kappa, alpha)
         dyn.L = dyn.L + (dt/theta_L)*(Tgt - dyn.L)
         emp_new = float(np.sum(dyn.L[dyn.n0:])) if dyn.n_occ > dyn.n0 else 0.0
         rec["t"].append(t); rec["A_K"].append(A_K)

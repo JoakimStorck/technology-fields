@@ -1,19 +1,19 @@
 d09: dynamic transition, fixed price vs AR price feedback in the loop
-sigma 3, relax 0.3; mobility reference kappa 11.839, c 23.018 (layer rule, A_K = 0)
+sigma 3, relax 0.3; anchored mobility reference kappa 16.373, c 31.832 (zero-field rule + alpha_o)
 
      t    A_K | U_tot fix  U_tot fb | B_tot fix  B_tot fb | dlnPi_mean
-     1   0.09 |    0.0000    0.0000 |    0.0024    0.0016 |    -0.0864
-     2   0.22 |    0.0006    0.0003 |    0.0140    0.0096 |    -0.1434
-     3   0.39 |    0.0044    0.0016 |    0.0580    0.0385 |    -0.1888
-     5   0.57 |    0.0000    0.0000 |    0.1165    0.0720 |    -0.2621
-     8   0.60 |   -0.0000    0.0000 |    0.1168    0.0726 |    -0.2816
-    12   0.60 |   -0.0000    0.0000 |    0.1168    0.0726 |    -0.2846
-    20   0.60 |   -0.0000    0.0000 |    0.1168    0.0726 |    -0.2852
+     1   0.09 |    0.0000    0.0000 |    0.0016    0.0015 |    -0.0032
+     2   0.22 |    0.0003    0.0003 |    0.0103    0.0097 |    -0.0142
+     3   0.39 |    0.0027    0.0016 |    0.0452    0.0389 |    -0.0532
+     5   0.57 |    0.0000    0.0000 |    0.0912    0.0691 |    -0.1286
+     8   0.60 |    0.0000    0.0000 |    0.0914    0.0692 |    -0.1334
+    12   0.60 |    0.0000    0.0000 |    0.0914    0.0692 |    -0.1298
+    20   0.60 |    0.0000    0.0000 |    0.0914    0.0692 |    -0.1286
 
-(H1) U_tot peak: fixed 0.0044 (t=3.0) -> feedback 0.0016 (t=3.0); damping 62.9%
-  end B_tot: fixed 0.1168 -> feedback 0.0726
+(H1) U_tot peak: fixed 0.0027 (t=3.0) -> feedback 0.0016 (t=3.0); damping 41.0%
+  end B_tot: fixed 0.0914 -> feedback 0.0692
 (H2) statics meet dynamics (L0 basis):
-  end price level  -0.2852   (d08 static fixed point -0.2607)
-  end labour share 0.7386   (fixed-Pi 0.5822; d08 static fixed point 0.7334)
+  end price level  -0.1286   (d08 static fixed point -0.2607)
+  end labour share 0.6875   (fixed-Pi 0.5822; d08 static fixed point 0.7334)
 
 all frozen-baseline asserts passed.

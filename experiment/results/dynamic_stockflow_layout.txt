@@ -1,4 +1,4 @@
-cluster AK+disp+gate central to column 1
+cluster AK+gate+disp central to column 1
 bridging W between columns 0..1
 lone gamma peripheral to column 1
 lone theta_abs central to column 1

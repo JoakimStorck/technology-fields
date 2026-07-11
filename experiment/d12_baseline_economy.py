@@ -14,9 +14,10 @@ layer -- price-field coefficients (spec S1_field of
 results/wage_field_coefficients.csv, the estimates of the geometry paper's
 wage-harmonic regression), gate weights v_k (spec V_mediation, priced
 clusters only), the technology calibration, the economy parameters, and the
-mobility reference at the dynamic evaluation state A_K = 0 -- and asserts
-each against its frozen baseline, so a drifted calibration fails loudly
-here before it reaches the appendix tables.
+anchored mobility reference (kappa, c, alpha; the zero-field rule shared
+verbatim with the static pipeline) -- and asserts each against its frozen
+baseline, so a drifted calibration fails loudly here before it reaches the
+appendix tables.
 
 Usage: python experiment/d12_baseline_economy.py   (under a minute)
 """
@@ -53,8 +54,14 @@ PRICE_SE = {"m0": 0.0355, "m1": 0.0484, "m2": 0.0512,
 V_BASE = {"S1": 0.3280, "S2": 0.0493}
 # Technology calibration (cognitive field, static Table technology-calibration).
 TECH_BASE = {"xi_deg": 38.4, "chi": 0.4633, "z": 0.5825, "A": 0.6032}
-# Interpretable readiness scale and mobility reference at A_K = 0.
-ELL_BASE, KAPPA_BASE, C_BASE = 0.133, 11.84, 23.02
+# Interpretable readiness scale and the anchored mobility reference (the
+# static rule scripts/_setup.anchor_reference: kappa = one SD of the
+# zero-field value, the median move costs one kappa, alpha_o balances the
+# kernel so L0 is the zero-field rest point). Frozen from the certified
+# static run (results/equilibrium_regime_summary.txt: kappa 16.373,
+# c 31.832, alpha in [-109.25, +93.66]).
+ELL_BASE, KAPPA_BASE, C_BASE = 0.133, 16.373, 31.832
+ALPHA_RANGE_BASE = (-109.25, 93.66)
 N_OCC_BASE = 849
 
 
@@ -84,6 +91,8 @@ def main():
     assert abs(layer.ell - ELL_BASE) < 5e-4, layer.ell
     assert abs(layer.kappa - KAPPA_BASE) < 5e-3, layer.kappa
     assert abs(layer.c - C_BASE) < 5e-3, layer.c
+    assert abs(float(layer.alpha.min()) - ALPHA_RANGE_BASE[0]) < 5e-2, layer.alpha.min()
+    assert abs(float(layer.alpha.max()) - ALPHA_RANGE_BASE[1]) < 5e-2, layer.alpha.max()
     assert (layer.R, layer.tau, layer.beta, layer.gamma) == (18.0, 0.08, 0.5, 0.5)
     assert (layer.rho, layer.lam_over) == (0.5, 1.0)
     assert eq.n_occ == N_OCC_BASE, eq.n_occ
@@ -159,9 +168,12 @@ def main():
         "capability index)",
         f"   rho = {layer.rho}   lam_over = {layer.lam_over}",
         "",
-        "mobility reference at the dynamic evaluation state A_K = 0:",
+        "anchored mobility reference (zero-field rule + alpha_o, shared",
+        "verbatim with the static pipeline):",
         f"   nu (kappa) = {layer.kappa:.2f}   c_m = {layer.c:.2f}"
-        "   (static table at calibrated A_K: 11.6, 22.6)",
+        f"   alpha in [{layer.alpha.min():+.2f}, {layer.alpha.max():+.2f}]",
+        "   (static equilibrium_regime_summary: 16.37, 31.83,"
+        " [-109.25, +93.66])",
     ]
     iface.write_summary("baseline_economy", lines)
 

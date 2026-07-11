@@ -36,6 +36,12 @@ Every number writes to experiment/results/ and is asserted against the
 frozen baseline (0.02 for correlations, 5% relative for magnitudes).
 
 Usage: python experiment/d07_sigma_sweep.py   (about 8 minutes)
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 from __future__ import annotations
 
@@ -79,17 +85,17 @@ def schedule(sigma):
 
 # Frozen baseline (this machine, this calibration; layer mobility reference).
 BASE_STATIC = {  # sigma: (level, ls_out, ls_L0, Do)
-    0.5: (-1.2971, 0.8050, 0.7505, 0.0815),
-    1.0: (-0.6812, 0.8287, 0.7773, 0.0948),
-    2.0: (-0.3686, 0.8073, 0.7603, 0.1281),
-    3.0: (-0.2607, 0.7785, 0.7334, 0.1561),
-    5.0: (-0.1700, 0.7375, 0.6940, 0.1924),
+    0.5: (-0.1613, 0.8136, 0.7750, 0.1471),
+    1.0: (-0.1138, 0.7847, 0.7426, 0.1760),
+    2.0: (-0.0792, 0.7507, 0.7040, 0.2064),
+    3.0: (-0.0621, 0.7306, 0.6810, 0.2230),
+    5.0: (-0.0447, 0.7073, 0.6543, 0.2407),
 }
 BASE_DYN = {  # sigma: (u_peak_fb, damping)
-    0.5: (0.0005, 0.886), 1.0: (0.0006, 0.859), 2.0: (0.0011, 0.743),
-    3.0: (0.001618, 0.629), 5.0: (0.0024, 0.456),
+    0.5: (0.000329, 0.877), 1.0: (0.000720, 0.731), 2.0: (0.001265, 0.527),
+    3.0: (0.001577, 0.410), 5.0: (0.001934, 0.277),
 }
-BASE_K_ANCHOR = 9.537          # spectral radius at sigma = 0.5, 25 power its
+BASE_K_ANCHOR = 8.887          # spectral radius at sigma = 0.5, 25 power its
 REL = 0.05
 
 

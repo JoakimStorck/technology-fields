@@ -48,6 +48,12 @@ Every number writes to experiment/results/ and is asserted against the
 frozen baseline (0.02 for correlations, 5% relative for magnitudes).
 
 Usage: python experiment/d08_price_feedback_ge.py   (about 2 minutes)
+
+Recalibration note: the frozen baselines in this script were re-frozen
+after the anchoring of the dynamic sorting kernel (alpha_o through the
+interface; patch series 01-04). Point values quoted in the hypothesis
+text above are the pre-anchoring pre-registration record; the
+pre-anchoring baselines remain in git history.
 """
 from __future__ import annotations
 
@@ -83,11 +89,11 @@ POWER_MAXIT, POWER_TOL, POWER_EPS = 40, 1e-3, 1e-3
 
 # Frozen baseline (this machine, this calibration; layer mobility reference).
 BASE = {
-    "ls_fix_L0": 0.5822, "ls_fix_out": 0.6254,
-    "ls_scarcity": 0.3330, "ls_arlevel_1pass": 0.8279,
-    "level_star": -0.2607, "ls_star_L0": 0.7334, "ls_star_out": 0.7785,
-    "Do_fix": 0.2786, "Do_star": 0.1561,
-    "K_gate_sup": 1.644, "K_emp": 1.594,
+    "ls_fix_L0": 0.5822, "ls_fix_out": 0.6439,
+    "ls_scarcity": 0.3367, "ls_arlevel_1pass": 0.8127,
+    "level_star": -0.0621, "ls_star_L0": 0.6810, "ls_star_out": 0.7306,
+    "Do_fix": 0.2786, "Do_star": 0.2230,
+    "K_gate_sup": 1.639, "K_emp": 1.590,
 }
 REL = 0.05  # magnitude tolerance
 
@@ -98,6 +104,7 @@ def _ctx(layer):
     eq0 = Equilibrium(inp, layer.tech, layer.R, layer.tau, layer.gamma,
                       layer.ell, layer.beta, wedge=None, survival=True)
     eq0.L0 = L0
+    eq0.alpha = layer.alpha          # anchored kernel: L0 is the zero-field rest point
     rw, bw, cl, area = eq0.row_of, eq0.b_w, eq0.cell_of, eq0.area
     nL0 = np.bincount(cl, weights=L0[rw] * bw, minlength=grid.xi.size) / area
     return dict(inp=inp, L0=L0, grid=grid, eq0=eq0, rw=rw, bw=bw, cl=cl,
@@ -110,6 +117,10 @@ def _equilibrium_at(layer, ctx, d):
     eqk = Equilibrium(inp_k, layer.tech, layer.R, layer.tau, layer.gamma,
                       layer.ell, layer.beta, wedge=None, survival=True)
     eqk.L0 = ctx["L0"]
+    # alpha is set once per era at the observed baseline (the static rule:
+    # one (c, kappa, alpha) serves every configuration); the adjusted price
+    # field is part of the shock, not a new anchoring state.
+    eqk.alpha = layer.alpha
     Lk = eqk.solve(layer.c, layer.kappa).L
     return inp_k, eqk, Lk
 
@@ -214,8 +225,8 @@ def main():
     ls_fix_L0 = reg_fix_L0["labor_share"]
     ls_fix_out = reg_fix_out["labor_share"]
     emit("d08: GE price feedback -- sign, one-pass extremes, fixed point, contraction")
-    emit(f"sigma {SIGMA:g}, damp {DAMP:g}; mobility reference kappa {layer.kappa:.3f}, "
-         f"c {layer.c:.3f} (layer rule, A_K = 0)")
+    emit(f"sigma {SIGMA:g}, damp {DAMP:g}; anchored mobility reference kappa "
+         f"{layer.kappa:.3f}, c {layer.c:.3f} (zero-field rule + alpha_o)")
     emit(f"fixed-Pi baseline: labour share L0 {ls_fix_L0:.4f} | out.L {ls_fix_out:.4f}; "
          f"D_o mean {reg_fix_out['D_o'].mean():.4f}")
     emit("")

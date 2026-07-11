@@ -22,5 +22,7 @@ economy parameters (static Table economy-parameters):
    ell = 0.133 (one within-direction SD of the priced-capability index)
    rho = 0.5   lam_over = 1.0
 
-mobility reference at the dynamic evaluation state A_K = 0:
-   nu (kappa) = 11.84   c_m = 23.02   (static table at calibrated A_K: 11.6, 22.6)
+anchored mobility reference (zero-field rule + alpha_o, shared
+verbatim with the static pipeline):
+   nu (kappa) = 16.37   c_m = 31.83   alpha in [-109.25, +93.66]
+   (static equilibrium_regime_summary: 16.37, 31.83, [-109.25, +93.66])

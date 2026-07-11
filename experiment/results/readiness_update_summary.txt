@@ -3,19 +3,19 @@ mixed-measure renormalisation; mu, q, FIT re-integrated each step;
 regimes theta = 1 / 15, T_shock = 5, births off.
 
 gradual regime (theta = 1):
-   drift vs bound share r/(M0+r): Spearman +0.909   (H1: > +0.8)
-   drift: mean 0.0751   L0-weighted 0.0122   r-weighted 0.1198   max 0.6464
-   share of occupations with drift > ell: 17.4%   (> rho: 0.2%);  ell = 0.133, rho = 0.5
-   v-weighted capability shift |dq|: mean 0.0136   r-weighted 0.0218   (ell = 0.133)
-   allocation displacement rel L1(on, off) = 0.218   corr(on, off) = +0.883
-   size rank of the allocation, update on: -0.187
+   drift vs bound share r/(M0+r): Spearman +0.914   (H1: > +0.8)
+   drift: mean 0.0654   L0-weighted 0.0099   r-weighted 0.1075   max 0.6353
+   share of occupations with drift > ell: 14.7%   (> rho: 0.1%);  ell = 0.133, rho = 0.5
+   v-weighted capability shift |dq|: mean 0.0118   r-weighted 0.0194   (ell = 0.133)
+   allocation displacement rel L1(on, off) = 0.205   corr(on, off) = +0.889
+   size rank of the allocation, update on: -0.164
 
 congested regime (theta = 15):
-   drift vs bound share r/(M0+r): Spearman +0.551   (H1: > +0.8)
-   drift: mean 0.0532   L0-weighted 0.0236   r-weighted 0.0454   max 0.2328
-   share of occupations with drift > ell: 3.1%   (> rho: 0.0%);  ell = 0.133, rho = 0.5
-   v-weighted capability shift |dq|: mean 0.0102   r-weighted 0.0083   (ell = 0.133)
-   allocation displacement rel L1(on, off) = 0.034   corr(on, off) = +0.998
-   size rank of the allocation, update on: +0.940
+   drift vs bound share r/(M0+r): Spearman +0.571   (H1: > +0.8)
+   drift: mean 0.0504   L0-weighted 0.0215   r-weighted 0.0432   max 0.2242
+   share of occupations with drift > ell: 2.8%   (> rho: 0.0%);  ell = 0.133, rho = 0.5
+   v-weighted capability shift |dq|: mean 0.0097   r-weighted 0.0079   (ell = 0.133)
+   allocation displacement rel L1(on, off) = 0.033   corr(on, off) = +0.998
+   size rank of the allocation, update on: +0.931
 
-cross-regime Pearson: frozen +0.371  ->  updating +0.092   (H3: falls below +0.371)
+cross-regime Pearson: frozen +0.391  ->  updating +0.120   (H3: falls below the frozen d02 value +0.391)
