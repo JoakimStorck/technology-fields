@@ -106,6 +106,10 @@ class Dyn:
         self.sw = np.bincount(eq.row_of, weights=eq.b_w, minlength=eq.n_occ)
         self.original = L0 * self.sw          # pre-shock task mass per occupation (size)
         self.B = np.zeros(self.ncell)
+        self.cap = np.zeros(self.ncell)   # capital-captured seeding density
+                                          # (accumulated only under the gate)
+        self.bind_oc = None               # occupation x cell bound mass,
+                                          # allocated only when tracked
         self.U = np.zeros(self.ncell)
         self.cell_of = eq.cell_of; self.row_of = eq.row_of; self.b_w = eq.b_w
         self.grain = {}
@@ -229,7 +233,8 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          match_beta=3.0, T_shock=5.0, birth_every=10, carry_thresh=0.002, max_births=40,
          verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
          survival_gate=True, ca_lambda=0.0, binding_law="match_allocated",
-         cap_exponent=1.0, readiness_update=False, anchored=True, A_scale=1.0):
+         cap_exponent=1.0, readiness_update=False, anchored=True, A_scale=1.0,
+         track_binding=False):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
     # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
@@ -308,6 +313,8 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
         GammaD_prev = GammaD
         surv = (1.0-a_grid) if survival_gate else np.ones_like(a_grid)
         sdot = GAMMA*dGamma*eq.g_hat*surv
+        if survival_gate:
+            dyn.cap += dt*GAMMA*dGamma*eq.g_hat*a_grid
         dyn.U = dyn.U + dt*sdot                                   # seeding fills the unbound stock
         # MATCH-ALLOCATED, SIZE-RATE-LIMITED binding. The unbound mass is ATTRACTED to
         # the best match: each occupation's claim on a cell's available mass is its
@@ -354,6 +361,10 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
             absorbed_tot = float((des*f).sum())
             dyn.U = dyn.U - absorbed/dyn.area                     # residual stays unbound -> cascades
             dyn.B = dyn.B + absorbed/dyn.area                     # bound density (feeds n)
+            if track_binding:                                 # occupation x cell attribution
+                if dyn.bind_oc is None:
+                    dyn.bind_oc = np.zeros((dyn.n0, dyn.ncell))
+                dyn.bind_oc += t_o[:dyn.n0]*f[:dyn.n0, None]
             if readiness_update:
                 dyn.accumulate_binding(t_o[:dyn.n0]*f[:dyn.n0, None])
                 dyn.update_readiness()

@@ -1,7 +1,7 @@
 """
 run_all.py (experiment/)
 ------------------------
-Run every dynamic producer d00..d12 in order, each in its own process, and
+Run every dynamic producer d00..d14 in order, each in its own process, and
 stop at the first failure. Every producer asserts its own frozen baselines,
 so a clean pass certifies that every number in the manuscript's dynamic
 sections is reproducible from the current tree. The static pipeline
@@ -25,6 +25,8 @@ Default order and approximate runtimes:
                                 Prop 2 verification (~7 min)
   d11  readiness update         the frozen-readiness release (~5 min)
   d12  baseline economy         the inherited-economy figure and asserts (<1 min)
+  d13  fate maps               where seeded mass binds, static vs dynamic (~1 min)
+  d14  binding timeline        the binding year by year and who does it (~2 min)
   cld  structure audit          extracts the dependency graph from the core
                                 and re-emits the stock-flow figure; fails on
                                 any figure edge without a code witness (~1 s)
@@ -33,7 +35,7 @@ A full pass is on the order of 35-45 minutes. After it, run
 paper/sync_figures.py to refresh the manuscript figures.
 
 Usage:
-    python experiment/run_all.py                # d00..d12
+    python experiment/run_all.py                # d00..d14
     python experiment/run_all.py --only d10     # one producer
     python experiment/run_all.py --from d07     # d07 onward
     python experiment/run_all.py --recalibrate  # collection pass, see below
@@ -76,6 +78,8 @@ PIPELINE = [
     ("d10", "d10_capacity_exponent.py"),
     ("d11", "d11_readiness_update.py"),
     ("d12", "d12_baseline_economy.py"),
+    ("d13", "d13_fate_maps.py"),
+    ("d14", "d14_binding_timeline.py"),
     ("cld", "cld/build_figure.py"),
 ]
 

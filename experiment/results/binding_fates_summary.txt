@@ -1,0 +1,18 @@
+fate_maps -- where seeded mass binds, static vs dynamic
+static fates at the solved anchored equilibrium, mature field;
+dynamic fates from the engine's capital accumulator, births off
+
+(H1) static shares of seeded mass: capital 0.274   bound 0.050   unbound 0.676
+     fate identity sup gap: 1.11e-16
+
+(H2/H3) dynamic capital share per tempo (rest bound by labour):
+     theta  1.0: capital 0.123   bound 0.877
+     theta  3.0: capital 0.133   bound 0.867
+     theta 15.0: capital 0.145   bound 0.855
+
+(H4) B field tempo invariance: corr(theta 1, theta 15) = 0.9968   half-L1 = 0.0170
+     the tempo moves which occupations hold the work, not where it binds
+
+(H5) firm median distance from p_K: AI 0.447   robotics 0.635   (z_K = 0.583 between them)
+
+all frozen-baseline asserts passed.
