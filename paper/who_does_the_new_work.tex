@@ -60,27 +60,13 @@ technology fields; occupational task bundles; wage structure.
 \label{sec:intro}
 %% ============================================================
 
-The effects of automation on work content and jobs is of interest not 
-least with the advent of AI-automation technologies with the potential of automating
-intellectual work, with its effects already affecting the labour market.
-Historically, the introduction of new automation technologies has resulted in
-manual tasks becoming obsolete while new tasks have been introduced. 
-Work is reshaped: Some jobs disappear while new jobs emerge. 
-The work content of occupations change, and so does the qualifications for holding an occupation.
-Workers are often displaced, and new jobs are created.
-So who does the new work, and is it possible to say something about the nature of the new work that emerge?
-
-This paper introduces a theory of automation that builds on and extends existing task based models.
-Automation acts on particular tasks, within particular occupations. 
-Workers accumulate human capital in specialized domains, occupations combine multiple tasks into bundles, and
-technologies vary in where they act, how far they reach, and whether
-capital can perform the exposed work more cheaply than labour. 
-When automation displaces some tasks and creates others, the central question
-is not only how many new tasks appear but which workers perform them:
-whether the new work reaches those whose task content was displaced, and
-whether performing it restores their pay. Answering it means asking where
-new tasks appear, which occupations can take them, and whether the tasks
-that return carry the priced content of the tasks that left.
+The arrival of AI-based automation has renewed an old question in a new
+form. Earlier automation waves made manual tasks obsolete and introduced
+others; the work content of occupations changed, and with it the
+qualifications for holding one. Technologies that act on intellectual
+work do the same thing in a different part of the economy. Who does the
+work that such a technology creates, and can anything be said about its
+nature before it exists?
 
 The task-based literature provides the canonical mechanism
 \parencite{acemoglu2011skills}. Automation
@@ -93,39 +79,42 @@ is a powerful result, but it leaves an important question under-specified:
 which workers benefit? If labour enters as one factor, or as a small
 number of aggregate skill groups, reinstatement can be studied in
 aggregate \parencite{acemoglu2022tasks}, but not located in the
-differentiated structure of work.
+differentiated structure of work. Automation acts on particular tasks,
+within particular occupations, held by workers whose capabilities are
+specialized. Whether new work reaches those whose task content was
+displaced, and whether performing it restores their pay, depends on where
+the new tasks appear relative to the capabilities workers already hold.
 
-Assume that work of all kinds can be sorted according to task content into 
-a two dimensional map where all occupations are positioned according to the type of work they represent.
-Then assume that any automation technology can be represented as an operator
-that makes capital productive at performing those kinds of task content that are suitable for that particular automation technology. 
+This paper answers that question by giving both work and technology a
+location. Sort work by task content into a two-dimensional space in which
+every occupation sits at the kind of work it does, and represent an
+automation technology as a field over that space, effective where the work
+suits it and fading with distance. The consequences of a technology then
+depend jointly on where it acts and on how the price of work values what
+it touches, which separates technical exposure from economic incidence by
+construction; that distinction carries the paper's results.
 
-In the following, we show that these assumptions not only are viable but have inteeresting outcomes.
-We introduce the concept of a technology field: a
-representation of a technology as an effectiveness field over a
-two-dimensional task space, with a position, a reach, and an
-amplitude. The task space is the polar geometry of
+The task space is the polar geometry of
 \textcite{storck2026geometry}, in which occupations are bundles of
 tasks calibrated from semantic embeddings of O*NET task statements;
 the angular coordinate captures domain orientation, the radial
 coordinate specialization depth, and depth is rewarded in
 socio-cognitive directions and weakly elsewhere. The present paper
-extends that framework to technological change. It recasts the wage
-structure as a price of work, a field over the space, and gives
-technologies a location in the same space as the work they act on; the
-consequences
-of a technology then depend jointly on where it acts and on how the
-price field values the work it touches. The
-representation separates technical exposure from economic incidence by
-construction, and the distinction carries the paper's results.
+extends that framework to technological change: it recasts the wage
+structure as a price of work, a field over the same space, and places
+technologies in it as fields with a position, a reach, and an amplitude.
 
 The central mechanism is the interaction between a technology field and
 the directional price of work. Capital bears a task only where it is the
 cheaper producer. Within the reach of a technology, the adoption margin
-is therefore crossed first where human work is highly priced. Automation
-does not simply remove occupations; it strips paid content from the
-bundles that define them. An occupation may remain recognizably the
-same while being paid for less of what it does.
+is therefore crossed first where human work is highly priced. 
+Automation does not simply remove occupations; it strips paid content from the bundles that define them. 
+An occupation may remain recognizably the same while being paid for less of what it does. 
+The empirical record supports this reading. 
+Of the detailed occupations enumerated in the 1950 US census, almost all survive in some form, and only one, elevator operators, can be said to have been eliminated by automation. 
+After six decades of automation the occupational structure is more or less the same~\parencite{bessen2019demand}. 
+\textcite{brynjolfsson2018machines} score every O*NET task for its suitability for machine learning and find that most occupations contain some suitable tasks and few contain only suitable tasks. The variance in exposure sits within occupations rather than between them. 
+What automation removes is content, not occupations; what the price field adds is which content it removes first.
 
 Reinstatement is modeled as task creation at the boundary of the
 technology field. The gradient of the field identifies where automated
@@ -148,17 +137,6 @@ automatically worker-benefiting. Reinstatement in a low-priced manual
 or service direction can return work without restoring pay. What
 matters for workers is where the new tasks appear relative to the
 priced capabilities they already hold.
-
-Employment effects also depend on output demand. Automation lowers unit
-cost where capital replaces labour. Under competitive pricing, the cost
-saving is passed to consumers, and demand elasticity determines whether
-the cheapened direction expands or contracts employment. Elastic demand
-draws labour into the automated direction; inelastic demand releases it.
-But at the adoption margin the saving is second-order, so large
-employment gains require elastic demand or large infra-marginal savings
-deep inside the technology's core. This is the spatial form of the
-demand mechanism of \textcite{bessen2019demand} and the second-order
-margin of \textcite{acemoglu2018race}.
 
 We implement the framework with two technologies, both located from
 published exposure data. The first is a broad cognitive field calibrated
