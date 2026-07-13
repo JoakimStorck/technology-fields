@@ -407,8 +407,10 @@ numbered and lists the task statements behind the numbers.
 
 The geometry also matters because the labour market does not price the
 space uniformly. The return to depth is directional. Depth in the
-socio-cognitive direction is rewarded, while depth in service and manual
-directions is weakly rewarded or unrewarded. This directional wage
+socio-cognitive direction is rewarded. In the technical-physical west it
+is worth close to nothing, and in the service south it is priced
+against: a worker whose service tasks are specific is paid less than one
+whose service tasks are generic. This directional wage
 structure is estimated in \textcite{storck2026geometry}; Section~\ref{sec:price-field}
 recasts it as a price field over the space. It is what allows the model to
 distinguish between reinstatement that restores high-priced work and
@@ -434,8 +436,9 @@ technology, and Section~\ref{sec:technology-model} makes it precise.
 
 \textcite{storck2026geometry} estimate a directional wage structure on
 the disk: across occupations, the return to specificity is a single
-first harmonic of direction, positive toward the analytical north and
-absent toward the service south. That is a statement about
+first harmonic of direction, positive toward the analytical north, close
+to zero along the east-west axis, and negative toward the service south.
+That is a statement about
 occupations, observed at their centroids. This paper lifts it to a
 statement about locations: the market pays a price $\Pi(\mathbf{r})$
 for a unit of work performed at $\mathbf{r}$, and the wage of an
@@ -498,12 +501,11 @@ market prices S1 strongly and S2 weakly; A1 and A2 carry no wage
 premium once the others are held fixed
 (Section~\ref{sec:gate-wedge}).
 
-The empirical implementation tests this postulate directly using
-O*NET capability descriptors that do not enter the construction of the
-task coordinates. The leading two components account for roughly three
-quarters of capability deviation variance and align strongly with the
-task disk. Higher-order structure is measured as texture and carried in
-sensitivity runs, not as part of the core theory.
+The empirical implementation tests this postulate directly, on O*NET
+capability descriptors that do not enter the construction of the task
+coordinates (Section~\ref{sec:implementation-plane-price}).
+Higher-order structure is measured as texture and carried in sensitivity
+runs, not as part of the core theory.
 
 \subsection{The directional price field}
 \label{sec:directional-price}
@@ -532,8 +534,24 @@ depth return. We carry the empirical reduced form as
   \label{eq:price-field}
 \end{equation}
 The depth interaction is the theoretical object: it is what makes
-depth valuable in some directions and not in others (Figure~\ref{fig:price-field}). The level terms
-capture measured structure outside the exact plane.
+depth valuable in some directions and not in others
+(Figure~\ref{fig:price-field}).
+
+The derivation restricts this reduced form in two ways, and the
+estimates split on them. A capability plane priced by a linear
+functional produces no direction-free return to depth, and none is
+found: $m_3 = -0.065$, with a standard error of $0.090$. It produces no
+level harmonic either, and one survives: a level gradient of amplitude
+$0.21$ pointing toward $25^\circ$, carried by $m_1 = 0.192$ with a
+standard error of $0.048$. The depth interaction is therefore the part
+of the field the microfoundation delivers, and the level terms carry
+measured structure outside the exact plane. The fitted depth return
+points due north ($89.5^\circ$, amplitude $0.89$) and is positive
+between $4^\circ$ and $175^\circ$. It pays $+0.83$ at due north and
+$-0.96$ at due south, so specificity in the service direction is priced
+against rather than merely unrewarded, and the occupations that absorb
+displaced labour in Section~\ref{sec:cognitive-case} lie in that half
+of the disk.
 
 The coefficients are estimated once on the occupational wage
 cross-section and then held fixed under technology shocks. This is a
@@ -542,8 +560,7 @@ how a given price structure mediates automation and reinstatement. It
 does not re-solve the full assignment of workers and tasks after the
 shock.
 
-The reduced form is not atheoretic, and the choice to hold it fixed is
-not an admission that it means nothing.
+The reduced form has a structural reading.
 Appendix~\ref{app:assignment} reads $\Pi$ as the price surface of a
 multidimensional assignment equilibrium in the sense of
 \textcite{lindenlaub2017}, in which occupations are capability types
@@ -572,9 +589,10 @@ task level.
 \begin{figure}[!htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{price_field_map.png}
-\caption{The price of skill $\Pi(\mathbf{r})$ over the task disk.
-Depth is rewarded toward the socio-cognitive north and weakly rewarded
-or unrewarded toward the manual west and the service south.}
+\caption{The price of skill $\Pi(\mathbf{r})$ over the task disk. The
+return to depth is a single first harmonic pointing due north: it is
+$+0.83$ at due north, close to zero along the east-west axis, and
+$-0.96$ at due south.}
 \label{fig:price-field}
 \end{figure}
 
