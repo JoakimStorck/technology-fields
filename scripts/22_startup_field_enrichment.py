@@ -27,6 +27,9 @@ RSE; committed anchored equilibrium R=18, tau=0.08, gamma=0.5, beta=0.5):
   field's rim, away from the technology centre. Producer 30 adds that
   the bound-work densities (iota, B_o) fit both groups better than any
   raw seeding curve: the occupation layer carries the fit.
+  Field-form note: the fields scored here are the model's circular
+  primitives; see the FIELD FORM block in scripts/33 before reading any
+  fit-quality statement in this file as a defect.
   Measurement note: document embeddings shrink norms toward the corpus
   mean (max startup chi 0.58 against the occupational support 0.75), so
   radial positions are conservative; angular placement, which carries

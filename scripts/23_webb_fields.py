@@ -49,6 +49,18 @@ AWAITING INPUT (the Webb side stays skipped until the file is present):
   inputs are hashed into data/MANIFEST.json under external_inputs. Run --smoke
   to exercise the pipeline on a synthetic corpus (stamped NOT A RESULT).
 
+FIELD FORM IS A PRIMITIVE, NOT AN EMPIRICAL CLAIM. The isotropic Gaussian
+(eq. phi-K) is a theoretical simplification of the same kind as the
+one-dimensional task line in Acemoglu-Restrepo. Calibration asks for the best
+CIRCULAR field the exposure surface supports, not the best field: richer
+shapes nest the circle and fit better by construction, so a better-fitting
+alternative is expected, and is not a finding. Surfaces without an interior
+maximum (ramps, e.g. Webb's robot exposure) pin a circular fit's centre to
+the support edge; that is a property of approximating a ramp with a circle,
+not a defect. What is certified is that no reported quantity depends on the
+shape (script 33, field-form invariance). Do not report imperfect fit,
+boundary-pinned centres, or better-fitting alternatives as discoveries.
+
 Reads:
     data/occupation_embeddings_polar_scaled.csv   occupation coordinates
     data/task_embeddings_polar_scaled.csv         task weights rt (Eloundou agg)

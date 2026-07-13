@@ -1,12 +1,13 @@
 """
 30_seeding_rule_robustness.py
 -----------------------------
-The seeding rule zeta ~ |grad phi_K| is a construction assumption, and
-the external review is right that the firm-location exercise currently
-borrows more authority from it than an assumption has earned. This
-producer answers with machinery instead of rhetoric: it runs the stated
-alternative rules through the SAME model and the SAME startup data, and
-lets the data select among them. Every rule is a normalized density, so
+The seeding rule zeta ~ |grad phi_K| is a construction assumption of the
+same standing as the circular field form (see the FIELD FORM block in
+scripts/33_field_form_invariance.py): the model needs one, the gradient
+rule is the disk analogue of boundary task creation, and this producer
+checks it rather than postulates it, by running the stated alternative
+rules through the SAME model and the SAME startup data and letting the
+data score them. Every rule is a normalized density, so
 the rules move the same seeded mass M to different locations; the
 comparison is between locations, not scales.
 

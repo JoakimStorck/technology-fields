@@ -1,0 +1,31 @@
+Field-form invariance (script 33; framing and expectations in the docstring).
+  grid 120x40; R 18.0, tau 0.08, gamma 0.5, beta 0.5, ell 0.1330
+
+The circular primitive and the strictly richer refit, same task-level exposure surface:
+  isotropic  : chi_K 0.463  xi_K  38.4 deg  z_K 0.583  A 0.603   R2 0.2460
+  anisotropic: chi_K 0.504  xi_K  66.7 deg  axes (0.439, 1.004)  A 0.591   R2 0.2701
+  (the richer form fitting better is arithmetic, not a finding; see the docstring)
+
+  isotropic   anchored: kappa 16.373, c 31.832, converged True
+  anisotropic anchored: kappa 16.373, c 31.832, converged True
+
+  quantity                         isotropic  anisotropic      move
+  ------------------------------------------------------------------------------
+  labour share, automation            0.6488       0.6540   +0.0053   HOLDS (thr 0.01)
+  labour share, reinstatement         0.6439       0.6489   +0.0051   HOLDS (thr 0.01)
+  reinstatement gap                   0.0049       0.0051   +0.0002   HOLDS (thr 0.005)
+  unbound share of seeded mass        0.6756       0.6853   +0.0096   HOLDS (thr 0.02)
+  re-sorted employment mass           0.1373       0.1348   -0.0024   HOLDS (thr 0.01)
+  AI startup ring enrichment          1.2956       1.2836   -0.0119   HOLDS (thr 0.05)
+
+  seeding density between the two fields, model grid: Spearman +0.650
+  (the density itself is NOT invariant; the reported quantities are. That is the point:
+   the manuscript's numbers are integrals the field form does not reach.)
+
+Verdicts:
+  G  isotropic run reproduces the committed corner   PASS
+  I1 labour share moves < 1.0 pt                   PASS
+  I2 reinstatement gap moves < 0.5 pt                PASS
+  I3 unbound share moves < 2.0 pt                PASS
+  I4 re-sorting moves < 1.0 pt                    PASS
+  I5 AI enrichment moves < 0.05                       PASS
