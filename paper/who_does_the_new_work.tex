@@ -246,6 +246,7 @@ polar form. The orientation is frozen to a fixed reference, so
 positions are comparable across runs, encoders, and database releases.
 That paper validates the geometry against wages, education, and
 occupational classifications; this paper takes it as given.
+Appendix~\ref{app:notation} collects the symbols used throughout.
 
 \begin{figure}[!htbp]
 \centering
@@ -359,6 +360,8 @@ diagnosis to an analytical testing edge. Dishwashers occupy a short arc
 of one kind, self-contained manual operations whose depth the service
 direction does not reward, and Waiters combine service-technical
 preparation with the more specific customer interaction.
+Appendix~\ref{app:bundle-examples} reproduces the panel with every task
+numbered and lists the task statements behind the numbers.
 
 The geometry also matters because the labour market does not price the
 space uniformly. The return to depth is directional. Depth in the
@@ -496,6 +499,19 @@ deliberate partial-equilibrium choice. The technology model below asks
 how a given price structure mediates automation and reinstatement. It
 does not re-solve the full assignment of workers and tasks after the
 shock.
+
+The reduced form is not atheoretic, and the choice to hold it fixed is
+not an admission that it means nothing.
+Appendix~\ref{app:assignment} reads $\Pi$ as the price surface of a
+multidimensional assignment equilibrium in the sense of
+\textcite{lindenlaub2017}, in which occupations are capability types
+and task demand is CES over locations, and tests that reading on the
+frozen inputs. No observed wage enters the computation, so agreement
+with the estimated field is a test rather than a fit. Uniform demand
+recovers the field's shape but only a quarter of its directed gradient;
+a single cognitive demand shifter recovers both. That is the sense in
+which the field is an equilibrium object, and what the comparative
+statics below hold fixed.
 
 The step from occupational wages to task-location prices is testable.
 The field is estimated at occupational centroids, where wages are
@@ -1156,7 +1172,9 @@ on the 2023 cross-section, the isotropic term is zero in every vintage,
 and the amplitude lies between $0.83$ and $0.96$ with no trend.
 Full-sample fits differ across vintages, but the differences are
 carried by which occupation codes publish per vintage, not by
-repricing.}
+repricing.} Nor is it an artefact of pooling:
+Appendix~\ref{app:geometry-robustness} re-estimates the directional
+depth return sector by sector on the frozen inputs.
 
 \begin{table}[!htbp]
 \centering
@@ -2086,6 +2104,18 @@ labour keeps them, and whether the workers who can bind them already
 hold the priced capabilities they require.
 
 %% ============================================================
+\section*{Data and code availability}
+
+All inputs, code, and frozen outputs are public at
+\url{https://github.com/JoakimStorck/technology-fields}. Every
+result-bearing number in the paper traces to a producing script in
+\texttt{scripts/}, with its output frozen in \texttt{results/}; the
+pre-registered placebo test records its hypotheses in the producing
+script's docstring.
+
+\printbibliography
+
+%% ============================================================
 \appendix
 
 \section{The assignment programme}
@@ -2276,6 +2306,26 @@ to the sectoral estimates of \textcite{storck2026geometry}.}
 \label{fig:sectoral-beta}
 \end{figure}
 
+\clearpage
+\section{Bundle examples with tasks}
+\label{app:bundle-examples}
+
+Figure~\ref{fig:bundle-numbered} reproduces panel~(b) of
+Figure~\ref{fig:geometry-map} with every task numbered, and
+Table~\ref{tab:bundle-tasks} lists the tasks behind the numbers.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{bundle_examples_numbered.png}
+\caption{Panel~(b) of Figure~\ref{fig:geometry-map} with each task
+numbered. Within each occupation the numbers run from one around the disk
+in order of angle and key into Table~\ref{tab:bundle-tasks}.}
+\label{fig:bundle-numbered}
+\end{figure}
+
+\input{bundle_examples_tasks.tex}
+
+\clearpage
 \section{Notation}
 \label{app:notation}
 
@@ -2354,37 +2404,5 @@ $c_m,\,\nu$ & mobility cost and logit smoothness in the re-sorting map \\
 $\alpha_o$ & anchoring constants in the re-sorting map; observed employment is the zero-technology fixed point \\
 $\rho,\,\lambda_{\mathrm{over}}$ & attachment locality scale and over-qualification weight (eq.~\eqref{eq:attachment}) \\
 \end{longtable}
-
-%% ============================================================
-\section*{Data and code availability}
-
-All inputs, code, and frozen outputs are public at
-\url{https://github.com/JoakimStorck/technology-fields}. Every
-result-bearing number in the paper traces to a producing script in
-\texttt{scripts/}, with its output frozen in \texttt{results/}; the
-pre-registered placebo test records its hypotheses in the producing
-script's docstring.
-
-\printbibliography
-%% ============================================================
-
-\clearpage
-\section*{Appendix 1: Bundle examples with tasks}
-
-Figure~\ref{fig:bundle-numbered} reproduces panel~(b) of
-Figure~\ref{fig:geometry-map} with every task numbered, and
-Table~\ref{tab:bundle-tasks} lists the tasks behind the numbers.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.9\textwidth]{bundle_examples_numbered.png}
-\caption{Panel~(b) of Figure~\ref{fig:geometry-map} with each task
-numbered. Within each occupation the numbers run from one around the disk
-in order of angle and key into Table~\ref{tab:bundle-tasks}.}
-\label{fig:bundle-numbered}
-\end{figure}
-
-\input{bundle_examples_tasks.tex}
-
 
 \end{document}
