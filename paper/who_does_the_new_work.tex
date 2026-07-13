@@ -235,7 +235,7 @@ Section~\ref{sec:employment-demand} closes the model with employment
 sorting and congestion.
 Section~\ref{sec:implementation} describes the implementation and
 calibration, and places four automation waves in the geometry.
-Section~\ref{sec:cases} reports the results, and confronts the seeding
+Section~\ref{sec:cognitive} reports the results, and confronts the seeding
 prediction with the locations of new firms.
 Section~\ref{sec:directional-check} confronts the wage mechanism with
 observed occupational wage changes in two windows and shows what each
@@ -1184,7 +1184,7 @@ calibrates the technology fields it operates. The theory objects are
 the capability plane and the price functional. The measurement objects
 are their estimated coordinates, the bundle-pricing validation, and the
 family wage wedge. The simulation primitives are the technology and
-economy parameters varied or held fixed in Section~\ref{sec:cases}.
+economy parameters varied or held fixed in Section~\ref{sec:cognitive}.
 
 \subsection{Data and frozen inputs}
 \label{sec:frozen-inputs}
@@ -1200,7 +1200,7 @@ here. The coordinate universe contains $878$ occupations and is the
 sample of every capability-side estimation and of the geometry figures.
 Of these, $849$ occupations carry observed OEWS employment and
 constitute the simulation economy of Sections~\ref{sec:employment-demand}
-and~\ref{sec:cases}. Of these, $785$ occupations carry matched median
+and~\ref{sec:cognitive}. Of these, $785$ occupations carry matched median
 wages and form the estimation sample of the price field and the
 mediation regression. Finally, $725$ occupations ($640$ distinct SOC
 codes) carry a median wage in both OEWS vintages and form the sample of
@@ -1346,43 +1346,27 @@ the level shifts for the families furthest from the field, Management
 most. Every headline result is reported without the wedge, and
 Section~\ref{sec:cognitive-case} reports the mechanism with it.
 
-\subsection{Technology calibration}
+\subsection{Locating a technology field}
 \label{sec:technology-calibration}
 
-The cognitive technology field is calibrated to task-level AI exposure:
-each task statement carries the exposure score
-$\beta_E = E1 + \tfrac12 E2$ of \textcite{eloundou2024}.
-Occupation-level exposure measures exist
-\parencite{webb2020,felten2021occupational}; the field is fitted at
-the task level because that is where the geometry lives. The scores are
-joined to the task coordinates on Task ID ($17{,}549$ of $17{,}606$
-statements, $99.7$~percent) and fitted with the Gaussian field in
-eq.~\eqref{eq:phi-K}. The fitted field lies in the
-socio-cognitive north, with broad reach and moderate amplitude. The
-field explains a modest share of task-level exposure ($R^2=0.25$) but
-most of the smoothable between-cell exposure surface ($R^2=0.82$).
+A technology field is located by least squares on an exposure surface:
+the four parameters of eq.~\eqref{eq:phi-K} are fitted to a measure of
+which work the technology can bear. The rule is the same for every field
+the paper carries. What differs is the substrate the exposure is
+measured on, and whether the surface has an interior peak.
 
-The modest task-level fit is a property of the rating scale, not of
-the field form. The exposure ratings clump at discrete values, so the
-between-cell share of the task-level variance --- the smoothable
-ceiling for any field --- is $0.30$ on the polar grid, and the single
-isotropic Gaussian captures $82$~percent of it. The parameters are
-jointly identified: the fitted centre lies inside the occupied disk
-($\chi_K = 0.463$ against occupational support $\chi \leq 0.752$), so
-the peak amplitude is observed rather than extrapolated from a flank,
-and the Gauss--Newton normal matrix is well conditioned (condition
-number $30$, with correlation $-0.30$ between $z_K$ and $A_K$).
-Figure~\ref{fig:exposure-fit-new} shows the fitted field against the
-exposure surface. Directional structure the isotropic field misses is
-carried as texture; a richer $\phi_K$ is an extension, not a repair.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{exposure_field_fit.png}
-\caption{Task-level AI exposure surface and fitted cognitive technology
-field.}
-\label{fig:exposure-fit-new}
-\end{figure}
+Identification turns on the second. A Gaussian's shape is carried by its
+curvature, and curvature lives near the peak; far out in the tail a tall
+narrow field and a low broad one are hard to tell apart. A surface whose
+exposure turns over inside the occupied region pins centre, reach and
+amplitude separately. A surface that rises monotonically toward the
+periphery does not: the fitted centre goes to the edge of the support,
+and what the data pin is the field's value where work is rather than the
+field's shape. Both cases arise below, and each field's subsection
+reports which it is. The field's value is the object the operated share
+reads, so the results survive the weaker case. The seeded density is a
+curvature object and does not survive it, which is what the invariance
+check of Section~\ref{sec:technology-model} is for.
 
 The economy parameters are set by explicit rules and held fixed across
 scenarios; Table~\ref{tab:economy-parameters} lists them. One rule is
@@ -1420,19 +1404,6 @@ $\nu$ & $16.4$ & one SD of zero-technology occupation value per logit unit \\
 $c_m$ & $31.8$ & the median move costs one $\nu$ \\
 $\alpha_o$ & balanced & occupation constants; observed employment is the
 zero-technology rest point of the sorting map \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[!htbp]
-\centering
-\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares. Fit is the $R^2$ on the smoothable between-cell exposure surface. The industrial-robot field, the second technology carried through the analysis, takes its centre, reach, and amplitude from Section~\ref{sec:robot-field}.}
-\label{tab:technology-calibration-new}
-\begin{tabular}{lcccccc}
-\toprule
-Field & $\xi_K$ & $\chi_K$ & $z_K$ & $A_K$ & Identification & Fit \\
-\midrule
-Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ & calibrated & $0.82$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1758,24 +1729,80 @@ conditioned correlations coincide.}
 \end{figure}
 
 %% ============================================================
-\section{Results}
-\label{sec:cases}
+\section{The cognitive field}
+\label{sec:cognitive}
 %% ============================================================
 
-We run the cognitive field through the calibrated economy and report
-what it does: where work is taken, where reinstatement is seeded, which
-occupations can bind it, how much remains unbound, and where the wage
-burden falls. The scope of the claims is set by the calibration. The
-level of the automation cut is fixed by the adoption gate, whose rental
-$R$ is a modelling rule rather than an estimate
-(Section~\ref{sec:technology-calibration}), so the levels reported here
-are conditional on it and are read against the sweeps below. The
-structure of the results is not conditional on it, and the last
-subsection confronts the model's spatial prediction with data the
-calibration never saw.
+The cognitive field is the application. Its scale rests on a modelling
+rule rather than a moment, and its wage cross-section falls in a window
+where the response cannot be identified, so its levels are read against
+the sweeps below and its confrontation with data is the weaker of the
+two. What carries across from Section~\ref{sec:robot} is the structure.
 
-\subsection{The cognitive field through the equilibrium}
+\subsection{Locating and scaling the field}
+\label{sec:cognitive-field}
+
+The cognitive technology field is calibrated to task-level AI exposure:
+each task statement carries the exposure score
+$\beta_E = E1 + \tfrac12 E2$ of \textcite{eloundou2024}.
+Occupation-level exposure measures exist
+\parencite{webb2020,felten2021occupational}; the field is fitted at
+the task level because that is where the geometry lives. The scores are
+joined to the task coordinates on Task ID ($17{,}549$ of $17{,}606$
+statements, $99.7$~percent) and fitted with the Gaussian field in
+eq.~\eqref{eq:phi-K}. The fitted field lies in the
+socio-cognitive north, with broad reach and moderate amplitude. The
+field explains a modest share of task-level exposure ($R^2=0.25$) but
+most of the smoothable between-cell exposure surface ($R^2=0.82$).
+
+The modest task-level fit is a property of the rating scale, not of
+the field form. The exposure ratings clump at discrete values, so the
+between-cell share of the task-level variance --- the smoothable
+ceiling for any field --- is $0.30$ on the polar grid, and the single
+isotropic Gaussian captures $82$~percent of it. The parameters are
+jointly identified: the fitted centre lies inside the occupied disk
+($\chi_K = 0.463$ against occupational support $\chi \leq 0.752$), so
+the peak amplitude is observed rather than extrapolated from a flank,
+and the Gauss--Newton normal matrix is well conditioned (condition
+number $30$, with correlation $-0.30$ between $z_K$ and $A_K$).
+Figure~\ref{fig:exposure-fit-new} shows the fitted field against the
+exposure surface. Directional structure the isotropic field misses is
+carried as texture; a richer $\phi_K$ is an extension, not a repair.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{exposure_field_fit.png}
+\caption{Task-level AI exposure surface and fitted cognitive technology
+field.}
+\label{fig:exposure-fit-new}
+\end{figure}
+
+The scale is a rule, and here the cognitive field
+has nothing the robot field had. No aggregate displacement moment exists
+for a technology still diffusing, so the rental $R$ is set instead so
+that the gate binds in the calibrated field's core: capital cost
+$R/(s_K\phi_K)\approx30$ at the centre against $\Pi\approx47$. The rule
+is circular by construction and we state it as such. The level of the
+automation cut is not identified, and the sweeps below report how far it
+moves with the gate. The structure of the result does not move with it.
+
+\begin{table}[!htbp]
+\centering
+\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares. Fit is the $R^2$ on the smoothable between-cell exposure surface. The industrial-robot field, the second technology carried through the analysis, takes its centre, reach, and amplitude from Section~\ref{sec:robot-field}.}
+\label{tab:technology-calibration-new}
+\begin{tabular}{lcccccc}
+\toprule
+Field & $\xi_K$ & $\chi_K$ & $z_K$ & $A_K$ & Identification & Fit \\
+\midrule
+Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ & calibrated & $0.82$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{Displacement and the labour share}
 \label{sec:cognitive-case}
+
 
 The cognitive field operates the disk according to the price gate. Within
 bands of equal technical effectiveness, the operated share orders
@@ -1836,6 +1863,48 @@ employment mass as displaced labour re-sorts there, without a
 corresponding wage recovery because depth is weakly priced in that
 direction.
 
+\subsection{Who binds the new work}
+\label{sec:cognitive-binding}
+
+Of the seeded mass in the cognitive case, $27$ percent is captured by
+capital, $5$ percent binds to existing occupations, and $68$ percent
+survives capital but finds no bearer under the deficit gate. Of the
+seed that survives as human work, $93$ percent is unbound. Its spatial
+distribution marks the gap between task creation and occupational
+absorption (Figure~\ref{fig:candidate-new}).
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{candidate_map.png}
+\caption{Unbound task density and candidate regions for occupational
+emergence.}
+\label{fig:candidate-new}
+\end{figure}
+
+The reading follows Section~\ref{sec:unbound}: whether this mass is
+latent skilled work or low-paid friction depends on the price at its
+location. The model does not create new occupations; it identifies
+where they may become necessary.
+
+As under the robot field, the model does not name
+the occupations that bind the remainder. Bound mass is dominated by
+occupation size, because attachment capacity is capability weighted by
+employment, and the ranking is headed by retail salespersons, baristas
+and cashiers, the same occupations that head it under a field centred in
+the opposite half of the disk. Bound mass per worker is flat across the
+top of the ranking, a spread of $1.03$ over the top ten.
+
+What the unbound mass is worth can be said, and it answers the question
+Section~\ref{sec:unbound} leaves open. The unbound seed sits at $1.07$
+times the mean price of work in the economy, above it, against the robot
+field's $0.93$. This is not low-paid friction at the bottom of the
+distribution. It is work the field creates that is priced above what the
+economy pays on average and that no existing occupation reaches, and it
+is $68$~percent of what the field seeds.
+
+\subsection{Where the wage burden falls}
+\label{sec:cognitive-wages}
+
 The re-sorting that absorbs the freed labour has a wage consequence of
 its own, and the analysis is incomplete without it. Existing
 occupations take in the displaced mass by growing, and because local
@@ -1891,30 +1960,249 @@ occupations it does not reach.}
 \label{fig:wage-deformation}
 \end{figure}
 
-\subsection{Unbound tasks}
-\label{sec:case-unbound}
+The robot field locates the burden's source, and it
+is not the new work. Within an occupation, capital takes content dearer
+than that occupation's own average, at a ratio of $1.39$ against the
+robot field's $1.17$: the price gate, mechanical in both. The difference
+is where the fields are aimed. The content the cognitive field takes is
+priced at $1.57$ times the mean price of work in its economy, against
+the robot field's $0.83$, while the bound work it seeds lands at $0.92$
+times that mean against the robot field's $0.89$. Bound new work lands
+at nearly the same relative price under both technologies. What differs
+is what was taken. The cognitive wave trades work priced well above the
+average for work priced slightly below it, an exchange of $0.59$ to one,
+and $0.53$ when the seeded work is priced at the centroid of the
+occupation that binds it. Reinstatement returns $15$~percent of the wage
+value stripping removes, against $121$~percent under the robot field.
+Automation costs wages when it destroys work dearer than the work it
+creates, and in this model the geometry decides which.
 
-Of the seeded mass in the cognitive case, $27$ percent is captured by
-capital, $5$ percent binds to existing occupations, and $68$ percent
-survives capital but finds no bearer under the deficit gate. Of the
-seed that survives as human work, $93$ percent is unbound. Its spatial
-distribution marks the gap between task creation and occupational
-absorption (Figure~\ref{fig:candidate-new}).
+\subsection{Against the data}
+\label{sec:cognitive-data}
+\label{sec:directional-check}
+\label{sec:check-confound}
+
+The model's wage claim is about incidence, about where automation
+strips paid content and pushes wages down. Observed occupational wage
+changes bear on it in two windows, the cognitive wave's own and the
+industrial-robot wave's own, and the two speak with different
+authority. We take each in turn and then say what each can and cannot
+show, beside the location validation of Section~\ref{sec:check-newwork}.
+
+The wage claim is directional. If automation and
+reinstatement push an occupation's bundle down the price gradient, that
+occupation should experience weaker wage growth than occupations whose
+bundles move less or remain closer to high-priced work. We confront that
+implication with observed occupational wage changes in two steps, a
+naive directional check, which the model passes, and a confound
+analysis, which shows the pass is uninformative in this window. The
+second step matters beyond this paper.
+
+Using the calibrated cognitive field, each occupation's bundle is
+rewritten and its centroid shifts from $\mu_o$ to $\mu_o^{\text{post}}$. The
+predicted directional wage pressure is
+\begin{equation}
+  \widehat{\Delta\ln\Pi}_o
+  =
+  \Delta\mu_o\cdot\nabla\ln\Pi(\mu_o).
+  \label{eq:directional-pressure}
+\end{equation}
+A negative value means that the bundle moves down the price gradient.
+Because the prediction is negative for almost every occupation, a
+\emph{positive} rank correlation with wage growth means that occupations
+with more severe down-gradient shifts see lower wage growth.
+
+We compare this predicted pressure to observed OEWS median hourly wage
+changes between May 2019 and May 2025 (the latest OEWS release), matched
+by SOC code; $725$ of $849$ occupations ($640$ distinct SOC codes) carry
+a median wage in both vintages. Because the match is many-to-one and the
+wages nominal, we compare ranks, which differences out the common
+nominal drift (mean $\Delta\ln w\approx+0.22$). The field pushes almost
+every bundle down-gradient ($96$ percent), and the naive check passes:
+the rank correlation between predicted pressure and observed wage change
+is $+0.34$ across occupations ($p<10^{-20}$) and $+0.35$ at the SOC
+level; the model's own bundle wage change tracks observed changes
+slightly better ($+0.42$), and the result is stable when May 2024 is
+used as the endpoint ($+0.39$).
+
+This looks like support for the mechanism. It is not. The predicted pressure is nearly collinear with the
+baseline wage level: because the price gate targets dear work,
+occupations with high 2019 wages are pushed furthest down-gradient (rank
+correlation $-0.57$ between predicted pressure and baseline wage). And
+the window contains the pandemic-era compression of the US wage
+distribution, in which low-wage occupations saw exceptional relative
+wage growth for reasons unrelated to automation
+\parencite{autor2023compression}: baseline wage alone predicts wage
+growth at rank correlation $-0.58$. The model and the compression
+therefore make the same cross-sectional prediction, and the raw
+correlation cannot distinguish between them.
+
+The data resolve the collinearity in favour of the confound. Controlling
+for the baseline-wage rank, the partial rank correlation between
+predicted pressure and wage growth is $+0.02$ ($p=0.57$); the bundle
+wage change performs no better ($+0.03$). Adding the mechanism raises
+the rank-$R^2$ already achieved by baseline wage alone by $0.0003$. The
+fine structure points the same way: the wage-growth gradient is
+steepest where the field barely reaches and nearly flat where it is
+strongest, and among above-median-wage occupations, where the mechanism
+strips the most and the compression matters least, the raw correlation
+vanishes entirely ($-0.03$). This is compression at the bottom of the
+distribution, not high-priced content stripped in the exposed
+region.
+
+A window split settles the matter. The OEWS 2023 vintage divides the
+period into 2019--2023, which contains the peak of the compression and
+essentially predates the deployment of the technology the field is
+calibrated to, and 2023--2025, the period of actual diffusion.
+Table~\ref{tab:window-split} and Figure~\ref{fig:centroid-shift-new}
+report the result: the entire raw
+correlation lives in the pre-deployment window, and in the deployment
+window it is absent, along with most of the compression gradient itself.
+
+A placebo makes the machinery explicit. We repeat the exercise with two
+technologies that make no claim about the period's wage changes: the
+industrial-robot field of Section~\ref{sec:robot-field}, a real
+technology whose deployment predates the window
+\parencite{acemoglu2020robots}, and a rotated clone of the cognitive
+field, a technology that does not exist. The robot field returns the
+null. Its predicted pressure loads only weakly on the wage level
+(collinearity $-0.09$ against the cognitive field's $-0.57$), so the
+compression hands it nothing: the raw correlation is $+0.04$ ($p=0.25$),
+gone under conditioning and absent in every window
+(Table~\ref{tab:window-split}). The rotated clone, sitting mostly in
+cheap territory where the gate barely opens, loads on the wage level at
+$+0.22$ and collects a weak but significant correlation ($-0.13$,
+$p=4\times10^{-4}$), null given baseline wage and confined to
+2019--2023. The two placebos bracket the mechanism. What the naive check
+finds is set by how strongly a footprint loads on the wage level, not by
+the technology's relevance to the period. A real technology whose wave
+is over returns the null. A nonexistent one that loads on the wage level
+still clears conventional significance. The cognitive field, loading
+hardest, is the $+0.34$ that vanishes under conditioning.
+
+\begin{table}[!htbp]
+\centering
+\caption{Window split of the directional check. Spearman rank
+correlations between predicted directional wage pressure and observed
+wage change; the partial correlation controls for the rank of the wage
+level at the start of each window. The baseline gradient is the rank
+correlation between the starting wage level and wage growth ($N=725$).
+The placebo panel repeats the exercise with the industrial-robot field
+of Section~\ref{sec:robot-field}, a technology whose deployment
+predates the window; its pressure loads only weakly on the wage level,
+so its raw correlation is near zero.}
+\label{tab:window-split}
+\begin{tabular}{lccc}
+\toprule
+Window & Raw & Partial $\mid$ baseline wage & Baseline gradient \\
+\midrule
+\multicolumn{4}{l}{\emph{Calibrated cognitive field}} \\
+2019--2023 (pre-deployment) & $+0.34$ & $+0.03$ & $-0.56$ \\
+2023--2025 (deployment) & $+0.04$ & $-0.03$ & $-0.11$ \\
+2019--2025 (full) & $+0.34$ & $+0.02$ & $-0.58$ \\
+\midrule
+\multicolumn{4}{l}{\emph{Placebo: robot field}} \\
+2019--2023 & $+0.03$ & $-0.02$ & $-0.56$ \\
+2023--2025 & $+0.03$ & $+0.02$ & $-0.11$ \\
+2019--2025 & $+0.04$ & $-0.01$ & $-0.58$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth]{candidate_map.png}
-\caption{Unbound task density and candidate regions for occupational
-emergence.}
-\label{fig:candidate-new}
+\includegraphics[width=\textwidth]{centroid_shift_test.png}
+\caption{Predicted directional wage pressure against observed
+occupational wage change, split at the OEWS 2023 vintage. The raw
+correlation is confined to the 2019--2023 window, which contains the
+peak of the pandemic wage compression and predates the deployment of the
+technology the cognitive field is calibrated to; in the 2023--2025
+window it is absent.}
+\label{fig:centroid-shift-new}
 \end{figure}
 
-The reading follows Section~\ref{sec:unbound}: whether this mass is
-latent skilled work or low-paid friction depends on the price at its
-location. The model does not create new occupations; it identifies
-where they may become necessary.
+The confrontations are not symmetric. The 2019--2025 wage cross-section
+cannot test the mechanism: the model's wage prediction and the dominant
+wage shock of the period load on the same index, the baseline wage, and
+once that index is held fixed no identifying variation is left. That
+cross-section fails to contradict the model because it cannot
+discriminate. The robot window can discriminate, and it reads in the
+model's favour: the pressure measure is orthogonal to the wage level
+there, the correlation survives conditioning on the wage level and on
+the manufacturing share, and the counterfactual
+fields carry the opposite sign. What it cannot do is attribute, since
+robots and import competition pressed the same occupations. The firm
+locations (Section~\ref{sec:check-newwork}) are different again. They
+bear on a spatial prediction the wage data cannot make, that new work
+appears at the technology's boundary, and the two populations sit on
+the ring's two flanks where the control corpus does not. None of the three readings is proof. A single
+cross-section of firm positions cannot separate seeding on the ring
+from other processes that would deposit new work there, and an
+occupational wage window cannot separate contemporaneous pressures on
+the same arc.
 
-\subsection{Where new firms appear}
+The wage mechanism still has a proper test, and the cross-section is not
+it. The identifying variation the model calls for is within-occupation
+task recomposition over time, whether the paid content of exposed
+bundles is redrawn in the direction the operator predicts. That test
+needs within-occupation microdata of the kind pioneered by
+\textcite{atalay2020evolution}, and we leave it to future empirical
+work. The null in the deployment window is not evidence against the
+model either. The model does not predict that two years of diffusion
+should be visible in occupational median wages, and a strong pass there
+would itself have been suspect.
+
+The exercise carries a wider caution. A naive correlation between AI
+exposure and 2019--2025 occupational wage growth has the right sign, a
+small $p$-value, and nothing to do with AI. It measures the pandemic
+compression. This is the exposure-versus-incidence distinction of
+Section~\ref{sec:operated-share} in empirical form. Technical exposure
+correlates with wage levels, wage levels drove relative wage growth in
+this period, and the chain of correlations manufactures apparent support
+for any mechanism whose cross-sectional footprint is a wage gradient,
+strongest where that footprint is steepest. Work relating occupational
+AI exposure to wages in this period \parencite{hampole2025} contends
+with the same collinearity, and a design resting on the occupational
+cross-section alone cannot break it.
+
+\begin{table}[!htbp]
+\centering
+\caption{The two fields. Each runs through the same model in its own
+era, with its own price field and employment weights. The robot shock
+takes its scale from an external displacement moment and the cognitive
+shock from the rental rule, so the levels are not comparable across the
+columns; the structure is. Prices are divided by the mean price of work
+in each field's own economy.}
+\label{tab:two-fields}
+\begin{tabular}{lcc}
+\toprule
+ & Industrial robots & Cognitive \\
+\midrule
+Scale from & displacement moment & rental rule \\
+Labour share, automation & $0.9948$ & $0.6488$ \\
+Labour share, reinstatement & $0.9925$ & $0.6439$ \\
+Reinstatement gap & $0.23$ pts & $0.49$ pts \\
+Unbound share of seeded mass & $93\%$ & $68\%$ \\
+\midrule
+Price of the content capital takes & $0.83\times$ & $1.57\times$ \\
+Price where bound new work lands & $0.89\times$ & $0.92\times$ \\
+Exchange rate, lands over takes & $1.07$ & $0.59$ \\
+Price of the unbound mass & $0.93\times$ & $1.07\times$ \\
+Reinstatement over stripping & $121\%$ & $15\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Reinstatement fails to restore the labour share under both technologies,
+and the gap is under half a point in each. The unbound share is large in
+each, and in each it is invariant to the scale of the shock. Neither is
+a property of where the cognitive field happens to sit. What does depend
+on position is the price of the work a wave destroys, and that is what
+separates a wave the wage data barely register from one this model says
+will be felt.
+
+%% ============================================================
+\section{Where new firms appear}
 \label{sec:check-newwork}
 
 The calibration can be confronted with firm locations it never used.
@@ -1995,218 +2283,6 @@ wages, never to where firms are founded.}
 \label{fig:startup-comparison}
 \end{figure}
 
-
-\section{Confronting the model with data}
-\label{sec:directional-check}
-%% ============================================================
-
-The model's wage claim is about incidence, about where automation
-strips paid content and pushes wages down. Observed occupational wage
-changes bear on it in two windows, the cognitive wave's own and the
-industrial-robot wave's own, and the two speak with different
-authority. We take each in turn and then say what each can and cannot
-show, beside the location validation of Section~\ref{sec:check-newwork}.
-
-\subsection{The naive directional check}
-\label{sec:check-naive}
-
-The wage claim is directional. If automation and
-reinstatement push an occupation's bundle down the price gradient, that
-occupation should experience weaker wage growth than occupations whose
-bundles move less or remain closer to high-priced work. We confront that
-implication with observed occupational wage changes in two steps, a
-naive directional check, which the model passes, and a confound
-analysis, which shows the pass is uninformative in this window. The
-second step matters beyond this paper.
-
-Using the calibrated cognitive field, each occupation's bundle is
-rewritten and its centroid shifts from $\mu_o$ to $\mu_o^{\text{post}}$. The
-predicted directional wage pressure is
-\begin{equation}
-  \widehat{\Delta\ln\Pi}_o
-  =
-  \Delta\mu_o\cdot\nabla\ln\Pi(\mu_o).
-  \label{eq:directional-pressure}
-\end{equation}
-A negative value means that the bundle moves down the price gradient.
-Because the prediction is negative for almost every occupation, a
-\emph{positive} rank correlation with wage growth means that occupations
-with more severe down-gradient shifts see lower wage growth.
-
-We compare this predicted pressure to observed OEWS median hourly wage
-changes between May 2019 and May 2025 (the latest OEWS release), matched
-by SOC code; $725$ of $849$ occupations ($640$ distinct SOC codes) carry
-a median wage in both vintages. Because the match is many-to-one and the
-wages nominal, we compare ranks, which differences out the common
-nominal drift (mean $\Delta\ln w\approx+0.22$). The field pushes almost
-every bundle down-gradient ($96$ percent), and the naive check passes:
-the rank correlation between predicted pressure and observed wage change
-is $+0.34$ across occupations ($p<10^{-20}$) and $+0.35$ at the SOC
-level; the model's own bundle wage change tracks observed changes
-slightly better ($+0.42$), and the result is stable when May 2024 is
-used as the endpoint ($+0.39$).
-
-\subsection{The confound}
-\label{sec:check-confound}
-
-This looks like support for the mechanism. It is not. The predicted pressure is nearly collinear with the
-baseline wage level: because the price gate targets dear work,
-occupations with high 2019 wages are pushed furthest down-gradient (rank
-correlation $-0.57$ between predicted pressure and baseline wage). And
-the window contains the pandemic-era compression of the US wage
-distribution, in which low-wage occupations saw exceptional relative
-wage growth for reasons unrelated to automation
-\parencite{autor2023compression}: baseline wage alone predicts wage
-growth at rank correlation $-0.58$. The model and the compression
-therefore make the same cross-sectional prediction, and the raw
-correlation cannot distinguish between them.
-
-The data resolve the collinearity in favour of the confound. Controlling
-for the baseline-wage rank, the partial rank correlation between
-predicted pressure and wage growth is $+0.02$ ($p=0.57$); the bundle
-wage change performs no better ($+0.03$). Adding the mechanism raises
-the rank-$R^2$ already achieved by baseline wage alone by $0.0003$. The
-fine structure points the same way: the wage-growth gradient is
-steepest where the field barely reaches and nearly flat where it is
-strongest, and among above-median-wage occupations, where the mechanism
-strips the most and the compression matters least, the raw correlation
-vanishes entirely ($-0.03$). This is compression at the bottom of the
-distribution, not high-priced content stripped in the exposed
-region.
-
-A window split settles the matter. The OEWS 2023 vintage divides the
-period into 2019--2023, which contains the peak of the compression and
-essentially predates the deployment of the technology the field is
-calibrated to, and 2023--2025, the period of actual diffusion.
-Table~\ref{tab:window-split} and Figure~\ref{fig:centroid-shift-new}
-report the result: the entire raw
-correlation lives in the pre-deployment window, and in the deployment
-window it is absent, along with most of the compression gradient itself.
-
-A placebo makes the machinery explicit. We repeat the exercise with two
-technologies that make no claim about the period's wage changes: the
-industrial-robot field of Section~\ref{sec:robot-field}, a real
-technology whose deployment predates the window
-\parencite{acemoglu2020robots}, and a rotated clone of the cognitive
-field, a technology that does not exist. The robot field returns the
-null. Its predicted pressure loads only weakly on the wage level
-(collinearity $-0.09$ against the cognitive field's $-0.57$), so the
-compression hands it nothing: the raw correlation is $+0.04$ ($p=0.25$),
-gone under conditioning and absent in every window
-(Table~\ref{tab:window-split}). The rotated clone, sitting mostly in
-cheap territory where the gate barely opens, loads on the wage level at
-$+0.22$ and collects a weak but significant correlation ($-0.13$,
-$p=4\times10^{-4}$), null given baseline wage and confined to
-2019--2023. The two placebos bracket the mechanism. What the naive check
-finds is set by how strongly a footprint loads on the wage level, not by
-the technology's relevance to the period. A real technology whose wave
-is over returns the null. A nonexistent one that loads on the wage level
-still clears conventional significance. The cognitive field, loading
-hardest, is the $+0.34$ that vanishes under conditioning.
-
-The robot field also shows what the geometry can say where the wage data
-cannot. Its reinstatement seeds on the western ring, in the
-technical-physical arc, where the price field is low and the priced
-capabilities the seeded tasks require are scarce. Run through the full
-equilibrium of its own era, with the price field re-estimated on the
-1999 wage cross-section and the gate scale calibrated so that displaced
-task mass matches the aggregate displacement estimated by
-\textcite{acemoglu2020robots}, the field turns the implication into a
-number: $93$ percent of robot-seeded mass binds to no occupation,
-against $68$ percent for the cognitive field, stable between half and
-double the calibration moment and at observed employment. The bound
-residual lands on the technician arc, in the occupations that integrate
-and maintain the machines. Robot reinstatement returned almost no
-offsetting employment, consistent with their finding of no positive
-employment effects outside the exposed region.
-
-\begin{table}[!htbp]
-\centering
-\caption{Window split of the directional check. Spearman rank
-correlations between predicted directional wage pressure and observed
-wage change; the partial correlation controls for the rank of the wage
-level at the start of each window. The baseline gradient is the rank
-correlation between the starting wage level and wage growth ($N=725$).
-The placebo panel repeats the exercise with the industrial-robot field
-of Section~\ref{sec:robot-field}, a technology whose deployment
-predates the window; its pressure loads only weakly on the wage level,
-so its raw correlation is near zero.}
-\label{tab:window-split}
-\begin{tabular}{lccc}
-\toprule
-Window & Raw & Partial $\mid$ baseline wage & Baseline gradient \\
-\midrule
-\multicolumn{4}{l}{\emph{Calibrated cognitive field}} \\
-2019--2023 (pre-deployment) & $+0.34$ & $+0.03$ & $-0.56$ \\
-2023--2025 (deployment) & $+0.04$ & $-0.03$ & $-0.11$ \\
-2019--2025 (full) & $+0.34$ & $+0.02$ & $-0.58$ \\
-\midrule
-\multicolumn{4}{l}{\emph{Placebo: robot field}} \\
-2019--2023 & $+0.03$ & $-0.02$ & $-0.56$ \\
-2023--2025 & $+0.03$ & $+0.02$ & $-0.11$ \\
-2019--2025 & $+0.04$ & $-0.01$ & $-0.58$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{centroid_shift_test.png}
-\caption{Predicted directional wage pressure against observed
-occupational wage change, split at the OEWS 2023 vintage. The raw
-correlation is confined to the 2019--2023 window, which contains the
-peak of the pandemic wage compression and predates the deployment of the
-technology the cognitive field is calibrated to; in the 2023--2025
-window it is absent.}
-\label{fig:centroid-shift-new}
-\end{figure}
-
-\subsection{What the data show}
-\label{sec:check-reading}
-
-The confrontations are not symmetric. The 2019--2025 wage cross-section
-cannot test the mechanism: the model's wage prediction and the dominant
-wage shock of the period load on the same index, the baseline wage, and
-once that index is held fixed no identifying variation is left. That
-cross-section fails to contradict the model because it cannot
-discriminate. The robot window can discriminate, and it reads in the
-model's favour: the pressure measure is orthogonal to the wage level
-there, the correlation survives conditioning on the wage level and on
-the manufacturing share, and the counterfactual
-fields carry the opposite sign. What it cannot do is attribute, since
-robots and import competition pressed the same occupations. The firm
-locations (Section~\ref{sec:check-newwork}) are different again. They
-bear on a spatial prediction the wage data cannot make, that new work
-appears at the technology's boundary, and the two populations sit on
-the ring's two flanks where the control corpus does not. None of the three readings is proof. A single
-cross-section of firm positions cannot separate seeding on the ring
-from other processes that would deposit new work there, and an
-occupational wage window cannot separate contemporaneous pressures on
-the same arc.
-
-The wage mechanism still has a proper test, and the cross-section is not
-it. The identifying variation the model calls for is within-occupation
-task recomposition over time, whether the paid content of exposed
-bundles is redrawn in the direction the operator predicts. That test
-needs within-occupation microdata of the kind pioneered by
-\textcite{atalay2020evolution}, and we leave it to future empirical
-work. The null in the deployment window is not evidence against the
-model either. The model does not predict that two years of diffusion
-should be visible in occupational median wages, and a strong pass there
-would itself have been suspect.
-
-The exercise carries a wider caution. A naive correlation between AI
-exposure and 2019--2025 occupational wage growth has the right sign, a
-small $p$-value, and nothing to do with AI. It measures the pandemic
-compression. This is the exposure-versus-incidence distinction of
-Section~\ref{sec:operated-share} in empirical form. Technical exposure
-correlates with wage levels, wage levels drove relative wage growth in
-this period, and the chain of correlations manufactures apparent support
-for any mechanism whose cross-sectional footprint is a wage gradient,
-strongest where that footprint is steepest. Work relating occupational
-AI exposure to wages in this period \parencite{hampole2025} contends
-with the same collinearity, and a design resting on the occupational
-cross-section alone cannot break it.
 
 %% ============================================================
 \section{Discussion}
