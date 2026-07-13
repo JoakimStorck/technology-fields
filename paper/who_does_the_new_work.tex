@@ -1437,26 +1437,6 @@ Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ & calibrated & $0.82$ \\
 \end{tabular}
 \end{table}
 
-\subsection{The industrial-robot field}
-\label{sec:robot-field}
-
-A second technology instance is carried through the analysis. The
-industrial-robot field is fitted by the same least-squares rule to the
-occupational robot exposure of \textcite{webb2020}; the exposure is
-occupation-level, so the fit runs on the occupation substrate. The
-fitted field is narrow and western, centred at $207^\circ$ in the
-technical-physical periphery where production and manual work lie, with
-$\chi_K = 0.75$ and reach $z_K = 0.50$, fitting the exposure surface at
-$R^2 = 0.84$. The fitted amplitude sits on the normalized exposure
-scale and carries no cost units, so the gate amplitude is set by a
-modelling rule of the same kind that sets $R$: $A_K = 1.2$ opens the
-gate moderately in the west. That value carries the placebo of
-Section~\ref{sec:check-confound}. The wage test of
-Section~\ref{sec:check-robot-wage} calibrates the amplitude instead to
-the aggregate displacement of \textcite{acemoglu2020robots}, which
-returns $A_K = 1.48$ at the 1999 price field, the same order as the
-rule, and holds every field in that window to the same displaced mass.
-
 \subsection{Automation waves as technology fields}
 \label{sec:automation-waves}
 
@@ -1542,6 +1522,239 @@ enclose a concentrated exposure; the software and machine-learning
 surfaces rise toward the north without an interior peak, so their fitted
 centre sits at the edge of the occupied disk.}
 \label{fig:webb-fields}
+\end{figure}
+
+%% ============================================================
+\section{The industrial-robot field}
+\label{sec:robot}
+%% ============================================================
+
+We run the model twice. The industrial-robot field comes first, because
+its scale can be tied to an observed employment moment and its wage
+response falls in a window where that response can be identified. The
+cognitive field comes second, where neither holds: its scale rests on a
+modelling rule, and its wage cross-section cannot discriminate. The two
+fields carry different evidence and are treated differently where the
+evidence requires it. What is compared across them is the structure of
+the result, not its level.
+
+\subsection{Locating and scaling the field}
+\label{sec:robot-field}
+
+The industrial-robot field is fitted by the rule of
+Section~\ref{sec:technology-calibration} to the occupational robot
+exposure of \textcite{webb2020}. The exposure is occupation-level, so
+the fit runs on the occupation substrate rather than the task substrate.
+The fitted field is western, centred at $207^\circ$ in the
+technical-physical periphery where production and manual work lie, with
+$\chi_K = 0.75$ and reach $z_K = 0.50$, and it reproduces $84$~percent
+of the smoothable exposure surface.
+
+The centre is a boundary solution, and we report it as one. The
+occupation cloud ends at $\chi = 0.752$ and the fitted centre sits on
+that edge. Robot exposure rises toward the technical-physical periphery
+without turning over inside the occupied region, so the fit has no
+interior peak to sit on: two occupations lie within $0.10$ of the fitted
+centre, against the $437$ tasks under the cognitive field's. What the
+exposure surface pins is the field's value over the region where work
+is, and that is the object the operated share reads. Centre and reach
+are pinned only jointly, through that value: a field placed further out
+with a proportionately longer reach describes the same exposure on the
+same occupations, and nothing below distinguishes them. Such a field
+would move the seeded density, which is a curvature object, and
+Section~\ref{sec:technology-calibration} certifies that the reported
+quantities do not move with it.
+
+The amplitude carries the scale, and here the robot field has what the
+cognitive field lacks. The fitted amplitude sits on the normalized
+exposure scale and has no cost units, so the gate takes its scale from
+elsewhere. Rather than a rule, we use a moment: $A_K$ is set by
+bisection so that the aggregate displaced task mass $\sum_o L_o D_o$
+matches the displacement of \textcite{acemoglu2020robots}, about
+$400{,}000$ jobs on a $135$~million base over the diffusion years, a
+share of $0.0030$. That returns $A_K = 1.477$ at the $1999$ price field.
+Task mass is equated to jobs at the aggregate, and the moment is a net
+local-equilibrium employment effect while the model's object is gross
+stripped mass, so matching gross to net makes the calibrated field
+conservative. Sensitivity at half and double the moment is reported
+below.
+
+\subsection{Displacement and the labour share}
+\label{sec:robot-equilibrium}
+
+The field is run in its own era. The price field is $\Pi_{1999}$,
+employment weights are the $1999$ OEWS levels over $774$ occupations,
+and mobility and readiness are set by the committed rules on the era's
+own baseline.
+
+Displacement lands where the field is. The mean displaced bundle share
+in the western arc is $0.0136$ against $0.00065$ outside it, a factor of
+twenty-one, and the occupations at the top of the list are the ones the
+robot literature would name: dredge operators, rail-track equipment
+operators, rebar workers, boilermakers and forging machine setters, at
+$2.8$ to $3.6$ percent of bundle mass.
+
+The labour share falls from its pre-technology normalization of one to
+$0.9948$ under automation, and reinstatement leaves it at $0.9925$. The
+drop is small because the shock is small, and the shock is the one the
+robot era delivered: the model was told its size rather than choosing
+it. Reinstatement does not close the gap. Employment moves accordingly
+little, relocating $0.11$~percent of mass.
+
+\subsection{Who binds the new work}
+\label{sec:robot-binding}
+
+Of the mass the field seeds, $93$~percent survives capital and binds to
+no existing occupation. Seven percent binds. The share is a property of
+the geometry rather than of the calibration: it moves by half a point
+between half and double the displacement moment, and it is $92.8$
+percent at observed rather than solved employment.
+
+The model does not name the occupations that take up the remainder.
+Bound mass $B_o$ is dominated by occupation size, because attachment
+capacity is $C(\mathbf{r}) = \sum_o L_o e_o(\mathbf{r})$, capability
+weighted by employment, so the largest occupations absorb most of what
+binds whatever the technology. The ranking is headed by retail
+salespersons, cashiers and baristas, and it is headed by the same
+occupations under the cognitive field, whose centre lies in the opposite
+half of the disk. Bound mass per worker is flat across the top of the
+ranking, a spread of $1.02$ over the top ten. What the model identifies
+is how much of the seed binds to nobody. It does not identify a bearer
+for the rest, and we do not claim one.
+
+What the unbound mass is worth can be said. It sits at $0.93$ times the
+mean price of work in the $1999$ economy, a little below what that
+economy paid on average. The reading follows Section~\ref{sec:unbound}:
+this is work the field creates that no occupation reaches, and its price
+is what separates a skill gap from a wage floor.
+
+\subsection{Where the wage burden falls}
+\label{sec:robot-wages}
+
+Occupation wage adjustments decompose exactly into three channels: the
+content stripped from the bundle, the congestion induced by the inflow
+of freed labour, and the new work the occupation binds. Under the robot
+field the employment-weighted means are $-0.0029$ log points of
+stripping, a congestion mean of zero against a mean absolute of
+$0.0010$, and $+0.0035$ of reinstatement. Reinstatement returns more
+than stripping takes.
+
+The decomposition is order-invariant here. Attributing congestion before
+stripping rather than after moves the channel magnitudes by under one
+percent, against the $54$~percent the cognitive field produces on the
+same test. The channels interact through the product of their
+magnitudes, and the robot shock is small enough that they barely do.
+Order-dependence is a function of shock size, not a defect of the
+decomposition, and that is visible only with two shocks of different
+size to compare.
+
+Why reinstatement covers stripping here and not under the cognitive
+field is a question about prices, and the price field answers it. Within
+an occupation, capital takes content dearer than the occupation's own
+average, at a ratio of $1.17$; the gate orders locations by price inside
+a band of equal effectiveness, and that much is mechanical. Across
+occupations the field is nonetheless aimed at cheap work. The content
+the robot field takes is priced at $0.83$ times the mean price of work in
+its own economy, and the bound work it seeds lands at $0.89$ times that
+mean. The exchange is even, at $1.07$, and $1.04$ when the seeded work is
+priced at the centroid of the occupation that binds it rather than at its
+own location on the disk. The robot wave destroys work worth about what
+the work it creates is worth, and no wage burden follows.
+Section~\ref{sec:cognitive-case} runs the same three numbers for a field
+aimed at the other side of the disk.
+
+\subsection{Against the data}
+\label{sec:check-robot-wage}
+
+The industrial-robot wave supplies what the cognitive window lacks. Its
+diffusion years are covered by a classification-consistent wage window,
+1999 to 2007 with 2003 as midpoint, frozen onto the geometry through
+composed SOC crosswalks, and the confound of
+Section~\ref{sec:check-confound} is absent by measurement: the robot
+field's predicted bundle wage pressure at $\Pi_{1999}$ loads on the
+1999 wage level at $+0.03$, so the wage level explains none of whatever
+correlation appears.
+
+The instrument is the bundle wage pressure $\Delta w_o$ rather than the
+directional projection, and the geometry forces the choice. The
+projection records the direction a residual centroid moves. A field in
+the dear region strips dear content and points residuals down the
+gradient; a field in the cheap region strips cheap content and points
+residuals up the gradient; and for any single-peaked field the
+projection is monotone in position along the gradient axis. In a window
+whose wage growth carries a positional trend, the projection therefore
+correlates for every field, real or fictitious, with the sign set by
+orientation alone. The bundle pressure has no such degeneracy: more
+stripped value predicts lower relative wage growth wherever the field
+sits.
+
+Table~\ref{tab:wave-window} reports the result. Occupations under
+deeper predicted robot pressure saw lower wage growth over 1999--2007
+(Spearman $+0.22$, unchanged at $+0.22$ given the baseline wage, and
+$+0.21$ on the stable-crosswalk subsample), in both halves of the
+window (Figure~\ref{fig:robot-window}). Three counterfactual fields,
+each calibrated to the same aggregate displaced mass so that the
+comparison is between locations rather than scales, carry the opposite
+sign: the cognitive field evaluated before the technology existed
+($-0.29$ given the wage level), a rotated robot clone ($-0.22$), and
+the software field of Section~\ref{sec:automation-waves} ($-0.12$). Their correlations are the period's
+positional growth trend, the cognitive north-east pulling ahead of the
+wage level, and their sign is mechanism-inconsistent: their nominally
+pressed occupations grew faster. The robot field alone carries the
+mechanism's sign.
+
+Running both waves through both windows closes the design. In
+2019--2025 the objects behave as Section~\ref{sec:check-confound}
+found: the cognitive raw correlation ($+0.42$) collapses given the
+baseline wage ($+0.03$), and the robot raw ($-0.20$) is manufactured by
+a $+0.31$ loading on the wage level and collapses the same way
+($-0.02$). One cell of the four survives conditioning with the
+mechanism's sign, the robot in its own window. The scope is that of any
+occupational cross-section: robots and import competition pressed the
+same western manufacturing arc over these years
+\parencite{autor2013china}. A manufacturing-share control meets the
+confound directly. Each occupation's manufacturing employment share is
+strongly collinear with the predicted pressure (rank correlation
+$-0.63$), and the robot correlation survives conditioning on it beside
+the wage level, at $+0.20$.\footnote{The share is built from the BLS
+industry-specific occupational employment files: employment in NAICS
+31--33 over employment across all industries, per SOC-2000 occupation,
+May 2003 (the window midpoint), mapped onto the frozen geometry through
+the composed crosswalks. The 2002 vintage gives a rank correlation of
+$0.98$ with the 2003 shares.} The correlation is therefore not the
+manufacturing-wide decline. What the window still cannot separate is
+import exposure varying across industries within the manufacturing arc,
+so the attribution caveat narrows without closing.
+
+\begin{table}[!htbp]
+\centering
+\caption{Each wave in each window. Spearman rank correlations between
+predicted bundle wage pressure and observed occupational wage growth;
+the partial correlation conditions on the rank of the start-of-window
+wage level. Within each window both fields are calibrated to the same
+aggregate displaced task mass, set by the window's own wave ($N=774$ in
+1999--2007, $725$ in 2019--2025).}
+\label{tab:wave-window}
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{1999--2007} & \multicolumn{2}{c}{2019--2025} \\
+Field & Raw & Partial & Raw & Partial \\
+\midrule
+Industrial robots & $+0.22$ & $+0.22$ & $-0.20$ & $-0.02$ \\
+Cognitive & $-0.38$ & $-0.29$ & $+0.42$ & $+0.03$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth]{robot_era_directional.png}
+\caption{Predicted bundle wage pressure of the calibrated robot field
+at $\Pi_{1999}$ against observed occupational wage growth, in the two
+halves of the robot window. Marker size is 1999 employment. The
+pressure measure is nearly orthogonal to the wage level, so the raw and
+conditioned correlations coincide.}
+\label{fig:robot-window}
 \end{figure}
 
 %% ============================================================
@@ -1946,100 +2159,6 @@ peak of the pandemic wage compression and predates the deployment of the
 technology the cognitive field is calibrated to; in the 2023--2025
 window it is absent.}
 \label{fig:centroid-shift-new}
-\end{figure}
-
-\subsection{The robot wave's own window}
-\label{sec:check-robot-wage}
-
-The industrial-robot wave supplies what the cognitive window lacks. Its
-diffusion years are covered by a classification-consistent wage window,
-1999 to 2007 with 2003 as midpoint, frozen onto the geometry through
-composed SOC crosswalks, and the confound of
-Section~\ref{sec:check-confound} is absent by measurement: the robot
-field's predicted bundle wage pressure at $\Pi_{1999}$ loads on the
-1999 wage level at $+0.03$, so the wage level explains none of whatever
-correlation appears.
-
-The instrument is the bundle wage pressure $\Delta w_o$ rather than the
-directional projection, and the geometry forces the choice. The
-projection records the direction a residual centroid moves. A field in
-the dear region strips dear content and points residuals down the
-gradient; a field in the cheap region strips cheap content and points
-residuals up the gradient; and for any single-peaked field the
-projection is monotone in position along the gradient axis. In a window
-whose wage growth carries a positional trend, the projection therefore
-correlates for every field, real or fictitious, with the sign set by
-orientation alone. The bundle pressure has no such degeneracy: more
-stripped value predicts lower relative wage growth wherever the field
-sits.
-
-Table~\ref{tab:wave-window} reports the result. Occupations under
-deeper predicted robot pressure saw lower wage growth over 1999--2007
-(Spearman $+0.22$, unchanged at $+0.22$ given the baseline wage, and
-$+0.21$ on the stable-crosswalk subsample), in both halves of the
-window (Figure~\ref{fig:robot-window}). Three counterfactual fields,
-each calibrated to the same aggregate displaced mass so that the
-comparison is between locations rather than scales, carry the opposite
-sign: the cognitive field evaluated before the technology existed
-($-0.29$ given the wage level), a rotated robot clone ($-0.22$), and
-the software field of Section~\ref{sec:automation-waves} ($-0.12$). Their correlations are the period's
-positional growth trend, the cognitive north-east pulling ahead of the
-wage level, and their sign is mechanism-inconsistent: their nominally
-pressed occupations grew faster. The robot field alone carries the
-mechanism's sign.
-
-Running both waves through both windows closes the design. In
-2019--2025 the objects behave as Section~\ref{sec:check-confound}
-found: the cognitive raw correlation ($+0.42$) collapses given the
-baseline wage ($+0.03$), and the robot raw ($-0.20$) is manufactured by
-a $+0.31$ loading on the wage level and collapses the same way
-($-0.02$). One cell of the four survives conditioning with the
-mechanism's sign, the robot in its own window. The scope is that of any
-occupational cross-section: robots and import competition pressed the
-same western manufacturing arc over these years
-\parencite{autor2013china}. A manufacturing-share control meets the
-confound directly. Each occupation's manufacturing employment share is
-strongly collinear with the predicted pressure (rank correlation
-$-0.63$), and the robot correlation survives conditioning on it beside
-the wage level, at $+0.20$.\footnote{The share is built from the BLS
-industry-specific occupational employment files: employment in NAICS
-31--33 over employment across all industries, per SOC-2000 occupation,
-May 2003 (the window midpoint), mapped onto the frozen geometry through
-the composed crosswalks. The 2002 vintage gives a rank correlation of
-$0.98$ with the 2003 shares.} The correlation is therefore not the
-manufacturing-wide decline. What the window still cannot separate is
-import exposure varying across industries within the manufacturing arc,
-so the attribution caveat narrows without closing.
-
-\begin{table}[!htbp]
-\centering
-\caption{Each wave in each window. Spearman rank correlations between
-predicted bundle wage pressure and observed occupational wage growth;
-the partial correlation conditions on the rank of the start-of-window
-wage level. Within each window both fields are calibrated to the same
-aggregate displaced task mass, set by the window's own wave ($N=774$ in
-1999--2007, $725$ in 2019--2025).}
-\label{tab:wave-window}
-\begin{tabular}{lcccc}
-\toprule
- & \multicolumn{2}{c}{1999--2007} & \multicolumn{2}{c}{2019--2025} \\
-Field & Raw & Partial & Raw & Partial \\
-\midrule
-Industrial robots & $+0.22$ & $+0.22$ & $-0.20$ & $-0.02$ \\
-Cognitive & $-0.38$ & $-0.29$ & $+0.42$ & $+0.03$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{robot_era_directional.png}
-\caption{Predicted bundle wage pressure of the calibrated robot field
-at $\Pi_{1999}$ against observed occupational wage growth, in the two
-halves of the robot window. Marker size is 1999 employment. The
-pressure measure is nearly orthogonal to the wage level, so the raw and
-conditioned correlations coincide.}
-\label{fig:robot-window}
 \end{figure}
 
 \subsection{What the data show}
