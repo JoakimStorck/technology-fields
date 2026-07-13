@@ -21,3 +21,18 @@ Startup field-enrichment (producer 22; positions from 21).
   AI startups vs control: median-zeta ratio 0.97 [0.97, 0.98]
   robotics vs control: median-zeta ratio 1.01 [0.98, 1.02]
 
+Crossed angular test (see the docstring: an exact statistic for the compass rows above,
+  not a new hypothesis). Alignment is mean cos(theta - xi_K); 1.0 is dead on the field's
+  direction, 0 is orthogonal, -1 is opposite. Angle only, so shrinkage cannot produce it.
+
+  corpus           n  mean angle     R       cognitive (38 deg)         robot (207 deg)
+  AI            1894       12.5d  0.21        +0.185 (p=0.0000)       -0.199 (p=0.0001)
+  robotics       155      180.8d  0.65        -0.513 (p=0.0000)       +0.581 (p=0.0000)
+  control       1500      315.8d  0.34                   +0.044                  -0.111
+
+  each corpus aligns with its own field, not the other   PASS
+  and each exceeds the control on its own field          PASS
+
+  The zeta rows above do not discriminate (the control's ratio is 0.97-1.01 against
+  the treatment groups): the ring RADIUS carries no test. The angular structure does.
+

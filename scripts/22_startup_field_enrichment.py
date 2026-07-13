@@ -56,12 +56,30 @@ comparison is ANGULAR.
       including the western arc, position is a corpus artifact and the
       validation section's claims are scoped down accordingly.
 
+CROSSED ANGULAR TEST (added after C1-C3 passed; an exact statistic for a
+claim the quadrant compass already carries, not a new hypothesis, and
+reported as such). The compass rows say each corpus points somewhere.
+They do not say it points at ITS OWN field. Two technologies are located
+on the disk, the cognitive field at 38 deg and the industrial-robot field
+at 207 deg, and two firm populations were tagged without reference to
+either. Alignment cos(theta_i - xi_K) is scored for every firm against
+BOTH fields, giving a crossed 2x2 with a control row. The prediction is
+that the diagonal exceeds the off-diagonal and that both exceed the
+control: AI firms point at the cognitive field, robotics firms at the
+robot field, and generic product text at neither. Alignment is a function
+of angle alone, so document-embedding shrinkage cannot produce it, and a
+permutation test against the control gives the p-value. The test could
+fail in three ways -- a flat matrix, a matrix whose diagonal is the wrong
+one, or a control that matches the treatment rows -- and the section's
+claim is scoped to what it returns.
+
 Figures:
   results/startup_field_enrichment_map.png     disk: occupations, startups,
       p_K, the z_K ring, and the a-core / u-periphery radii
   results/startup_field_enrichment_radial.png  radial position vs the a/ring/u
       fields, and the field-enrichment bars with u/zeta
 Summary: results/startup_field_enrichment_summary.txt
+         results/startup_crossed_angular.csv
 
 Reads results/startup_seeding_startups.csv (from producer 21) and the frozen
 inputs in data/. No API, no network.
@@ -263,6 +281,84 @@ def enrichment_block(su, M, ctrl=None):
                       f"{ratio:.2f} [{lo:.2f}, {hi:.2f}]"]
         lines.append("")
     return lines, enr
+
+
+def crossed_angular(su, ctrl, M, n_perm=20000, seed=7):
+    """Alignment cos(theta - xi_K) of every firm with each field's direction.
+    Angle only: shrinkage of document embeddings toward the corpus mean moves
+    chi, not theta, so it cannot manufacture this. Permutation against the
+    control gives the p-value on each cell."""
+    rng = np.random.default_rng(seed)
+    wc = pd.read_csv(RESULTS / "webb_calibration.csv")
+    rb = wc[wc.field == "webb_robot"].iloc[0]
+    fields = {"cognitive": float(M["tech"].xi_K),
+              "robot": float(np.radians(float(rb.xi_K_deg)))}
+
+    groups = [("AI", su[su["is_ai"] == 1]["xi"].to_numpy()),
+              ("robotics", su[su["is_robotics"] == 1]["xi"].to_numpy())]
+    ctl = ctrl["xi"].to_numpy() if ctrl is not None else None
+
+    def circ(th):
+        z = np.exp(1j * th).mean()
+        return np.degrees(np.angle(z)) % 360.0, float(np.abs(z))
+
+    lines = ["Crossed angular test (see the docstring: an exact statistic for "
+             "the compass rows above,", "  not a new hypothesis). Alignment is "
+             "mean cos(theta - xi_K); 1.0 is dead on the field's",
+             "  direction, 0 is orthogonal, -1 is opposite. Angle only, so "
+             "shrinkage cannot produce it.", ""]
+    lines.append(f"  {'corpus':<12} {'n':>5}  {'mean angle':>10} {'R':>5}   "
+                 + "  ".join(f"{k+' (' + str(round(np.degrees(v)%360)) + ' deg)':>22}"
+                             for k, v in fields.items()))
+    rows = []
+    for tag, th in groups + ([("control", ctl)] if ctl is not None else []):
+        mu, Rbar = circ(th)
+        cells = []
+        for fname, xk in fields.items():
+            al = float(np.mean(np.cos(th - xk)))
+            if ctl is not None and tag != "control":
+                base = np.cos(ctl - xk)
+                obs = al - float(np.mean(base))
+                pool = np.concatenate([np.cos(th - xk), base])
+                n1 = th.size
+                draws = np.empty(n_perm)
+                for b in range(n_perm):
+                    q = rng.permutation(pool)
+                    draws[b] = q[:n1].mean() - q[n1:].mean()
+                pval = float((np.abs(draws) >= abs(obs)).mean())
+                cells.append(f"{al:+.3f} (p={pval:.4f})")
+                rows.append(dict(corpus=tag, field=fname, alignment=al,
+                                 vs_control=obs, p=pval, n=int(n1)))
+            else:
+                cells.append(f"{al:+.3f}")
+                rows.append(dict(corpus=tag, field=fname, alignment=al,
+                                 vs_control=np.nan, p=np.nan, n=int(th.size)))
+        lines.append(f"  {tag:<12} {th.size:>5}  {mu:>9.1f}d {Rbar:>5.2f}   "
+                     + "  ".join(f"{c:>22}" for c in cells))
+
+    d = pd.DataFrame(rows)
+    def get(c, f):
+        return float(d[(d.corpus == c) & (d.field == f)].alignment.iloc[0])
+    diag_ok = (get("AI", "cognitive") > get("AI", "robot")
+               and get("robotics", "robot") > get("robotics", "cognitive"))
+    ctl_ok = (ctl is not None
+              and get("AI", "cognitive") > get("control", "cognitive")
+              and get("robotics", "robot") > get("control", "robot"))
+    lines += [
+        "",
+        f"  each corpus aligns with its own field, not the other   "
+        f"{'PASS' if diag_ok else 'FAIL'}",
+        f"  and each exceeds the control on its own field          "
+        f"{'PASS' if ctl_ok else 'FAIL'}",
+        "",
+        "  The zeta rows above do not discriminate (the control's ratio is "
+        "0.97-1.01 against",
+        "  the treatment groups): the ring RADIUS carries no test. The "
+        "angular structure does.",
+        "",
+    ]
+    d.to_csv(RESULTS / "startup_crossed_angular.csv", index=False)
+    return lines
 
 
 def _raw_kde(df, g, bw=0.06):
@@ -546,6 +642,7 @@ def main():
     ctrl_file = RESULTS / "startup_control_positions.csv"
     ctrl = pd.read_csv(ctrl_file) if ctrl_file.exists() else None
     lines, enr = enrichment_block(su, M, ctrl)
+    lines += crossed_angular(su, ctrl, M)
     figure_map(su, M)
     figure_radial(su, M, enr)
     figure_comparison(su, M, ctrl)
