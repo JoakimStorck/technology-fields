@@ -42,6 +42,9 @@ employment.
 %% EXCISED: Sec. 4.2 Cost saving and the second-order margin
 %% Source: paper/who_does_the_new_work.tex, lines 667-699 (pre-excision commit)
 %% Reason: technical qualification; no result consumes it
+%% NOTE: eq:unit-cost alone was restored to Section 5.1, where the
+%% blended cost index is used. The second-order-margin discussion below
+%% remains archived.
 %% ==================================================================
 
 \subsection{Cost saving and the second-order margin}
@@ -79,9 +82,11 @@ are large.
 
 
 %% ==================================================================
-%% EXCISED: Sec. 4.5 The bundle operator
-%% Source: paper/who_does_the_new_work.tex, lines 839-886 (pre-excision commit)
-%% Reason: operator formalism; results use the constructions, not the algebra
+%% REVIVED: Sec. 4.5 The bundle operator
+%% Restored to the paper (Section \ref{sec:bundle-operator}). The
+%% excision was wrong: b_o^post and Delta w_o are used in Sections 5, 7
+%% and 8, and Delta w_o is the instrument of the robot-window wage test.
+%% Kept here only as a record of the failed deletion.
 %% ==================================================================
 
 \subsection{The bundle operator}
@@ -166,95 +171,11 @@ The main mechanism is reported with and without this wedge
 
 
 %% ==================================================================
-%% EXCISED: Sec. 6.6 Automation waves as technology fields
-%% Source: paper/who_does_the_new_work.tex, lines 1402-1486 (pre-excision commit)
-%% Reason: expressiveness display, not result-bearing; the robot-field calibration it carried migrated to sec:robot-field
+%% REVIVED: Sec. 6.6 Automation waves as technology fields
+%% Restored to the paper (Section \ref{sec:automation-waves}) as an
+%% illustration of the field representation; the block is therefore no
+%% longer archived here.
 %% ==================================================================
-
-\subsection{Automation waves as technology fields}
-\label{sec:automation-waves}
-
-The same calibration locates other technologies. \textcite{webb2020}
-builds occupational exposure to three technologies by matching patent
-text to O*NET tasks: industrial robots, software, and machine learning.
-Fitting each to the disk, beside the language-model exposure, places
-four technologies in one geometry (Table~\ref{tab:webb-fields},
-Figure~\ref{fig:webb-fields}). Webb's measures are occupation-level, so
-all four are fitted on the occupation substrate here; the cognitive
-field's centre reported below ($40^\circ$) is its occupation-substrate
-fit, while the analysis uses its task-level calibration of
-Table~\ref{tab:technology-calibration-new}.
-
-Read in the order the technologies diffused, the fields sweep across the
-space. Industrial robots sit in the technical-physical west, at the
-periphery where production and manual work lie, with a narrow reach.
-Software sits to the north-west, over routine technical work. Machine
-learning, the AI of Webb's patents through about 2018, sits in the
-analytical north. Language models sit in the north-east, broad over
-high-priced cognitive work. The centres fall in an arc from the physical
-west to the cognitive north-east, in the order the waves arrived. This
-is the spatial form of the succession of automation technologies
-documented by \textcite{acemoglu2020robots} for robots and by
-\textcite{autor2003} for computerisation: each wave acts on different
-work, and the geometry locates where.
-
-Two of the four fields are localised. The robot field and the
-language-model field centre inside the occupied disk, and their reach
-follows a concentrated exposure. The robot field is narrow and western;
-the language-model field is broad and north-east. The software and
-machine-learning surfaces are gradients rather than peaks. Exposure
-rises toward the north without an interior maximum, so a single field
-centres at the edge of the occupied region and its reach is an artefact
-of that shape. Webb's machine learning locates AI further north than the
-language-model measure and does not coincide with it, which is expected,
-since patent-era machine learning and language models are different
-technologies acting on different work.
-
-Three limits bound the reading. The chronology is external to the data.
-Webb's three measures are built from patents through about 2018, so they
-do not date the technologies; the order comes from when each diffused.
-The measures do not share a source, since robots, software, and machine
-learning are one construction and language models another. And four
-fields illustrate the mechanism, not a temporal law. Within those limits
-the figure does what the representation is for: it places several
-technologies in one geometry according to where each acts.
-
-\begin{table}[!htbp]
-\centering
-\caption{The four technology fields fitted on the common occupation
-substrate, in the order the technologies diffused. Robots, software, and
-machine learning are the patent-based exposures of \textcite{webb2020};
-language models are the LLM exposure of \textcite{eloundou2024}. Fit is
-the $R^2$ on the between-cell exposure surface; the centre column marks
-fields whose centre sits at the edge of the occupied disk (support
-$\chi=0.75$). The cognitive field's analysis calibration is the
-task-level fit of Table~\ref{tab:technology-calibration-new}.}
-\label{tab:webb-fields}
-\begin{tabular}{llccccl}
-\toprule
-Technology & Source & $\xi_K$ & $\chi_K$ & $z_K$ & $R^2$ & Centre \\
-\midrule
-Industrial robots & Webb      & $207^\circ$ & $0.75$ & $0.50$ & $0.84$ & at edge \\
-Software          & Webb      & $146^\circ$ & $0.75$ & $0.80$ & $0.62$ & at edge \\
-Machine learning  & Webb      & $108^\circ$ & $0.75$ & $0.70$ & $0.70$ & at edge \\
-Language models   & Eloundou  & $40^\circ$  & $0.49$ & $0.57$ & $0.83$ & localised \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{webb_points_and_rings.png}
-\caption{The four technology fields, oldest first. Each panel shows the
-occupations coloured by their exposure to one technology, with the
-fitted field centre ($\times$) and the $z_K$ ring. Industrial robots,
-software, and machine learning are from \textcite{webb2020}; language
-models from \textcite{eloundou2024}. The robot and language-model fields
-enclose a concentrated exposure; the software and machine-learning
-surfaces rise toward the north without an interior peak, so their fitted
-centre sits at the edge of the occupied disk.}
-\label{fig:webb-fields}
-\end{figure}
 
 
 %% ==================================================================
