@@ -1,0 +1,52 @@
+The robot wave's wage burden, in the three channels of script 19.
+  Configuration: script 28's era-consistent 1999 economy, robot field at the A&R displacement moment.
+  grid 120x40
+
+ROBOT FIELD  (A_K = 1.477 at the 0.0030 moment; vintage 1999)
+  labour share  1.000 -> 0.9948 (automation) -> 0.9925 (reinstatement)
+  unbound share of seeded mass: 0.928
+
+  employment-weighted wage adjustment, log points:
+    stripping      -0.0029
+    congestion     +0.0000   (mean absolute 0.0010)
+    reinstatement  +0.0035
+    total          +0.0006
+  mean displaced task mass D_o: 0.00298
+  wage cost per unit displaced: 0.97 log points
+
+COGNITIVE FIELD  (committed configuration, as script 19)
+    stripping      -0.3483   (frozen -0.3483)
+    congestion     -0.0298   (frozen -0.0298)
+    reinstatement  +0.0539   (frozen +0.0539)
+  mean displaced task mass D_o: 0.19426
+  wage cost per unit displaced: 1.79 log points
+
+  robot: congestion for employment gainers -0.0005, for losers +0.0022
+  cognitive: congestion for employment gainers -0.0626, for losers +0.2243
+
+The price of what capital takes (D1, D2: descriptive; specified after
+the certified run, see the docstring). Prices are divided by the mean
+price of work in each field's OWN economy, so 1999 and 2024 nominal
+wages cannot drive the comparison.
+
+                                              robot   cognitive
+  economy mean price of work                  15.64       27.68
+  price of the content capital takes          13.02       43.44
+  D1  aim: taken / economy mean               0.832       1.569
+  D2  selectivity within occupation k         1.166       1.394
+
+  The robot field takes work priced 0.83 x its economy's mean; the cognitive field, 1.57 x.
+  Both fields take dearer-than-average content INSIDE an occupation (k > 1: the price gate),
+  and the robot field is nonetheless aimed at cheap occupations. The two channels are separate,
+  and neither is visible with a single field.
+
+Pre-registered verdicts:
+  guard: robot corner and cognitive channels reproduce   PASS
+  C1 stripping is negative                     PASS   (-0.0029)
+  C2 stripping carries the mean, congestion    PASS   (mean ratio 0.01, absolute ratio 0.34)
+     disperses
+  C3 robot wage cost per unit displaced <       PASS   robot 0.97 vs cognitive 1.79
+     cognitive  (the directional-price test)
+  C4 gainers crowd in, losers thin out         PASS   (-0.0005 / +0.0022)
+  C5 order swing under 25 percent              PASS   (0% ; the cognitive run failed at 54%)
+

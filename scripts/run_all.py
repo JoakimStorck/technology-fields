@@ -138,6 +138,7 @@ PIPELINE = [
     ("28", "28_robot_era_equilibrium.py"),
     ("31", "31_freeze_manufacturing_share.py"),
     ("33", "33_field_form_invariance.py"),
+    ("34", "34_robot_wage_channels.py"),
     ("29", "29_robot_era_directional.py"),
     ("11", "11_centroid_shift_test.py"),
     ("12", "12_price_microfoundation.py"),
