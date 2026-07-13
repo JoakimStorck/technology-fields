@@ -1,7 +1,7 @@
 """
 run_all.py (experiment/)
 ------------------------
-Run every dynamic producer d00..d14 in order, each in its own process, and
+Run every dynamic producer d00..d17 in order, each in its own process, and
 stop at the first failure. Every producer asserts its own frozen baselines,
 so a clean pass certifies that every number in the manuscript's dynamic
 sections is reproducible from the current tree. The static pipeline
@@ -27,6 +27,9 @@ Default order and approximate runtimes:
   d12  baseline economy         the inherited-economy figure and asserts (<1 min)
   d13  fate maps               where seeded mass binds, static vs dynamic (~1 min)
   d14  binding timeline        the binding year by year and who does it (~2 min)
+  d15  match floor             reservation match quality nests the closes (~4 min)
+  d16  task decay              work that waits too long leaves the window (~3 min)
+  d17  birth margin            new occupations claim the residual (~2 min)
   cld  structure audit          extracts the dependency graph from the core
                                 and re-emits the stock-flow figure; fails on
                                 any figure edge without a code witness (~1 s)
@@ -35,7 +38,7 @@ A full pass is on the order of 35-45 minutes. After it, run
 paper/sync_figures.py to refresh the manuscript figures.
 
 Usage:
-    python experiment/run_all.py                # d00..d14
+    python experiment/run_all.py                # d00..d17
     python experiment/run_all.py --only d10     # one producer
     python experiment/run_all.py --from d07     # d07 onward
     python experiment/run_all.py --recalibrate  # collection pass, see below
@@ -80,6 +83,9 @@ PIPELINE = [
     ("d12", "d12_baseline_economy.py"),
     ("d13", "d13_fate_maps.py"),
     ("d14", "d14_binding_timeline.py"),
+    ("d15", "d15_match_floor.py"),
+    ("d16", "d16_task_decay.py"),
+    ("d17", "d17_birth_margin.py"),
     ("cld", "cld/build_figure.py"),
 ]
 

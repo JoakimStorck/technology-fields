@@ -1,0 +1,19 @@
+birth_margin -- new occupations claim the residual (M3)
+floor f_min = e* = 0.368, theta = 3, engine birth defaults
+
+births: 10; median distance from p_K 0.779 (z_K 0.583); mean u at births 0.192 against g-weighted mean 0.235 (x0.8)
+residual: control U_end 0.0206; births resolve 15.5%; newborn bound mass 0.0032; newborn employment 0.00018
+race (decay 0.2): resolved 97.1% of control residual, of which lost-to-decay 97.7%
+
+  birth t=  2.0 at (+0.28,+0.95), d(p_K)=0.66
+  birth t=  4.0 at (+0.03,+0.99), d(p_K)=0.78
+  birth t=  6.0 at (-0.07,+0.93), d(p_K)=0.78
+  birth t=  8.0 at (-0.18,+0.97), d(p_K)=0.87
+  birth t= 10.0 at (+0.12,+0.93), d(p_K)=0.69
+  birth t= 12.0 at (+0.02,+0.86), d(p_K)=0.67
+  birth t= 14.0 at (-0.30,+0.84), d(p_K)=0.86
+  birth t= 16.0 at (-0.34,+0.71), d(p_K)=0.82
+  birth t= 18.0 at (-0.38,+0.91), d(p_K)=0.97
+  birth t= 20.0 at (+0.43,+0.89), d(p_K)=0.61
+
+all frozen-baseline asserts passed.

@@ -108,6 +108,7 @@ class Dyn:
         self.B = np.zeros(self.ncell)
         self.cap = np.zeros(self.ncell)   # capital-captured seeding density
                                           # (accumulated only under the gate)
+        self.lost = np.zeros(self.ncell)  # task mass decayed out of U (M2)
         self.bind_oc = None               # occupation x cell bound mass,
                                           # allocated only when tracked
         self.U = np.zeros(self.ncell)
@@ -234,7 +235,7 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
          verbose=True, ESTAR=np.exp(-1.0), L_min=2e-4, layer=None,
          survival_gate=True, ca_lambda=0.0, binding_law="match_allocated",
          cap_exponent=1.0, readiness_update=False, anchored=True, A_scale=1.0,
-         track_binding=False):
+         track_binding=False, f_min=0.0, task_decay=0.0):
     # survival_gate: gate seeding by (1 - a) (baseline True). False seeds the
     #   full gradient ring, including the capital-dominated core.
     # ca_lambda: comparative-advantage variant. h(r) = exp(ca_lambda*(1 - phihat)),
@@ -315,6 +316,10 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
         sdot = GAMMA*dGamma*eq.g_hat*surv
         if survival_gate:
             dyn.cap += dt*GAMMA*dGamma*eq.g_hat*a_grid
+        if task_decay > 0.0:                                      # M2: work that WAITS decays --
+            dloss = task_decay*dt*dyn.U                           # the standing stock pays, the
+            dyn.lost += dloss                                     # step's own seeding does not
+            dyn.U = dyn.U - dloss                                 # (decay before seeding)
         dyn.U = dyn.U + dt*sdot                                   # seeding fills the unbound stock
         # MATCH-ALLOCATED, SIZE-RATE-LIMITED binding. The unbound mass is ATTRACTED to
         # the best match: each occupation's claim on a cell's available mass is its
@@ -344,7 +349,10 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
             dyn.B = dyn.B + absorbed/dyn.area
             f = np.full(dyn.n_occ, f_glob)                        # for the newborn grain below
         else:
-            Wb = dyn.FIT**match_beta; Wsum = Wb.sum(0)           # match-share weights (sharpened)
+            Wb = dyn.FIT**match_beta                              # match-share weights (sharpened)
+            if f_min > 0.0:                                       # M1: reservation match quality --
+                Wb = np.where(dyn.FIT >= f_min, Wb, 0.0)          # no claim below the floor; cells
+            Wsum = Wb.sum(0)                                      # with no claimant keep their U
             with np.errstate(divide="ignore", invalid="ignore"):
                 claim = np.where(Wsum > 0, avail/Wsum, 0.0)       # available mass per unit match-weight
             t_o = Wb*claim[None, :]                               # match-share claim, per occ per cell (mass)
@@ -389,17 +397,22 @@ def main(T_max=20.0, dt=0.2, theta_L=3.0, rho=0.5, theta_abs=3.0, lam_over=1.0,
                 # inflow given its prospective value, and birth only if it clears
                 # L_min. Far un-staffable niches (empty rim) attract ~0 and stay
                 # stillborn; near niches with real carrying capacity clear it.
-                W_new_prosp = float(np.sum((dyn.B+dyn.U)*gap*pv*local*dyn.area))
-                dj = np.hypot(dyn.mu[:dyn.n0,0]-dyn.gx[j], dyn.mu[:dyn.n0,1]-dyn.gy[j])
-                d_all = dyn.distances()[:dyn.n0,:]
-                al = np.zeros(dyn.n_occ)
-                if alpha is not None:
-                    al[:alpha.size] = alpha                  # newborn alpha = 0
-                Um = (W[None,:]+al[None,:]-c*d_all)/kappa; m = Um.max(1, keepdims=True)
-                Z = np.exp(Um-m).sum(1)
-                w_new = np.exp((W_new_prosp-c*dj)/kappa - m[:,0])
-                T_new = float(np.sum(dyn.L[:dyn.n0]*w_new/(Z+w_new)))
-                if T_new > L_min:                            # would attract viable employment
+                # STAFFING VIABILITY, re-derived for the anchored kernel
+                # (development memo, Sec. 4). The pre-anchoring test ran the
+                # newborn's prospective value through the incumbent softmax;
+                # under anchoring the incumbents' alpha_o absorb absolute
+                # value differences at the observed allocation, so a newborn
+                # at alpha = 0 with a niche-sized W is doubly penalised and
+                # the gate never opens (measured: T_new ~ 2e-5 against
+                # L_min = 2e-4 at a live niche). The anchored test is mass
+                # sufficiency: the locally claimable unbound work must staff
+                # at least a minimum viable occupation. Whether workers come
+                # is what the post-birth re-sort decides; a newborn nobody
+                # joins stays at its founding mass, harmless. Alternative
+                # (kept for review): retain the softmax test but assign the
+                # newborn a balancing alpha instead of the mean.
+                claimable = float(np.sum((dyn.B+dyn.U)*gap*local*dyn.area))
+                if claimable > L_min:                        # niche staffs a viable occupation
                     dyn.add_occupation(np.array([dyn.gx[j], dyn.gy[j]]), t)
         # re-sort population (moving origin), incl. newborns (W after any birth)
         W = dyn.values(dyn.density())

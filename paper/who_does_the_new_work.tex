@@ -540,31 +540,6 @@ or unrewarded toward the manual west and the service south.}
 \end{figure}
 
 
-\subsection{Assignment interpretation}
-\label{sec:assignment-interpretation}
-
-The field $\Pi(\mathbf{r})$ is used as a fixed reduced form in the main
-model, but it is not atheoretic. Appendix~\ref{app:assignment}
-interprets it as the price surface of a multidimensional assignment
-equilibrium in the sense of \textcite{lindenlaub2017}: occupations are
-capability types, task demand is CES over locations, and no observed
-wage enters the computation, so agreement with the estimated field is a
-test rather than a fit. Uniform demand recovers the field's shape (rank
-correlation $+0.92$) but not its directed gradient; a single cognitive
-demand shifter recovers both ($+0.97$, gradient $+0.36$ against the
-estimated $+0.39$). The dearness of cognitive work reads as
-demand-driven assignment pressure rather than productivity superiority.
-
-The exercise supports the reduced form; the main results do not need
-it. The comparative statics below hold the surface fixed, and
-re-solving the assignment after a technology shock is a
-general-equilibrium extension expected to dampen, not reverse, the
-mechanisms studied here. The appendix also states the exercise's scope:
-it reproduces the field's shape, not the observed concentration of
-employment.
-
-
-%% ============================================================
 \section{Technology Fields and Task-Bundle Rewriting}
 \label{sec:technology-model}
 %% ============================================================
@@ -679,39 +654,6 @@ the displaced share is
 \end{equation}
 An occupation may therefore experience substantial displacement even if
 no spatial region is fully automated. The margin cuts inside the bundle.
-
-\subsection{Cost saving and the second-order margin}
-\label{sec:cost-saving}
-
-Where capital bears the operated share, unit cost falls from
-$\Pi(\mathbf{r})$ to
-\begin{equation}
-  c(\mathbf{r})
-  =
-  (1-a(\mathbf{r}))\Pi(\mathbf{r})
-  +
-  a(\mathbf{r})
-  \frac{R}{s_K\phi_K(\mathbf{r})}.
-  \label{eq:unit-cost}
-\end{equation}
-The realized per-unit saving is
-\[
-  \Pi(\mathbf{r}) - c(\mathbf{r})
-  =
-  a(\mathbf{r})
-  \left[
-    \Pi(\mathbf{r})
-    -
-    \frac{R}{s_K\phi_K(\mathbf{r})}
-  \right].
-\]
-This saving is largest deep inside the technology's core, where capital
-has a strong cost advantage. It vanishes at the adoption margin, because
-the marginal task capital just takes is one it produces at approximately
-the same cost as labour. This second-order margin is central to the
-employment results below. Displacement begins as soon as the operated
-share rises, but the demand channel is weak until infra-marginal savings
-are large.
 
 \subsection{Reinstatement as boundary task creation}
 \label{sec:reinstatement}
@@ -851,54 +793,6 @@ Occupation $o$ receives reinstated density
 The price gate and the deficit gate act in series. The first decides
 whether a seed survives as human work. The second decides which
 occupation, if any, can bind it.
-
-\subsection{The bundle operator}
-\label{sec:bundle-operator}
-
-The post-technology bundle is
-\begin{equation}
-  b_o^{\text{post}}(\mathbf{r})
-  =
-  b_o(\mathbf{r})(1-a(\mathbf{r}))
-  +
-  \frac{\iota_o(\mathbf{r})}{L_o}.
-  \label{eq:bundle-operator}
-\end{equation}
-The occupation is therefore not abolished. Its paid task content is
-redrawn. Automation strips operated content; reinstatement adds bound
-seeded content.
-
-The operator does not preserve bundle mass. Its integral is
-\[
-  \int b_o^{\text{post}}(\mathbf{r})\,d\mathbf{r}
-  =
-  1 - D_o + B_o/L_o,
-\]
-where $B_o=\int\iota_o(\mathbf{r})\,d\mathbf{r}$. We do not renormalize
-the bundle, because doing so would assume that freed time is
-proportionally reallocated across remaining tasks. In this model, the
-mass deficit is exactly the labour released to the worker-sorting
-layer.
-
-The wage change implied by bundle rewriting is
-\begin{equation}
-  \Delta w_o
-  =
-  \int
-  \Pi(\mathbf{r})
-  \left[
-    -b_o(\mathbf{r})a(\mathbf{r})
-    +
-    \frac{\iota_o(\mathbf{r})}{L_o}
-  \right]
-  d\mathbf{r}.
-  \label{eq:wage-change}
-\end{equation}
-The first term removes paid content, typically from high-priced tasks.
-The second term adds new human task content, but only where the deficit
-gate permits attachment. Reinstatement therefore carries a downward
-wage bias when it strips high-priced work and refills with lower-priced
-work.
 
 \subsection{Unbound tasks and candidate occupations}
 \label{sec:unbound}
@@ -1301,30 +1195,6 @@ estimates are $v_{S1} = 0.328$ ($0.065$) and $v_{S2} = 0.049$
 and are excluded by the restriction, so the priced set is
 $K = \{S1, S2\}$, with S1 dominant and S2 smaller.
 
-The residual wage wedge is
-\[
-  \omega_o
-  =
-  \ln w_{\text{obs},o}
-  -
-  \ln w_{\text{bundle},o}.
-\]
-The family wedge $\omega_g$ is the family-level mean of this residual.
-It is measured once and held fixed under technology shocks. When used,
-it enters the adoption gate through
-\[
-  \Pi_{\text{eff}}=e^{\omega_g}\Pi.
-\]
-The main mechanism is reported with and without this wedge
-(Figure~\ref{fig:family-wedge-new}).
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.8\textwidth]{family_wedge.png}
-\caption{Family wage wedge $\omega_g$: mean log deviation of observed wages from the bundle-priced wage, by job family. Management sits highest above the field and Personal Care and Service lowest below it; the wedge enters only the adoption margin.}
-\label{fig:family-wedge-new}
-\end{figure}
-
 \subsection{Technology calibration}
 \label{sec:technology-calibration}
 
@@ -1404,7 +1274,7 @@ zero-technology rest point of the sorting map \\
 
 \begin{table}[!htbp]
 \centering
-\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares. Fit is the $R^2$ on the smoothable between-cell exposure surface. The industrial-robot field, the second technology carried through the analysis, takes its centre and reach from the Webb fit of Section~\ref{sec:automation-waves}; its amplitude is set in Section~\ref{sec:cases}.}
+\caption{Technology calibration. The cognitive field is fitted to task-level AI exposure by least squares. Fit is the $R^2$ on the smoothable between-cell exposure surface. The industrial-robot field, the second technology carried through the analysis, takes its centre, reach, and amplitude from Section~\ref{sec:robot-field}.}
 \label{tab:technology-calibration-new}
 \begin{tabular}{lcccccc}
 \toprule
@@ -1415,90 +1285,22 @@ Cognitive & $38.4^\circ$ & $0.463$ & $0.583$ & $0.603$ & calibrated & $0.82$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Automation waves as technology fields}
-\label{sec:automation-waves}
+\subsection{The industrial-robot field}
+\label{sec:robot-field}
 
-The same calibration locates other technologies. \textcite{webb2020}
-builds occupational exposure to three technologies by matching patent
-text to O*NET tasks: industrial robots, software, and machine learning.
-Fitting each to the disk, beside the language-model exposure, places
-four technologies in one geometry (Table~\ref{tab:webb-fields},
-Figure~\ref{fig:webb-fields}). Webb's measures are occupation-level, so
-all four are fitted on the occupation substrate here; the cognitive
-field's centre reported below ($40^\circ$) is its occupation-substrate
-fit, while the analysis uses its task-level calibration of
-Table~\ref{tab:technology-calibration-new}.
-
-Read in the order the technologies diffused, the fields sweep across the
-space. Industrial robots sit in the technical-physical west, at the
-periphery where production and manual work lie, with a narrow reach.
-Software sits to the north-west, over routine technical work. Machine
-learning, the AI of Webb's patents through about 2018, sits in the
-analytical north. Language models sit in the north-east, broad over
-high-priced cognitive work. The centres fall in an arc from the physical
-west to the cognitive north-east, in the order the waves arrived. This
-is the spatial form of the succession of automation technologies
-documented by \textcite{acemoglu2020robots} for robots and by
-\textcite{autor2003} for computerisation: each wave acts on different
-work, and the geometry locates where.
-
-Two of the four fields are localised. The robot field and the
-language-model field centre inside the occupied disk, and their reach
-follows a concentrated exposure. The robot field is narrow and western;
-the language-model field is broad and north-east. The software and
-machine-learning surfaces are gradients rather than peaks. Exposure
-rises toward the north without an interior maximum, so a single field
-centres at the edge of the occupied region and its reach is an artefact
-of that shape. Webb's machine learning locates AI further north than the
-language-model measure and does not coincide with it, which is expected,
-since patent-era machine learning and language models are different
-technologies acting on different work.
-
-Three limits bound the reading. The chronology is external to the data.
-Webb's three measures are built from patents through about 2018, so they
-do not date the technologies; the order comes from when each diffused.
-The measures do not share a source, since robots, software, and machine
-learning are one construction and language models another. And four
-fields illustrate the mechanism, not a temporal law. Within those limits
-the figure does what the representation is for: it places several
-technologies in one geometry according to where each acts.
-
-\begin{table}[!htbp]
-\centering
-\caption{The four technology fields fitted on the common occupation
-substrate, in the order the technologies diffused. Robots, software, and
-machine learning are the patent-based exposures of \textcite{webb2020};
-language models are the LLM exposure of \textcite{eloundou2024}. Fit is
-the $R^2$ on the between-cell exposure surface; the centre column marks
-fields whose centre sits at the edge of the occupied disk (support
-$\chi=0.75$). The cognitive field's analysis calibration is the
-task-level fit of Table~\ref{tab:technology-calibration-new}.}
-\label{tab:webb-fields}
-\begin{tabular}{llccccl}
-\toprule
-Technology & Source & $\xi_K$ & $\chi_K$ & $z_K$ & $R^2$ & Centre \\
-\midrule
-Industrial robots & Webb      & $207^\circ$ & $0.75$ & $0.50$ & $0.84$ & at edge \\
-Software          & Webb      & $146^\circ$ & $0.75$ & $0.80$ & $0.62$ & at edge \\
-Machine learning  & Webb      & $108^\circ$ & $0.75$ & $0.70$ & $0.70$ & at edge \\
-Language models   & Eloundou  & $40^\circ$  & $0.49$ & $0.57$ & $0.83$ & localised \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth]{webb_points_and_rings.png}
-\caption{The four technology fields, oldest first. Each panel shows the
-occupations coloured by their exposure to one technology, with the
-fitted field centre ($\times$) and the $z_K$ ring. Industrial robots,
-software, and machine learning are from \textcite{webb2020}; language
-models from \textcite{eloundou2024}. The robot and language-model fields
-enclose a concentrated exposure; the software and machine-learning
-surfaces rise toward the north without an interior peak, so their fitted
-centre sits at the edge of the occupied disk.}
-\label{fig:webb-fields}
-\end{figure}
+A second technology instance is carried through the analysis. The
+industrial-robot field is fitted by the same least-squares rule to the
+occupational robot exposure of \textcite{webb2020}; the exposure is
+occupation-level, so the fit runs on the occupation substrate. The
+fitted field is narrow and western, centred at $207^\circ$ in the
+technical-physical periphery where production and manual work lie, with
+$\chi_K = 0.75$, reach $0.50$, and $z_K = 0.84$. Its amplitude is a
+modelling rule of the same kind that sets $R$: $A_K = 1.2$ opens the
+gate moderately in the west, and the same constants carry through the
+checks of Section~\ref{sec:directional-check}; a calibration of the
+gate to the aggregate displacement of \textcite{acemoglu2020robots}
+returns $A_K = 1.48$ at the 1999 price field, the same order as the
+rule.
 
 \subsection{External validation: where new firms appear}
 \label{sec:check-newwork}
@@ -1583,19 +1385,10 @@ wages, never to where firms are founded.}
 \label{sec:cases}
 %% ============================================================
 
-We run the cognitive field through the calibrated economy, and add the
-industrial-robot field in the demand channel. The robot field's centre
-and reach are the Webb fit of Section~\ref{sec:automation-waves}. Its
-amplitude is a modelling rule of the same kind that sets $R$:
-$A_K=1.2$ opens the gate moderately in the west, and the same constants
-carry through the placebo of Section~\ref{sec:directional-check}. A
-calibration of the gate to the aggregate displacement of
-\textcite{acemoglu2020robots}, reported in
-Section~\ref{sec:directional-check}, returns $A_K=1.48$ at the 1999
-price field, the same order as the rule. The
+We run the cognitive field through the calibrated economy. The
 purpose is illustrative. The cases show what the geometry makes visible: where work
 is taken, where reinstatement is seeded, which occupations can bind it,
-how much remains unbound, and how demand elasticity changes employment
+and how much remains unbound
 consequences.
 
 \subsection{The cognitive field through the equilibrium}
@@ -1729,40 +1522,6 @@ latent skilled work or low-paid friction depends on the price at its
 location. The model does not create new occupations; it identifies
 where they may become necessary.
 
-\subsection{The demand channel}
-\label{sec:case-demand}
-
-The demand channel is evaluated by sweeping the output-demand elasticity
-$\eta$. At unit-elastic demand, cost savings leave revenue unchanged.
-Both technology fields release labour in their automated region, by
-$12$ percent for the cognitive field and $22$ percent for the robot one
-(Figure~\ref{fig:demand-new}).
-Across plausible elasticities, displacement dominates because savings
-are small at the adoption margin: the price-to-cost ratio is essentially
-one there against roughly $1.5$ deep in the cognitive core and $1.2$ in
-the robot core. Net
-employment growth requires elasticity beyond the plausible range: the
-cognitive region crosses zero at $\eta\approx8$, and the robot region
-does not cross below $\eta=12$, because its core saving is smaller and
-the demand channel has less to hand back.
-
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=0.85\textwidth]{demand_channel_eta.png}
-\caption{Employment change in each technology field's automated region
-as a function of output-demand elasticity.}
-\label{fig:demand-new}
-\end{figure}
-
-This recovers the contrast emphasized by \textcite{bessen2019demand}.
-Automation in an inelastic-demand direction releases labour; automation
-in an elastic-demand direction can draw labour in. The disk adds the
-location. Mechanised agriculture and nineteenth-century
-textiles occupy different places on the elasticity scale; cognitive
-automation is conditional on the still uncertain elasticity of demand
-for cognitive output.
-
-%% ============================================================
 \section{Confronting the model with data}
 \label{sec:directional-check}
 %% ============================================================
@@ -1852,7 +1611,7 @@ window it is absent, along with most of the compression gradient itself.
 
 A placebo makes the machinery explicit. We repeat the exercise with two
 technologies that make no claim about the period's wage changes: the
-industrial-robot field of Section~\ref{sec:automation-waves}, a real
+industrial-robot field of Section~\ref{sec:robot-field}, a real
 technology whose deployment predates the window
 \parencite{acemoglu2020robots}, and a rotated clone of the cognitive
 field, a technology that does not exist. The robot field returns the
@@ -1895,7 +1654,7 @@ wage change; the partial correlation controls for the rank of the wage
 level at the start of each window. The baseline gradient is the rank
 correlation between the starting wage level and wage growth ($N=725$).
 The placebo panel repeats the exercise with the industrial-robot field
-of Section~\ref{sec:automation-waves}, a technology whose deployment
+of Section~\ref{sec:robot-field}, a technology whose deployment
 predates the window; its pressure loads only weakly on the wage level,
 so its raw correlation is near zero.}
 \label{tab:window-split}
@@ -2184,9 +1943,8 @@ hold the priced capabilities they require.
 \section{The assignment programme}
 \label{app:assignment}
 
-This appendix specifies the assignment equilibrium behind
-Section~\ref{sec:assignment-interpretation} and reports the test
-sequence that selects it. All quantities are computed on the frozen
+This appendix specifies the assignment equilibrium that microfounds
+the price field and reports the test sequence that selects it. All quantities are computed on the frozen
 inputs of Section~\ref{sec:frozen-inputs}; no observed wage enters any
 computation, so agreement with the estimated field of
 eq.~\eqref{eq:price-estimates} is a test of the interpretation, not a
@@ -2432,9 +2190,6 @@ $\Delta w_o$ & bundle wage change of occupation $o$ (eq.~\eqref{eq:wage-change})
 \multicolumn{2}{@{}l}{\textit{Wages and rents}} \\
 \addlinespace
 $w_{\mathrm{obs},o},\,w_{\mathrm{bundle},o}$ & observed wage and model bundle wage of occupation $o$ \\
-$\omega_o=\ln w_{\mathrm{obs},o}-\ln w_{\mathrm{bundle},o}$ & occupation rent (residual of log wage on priced content) \\
-$\omega_g$ & family wage wedge: the family mean of $\omega_o$ \\
-$\eta$ & demand elasticity (Section~\ref{sec:case-demand}) \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Equilibrium and mobility}} \\
 \addlinespace

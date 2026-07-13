@@ -1,0 +1,22 @@
+task_decay -- work that waits too long leaves the window (M2)
+floor off, births off, T_max = 20
+
+  theta  delta   lost(seeded)  bound(seeded)
+      1   0.00      0.0000       0.8772
+      1   0.05      0.0001       0.8771
+      1   0.10      0.0002       0.8771
+      1   0.20      0.0004       0.8769
+      1   0.50      0.0009       0.8763
+      1   1.00      0.0018       0.8755
+     15   0.00      0.0000       0.8547
+     15   0.05      0.0161       0.8386
+     15   0.10      0.0309       0.8238
+     15   0.20      0.0571       0.7977
+     15   0.50      0.1168       0.7380
+     15   1.00      0.1815       0.6732
+
+tempo loss ratio (congested/gradual) at delta 0.05: 177.4
+U time-integral (delta 0): gradual 0.00016  congested 0.04245  (ratio 262.9)
+loss-field corr with static u(r), theta 15 delta 0.2: +0.474
+
+all frozen-baseline asserts passed.

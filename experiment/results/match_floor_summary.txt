@@ -1,0 +1,19 @@
+match_floor -- reservation match quality nests the two closes (M1)
+theta = 3 sweep, births off; e* = exp(-1) marked
+
+  f_min  cap-share  bound(surv)  unbound(surv)  corr(res, u_s)
+  0.000     0.133       1.000        0.000        --
+  0.200     0.133       0.969        0.031        -0.117
+  0.300     0.133       0.854        0.146        -0.073
+  0.368     0.133       0.775        0.225        -0.059
+  0.450     0.133       0.676        0.324        -0.049
+  0.550     0.133       0.569        0.431        -0.038
+  0.700     0.133       0.369        0.631        +0.114
+  0.820     0.133       0.105        0.895        +0.493
+
+cross-regime pearson (theta 1 vs 15) across the floor:
+  f_min 0.000: +0.391
+  f_min 0.368: +0.690
+  f_min 0.550: +0.717
+
+all frozen-baseline asserts passed.
