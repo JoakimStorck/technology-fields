@@ -38,18 +38,20 @@ When automation creates new tasks, which workers perform them?
 Task-based models fix the answer by construction; here workers hold
 occupations that are bundles of tasks, and the destination of new work
 is an outcome. We represent an automation technology as a field over a
-two-dimensional task space. 
-Capital takes a task where it is cheaper, and new work becomes human only where
-labour stays competitive and some occupation can bind it. 
-Calibrated, the model restores work but not pay: most new tasks bind to no
-occupation, and freed labour re-sorts into other occupations, carrying
-wage pressure into work the technology never reaches. New AI and
-robotics firms fall on opposite flanks of the region where the model
-seeds new work, separated as their field positions imply and apart from
-a control corpus of other new firms. In the
-industrial-robot wave's own window the predicted wage pressure tracks
-observed occupational wage growth independently of the wage level and
-of the occupation's manufacturing share.
+two-dimensional task space built from O*NET task statements. Capital
+takes a task where it is cheaper, and new work becomes human only where
+labour stays competitive and some occupation can bind it. Calibrated,
+the model restores work but not pay: two-thirds of the tasks it seeds
+bind to no occupation, and the labour freed by automation re-sorts into
+other occupations, carrying wage pressure into work the technology never
+reaches. New AI and robotics firms fall on opposite flanks of the region
+where the model seeds new work, separated as their field positions imply
+and apart from a control corpus of other new firms. The recent wage
+cross-section cannot identify the model's wage prediction, and placebo
+technologies, including one that does not exist, clear the same check.
+In the industrial-robot wave's own window the predicted wage pressure
+does track observed occupational wage growth, independently of the wage
+level and of the occupation's manufacturing share.
 \end{abstract}
 
 \vspace{0.5em}
@@ -112,11 +114,18 @@ cheaper producer. Within the reach of a technology, the adoption margin
 is therefore crossed first where human work is highly priced. 
 Automation does not simply remove occupations; it strips paid content from the bundles that define them. 
 An occupation may remain recognizably the same while being paid for less of what it does. 
-The empirical record supports this reading. 
-Of the detailed occupations enumerated in the 1950 US census, almost all survive in some form, and only one, elevator operators, can be said to have been eliminated by automation. 
-After six decades of automation the occupational structure is more or less the same~\parencite{bessen2019demand}. 
-\textcite{brynjolfsson2018mlworkforce} score every O*NET task for its suitability for machine learning and find that most occupations contain some suitable tasks and few contain only suitable tasks. The variance in exposure sits within occupations rather than between them. 
-What automation removes is content, not occupations; what the price field adds is which content it removes first.
+The empirical record supports this reading.
+Of the 271 detailed occupations enumerated in the 1950 US census, most
+still existed in some form six decades later, and the disappearance of
+only one, elevator operators, can be attributed largely to automation.
+The automation of that period was extensive, and it was mostly partial
+\parencite{bessen2019demand}.
+\textcite{brynjolfsson2018mlworkforce} score every O*NET task for its
+suitability for machine learning and find that most occupations contain
+some suitable tasks and few contain only suitable tasks. The variance in
+exposure sits within occupations rather than between them. What a
+technology removes is content, and the price field decides which content
+goes first.
 
 Reinstatement is modeled as task creation at the boundary of the
 technology field. The gradient of the field identifies where automated
@@ -164,9 +173,11 @@ for the growing literature that correlates AI exposure with recent wage
 changes.
 
 The paper makes three contributions. The first is a spatial model of
-technological change. It represents a technology as a field over a
-two-dimensional task space, the first such representation in the
-task-based literature. Automation and reinstatement become operations
+technological change. Multidimensional spaces of task content are
+established \parencite{gathmann2010, yamaguchi2012, lindenlaub2017};
+what is new here is to represent a technology as a continuous field over
+one, so that automation has a direction and a reach and new work has a
+location. Automation and reinstatement become operations
 on a surface, no longer movements along a line. Whether labour keeps a
 task is decided pointwise by the price of work and by the capabilities
 an occupation already holds, rather than fixed by construction. The
@@ -187,10 +198,11 @@ reinstatement of pay come apart, and the geometry locates where.
 The third is empirical.
 The model's sharpest prediction is spatial: reinstatement seeds new work
 on the boundary of the technology field. Independent data on where AI
-and robotics firms are founded place those firms where the model seeds.
-The occupational wage cross-section, by contrast, reaches the model's
-wage prediction and cannot identify it.
-In the 2019--2025 cross-section, technical exposure, the baseline wage,
+and robotics firms are founded place the two groups on opposite flanks
+of that boundary, in the positions their fields imply, where a control
+corpus of other new firms sits elsewhere. The occupational wage
+cross-section bears on the model's wage prediction and cannot identify
+it. In the 2019--2025 cross-section, technical exposure, the baseline wage,
 and the pandemic compression are collinear, so occupational wage-growth
 regressions manufacture support for any wage-gradient mechanism, a point
 we make with placebo technologies, including one that does not exist.
@@ -234,11 +246,11 @@ specificity. Each occupation is a weighted bundle of tasks,
 \[
   b_o(\mathbf{r}),
 \]
-normalized to one before technology acts. The occupation's position is given by the centroid,
+normalized to one before technology acts. The occupation's position is
+the centroid of its bundle,
 \[
-  \mu_o = \int \mathbf{r}\,b_o(\mathbf{r})\,d\mathbf{r},
+  \mu_o = \int \mathbf{r}\,b_o(\mathbf{r})\,d\mathbf{r}.
 \]
-and thus represents the point in task space where the weighted average of the task bundle is located.
 The coordinates are constructed in \textcite{storck2026geometry}: the
 17{,}606 O*NET task statements are embedded with a sentence encoder,
 projected onto their first two principal components, and expressed in
@@ -247,6 +259,20 @@ positions are comparable across runs, encoders, and database releases.
 That paper validates the geometry against wages, education, and
 occupational classifications; this paper takes it as given.
 Appendix~\ref{app:notation} collects the symbols used throughout.
+
+The representation borrows from an established line and departs from it
+at one point. Occupations have been placed in multidimensional spaces of
+task or skill content before, with the distances between them used to
+measure how much human capital survives a move
+\parencite{gathmann2010, yamaguchi2012, lindenlaub2017}, and the same
+vector space underlies the occupational networks that retain only its
+topology \parencite{neffke2013, alabdulkareem2018}. What those objects
+supply is a distance between occupations. They give no location to a
+task that no occupation performs, and no direction to a technology. The
+disk is a space of tasks rather than a set of occupation vectors, so a
+technology can be a field on it, and a task can have a coordinate before
+any occupation carries it. The automation model below needs both, and a
+metric over occupations supplies neither.
 
 \begin{figure}[!htbp]
 \centering
@@ -313,8 +339,8 @@ task radius $r_o$, the root-mean-square spread of the bundle around its
 centroid rather than an enclosing boundary; Software Developers carries
 the coordinate marks $\chi$, $\xi$ and $r_o$. (c) The occupational
 centroids of the coordinate universe (grey, 878 occupations;
-Section~\ref{sec:frozen-inputs}) with the four directional poles and nine
-example occupations; the rim is the task boundary $\chi=1$.}
+Section~\ref{sec:frozen-inputs}) with the four directional poles and the
+same five example occupations; the rim is the task boundary $\chi=1$.}
 \label{fig:geometry-map}
 \end{figure}
 
@@ -334,19 +360,17 @@ documenting; tasks near the rim are domain-specific. The radial
 coordinate $\chi$ measures this specificity, and an occupation deep in
 a direction is one whose tasks are both specific and aligned.
 
-Panel~(c) of Figure~\ref{fig:geometry-map} places nine familiar
-occupations on the disk. Lawyers ($5^\circ$) and Pathologists ($44^\circ$) sit in the
-interpersonal-analytical east and northeast. Software Developers
-($75^\circ$) and Chemical Engineers ($109^\circ$) lie in the analytical
-north. Machinists ($164^\circ$) and Carpenters ($196^\circ$) occupy
-the technical-physical west, Dishwashers ($239^\circ$) and Waiters
-($272^\circ$) the service south, and Biology Teachers ($340^\circ$) the
-instructional southeast. Throughout the paper, ``the socio-cognitive
+Panel~(c) of Figure~\ref{fig:geometry-map} places five familiar
+occupations on the disk. Lawyers ($5^\circ$) sit in the interpersonal
+east and Software Developers ($75^\circ$) in the analytical north.
+Machinists ($164^\circ$) occupy the technical-physical west, and
+Dishwashers ($239^\circ$) and Waiters ($272^\circ$) the service south.
+Throughout the paper, ``the socio-cognitive
 north'' refers to the analytical-interpersonal arc from east to north,
 ``the manual west'' to the technical-physical direction, and ``the
 service south'' to the service direction.
 
-Panel~(b) of Figure~\ref{fig:geometry-map} opens five of these
+Panel~(b) of Figure~\ref{fig:geometry-map} opens the same five
 occupations and shows the tasks behind each centroid. Within a bundle
 the angle sorts tasks by kind. The Software Developers bundle runs from
 client consultation on its human-centered edge, through the analysis
@@ -821,6 +845,10 @@ Each seeded location therefore has three possible fates:
 \]
 These shares exhaust the seeded mass.
 
+Unbound mass is a location on the disk that no occupation reaches. It
+has no counterpart in a representation where every point is an
+occupation \parencite{yamaguchi2012, neffke2013, alabdulkareem2018},
+because there is nowhere in such a space for work that nobody does.
 Where unbound mass is diffuse, it represents friction. Where it
 clusters, it marks a candidate region for occupational emergence.
 Whether such a region is an opportunity or merely low-paid residual work
