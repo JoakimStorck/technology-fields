@@ -139,9 +139,11 @@ work.
 
 
 %% ==================================================================
-%% EXCISED: Sec. 6.4 Family wage wedge (gate weights retained in the paper)
-%% Source: paper/who_does_the_new_work.tex, lines ~1289-1311 (pre-excision commit)
-%% Reason: robustness layer on the adoption margin; mechanism reported without it
+%% REVIVED (in part): Sec. 6.4 Family wage wedge
+%% The definition of omega_o, omega_g and Pi_eff is back in Section 6.4,
+%% which reports the wedge robustness in Section 7.1. Only the figure
+%% (family_wedge.png, producer 05) stayed out. The block below is kept as
+%% the record of the figure and its caption.
 %% ==================================================================
 
 The residual wage wedge is
@@ -179,9 +181,15 @@ The main mechanism is reported with and without this wedge
 
 
 %% ==================================================================
-%% EXCISED: Sec. 7.3 The demand channel
+%% EXCISED: Sec. 7.3 The demand channel, and the eta layer with it
 %% Source: paper/who_does_the_new_work.tex, lines 1716-1749 (pre-excision commit)
-%% Reason: sensitivity analysis; eta layer not consumed by the headline results
+%% Reason: sensitivity analysis; eta layer not consumed by the headline results.
+%% The demand multiplier D(r) = (c/Pi)^(1-eta) and the unit cost c(r) were
+%% later removed from Sections 5.1, 5.2 and 5.4 as well: every certified run
+%% is at eta = 1, so D = 1 everywhere and the layer bore no result. Producer
+%% 10 is retired with it. Revival: restore eq:unit-cost, eq:demand-multiplier,
+%% D in eq:place-output, eq:occ-value and eq:labour-share, the notation rows
+%% below, and script 10 in run_all.py.
 %% ==================================================================
 
 \subsection{The demand channel}

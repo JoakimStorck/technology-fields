@@ -210,7 +210,7 @@ geometry. Section~\ref{sec:price-field} defines the price field.
 Section~\ref{sec:technology-model} develops the technology field, the
 adoption margin, displacement, reinstatement, and the bundle operator.
 Section~\ref{sec:employment-demand} closes the model with employment
-sorting and the output-demand channel.
+sorting and congestion.
 Section~\ref{sec:implementation} describes the implementation and
 calibration, and places four automation waves in the geometry.
 Section~\ref{sec:cases} reports the results, and confronts the seeding
@@ -863,7 +863,7 @@ cheap work. Equation~\eqref{eq:wage-change} is the object taken to the
 wage data in Section~\ref{sec:directional-check}.
 
 %% ============================================================
-\section{Employment, Demand and Mobility}
+\section{Employment and Mobility}
 \label{sec:employment-demand}
 %% ============================================================
 
@@ -872,26 +872,15 @@ is reallocated after the rewrite. We close the model as a static
 spatial-sorting equilibrium and read technology effects as comparative
 statics between the pre-technology and post-technology rest points.
 
-\subsection{Task-work and output demand}
-\label{sec:demand}
+\subsection{Task-work and place output}
+\label{sec:taskwork}
 
 The market structure is stated once and used throughout. Each location
 $\mathbf{r}$ hosts a local product assembled from its micro-task
 continuum in fixed proportions. Human task work at $\mathbf{r}$ costs
 $\Pi(\mathbf{r})$. Capital is supplied elastically at rental $R$ and is
 paid its cost, $R/(s_K\phi_K(\mathbf{r}))$ per unit of task work; it
-retains no quasi-rent. Where capital bears the operated share, the
-marginal cost of the local product is the blended index
-\begin{equation}
-  c(\mathbf{r})
-  =
-  (1-a(\mathbf{r}))\Pi(\mathbf{r})
-  +
-  a(\mathbf{r})
-  \frac{R}{s_K\phi_K(\mathbf{r})},
-  \label{eq:unit-cost}
-\end{equation}
-and competition passes cost changes into the product price.
+retains no quasi-rent.
 
 The human part of occupation $o$'s coverage is
 \[
@@ -923,43 +912,27 @@ pricing them requires re-solving the field and is deferred with the rest
 of the closure. Only bound seed enters the frozen-field economy. The
 fate accounting of Section~\ref{sec:unbound} records all three.
 
-With isoelastic demand of elasticity $\eta$ around the baseline price,
-the quantity bought scales as
-\[
-  \left(\frac{\Pi(\mathbf{r})}{c(\mathbf{r})}\right)^\eta,
-\]
-and revenue scales as
-\[
-  \Pi(\mathbf{r})
-  \left(
-    \frac{c(\mathbf{r})}{\Pi(\mathbf{r})}
-  \right)^{1-\eta}.
-\]
-Define the demand multiplier
-\begin{equation}
-  \mathcal{D}(\mathbf{r})
-  =
-  \left(
-    \frac{c(\mathbf{r})}{\Pi(\mathbf{r})}
-  \right)^{1-\eta}.
-  \label{eq:demand-multiplier}
-\end{equation}
 Place output is
 \begin{equation}
   V(\mathbf{r})
   =
-  \mathcal{D}(\mathbf{r})
   \Pi(\mathbf{r})
   n(\mathbf{r})^\beta,
   \qquad \beta\in(0,1).
   \label{eq:place-output}
 \end{equation}
-At $\eta=1$, revenue is cost-invariant and $\mathcal{D}\equiv1$. For
-$\eta>1$, cost reductions expand revenue and draw labour into the
-cheapened direction. For $\eta<1$, cost reductions reduce revenue and
-release labour. The congestion exponent $\beta<1$ is local capacity;
-its rent $(1-\beta)V$ accrues to a fixed local factor and stays outside
-the wage analysis.
+The congestion exponent $\beta<1$ is local capacity; its rent
+$(1-\beta)V$ accrues to a fixed local factor and stays outside the wage
+analysis.
+
+Automation lowers the marginal cost of the local product where capital
+bears the task, but revenue at a location does not respond to that
+saving here: place output is valued at the frozen price field. Whether
+the cost saving expands output and draws labour back in, or contracts it
+and releases labour, is the demand channel
+\parencite{bessen2019demand}. It acts on a margin this paper does not
+study, and holding it shut is what isolates the question the paper does
+ask, which is who performs the work and what it pays.
 
 \subsection{Occupation values}
 \label{sec:occupation-values}
@@ -971,7 +944,6 @@ The value of occupation $o$ is
   \beta
   \int
   h_o(\mathbf{r})
-  \mathcal{D}(\mathbf{r})
   \Pi(\mathbf{r})
   n(\mathbf{r})^{\beta-1}
   d\mathbf{r}.
@@ -990,8 +962,8 @@ this seam visible and defers the closure.
 
 The paper carries three wage objects. The bundle wage
 $w_o=\int\Pi\,b_o$ prices a bundle at the frozen field and is used for
-cross-sectional levels. The occupation value $W_o$ adds demand and
-congestion and is what workers sort on. The bundle wage change
+cross-sectional levels. The occupation value $W_o$ adds congestion and
+is what workers sort on. The bundle wage change
 $\Delta w_o$ of eq.~\eqref{eq:wage-change} is the operator's gross
 re-pricing of the bundle and is the object taken to the data in
 Section~\ref{sec:directional-check}. They agree on direction and differ
@@ -1067,14 +1039,12 @@ be human task-work. The labour share of variable task-work income is
   =
   \frac{
     \int
-    \mathcal{D}(\mathbf{r})
     \Pi(\mathbf{r})
     H(\mathbf{r})
     n(\mathbf{r})^{\beta-1}
     d\mathbf{r}
   }{
     \int
-    \mathcal{D}(\mathbf{r})
     \Pi(\mathbf{r})
     n(\mathbf{r})^\beta
     d\mathbf{r}
@@ -1082,20 +1052,18 @@ be human task-work. The labour share of variable task-work income is
   \label{eq:labour-share}
 \end{equation}
 The share does not scale with the congestion exponent. Since
-$\int\mathcal{D}\Pi H n^{\beta-1} = \int \mathcal{D}\Pi n^{\beta}(H/n)$,
-$\Lambda$ is the weighted mean of the local human share of task work,
-with weights proportional to $\mathcal{D}\Pi n^{\beta}$, so $\beta$
-enters only through those weights and the multiplicative $\beta$ of
-eq.~\eqref{eq:occ-value} cancels. It does not cancel from the
-distribution of wages across
+$\int\Pi H n^{\beta-1} = \int \Pi n^{\beta}(H/n)$, $\Lambda$ is the
+weighted mean of the local human share of task work, with weights
+proportional to $\Pi n^{\beta}$, so $\beta$ enters only through those
+weights and the multiplicative $\beta$ of eq.~\eqref{eq:occ-value}
+cancels. It does not cancel from the distribution of wages across
 occupations: where displaced labour crowds in, the density $n$ rises
 and the return $n^{\beta-1}$ falls, so re-sorting bends the effective
 wage down in the receiving directions and up in the vacated ones. The
 aggregate is silent on this because it nets to zero in $\Lambda$; the
 cross-section of occupation wages is not. Section~\ref{sec:cognitive-case}
 reads this second channel off the calibrated case.
-The demand multiplier does not cancel, because it reweights the
-directions whose output expands or contracts. Automation lowers the
+Automation lowers the
 share where the operated share rises; reinstatement raises it only where
 new human task-work binds. $\Lambda$ weights human task work by the
 local value of task work. It records who performs the valued work; the
@@ -1244,6 +1212,34 @@ estimates are $v_{S1} = 0.328$ ($0.065$) and $v_{S2} = 0.049$
 ($0.021$); the ability clusters carry negative or negligible estimates
 and are excluded by the restriction, so the priced set is
 $K = \{S1, S2\}$, with S1 dominant and S2 smaller.
+
+The price field does not price occupations exactly, and the residual
+carries information the gate can use. Let
+\[
+  \omega_o
+  =
+  \ln w_{\mathrm{obs},o}
+  -
+  \ln w_{\mathrm{bundle},o}
+\]
+be the amount by which occupation $o$ is paid above or below the value
+of its own bundle at the field, and let the family wage wedge
+$\omega_g$ be the job-family mean of that residual. Family means absorb
+$0.30$ of the occupation-level residual variance, and the wedge runs
+from $-0.26$ log points in Personal Care and Service to $+0.37$ in
+Management, which is the shape institutional wage setting would leave.
+The wedge is measured once on the frozen inputs and held fixed under
+the technology shock. Where it is used, it enters the adoption gate and
+nothing else, through
+\[
+  \Pi_{\mathrm{eff}}(\mathbf{r}) = e^{\omega_g}\,\Pi(\mathbf{r}),
+\]
+so that capital compares its cost to what the work is paid rather than
+to what the field says the work is worth. The ordering of displacement
+barely moves under the wedge (rank correlation $0.99$ in $D_o$), while
+the level shifts for the families furthest from the field, Management
+most. Every headline result is reported without the wedge, and
+Section~\ref{sec:cognitive-case} reports the mechanism with it.
 
 \subsection{Technology calibration}
 \label{sec:technology-calibration}
@@ -1491,7 +1487,9 @@ result is robust to the family wage wedge: with the wedge in the
 adoption gate, the share falls to $0.648$ under automation and $0.643$
 after reinstatement, the unbound share of seeded mass is unchanged at
 $68$ percent, and the ordering of gaining and losing occupations is
-preserved.
+preserved. The wedge does move the volume of the re-sorting, which
+rises from $13.7$ to $15.3$ percent of employment mass, because it opens
+the gate wider on the well-paid families the field underprices.
 
 The level of the automation drop is set by the gate. Sweeping $R$ from
 $12$ to $24$ moves the post-automation share from $0.51$ to $0.78$,
@@ -2033,15 +2031,6 @@ occupational tasks under that tail before existing occupations can
 carry them. The startup cross-section is a first reading of a process
 that has barely begun.
 
-The demand channel is distinct from the wage channel. Automation lowers
-unit cost where capital replaces labour, and the output market decides
-whether the saving expands or contracts employment. Elastic demand can
-turn labour-saving technology into employment growth; inelastic demand
-turns it into labour release. But the adoption margin limits this
-channel, because savings vanish where capital just breaks even with
-labour. The demand channel is therefore weak exactly where automation
-begins.
-
 The model keeps exposure and incidence separate. Technical exposure is
 what a technology can do; economic incidence is what it is paid to do.
 A weak raw correlation between exposure and wages does not refute the
@@ -2053,9 +2042,11 @@ rather than an oversight. The comparative statics hold the readiness
 fields $e_o$ fixed between the two rest points: capability acquisition
 is treated as slower than the shock, a timescale separation in the
 spirit of \textcite{adao2024fast}. The attachment capacity
-$C(\mathbf{r})$ is linear in employment. The output market is partial:
-each place faces independent isoelastic demand, with no cross-place
-substitution or income effects. The price field is held fixed under
+$C(\mathbf{r})$ is linear in employment. Output demand is not modelled:
+revenue at a location does not respond to the cost saving automation
+produces, so the channel that can turn labour-saving technology into
+employment growth is outside the analysis. The price field is held fixed
+under
 the technology shock, even though it can be interpreted as an
 assignment-equilibrium object. Re-solving the assignment after the
 shock is a first-order extension that should dampen displacement by
@@ -2313,6 +2304,7 @@ $\Delta\mu_o$ & shift of the centroid under the technology shock \\
 $d(o,o')=\lVert\mu_o-\mu_{o'}\rVert$ & task-space distance between occupations \\
 $\Pi(\mathbf{r})$ & price field: price of capability content at $\mathbf{r}$ (reduced form, estimated from wages) \\
 $\nabla\ln\Pi$ & gradient of the log price field \\
+$\Pi_{\mathrm{eff}}=e^{\omega_g}\Pi$ & wedge-adjusted price entering the adoption gate (Section~\ref{sec:gate-wedge}) \\
 $\widehat{\Delta\ln\Pi}_o=\Delta\mu_o\cdot\nabla\ln\Pi$ & predicted directional wage pressure: first-order log-price change the shift implies (Section~\ref{sec:directional-check}) \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Capabilities}} \\
@@ -2338,20 +2330,20 @@ $\delta_o(\mathbf{r})$, $\bar\delta_o(\mathbf{r})$ & priced capability deficit (
 $e_o(\mathbf{r})$ & readiness to attach (eq.~\eqref{eq:attachment}) \\
 $C(\mathbf{r})=\sum_o L_o e_o(\mathbf{r})$ & attachment capacity at $\mathbf{r}$ \\
 $u(\mathbf{r})$ & unbound task density (eq.~\eqref{eq:unbound}) \\
-$c(\mathbf{r})$ & blended unit cost after takeover (eq.~\eqref{eq:unit-cost}) \\
-$\beta$ & congestion exponent in $V(\mathbf{r})=\mathcal{D}\,\Pi\,n^{\beta}$; human task-work is paid its marginal value product out of $\beta V$, capital is paid its cost, $(1-\beta)V$ is the congestion rent to the fixed factor \\
+$\beta$ & congestion exponent in $V(\mathbf{r})=\Pi\,n^{\beta}$; human task-work is paid its marginal value product out of $\beta V$, capital is paid its cost, $(1-\beta)V$ is the congestion rent to the fixed factor \\
 $\Phi(C)=C/(1+C)$ & bound fraction at congestion $C$ \\
 $\Delta w_o$ & bundle wage change of occupation $o$ (eq.~\eqref{eq:wage-change}) \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Wages and rents}} \\
 \addlinespace
 $w_{\mathrm{obs},o},\,w_{\mathrm{bundle},o}$ & observed wage and model bundle wage of occupation $o$ \\
+$\omega_o=\ln w_{\mathrm{obs},o}-\ln w_{\mathrm{bundle},o}$ & wage residual of occupation $o$ against its bundle priced at the field \\
+$\omega_g$ & family wage wedge: the job-family mean of $\omega_o$ (Section~\ref{sec:gate-wedge}) \\
 \addlinespace
 \multicolumn{2}{@{}l}{\textit{Equilibrium and mobility}} \\
 \addlinespace
 $n(\mathbf{r})$ & total task-work density (eq.~\eqref{eq:taskwork-density}) \\
 $H(\mathbf{r})=\sum_o L_o h_o(\mathbf{r})$ & human task-work density \\
-$\mathcal{D}(\mathbf{r})=(c/\Pi)^{1-\eta}$ & demand multiplier (eq.~\eqref{eq:demand-multiplier}); distinct from the displaced share $D_o$ \\
 $V(\mathbf{r})$ & place output (eq.~\eqref{eq:place-output}) \\
 $W_o$ & occupation value (eq.~\eqref{eq:occ-value}); the object workers sort on \\
 $\Lambda$ & labour share of variable task-work income (eq.~\eqref{eq:labour-share}) \\

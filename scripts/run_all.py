@@ -78,9 +78,9 @@ Notes:
     exports from a local geometry-of-work checkout and needs --geometry-root,
     so it is run on its own when refreshing the frozen inputs (or here via
     --freeze --geometry-root PATH, which runs 00 first).
-  - Retired steps leave numbering gaps: 04 (residual diagnostic), 13
-    (occupation-rent extension), 18 (binding counterfactual). See the
-    PIPELINE comment and git history.
+  - Retired steps leave numbering gaps: 04 (residual diagnostic), 10
+    (demand channel), 13 (occupation-rent extension), 18 (binding
+    counterfactual). See the PIPELINE comment and git history.
   - 07 and 08 require the Eloundou labelset data/full_labelset.tsv
     (github.com/openai/GPTs-are-GPTs). It is committed in data/ and calls no
     API, so 07 now runs anywhere as part of the pipeline.
@@ -117,9 +117,12 @@ SCRIPTS = Path(__file__).resolve().parent
 
 # Numbering is a stable identity, not a position. Retired steps leave gaps by
 # design: 04 (residual diagnostic, superseded by the assignment appendix),
-# 13 (occupation-rent extension, deferred to separate work), 18 (binding
-# counterfactual, an internal robustness check with no manuscript claim). See
-# git history to revive any of them.
+# 10 (demand channel: the manuscript runs at eta = 1, so D = 1 everywhere and
+# the eta sweep bears no manuscript claim; the block is archived in
+# paper/excised_static_material_pm.tex), 13 (occupation-rent extension,
+# deferred to separate work), 18 (binding counterfactual, an internal
+# robustness check with no manuscript claim). See git history to revive any
+# of them.
 PIPELINE = [
     ("01", "01_wage_field.py"),
     ("02", "02_price_field.py"),
@@ -135,7 +138,6 @@ PIPELINE = [
     ("28", "28_robot_era_equilibrium.py"),
     ("31", "31_freeze_manufacturing_share.py"),
     ("29", "29_robot_era_directional.py"),
-    ("10", "10_demand_channel.py"),
     ("11", "11_centroid_shift_test.py"),
     ("12", "12_price_microfoundation.py"),
     ("14", "14_sensitivity.py"),
