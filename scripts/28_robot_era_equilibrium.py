@@ -57,15 +57,36 @@ PRE-REGISTERED HYPOTHESES (before first run):
   reinstatement (its size is itself informative about the aggregate
   scale of the robot shock), re-sorted mass, manual-arc employment
   change, bound-refill value per seeded unit beside the cognitive
-  comparator, top gainers and losers.
+  comparator, top gainers and losers, and the bound-mass ranking (B_o and
+  B_o / L_o) that the first version of this script failed to print.
 
 RESULTS (first run, recorded after pre-registration):
   H1  PASS. A_K = 1.477 at the 0.0030 moment (close to the manuscript's
       illustrative 1.2, an unintended sanity stamp on that rule).
   H2  PASS. Robot unbound share 93 percent against the cognitive 68;
-      only 7 percent of seeded mass binds, and it binds on the
-      technician arc (mechanical and automotive engineering
-      technicians, machinists, equipment repairers) -- the integrators.
+      only 7 percent of seeded mass binds.
+      *** CORRECTION, and read this before quoting the line it replaces.
+      The first-run record said the seed "binds on the technician arc
+      (mechanical and automotive engineering technicians, machinists,
+      equipment repairers) -- the integrators". That was the UNANCHORED
+      run. It does not survive anchoring and it is not a result. In the
+      certified anchored run the seed binds, in order of bound mass, to
+      Retail Salespersons, Cashiers, Baristas, Office Clerks and Fast
+      Food Workers -- and to the SAME occupations under the cognitive
+      field, whose centre is in the opposite half of the disk.
+      The reason is structural, not incidental: attachment capacity is
+      C = sum_o L_o e_o(r), employment-weighted capability, so B_o is
+      dominated by occupation SIZE. The largest occupations absorb most
+      of the bound mass whatever the technology, and B_o / L_o is nearly
+      flat across the top of the ranking. The model therefore does not
+      name who does the new work; what it identifies is how much of the
+      seed binds to NOBODY (7 percent bound here, 32 percent under the
+      cognitive field) and what that unbound work is priced at
+      (scripts/34, D4). Do not restore the integrator reading, and do
+      not put it in the manuscript.
+      The bound-mass ranking is now printed in the summary below, which
+      is why the stale record stood uncorrected: the summary reported
+      dL gainers and losers and never B_o. ***
   H3  PASS. 93.4 vs 92.9 percent between half and double moment.
   H4  PASS. Collinearity -0.148 (proj), +0.025 (dW_bundle): the robot
       window has the identifying variation the AI window lacked.
@@ -352,6 +373,30 @@ def run_config(name, inp, L0, tech, ell, lines):
     lines.append("  top losers:")
     for i in np.argsort(dL)[:5]:
         lines.append(f"    {titles[i][:44]:44s} dL {dL[i]:+.4e}")
+
+    # WHERE THE SEED BINDS. Printed because its absence let a stale
+    # first-run reading ("the integrators") stand in the docstring for a
+    # cycle. B_o is bound mass, and attachment capacity is
+    # C = sum_o L_o e_o(r): employment-weighted capability. B_o is therefore
+    # dominated by occupation SIZE, and the same large occupations head this
+    # ranking under BOTH technology fields. B_o / L_o, the bound mass per
+    # worker, is printed beside it and is nearly flat across the top. The
+    # model does not name who does the new work; it measures how much of the
+    # seed binds to nobody.
+    B = np.asarray(diag["B_o"], float)
+    L = np.asarray(out.L, float)
+    per_worker = B / np.maximum(L, 1e-12)
+    lines.append("  where the seed binds, by bound mass B_o "
+                 "(size-dominated; see the docstring):")
+    for i in np.argsort(B)[::-1][:5]:
+        lines.append(f"    {titles[i][:44]:44s} B_o {B[i]:.3e}  "
+                     f"per worker {per_worker[i]:.2e}")
+    lines.append("  the same, by bound mass per worker B_o / L_o:")
+    for i in np.argsort(per_worker)[::-1][:5]:
+        lines.append(f"    {titles[i][:44]:44s} B_o/L {per_worker[i]:.2e}")
+    lines.append(f"    spread across the top ten: "
+                 f"{np.sort(per_worker)[-1] / np.sort(per_worker)[-10]:.2f}x "
+                 f"(a flat ranking does not identify a bearer)")
     lines.append("")
     return dict(out=out, diag=diag, diag0=diag0, dL=dL,
                 unbound_share=float(unbound_share),

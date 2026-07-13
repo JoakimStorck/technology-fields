@@ -34,11 +34,24 @@ wages cannot drive the comparison.
   price of the content capital takes          13.02       43.44
   D1  aim: taken / economy mean               0.832       1.569
   D2  selectivity within occupation k         1.166       1.394
+  D3  bound new work lands at                 0.893       0.920
+      exchange rate  lands / takes            1.073       0.586
+      the same, priced at the binder          1.037       0.549
+  D4  unbound new work sits at                0.932       1.069
 
   The robot field takes work priced 0.83 x its economy's mean; the cognitive field, 1.57 x.
   Both fields take dearer-than-average content INSIDE an occupation (k > 1: the price gate),
   and the robot field is nonetheless aimed at cheap occupations. The two channels are separate,
   and neither is visible with a single field.
+
+  D3: the robot wave takes work at 0.83 x and seeds bound work at 0.89 x: an even trade (1.07).
+      The cognitive wave takes at 1.57 x and seeds bound work at 0.92 x: it trades down (0.59).
+      Automation costs wages when it destroys work dearer than the work it creates, and the
+      geometry decides which. The two readings of the seeded price agree.
+
+  D4: the cognitive field's unbound mass sits at 1.07 x the economy mean, ABOVE it: it is latent
+      skilled work rather than low-paid friction, and it is 68 percent of what the field seeds.
+      The robot field's unbound mass sits at 0.93 x. Section 7.2 poses this and leaves it open.
 
 Pre-registered verdicts:
   guard: robot corner and cognitive channels reproduce   PASS

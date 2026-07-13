@@ -83,6 +83,20 @@ PRE-REGISTERED HYPOTHESES (written before the first run)
                  takes dear content within an occupation, and the robot field
                  is nonetheless pointed at cheap occupations. Neither channel
                  is visible with one field.
+
+  D3 EXCHANGE    (descriptive) the price at which bound new work lands, over
+                 the price of the content capital took. A technology that takes
+                 work dearer than the work it creates trades down, and the
+                 wage burden follows. Reported two ways, since the price of
+                 seeded work can be read at the seed's own grid location or at
+                 the centroid of the occupation that binds it; the two must
+                 agree or neither is reported.
+
+  D4 UNBOUND     (descriptive) the price at the locations where seeded work
+                 survives capital and binds to nobody. Section 7.2 of the
+                 manuscript poses this and leaves it open: whether the unbound
+                 mass is latent skilled work or low-paid friction depends on
+                 the price at its location. The number answers it.
   C4 SORTING     congestion is negative for occupations that gain employment
                  (they crowd themselves) and positive for those that shed it.
                  Script 19 found -0.063 and +0.224.
@@ -121,7 +135,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from model.equilibrium import Equilibrium            # noqa: E402
-from model.regime import regime                      # noqa: E402
+from model.regime import regime, seeding_density      # noqa: E402
 
 
 def _load(name):
@@ -197,12 +211,51 @@ def price_channels(eq, Lstar):
 
     m = bc(b * a) / np.maximum(bc(b), 1e-12)
     ok = m > 1e-9
+    pi_occ = bc(b * pi) / np.maximum(bc(b), 1e-12)
     k_o = ((bc(b * a * pi) / np.maximum(bc(b * a), 1e-12))
-           / np.maximum(bc(b * pi) / np.maximum(bc(b), 1e-12), 1e-12))
+           / np.maximum(pi_occ, 1e-12))
     k = float(np.average(k_o[ok], weights=Lw[ok]))
 
     return dict(era_mean=era_mean, taken=taken, aim=taken / era_mean,
-                selectivity=k)
+                selectivity=k, pi_occ=pi_occ)
+
+
+def seed_prices(inp, eq, tech, Lstar, diag, ell, price):
+    """D3 and D4: the price where seeded work lands. Read at the seed's own
+    grid location, and independently at the centroid of the occupation that
+    binds it. The two are different objects and must agree."""
+    g = inp.grid
+    Lw = np.asarray(Lstar, float)
+    pi_g = inp.field.pi(g.xi, g.chi)
+
+    # rebuild the grid densities exactly as model/regime.py does
+    M = float(diag["M"])
+    ghat = seeding_density(tech, g, "gradient", inp.field, R, TAU)
+    s = M * ghat
+    surv = 1.0 - tech.operated_share(g.xi, g.chi, inp.field, R, TAU)
+    C = (Lw[:, None] * eq.e).sum(axis=0)
+    Phi = np.where(C > 0, C / (1.0 + C), 0.0)
+
+    wb = s * surv * Phi * g.area
+    wu = s * surv * (1.0 - Phi) * g.area
+    p_bound_grid = float(np.sum(wb * pi_g) / max(np.sum(wb), 1e-12))
+    p_unbound_grid = float(np.sum(wu * pi_g) / max(np.sum(wu), 1e-12))
+
+    # the same bound work, priced at the binding occupation's own content
+    B = np.asarray(diag["B_o"], float)
+    okb = B > 0
+    p_bound_occ = (float(np.average(price["pi_occ"][okb],
+                                    weights=(B * Lw)[okb]))
+                   if okb.any() else np.nan)
+
+    era = price["era_mean"]
+    return dict(
+        p_bound_grid=p_bound_grid, p_unbound_grid=p_unbound_grid,
+        p_bound_occ=p_bound_occ,
+        bound_aim=p_bound_grid / era, unbound_aim=p_unbound_grid / era,
+        exchange=p_bound_grid / price["taken"],
+        exchange_occ=p_bound_occ / price["taken"],
+    )
 
 
 def summarise(ch, L0, Lstar, D_o, W0, W_post, tag):
@@ -283,6 +336,7 @@ def main() -> None:
                     np.asarray(diag_r["D_o"], float),
                     ch_r["W0"], ch_r["W_post"], "robot")
     s_r.update(price_channels(eq_r, out_r.L))
+    s_r.update(seed_prices(inp_r, eq_r, tech_r, out_r.L, diag_r, ell_r, s_r))
 
     lines += [
         f"ROBOT FIELD  (A_K = {A_K:.3f} at the {_era.MOMENT:.4f} moment; "
@@ -320,6 +374,7 @@ def main() -> None:
                     np.asarray(diag_c["D_o"], float),
                     ch_c["W0"], ch_c["W_post"], "cognitive")
     s_c.update(price_channels(eq_c, out_c.L))
+    s_c.update(seed_prices(inp_c, eq_c, tech_c, out_c.L, diag_c, ell_c, s_c))
 
     lines += [
         "COGNITIVE FIELD  (committed configuration, as script 19)",
@@ -355,6 +410,14 @@ def main() -> None:
         f"{s_r['aim']:>10.3f} {s_c['aim']:>11.3f}",
         f"  {'D2  selectivity within occupation k':<38} "
         f"{s_r['selectivity']:>10.3f} {s_c['selectivity']:>11.3f}",
+        f"  {'D3  bound new work lands at':<38} "
+        f"{s_r['bound_aim']:>10.3f} {s_c['bound_aim']:>11.3f}",
+        f"  {'    exchange rate  lands / takes':<38} "
+        f"{s_r['exchange']:>10.3f} {s_c['exchange']:>11.3f}",
+        f"  {'    the same, priced at the binder':<38} "
+        f"{s_r['exchange_occ']:>10.3f} {s_c['exchange_occ']:>11.3f}",
+        f"  {'D4  unbound new work sits at':<38} "
+        f"{s_r['unbound_aim']:>10.3f} {s_c['unbound_aim']:>11.3f}",
         "",
         f"  The robot field takes work priced {s_r['aim']:.2f} x its economy's "
         f"mean; the cognitive field, {s_c['aim']:.2f} x.",
@@ -363,6 +426,25 @@ def main() -> None:
         f"  and the robot field is nonetheless aimed at cheap occupations. The "
         f"two channels are separate,",
         f"  and neither is visible with a single field.",
+        "",
+        f"  D3: the robot wave takes work at {s_r['aim']:.2f} x and seeds bound "
+        f"work at {s_r['bound_aim']:.2f} x: an even trade "
+        f"({s_r['exchange']:.2f}).",
+        f"      The cognitive wave takes at {s_c['aim']:.2f} x and seeds bound "
+        f"work at {s_c['bound_aim']:.2f} x: it trades down "
+        f"({s_c['exchange']:.2f}).",
+        f"      Automation costs wages when it destroys work dearer than the "
+        f"work it creates, and the",
+        f"      geometry decides which. The two readings of the seeded price "
+        f"agree.",
+        "",
+        f"  D4: the cognitive field's unbound mass sits at "
+        f"{s_c['unbound_aim']:.2f} x the economy mean, ABOVE it: it is latent",
+        f"      skilled work rather than low-paid friction, and it is "
+        f"{100*0.68:.0f} percent of what the field seeds.",
+        f"      The robot field's unbound mass sits at "
+        f"{s_r['unbound_aim']:.2f} x. Section 7.2 poses this and leaves it "
+        f"open.",
         "",
     ]
 

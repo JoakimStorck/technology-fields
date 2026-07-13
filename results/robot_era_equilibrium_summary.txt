@@ -24,6 +24,19 @@ Calibration to the A&R moment: target displaced share 0.0030
     Software Developers                          dL -3.7817e-03
     Business Continuity Planners                 dL -3.3841e-03
     Security Management Specialists              dL -2.8018e-03
+  where the seed binds, by bound mass B_o (size-dominated; see the docstring):
+    Retail Salespersons                          B_o 1.839e-04  per worker 6.74e-03
+    Baristas                                     B_o 1.599e-04  per worker 5.96e-03
+    Stockers and Order Fillers                   B_o 1.255e-04  per worker 6.03e-03
+    Cashiers                                     B_o 1.177e-04  per worker 4.87e-03
+    Fast Food and Counter Workers                B_o 1.171e-04  per worker 4.37e-03
+  the same, by bound mass per worker B_o / L_o:
+    Cooks, Institution and Cafeteria             B_o/L 7.09e-03
+    Flight Attendants                            B_o/L 7.08e-03
+    Veterinary Assistants and Laboratory Animal  B_o/L 7.06e-03
+    Farm Labor Contractors                       B_o/L 7.04e-03
+    Reservation and Transportation Ticket Agents B_o/L 6.94e-03
+    spread across the top ten: 1.03x (a flat ranking does not identify a bearer)
 
   reproduction guard: cognitive unbound share 0.676 vs frozen 0.68 -> OK
 
@@ -49,6 +62,19 @@ Calibration to the A&R moment: target displaced share 0.0030
     Welders, Cutters, Solderers, and Brazers     dL -3.6777e-05
     Recycling and Reclamation Workers            dL -3.0715e-05
     Cutting, Punching, and Press Machine Setters dL -2.6041e-05
+  where the seed binds, by bound mass B_o (size-dominated; see the docstring):
+    Retail Salespersons                          B_o 2.990e-06  per worker 1.24e-04
+    Cashiers                                     B_o 2.362e-06  per worker 1.16e-04
+    Baristas                                     B_o 2.282e-06  per worker 1.50e-04
+    Office Clerks, General                       B_o 2.143e-06  per worker 1.30e-04
+    Fast Food and Counter Workers                B_o 1.889e-06  per worker 1.24e-04
+  the same, by bound mass per worker B_o / L_o:
+    Team Assemblers                              B_o/L 1.60e-04
+    Pesticide Handlers, Sprayers, and Applicator B_o/L 1.59e-04
+    Furniture Finishers                          B_o/L 1.58e-04
+    Prepress Technicians and Workers             B_o/L 1.58e-04
+    Pump Operators, Except Wellhead Pumpers      B_o/L 1.57e-04
+    spread across the top ten: 1.02x (a flat ranking does not identify a bearer)
 
 Scale sensitivity (at the primary equilibrium L): unbound share 92.9% at half moment, 92.4% at double (swing 0.5 points); at observed L0 92.8%
 
