@@ -80,7 +80,8 @@ Notes:
     --freeze --geometry-root PATH, which runs 00 first).
   - Retired steps leave numbering gaps: 04 (residual diagnostic), 10
     (demand channel), 13 (occupation-rent extension), 18 (binding
-    counterfactual). See the PIPELINE comment and git history.
+    counterfactual), 30 (seeding-rule comparison, a category error: see
+    the PIPELINE comment). See the PIPELINE comment and git history.
   - 07 and 08 require the Eloundou labelset data/full_labelset.tsv
     (github.com/openai/GPTs-are-GPTs). It is committed in data/ and calls no
     API, so 07 now runs anywhere as part of the pipeline.
@@ -121,8 +122,29 @@ SCRIPTS = Path(__file__).resolve().parent
 # the eta sweep bears no manuscript claim; the block is archived in
 # paper/excised_static_material_pm.tex), 13 (occupation-rent extension,
 # deferred to separate work), 18 (binding counterfactual, an internal
-# robustness check with no manuscript claim). See git history to revive any
-# of them.
+# robustness check with no manuscript claim), 30 (seeding-rule comparison,
+# retired as a category error: it ran four candidate seeding rules as competing
+# empirical hypotheses and let the firm positions select among them. The
+# seeding rule is not a hypothesis. Reinstatement at the boundary is a
+# theoretical primitive of the model, of exactly the same standing as the
+# circular field form (see the FIELD FORM block in
+# scripts/33_field_form_invariance.py), and a horse race between primitives is
+# the same mistake as fitting a richer field shape and reporting the better fit
+# as a discovery. Its verdicts are recorded here so that nobody mistakes the
+# retirement for the burial of an inconvenient result: the level and mixture
+# rules outscored the gradient rule on the AI corpus, and the incidence rule
+# was rejected. None of that is evidence about the seeding rule, because the
+# data were never asked a question the model poses.
+#   The confusion the producer rests on is worth stating, since it is easy to
+# repeat. The model's prediction for FIRM locations is not the seeding density
+# zeta. It is BOUND reinstatement B_o. A startup is a firm and a firm hires, so
+# it can only exist where the new work attaches to an occupation that can staff
+# it. The unbound mass -- 68 percent of the seed -- is by construction the work
+# no occupation reaches, and no firm can be founded there. Producer 22's radial
+# panel makes this visible: the firm histograms track B_o's two lobes, not the
+# ring |grad phi_K| and not the unbound field u(r). Score firms against zeta and
+# the control corpus is indistinguishable, which says nothing about the model.
+# See git history to revive any of them.
 PIPELINE = [
     ("01", "01_wage_field.py"),
     ("02", "02_price_field.py"),
@@ -152,7 +174,6 @@ PIPELINE = [
     ("20", "20_wage_object_consistency.py"),
     ("21", "21_startup_seeding.py"),
     ("22", "22_startup_field_enrichment.py"),
-    ("30", "30_seeding_rule_robustness.py"),
 ]
 
 LABELSET_DEPENDENT = {"07", "08"}
