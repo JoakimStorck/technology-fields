@@ -57,3 +57,6 @@ paper/*.toc
 
 # Generated CLD / stock-flow outputs
 outputs/
+
+# editor crash artifacts
+*-SAVE-ERROR

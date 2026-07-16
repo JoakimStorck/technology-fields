@@ -165,6 +165,10 @@ Reads:
 Writes:
     results/robot_era_equilibrium.csv
     results/robot_era_equilibrium_summary.txt
+    results/robot_era_incidence.png      presentation of the certified run
+                                         (added after certification; the
+                                         panels mirror script 09's cognitive
+                                         figures and change no number)
 
 Not in run_all yet: run standalone after 26-27. SMOKE=1 runs a coarse
 grid without multistart (mechanics check only, not a result).
@@ -180,6 +184,9 @@ import os
 import sys
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
@@ -511,6 +518,50 @@ def main() -> None:
         "\n".join(lines) + "\n")
     print("\n".join(lines))
     print(f"wrote {RESULTS / 'robot_era_equilibrium.csv'} and _summary.txt")
+
+    _incidence_figure(inp99, robot_tech(A_star), rob["diag"], L0_99, occ99,
+                      RESULTS / "robot_era_incidence.png")
+    print(f"wrote {RESULTS / 'robot_era_incidence.png'}")
+
+
+def _incidence_figure(inp, tech, diag, L0, occ, out_path):
+    """The robot field's incidence in its own era, in the material of the
+    cognitive field's figures: the operated share of script 09's
+    operated_share_demo and the unbound density of its candidate_map.
+    Presentation of the certified run only; every quantity shown is computed
+    above and no number changes. The 1999 occupation centroids are
+    overplotted because the fitted centre is a boundary solution
+    (manuscript Section 7.1): where the occupied disk ends is part of what
+    the panels have to show."""
+    field, grid = inp.field, inp.grid
+    g = np.linspace(-1, 1, 401)
+    X, Y = np.meshgrid(g, g)
+    inside = np.hypot(X, Y) <= 1.0
+    XI, CHI = np.arctan2(Y, X), np.hypot(X, Y)
+    A = np.where(inside, tech.operated_share(XI, CHI, field, R, TAU), np.nan)
+    chi_o, xi_o = occ["chi"].to_numpy(), occ["xi"].to_numpy()
+    ox, oy = chi_o * np.cos(xi_o), chi_o * np.sin(xi_o)
+    s_occ = 2 + 400 * np.asarray(L0, float)
+    plt.rcParams.update({"font.size": 13})
+    fig, axes = plt.subplots(1, 2, figsize=(12.5, 5.8))
+    cf0 = axes[0].contourf(X, Y, A, levels=24, cmap="magma")
+    axes[0].set_title(r"Operated share $a(\mathbf{r})$ at $\Pi_{1999}$")
+    fig.colorbar(cf0, ax=axes[0], shrink=0.8)
+    sc1 = axes[1].scatter(grid.x, grid.y, c=diag["u"], s=6, cmap="magma")
+    axes[1].set_title(r"Unbound task density $u(\mathbf{r})$")
+    fig.colorbar(sc1, ax=axes[1], shrink=0.8)
+    for ax in axes:
+        ax.scatter(ox, oy, s=s_occ, c="0.7", alpha=0.5, lw=0)
+        px, py = tech.p_K
+        ax.plot(px, py, "w+", ms=11, mew=2)
+        ax.add_patch(plt.Circle((px, py), tech.z_K, color="white",
+                                fill=False, lw=1.0, ls="--"))
+        ax.add_patch(plt.Circle((0, 0), 1.0, color="0.6", fill=False,
+                                lw=0.8))
+        ax.set_aspect("equal"); ax.set_xticks([]); ax.set_yticks([])
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
 
 
 if __name__ == "__main__":
